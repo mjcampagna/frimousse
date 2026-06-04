@@ -14,9 +14,11 @@ import {
   CREATED_AT_KEY,
   DEFAULT_KEYS_COUNT,
   DEFAULT_REACTIONS,
+  getVisibleReactions,
+  getVisibleReactionsEntries,
+  isJunkReaction,
   MAX_REACTIONS,
   type ReactionsJson,
-  sortReactions,
   sortReactionsEntries,
   UPDATED_AT_KEY,
 } from "liveblocks.config";
@@ -269,9 +271,10 @@ function LiveblocksReactions() {
   const onEmojiSelectRef = use(AddReactionContext);
   const firstHiddenReactionIndex = use(FirstHiddenReactionIndexContext);
   const reactions = useStorage((storage) => storage.reactions);
-  const sortedReactions = useMemo(() => {
-    return Array.from(reactions).sort(sortReactions);
-  }, [reactions]);
+  const sortedReactions = useMemo(
+    () => getVisibleReactions(reactions),
+    [reactions]
+  );
 
   const toggleReaction = useMutation(
     ({ storage }, emoji: string) => {
@@ -311,6 +314,13 @@ function LiveblocksReactions() {
         reaction.set(UPDATED_AT_KEY, now);
       }
 
+      // Delete junk written to storage directly by malicious clients
+      for (const key of Array.from(reactions?.keys() ?? [])) {
+        if (isJunkReaction(key)) {
+          reactions?.delete(key);
+        }
+      }
+
       // Delete all reactions above the limit
       if (sortedReactions && sortedReactions.length > MAX_REACTIONS) {
         for (const [emoji] of sortedReactions.slice(
@@ -330,27 +340,19 @@ function LiveblocksReactions() {
 
   return (
     <>
-      {sortedReactions.map(([emoji, data], index) => {
-        const count = data.size - DEFAULT_KEYS_COUNT;
-
-        if (count === 0) {
-          return null;
-        }
-
-        return (
-          <ReactionButton
-            active={id ? data.has(id) : false}
-            count={count}
-            disabled={!id}
-            emoji={emoji}
-            hidden={index >= firstHiddenReactionIndex}
-            key={emoji}
-            onClick={() => {
-              toggleReaction(emoji);
-            }}
-          />
-        );
-      })}
+      {sortedReactions.map(([emoji, count, data], index) => (
+        <ReactionButton
+          active={id ? data.has(id) : false}
+          count={count}
+          disabled={!id}
+          emoji={emoji}
+          hidden={index >= firstHiddenReactionIndex}
+          key={emoji}
+          onClick={() => {
+            toggleReaction(emoji);
+          }}
+        />
+      ))}
     </>
   );
 }
@@ -358,24 +360,9 @@ function LiveblocksReactions() {
 function ServerReactions({ reactions }: { reactions: ReactionsJson }) {
   return (
     <>
-      {Object.entries(reactions)
-        .sort(sortReactionsEntries)
-        .map(([emoji, data]) => {
-          const count = Object.keys(data).length - DEFAULT_KEYS_COUNT;
-
-          if (count === 0) {
-            return null;
-          }
-
-          return (
-            <ReactionButton
-              count={count}
-              emoji={emoji}
-              key={emoji}
-              type="server"
-            />
-          );
-        })}
+      {getVisibleReactionsEntries(reactions).map(([emoji, count]) => (
+        <ReactionButton count={count} emoji={emoji} key={emoji} type="server" />
+      ))}
     </>
   );
 }
@@ -388,9 +375,10 @@ function LocalReactions({
   const id = "#####";
   const onEmojiSelectRef = use(AddReactionContext);
   const [reactions, setReactions] = useState(() => ({ ...initialReactions }));
-  const sortedReactions = useMemo(() => {
-    return Object.entries(reactions).sort(sortReactionsEntries);
-  }, [reactions]);
+  const sortedReactions = useMemo(
+    () => getVisibleReactionsEntries(reactions),
+    [reactions]
+  );
   const firstHiddenReactionIndex = use(FirstHiddenReactionIndexContext);
   const toggleReaction = useCallback((emoji: string) => {
     setReactions((reactions) => {
@@ -454,26 +442,18 @@ function LocalReactions({
 
   return (
     <>
-      {sortedReactions.map(([emoji, data], index) => {
-        const count = Object.keys(data).length - DEFAULT_KEYS_COUNT;
-
-        if (count === 0) {
-          return null;
-        }
-
-        return (
-          <ReactionButton
-            active={id in data}
-            count={count}
-            emoji={emoji}
-            hidden={index >= firstHiddenReactionIndex}
-            key={emoji}
-            onClick={() => {
-              toggleReaction(emoji);
-            }}
-          />
-        );
-      })}
+      {sortedReactions.map(([emoji, count, data], index) => (
+        <ReactionButton
+          active={id in data}
+          count={count}
+          emoji={emoji}
+          hidden={index >= firstHiddenReactionIndex}
+          key={emoji}
+          onClick={() => {
+            toggleReaction(emoji);
+          }}
+        />
+      ))}
     </>
   );
 }
@@ -481,22 +461,14 @@ function LocalReactions({
 export function FallbackReactions() {
   return (
     <>
-      {Object.entries(DEFAULT_REACTIONS).map(([emoji, data]) => {
-        const count = Object.keys(data).length - DEFAULT_KEYS_COUNT;
-
-        if (count === 0) {
-          return null;
-        }
-
-        return (
-          <ReactionButton
-            count={count}
-            emoji={emoji}
-            key={emoji}
-            type="fallback"
-          />
-        );
-      })}
+      {getVisibleReactionsEntries(DEFAULT_REACTIONS).map(([emoji, count]) => (
+        <ReactionButton
+          count={count}
+          emoji={emoji}
+          key={emoji}
+          type="fallback"
+        />
+      ))}
     </>
   );
 }
