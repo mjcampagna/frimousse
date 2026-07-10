@@ -183,6 +183,36 @@ function CustomEmojiPage() {
   );
 }
 
+function DefaultCustomEmojiPage() {
+  const customSection = createEmojiPickerCustomSection(
+    [
+      {
+        id: "shipit",
+        label: "Ship It",
+        imageUrl: "https://example.com/shipit.png",
+      },
+    ],
+    {
+      id: "custom",
+      label: "Custom emoji",
+      position: "prepend",
+    },
+  );
+
+  return (
+    <EmojiPicker.Root
+      supplemental={{
+        sections: [customSection],
+      }}
+    >
+      <EmojiPicker.Search />
+      <EmojiPicker.Viewport style={{ height: 1200 }}>
+        <EmojiPicker.List />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+
 describe("EmojiPicker supplemental items", () => {
   it("should render prepended supplemental sections ahead of native items", async () => {
     page.render(<SupplementalPage />);
@@ -310,6 +340,17 @@ describe("EmojiPicker supplemental items", () => {
     await page.getByTestId("custom-search").fill("ship it");
 
     await expect.element(page.getByText("Results")).toBeInTheDocument();
+    await expect
+      .element(page.getByRole("gridcell", { name: "Ship It" }))
+      .toBeInTheDocument();
+  });
+
+  it("should render image-backed custom emoji with the default supplemental renderer", async () => {
+    page.render(<DefaultCustomEmojiPage />);
+
+    await expect
+      .element(page.getByRole("img").first())
+      .toHaveAttribute("src", "https://example.com/shipit.png");
     await expect
       .element(page.getByRole("gridcell", { name: "Ship It" }))
       .toBeInTheDocument();

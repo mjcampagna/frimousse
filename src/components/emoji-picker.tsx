@@ -1120,8 +1120,16 @@ function DefaultEmojiPickerListSupplementalEmoji({
       {emoji.imageUrl ? (
         <img
           alt={emoji.label}
+          decoding="async"
+          draggable={false}
+          loading="lazy"
           src={emoji.imageUrl}
-          style={{ height: "1em", width: "1em" }}
+          style={{
+            display: "block",
+            height: "1em",
+            objectFit: "contain",
+            width: "1em",
+          }}
         />
       ) : (
         emoji.label
