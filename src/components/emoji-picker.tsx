@@ -61,7 +61,6 @@ import type {
 import { shallow } from "../utils/compare";
 import {
   isSupplementalEmojiPickerItem,
-  sameEmojiPickerItem,
 } from "../utils/emoji-item";
 import { noop } from "../utils/noop";
 import { requestIdleCallback } from "../utils/request-idle-callback";
@@ -883,7 +882,10 @@ const EmojiPickerListEmoji = memo(
     const store = useEmojiPickerStore();
     const isActive = useSelector(
       store,
-      (state) => sameEmojiPickerItem($activeEmoji(state), emoji),
+      (state) =>
+        state.interaction !== "none" &&
+        state.activeRowIndex === rowIndex &&
+        state.activeColumnIndex === columnIndex,
     );
 
     const handleSelect = useCallback(() => {

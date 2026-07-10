@@ -213,6 +213,80 @@ function DefaultCustomEmojiPage() {
   );
 }
 
+function DuplicateItemPage() {
+  return (
+    <EmojiPicker.Root
+      columns={2}
+      supplemental={{
+        sections: [
+          {
+            id: "duplicates",
+            label: "Duplicates",
+            position: "prepend",
+            items: [
+              {
+                kind: "native",
+                id: "🎉",
+                emoji: "🎉",
+                label: "Party popper",
+              },
+              {
+                kind: "supplemental",
+                id: "shipit",
+                label: "Ship It",
+              },
+            ],
+          },
+          {
+            id: "duplicates-again",
+            label: "Duplicates again",
+            position: "prepend",
+            items: [
+              {
+                kind: "native",
+                id: "🎉",
+                emoji: "🎉",
+                label: "Party popper",
+              },
+              {
+                kind: "supplemental",
+                id: "shipit",
+                label: "Ship It",
+              },
+            ],
+          },
+        ],
+      }}
+    >
+      <EmojiPicker.Search data-testid="duplicate-search" />
+      <EmojiPicker.Viewport data-testid="duplicate-viewport" style={{ height: 1200 }}>
+        <EmojiPicker.List
+          components={{
+            Emoji: ({ emoji, ...props }) => (
+              <button
+                {...props}
+                data-testid={`emoji:${emoji.emoji}:${emoji.isActive ? "active" : "idle"}`}
+                type="button"
+              >
+                {emoji.emoji}
+              </button>
+            ),
+            SupplementalEmoji: ({ emoji, ...props }) => (
+              <button
+                {...props}
+                data-testid={`supplemental:${emoji.id}:${emoji.isActive ? "active" : "idle"}`}
+                type="button"
+              >
+                {emoji.label}
+              </button>
+            ),
+          }}
+        />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+
 describe("EmojiPicker supplemental items", () => {
   it("should render prepended supplemental sections ahead of native items", async () => {
     page.render(<SupplementalPage />);
@@ -354,5 +428,37 @@ describe("EmojiPicker supplemental items", () => {
     await expect
       .element(page.getByRole("gridcell", { name: "Ship It" }))
       .toBeInTheDocument();
+  });
+
+  it("should only highlight the active occurrence when duplicate items appear in multiple sections", async () => {
+    page.render(<DuplicateItemPage />);
+
+    const firstShipIt = page.getByRole("gridcell", { name: "Ship It" }).first();
+    const secondShipIt = page.getByRole("gridcell", { name: "Ship It" }).nth(1);
+
+    await firstShipIt.hover();
+
+    await expect
+      .element(firstShipIt)
+      .toHaveAttribute("data-active");
+    await expect
+      .element(secondShipIt)
+      .not.toHaveAttribute("data-active");
+
+    const firstPartyPopper = page
+      .getByRole("gridcell", { name: "Party popper" })
+      .first();
+    const secondPartyPopper = page
+      .getByRole("gridcell", { name: "Party popper" })
+      .nth(1);
+
+    await firstPartyPopper.hover();
+
+    await expect
+      .element(firstPartyPopper)
+      .toHaveAttribute("data-active");
+    await expect
+      .element(secondPartyPopper)
+      .not.toHaveAttribute("data-active");
   });
 });
