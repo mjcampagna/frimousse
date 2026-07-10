@@ -2,12 +2,16 @@ import type { RefObject } from "react";
 import type {
   EmojiPickerData,
   EmojiPickerDataRow,
-  EmojiPickerEmoji,
   EmojiPickerRootProps,
   Locale,
   SkinTone,
 } from "./types";
+import type { EmojiPickerItem } from "./supplemental-types";
 import { createStore, createStoreContext } from "./utils/store";
+import {
+  isNativeEmojiPickerItem,
+  sameEmojiPickerItem,
+} from "./utils/emoji-item";
 
 const VIEWPORT_OVERSCAN = 2;
 
@@ -19,6 +23,7 @@ export type EmojiPickerStore = {
   sticky: boolean;
   skinTone: SkinTone;
   onEmojiSelect: NonNullable<EmojiPickerRootProps["onEmojiSelect"]>;
+  onSelectionChange: NonNullable<EmojiPickerRootProps["onSelectionChange"]>;
 
   data: EmojiPickerData | null | undefined;
   search: string;
@@ -41,6 +46,7 @@ export type EmojiPickerStore = {
   listRef: RefObject<HTMLDivElement> | null;
 
   updateViewportState: (changes?: Partial<EmojiPickerStore>) => void;
+  selectItem: (item: EmojiPickerItem) => void;
 
   onDataChange: (data: EmojiPickerData) => void;
   onSearchChange: (search: string) => void;
@@ -58,6 +64,7 @@ export type EmojiPickerStore = {
 
 export function createEmojiPickerStore(
   onEmojiSelect: NonNullable<EmojiPickerRootProps["onEmojiSelect"]>,
+  onSelectionChange: NonNullable<EmojiPickerRootProps["onSelectionChange"]>,
   initialLocale: Locale,
   initialColumns: number,
   initialSticky: boolean,
@@ -71,6 +78,7 @@ export function createEmojiPickerStore(
     sticky: initialSticky,
     skinTone: initialSkinTone,
     onEmojiSelect,
+    onSelectionChange,
 
     data: null,
     search: "",
@@ -92,6 +100,21 @@ export function createEmojiPickerStore(
     searchRef: null,
     viewportRef: null,
     listRef: null,
+
+    selectItem: (item: EmojiPickerItem) => {
+      if (isNativeEmojiPickerItem(item)) {
+        get().onEmojiSelect({
+          emoji: item.emoji,
+          label: item.label,
+        });
+      }
+
+      get().onSelectionChange(
+        isNativeEmojiPickerItem(item)
+          ? { kind: "native", item }
+          : { kind: "supplemental", item },
+      );
+    },
 
     updateViewportState: (partial?: Partial<EmojiPickerStore>) => {
       const state = get();
@@ -307,7 +330,7 @@ export function $search(state: EmojiPickerStore) {
 
 export function $activeEmoji(
   state: EmojiPickerStore,
-): EmojiPickerEmoji | undefined {
+): EmojiPickerItem | undefined {
   if (state.interaction === "none") {
     return undefined;
   }
@@ -351,10 +374,10 @@ export function $skinTones(state: EmojiPickerStore) {
 }
 
 export function sameEmojiPickerEmoji(
-  a: EmojiPickerEmoji | undefined,
-  b: EmojiPickerEmoji | undefined,
+  a: EmojiPickerItem | undefined,
+  b: EmojiPickerItem | undefined,
 ) {
-  return a?.emoji === b?.emoji;
+  return sameEmojiPickerItem(a, b);
 }
 
 export function sameEmojiPickerRow(

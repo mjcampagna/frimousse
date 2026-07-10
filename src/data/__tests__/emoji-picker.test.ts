@@ -265,12 +265,15 @@ describe("getEmojiPickerData", () => {
 
   it("should filter emojis based on search", () => {
     const result = getEmojiPickerData(data, 10, undefined, "broccoli");
+    const firstEmoji = result.rows[0]?.emojis[0];
 
     expect(result.count).toBe(1);
     expect(result.categories.length).toBe(1);
     expect(result.categories[0]?.label).toBe("Food & drink");
     expect(result.rows.length).toBe(1);
-    expect(result.rows[0]?.emojis[0]?.emoji).toBe("🥦");
+    expect(firstEmoji && "emoji" in firstEmoji ? firstEmoji.emoji : undefined).toBe(
+      "🥦",
+    );
   });
 
   it("should apply skin tones when possible", () => {
@@ -278,15 +281,17 @@ describe("getEmojiPickerData", () => {
     const emojis = result.rows.flatMap((row) => row.emojis);
 
     const emoji1 = emojis.find((emoji) => emoji.label === "Waving hand");
-    expect(emoji1?.emoji).toBe("👋🏿");
+    expect(emoji1 && "emoji" in emoji1 ? emoji1.emoji : undefined).toBe("👋🏿");
 
     const emoji2 = emojis.find(
       (emoji) => emoji.label === "People holding hands",
     );
-    expect(emoji2?.emoji).toBe("🧑🏿‍🤝‍🧑🏿");
+    expect(emoji2 && "emoji" in emoji2 ? emoji2.emoji : undefined).toBe(
+      "🧑🏿‍🤝‍🧑🏿",
+    );
 
     const emoji3 = emojis.find((emoji) => emoji.label === "Link");
-    expect(emoji3?.emoji).toBe("🔗");
+    expect(emoji3 && "emoji" in emoji3 ? emoji3.emoji : undefined).toBe("🔗");
   });
 
   it("should support empty search results", () => {

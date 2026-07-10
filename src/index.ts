@@ -1,15 +1,28 @@
 export * as EmojiPicker from "./components/emoji-picker";
-export { useActiveEmoji, useSkinTone } from "./hooks";
+export { useActiveEmoji, useActiveSelection, useSkinTone } from "./hooks";
+export type {
+  EmojiPickerItem,
+  EmojiPickerSection,
+  EmojiPickerSectionPosition,
+  EmojiPickerSelection,
+  EmojiPickerSupplementalConfig,
+  EmojiPickerSupplementalSearch,
+  NativeEmojiPickerItem,
+  SupplementalEmojiPickerItem,
+} from "./supplemental-types";
 export type {
   Category,
   Emoji,
   EmojiPickerActiveEmojiProps,
+  EmojiPickerActiveSelectionProps,
   EmojiPickerEmptyProps,
+  EmojiPickerItemSelection,
   EmojiPickerListCategoryHeaderProps,
   EmojiPickerListComponents,
   EmojiPickerListEmojiProps,
   EmojiPickerListProps,
   EmojiPickerListRowProps,
+  EmojiPickerListSupplementalEmojiProps,
   EmojiPickerLoadingProps,
   EmojiPickerRootProps,
   EmojiPickerSearchProps,
@@ -17,5 +30,10 @@ export type {
   EmojiPickerSkinToneSelectorProps,
   EmojiPickerViewportProps,
   Locale,
+  NativeItem,
+  SectionPosition,
   SkinTone,
+  SupplementalEmoji,
+  SupplementalSearch,
+  SupplementalSection,
 } from "./types";

@@ -1,14 +1,18 @@
 import type {
-  Emoji,
   EmojiData,
   EmojiDataEmoji,
   EmojiPickerData,
   EmojiPickerDataCategory,
   EmojiPickerDataRow,
-  EmojiPickerEmoji,
   SkinTone,
 } from "../types";
+import type { EmojiPickerSupplementalConfig } from "../supplemental-types";
 import { chunk } from "../utils/chunk";
+import {
+  buildSupplementalSections,
+  buildUnifiedSearchRows,
+  toNativeEmojiPickerItem,
+} from "./supplemental";
 
 export function searchEmojis(emojis: EmojiDataEmoji[], search?: string) {
   if (!search) {
@@ -16,7 +20,7 @@ export function searchEmojis(emojis: EmojiDataEmoji[], search?: string) {
   }
 
   const searchText = search.toLowerCase().trim();
-  const scores = new WeakMap<Emoji, number>();
+  const scores = new WeakMap<EmojiDataEmoji, number>();
 
   return emojis
     .filter((emoji) => {
@@ -48,27 +52,69 @@ export function getEmojiPickerData(
   columns: number,
   skinTone: SkinTone | undefined,
   search: string,
+  supplemental?: EmojiPickerSupplementalConfig,
 ): EmojiPickerData {
+  const unified = supplemental
+    ? buildUnifiedSearchRows(data.emojis, supplemental, search, columns, skinTone)
+    : null;
+
+  if (unified) {
+    return {
+      count: unified.count,
+      categories: unified.categories,
+      categoriesStartRowIndices: unified.categories.map(
+        (category) => category.startRowIndex,
+      ),
+      rows: unified.rows,
+      skinTones: data.skinTones,
+    };
+  }
+
   const emojis = searchEmojis(data.emojis, search);
   const rows: EmojiPickerDataRow[] = [];
   const categories: EmojiPickerDataCategory[] = [];
   const categoriesStartRowIndices: number[] = [];
-  const emojisByCategory: Record<number, EmojiPickerEmoji[]> = {};
+  const emojisByCategory: Record<number, EmojiPickerDataRow["emojis"]> = {};
   let categoryIndex = 0;
   let startRowIndex = 0;
+  let count = 0;
+
+  const prependedSections =
+    supplemental?.sections?.filter(
+      (section) => (section.position ?? "append") === "prepend",
+    ) ?? [];
+  const appendedSections =
+    supplemental?.sections?.filter(
+      (section) => (section.position ?? "append") === "append",
+    ) ?? [];
+
+  if (prependedSections.length > 0) {
+    const built = buildSupplementalSections(
+      prependedSections,
+      search,
+      columns,
+      categoryIndex,
+      startRowIndex,
+    );
+
+    rows.push(...built.rows);
+    categories.push(...built.categories);
+    categoriesStartRowIndices.push(
+      ...built.categories.map((category) => category.startRowIndex),
+    );
+    count += built.count;
+    categoryIndex += built.categories.length;
+    startRowIndex += built.rows.length;
+  }
 
   for (const emoji of emojis) {
     if (!emojisByCategory[emoji.category]) {
       emojisByCategory[emoji.category] = [];
     }
 
-    emojisByCategory[emoji.category]!.push({
-      emoji:
-        skinTone && skinTone !== "none" && emoji.skins
-          ? emoji.skins[skinTone]
-          : emoji.emoji,
-      label: emoji.label,
-    });
+    emojisByCategory[emoji.category]!.push(
+      toNativeEmojiPickerItem(emoji, skinTone),
+    );
   }
 
   for (const category of data.categories) {
@@ -96,10 +142,28 @@ export function getEmojiPickerData(
 
     categoryIndex++;
     startRowIndex += categoryRows.length;
+    count += categoryEmojis.length;
+  }
+
+  if (appendedSections.length > 0) {
+    const built = buildSupplementalSections(
+      appendedSections,
+      search,
+      columns,
+      categoryIndex,
+      startRowIndex,
+    );
+
+    rows.push(...built.rows);
+    categories.push(...built.categories);
+    categoriesStartRowIndices.push(
+      ...built.categories.map((category) => category.startRowIndex),
+    );
+    count += built.count;
   }
 
   return {
-    count: emojis.length,
+    count,
     categories,
     categoriesStartRowIndices,
     rows,

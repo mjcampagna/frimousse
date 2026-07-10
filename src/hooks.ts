@@ -5,8 +5,14 @@ import {
   sameEmojiPickerEmoji,
   useEmojiPickerStore,
 } from "./store";
-import type { Emoji, SkinTone, SkinToneVariation } from "./types";
+import type {
+  Emoji,
+  EmojiPickerItemSelection,
+  SkinTone,
+  SkinToneVariation,
+} from "./types";
 import { getSkinToneVariations } from "./utils/get-skin-tone-variations";
+import { isNativeEmojiPickerItem } from "./utils/emoji-item";
 import { useSelector, useSelectorKey } from "./utils/store";
 
 /**
@@ -41,7 +47,33 @@ export function useActiveEmoji(): Emoji | undefined {
   const store = useEmojiPickerStore();
   const activeEmoji = useSelector(store, $activeEmoji, sameEmojiPickerEmoji);
 
-  return useDeferredValue(activeEmoji);
+  return useDeferredValue(
+    activeEmoji && isNativeEmojiPickerItem(activeEmoji)
+      ? {
+          emoji: activeEmoji.emoji,
+          label: activeEmoji.label,
+        }
+      : undefined,
+  );
+}
+
+export function useActiveSelection(): EmojiPickerItemSelection | undefined {
+  const store = useEmojiPickerStore();
+  const activeEmoji = useSelector(store, $activeEmoji, sameEmojiPickerEmoji);
+
+  return useDeferredValue(
+    activeEmoji
+      ? isNativeEmojiPickerItem(activeEmoji)
+        ? {
+            kind: "native",
+            item: activeEmoji,
+          }
+        : {
+            kind: "supplemental",
+            item: activeEmoji,
+          }
+      : undefined,
+  );
 }
 
 /**

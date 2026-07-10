@@ -5,6 +5,16 @@ import type {
   SkinToneKey as EmojibaseSkinToneKey,
 } from "emojibase/lib/types";
 import type { ComponentProps, ComponentType, ReactNode } from "react";
+import type {
+  EmojiPickerItem,
+  EmojiPickerSection,
+  EmojiPickerSectionPosition,
+  EmojiPickerSelection,
+  EmojiPickerSupplementalConfig,
+  EmojiPickerSupplementalSearch,
+  NativeEmojiPickerItem,
+  SupplementalEmojiPickerItem,
+} from "./supplemental-types";
 
 type Resolve<T> = T extends (...args: unknown[]) => unknown
   ? T
@@ -37,6 +47,14 @@ export type SkinToneVariation = {
 };
 
 export type Emoji = Resolve<EmojiPickerEmoji>;
+export type NativeItem = Resolve<NativeEmojiPickerItem>;
+export type SupplementalEmoji = Resolve<SupplementalEmojiPickerItem>;
+export type EmojiPickerItemSelection = Resolve<EmojiPickerSelection>;
+export type SupplementalSection = Resolve<
+  EmojiPickerSection<SupplementalEmojiPickerItem>
+>;
+export type SupplementalSearch = Resolve<EmojiPickerSupplementalSearch>;
+export type SectionPosition = Resolve<EmojiPickerSectionPosition>;
 
 export type Category = Resolve<EmojiPickerCategory>;
 
@@ -73,7 +91,7 @@ export type EmojiPickerCategory = {
 
 export type EmojiPickerDataRow = {
   categoryIndex: number;
-  emojis: EmojiPickerEmoji[];
+  emojis: EmojiPickerItem[];
 };
 
 export type EmojiPickerDataCategory = {
@@ -114,6 +132,11 @@ export type EmojiPickerListComponents = {
    * All emojis should be of the same size.
    */
   Emoji: ComponentType<EmojiPickerListEmojiProps>;
+
+  /**
+   * The component used to render a supplemental emoji-like button in the list.
+   */
+  SupplementalEmoji: ComponentType<EmojiPickerListSupplementalEmojiProps>;
 };
 
 export type EmojiPickerListRowProps = ComponentProps<"div">;
@@ -135,6 +158,15 @@ export interface EmojiPickerListEmojiProps
   emoji: Resolve<Emoji & { isActive: boolean }>;
 }
 
+export interface EmojiPickerListSupplementalEmojiProps
+  extends Omit<ComponentProps<"button">, "children"> {
+  /**
+   * The supplemental item for this button and whether the item is currently
+   * active (either hovered or selected via keyboard navigation).
+   */
+  emoji: Resolve<SupplementalEmoji & { isActive: boolean }>;
+}
+
 export interface EmojiPickerListProps extends ComponentProps<"div"> {
   /**
    * The inner components of the list.
@@ -147,6 +179,12 @@ export interface EmojiPickerRootProps extends ComponentProps<"div"> {
    * A callback invoked when an emoji is selected.
    */
   onEmojiSelect?: (emoji: Emoji) => void;
+
+  /**
+   * A callback invoked when any picker item is selected, including
+   * supplemental items when configured.
+   */
+  onSelectionChange?: (selection: EmojiPickerSelection) => void;
 
   /**
    * The locale of the emoji picker.
@@ -202,6 +240,11 @@ export interface EmojiPickerRootProps extends ComponentProps<"div"> {
    * @default true
    */
   sticky?: boolean;
+
+  /**
+   * Additive supplemental item support for consumer-provided sections.
+   */
+  supplemental?: EmojiPickerSupplementalConfig;
 }
 
 export type EmojiPickerViewportProps = ComponentProps<"div">;
@@ -250,6 +293,20 @@ export type EmojiPickerActiveEmojiProps = {
    * via keyboard navigation).
    */
   children: (props: EmojiPickerActiveEmojiRenderProps) => ReactNode;
+};
+
+export type EmojiPickerActiveSelectionRenderProps = {
+  /**
+   * The currently active selection, including supplemental items when configured.
+   */
+  selection?: EmojiPickerSelection;
+};
+
+export type EmojiPickerActiveSelectionProps = {
+  /**
+   * A render callback which receives the currently active selection.
+   */
+  children: (props: EmojiPickerActiveSelectionRenderProps) => ReactNode;
 };
 
 export type EmojiPickerSkinToneRenderProps = {

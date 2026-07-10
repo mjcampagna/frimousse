@@ -20,7 +20,7 @@ import {
 import { EMOJI_FONT_FAMILY } from "../constants";
 import { getEmojiData, validateLocale, validateSkinTone } from "../data/emoji";
 import { getEmojiPickerData } from "../data/emoji-picker";
-import { useActiveEmoji, useSkinTone } from "../hooks";
+import { useActiveEmoji, useActiveSelection, useSkinTone } from "../hooks";
 import {
   $activeEmoji,
   $categoriesCount,
@@ -39,15 +39,17 @@ import {
 import type {
   EmojiData,
   EmojiPickerActiveEmojiProps,
+  EmojiPickerActiveSelectionProps,
   EmojiPickerCategory,
   EmojiPickerDataCategory,
-  EmojiPickerEmoji,
+  EmojiPickerDataRow,
   EmojiPickerEmptyProps,
   EmojiPickerListCategoryHeaderProps,
   EmojiPickerListComponents,
   EmojiPickerListEmojiProps,
   EmojiPickerListProps,
   EmojiPickerListRowProps,
+  EmojiPickerListSupplementalEmojiProps,
   EmojiPickerLoadingProps,
   EmojiPickerRootProps,
   EmojiPickerSearchProps,
@@ -57,6 +59,10 @@ import type {
   WithAttributes,
 } from "../types";
 import { shallow } from "../utils/compare";
+import {
+  isSupplementalEmojiPickerItem,
+  sameEmojiPickerItem,
+} from "../utils/emoji-item";
 import { noop } from "../utils/noop";
 import { requestIdleCallback } from "../utils/request-idle-callback";
 import { useCreateStore, useSelector, useSelectorKey } from "../utils/store";
@@ -67,7 +73,11 @@ import { useStableCallback } from "../utils/use-stable-callback";
 function EmojiPickerDataHandler({
   emojiVersion,
   emojibaseUrl,
-}: Pick<EmojiPickerRootProps, "emojiVersion" | "emojibaseUrl">) {
+  supplemental,
+}: Pick<
+  EmojiPickerRootProps,
+  "emojiVersion" | "emojibaseUrl" | "supplemental"
+>) {
   const [emojiData, setEmojiData] = useState<EmojiData | undefined>(undefined);
   const store = useEmojiPickerStore();
   const locale = useSelectorKey(store, "locale");
@@ -104,12 +114,18 @@ function EmojiPickerDataHandler({
         store
           .get()
           .onDataChange(
-            getEmojiPickerData(emojiData, columns, skinTone, search),
+            getEmojiPickerData(
+              emojiData,
+              columns,
+              skinTone,
+              search,
+              supplemental,
+            ),
           );
       },
       { timeout: 100 },
     );
-  }, [emojiData, columns, skinTone, search]);
+  }, [emojiData, columns, skinTone, search, supplemental]);
 
   return null;
 }
@@ -144,8 +160,10 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
       columns = 9,
       skinTone = "none",
       onEmojiSelect = noop,
+      onSelectionChange = noop,
       emojiVersion,
       emojibaseUrl,
+      supplemental,
       onFocusCapture,
       onBlurCapture,
       children,
@@ -156,9 +174,11 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
     forwardedRef,
   ) => {
     const stableOnEmojiSelect = useStableCallback(onEmojiSelect);
+    const stableOnSelectionChange = useStableCallback(onSelectionChange);
     const store = useCreateStore(() =>
       createEmojiPickerStore(
         stableOnEmojiSelect,
+        stableOnSelectionChange,
         validateLocale(locale),
         columns,
         sticky,
@@ -258,7 +278,7 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
 
         const {
           data,
-          onEmojiSelect,
+          selectItem,
           onActiveEmojiChange,
           interaction,
           activeColumnIndex,
@@ -272,7 +292,7 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
           if (activeEmoji) {
             event.preventDefault();
 
-            onEmojiSelect(activeEmoji);
+            selectItem(activeEmoji);
           }
         }
 
@@ -473,6 +493,7 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
           <EmojiPickerDataHandler
             emojibaseUrl={emojibaseUrl}
             emojiVersion={emojiVersion}
+            supplemental={supplemental}
           />
           {children}
         </EmojiPickerStoreProvider>
@@ -589,9 +610,9 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, EmojiPickerSearchProps>(
 );
 
 const ActiveEmojiAnnouncer = memo(() => {
-  const activeEmoji = useActiveEmoji();
+  const selection = useActiveSelection();
 
-  if (!activeEmoji) {
+  if (!selection) {
     return null;
   }
 
@@ -611,7 +632,7 @@ const ActiveEmojiAnnouncer = memo(() => {
         wordWrap: "normal",
       }}
     >
-      {activeEmoji.label}
+      {selection.item.label}
     </div>
   );
 });
@@ -714,7 +735,11 @@ const EmojiPickerViewport = forwardRef<
 });
 
 function listEmojiProps(
-  emoji: EmojiPickerEmoji,
+  emoji: EmojiPickerListEmojiProps["emoji"] extends infer T
+    ? T extends { isActive: boolean }
+      ? Omit<T, "isActive">
+      : never
+    : never,
   columnIndex: number,
   isActive: boolean,
 ): WithAttributes<EmojiPickerListEmojiProps> {
@@ -729,6 +754,23 @@ function listEmojiProps(
     style: {
       fontFamily: "var(--frimousse-emoji-font)",
     },
+    tabIndex: -1,
+  };
+}
+
+function listSupplementalEmojiProps(
+  emoji: Extract<EmojiPickerDataRow["emojis"][number], { kind: "supplemental" }>,
+  columnIndex: number,
+  isActive: boolean,
+): WithAttributes<EmojiPickerListSupplementalEmojiProps> {
+  return {
+    emoji: { ...emoji, isActive },
+    role: "gridcell",
+    "aria-colindex": columnIndex,
+    "aria-selected": isActive || undefined,
+    "aria-label": emoji.label,
+    "data-active": isActive ? "" : undefined,
+    "frimousse-emoji": "",
     tabIndex: -1,
   };
 }
@@ -829,22 +871,23 @@ function preventDefault(event: ReactSyntheticEvent) {
 const EmojiPickerListEmoji = memo(
   ({
     Emoji,
+    SupplementalEmoji,
     emoji,
     columnIndex,
     rowIndex,
   }: {
-    emoji: EmojiPickerEmoji;
+    emoji: EmojiPickerDataRow["emojis"][number];
     columnIndex: number;
     rowIndex: number;
-  } & Pick<EmojiPickerListComponents, "Emoji">) => {
+  } & Pick<EmojiPickerListComponents, "Emoji" | "SupplementalEmoji">) => {
     const store = useEmojiPickerStore();
     const isActive = useSelector(
       store,
-      (state) => $activeEmoji(state)?.emoji === emoji.emoji,
+      (state) => sameEmojiPickerItem($activeEmoji(state), emoji),
     );
 
     const handleSelect = useCallback(() => {
-      store.get().onEmojiSelect(emoji);
+      store.get().selectItem(emoji);
     }, [emoji]);
 
     const handlePointerEnter = useCallback(() => {
@@ -856,13 +899,23 @@ const EmojiPickerListEmoji = memo(
     }, []);
 
     return (
-      <Emoji
-        {...listEmojiProps(emoji, columnIndex, isActive)}
-        onClick={handleSelect}
-        onPointerDown={preventDefault}
-        onPointerEnter={handlePointerEnter}
-        onPointerLeave={handlePointerLeave}
-      />
+      isSupplementalEmojiPickerItem(emoji) ? (
+        <SupplementalEmoji
+          {...listSupplementalEmojiProps(emoji, columnIndex, isActive)}
+          onClick={handleSelect}
+          onPointerDown={preventDefault}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+        />
+      ) : (
+        <Emoji
+          {...listEmojiProps(emoji, columnIndex, isActive)}
+          onClick={handleSelect}
+          onPointerDown={preventDefault}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+        />
+      )
     );
   },
 );
@@ -871,10 +924,11 @@ const EmojiPickerListRow = memo(
   ({
     Row,
     Emoji,
+    SupplementalEmoji,
     rowIndex,
   }: { rowIndex: number } & Pick<
     EmojiPickerListComponents,
-    "Emoji" | "Row"
+    "Emoji" | "Row" | "SupplementalEmoji"
   >) => {
     const store = useEmojiPickerStore();
     const row = useSelector(
@@ -894,8 +948,9 @@ const EmojiPickerListRow = memo(
           <EmojiPickerListEmoji
             columnIndex={columnIndex}
             Emoji={Emoji}
+            SupplementalEmoji={SupplementalEmoji}
             emoji={emoji}
-            key={emoji.label}
+            key={`${emoji.kind}:${emoji.id}`}
             rowIndex={rowIndex}
           />
         ))}
@@ -940,13 +995,18 @@ const EmojiPickerListSizers = memo(
     CategoryHeader,
     Row,
     Emoji,
-  }: Pick<EmojiPickerListComponents, "CategoryHeader" | "Row" | "Emoji">) => {
+  }: Pick<
+    EmojiPickerListComponents,
+    "CategoryHeader" | "Row" | "Emoji" | "SupplementalEmoji"
+  >) => {
     const ref = useRef<HTMLDivElement>(null!);
     const store = useEmojiPickerStore();
     const columns = useSelectorKey(store, "columns");
     const emojis = useMemo(
       () =>
-        Array<EmojiPickerEmoji>(columns).fill({
+        Array(columns).fill({
+          kind: "native" as const,
+          id: "🙂",
           emoji: "🙂",
           label: "",
         }),
@@ -1051,6 +1111,25 @@ function DefaultEmojiPickerListEmoji({
   );
 }
 
+function DefaultEmojiPickerListSupplementalEmoji({
+  emoji,
+  ...props
+}: EmojiPickerListSupplementalEmojiProps) {
+  return (
+    <button type="button" {...props}>
+      {emoji.imageUrl ? (
+        <img
+          alt={emoji.label}
+          src={emoji.imageUrl}
+          style={{ height: "1em", width: "1em" }}
+        />
+      ) : (
+        emoji.label
+      )}
+    </button>
+  );
+}
+
 function DefaultEmojiPickerListRow({ ...props }: EmojiPickerListRowProps) {
   return <div {...props} />;
 }
@@ -1100,6 +1179,8 @@ const EmojiPickerList = forwardRef<HTMLDivElement, EmojiPickerListProps>(
     const CategoryHeader =
       components?.CategoryHeader ?? DefaultEmojiPickerListCategoryHeader;
     const Emoji = components?.Emoji ?? DefaultEmojiPickerListEmoji;
+    const SupplementalEmoji =
+      components?.SupplementalEmoji ?? DefaultEmojiPickerListSupplementalEmoji;
     const Row = components?.Row ?? DefaultEmojiPickerListRow;
     const columns = useSelectorKey(store, "columns");
     const viewportStartRowIndex = useSelectorKey(
@@ -1132,6 +1213,7 @@ const EmojiPickerList = forwardRef<HTMLDivElement, EmojiPickerListProps>(
               CategoryHeader={CategoryHeader}
               Emoji={Emoji}
               Row={Row}
+              SupplementalEmoji={SupplementalEmoji}
             />
           </div>
         </div>
@@ -1156,6 +1238,7 @@ const EmojiPickerList = forwardRef<HTMLDivElement, EmojiPickerListProps>(
             CategoryHeader={CategoryHeader}
             Emoji={Emoji}
             Row={Row}
+            SupplementalEmoji={SupplementalEmoji}
           />
           {Array.from(
             { length: viewportEndRowIndex - viewportStartRowIndex + 1 },
@@ -1176,6 +1259,7 @@ const EmojiPickerList = forwardRef<HTMLDivElement, EmojiPickerListProps>(
                   <EmojiPickerListRow
                     Emoji={Emoji}
                     Row={Row}
+                    SupplementalEmoji={SupplementalEmoji}
                     rowIndex={rowIndex}
                   />
                 </Fragment>
@@ -1400,6 +1484,14 @@ function EmojiPickerActiveEmoji({ children }: EmojiPickerActiveEmojiProps) {
   return children({ emoji: activeEmoji });
 }
 
+function EmojiPickerActiveSelection({
+  children,
+}: EmojiPickerActiveSelectionProps) {
+  const selection = useActiveSelection();
+
+  return children({ selection });
+}
+
 /**
  * Exposes the current skin tone and a function to change it via a render
  * callback.
@@ -1458,6 +1550,7 @@ EmojiPickerLoading.displayName = "EmojiPicker.Loading";
 EmojiPickerEmpty.displayName = "EmojiPicker.Empty";
 EmojiPickerSkinToneSelector.displayName = "EmojiPicker.SkinToneSelector";
 EmojiPickerActiveEmoji.displayName = "EmojiPicker.ActiveEmoji";
+EmojiPickerActiveSelection.displayName = "EmojiPicker.ActiveSelection";
 EmojiPickerSkinTone.displayName = "EmojiPicker.SkinTone";
 
 export {
@@ -1469,5 +1562,6 @@ export {
   EmojiPickerEmpty as Empty, //                       <EmojiPicker.Empty />
   EmojiPickerSkinToneSelector as SkinToneSelector, // <EmojiPicker.SkinToneSelector />
   EmojiPickerActiveEmoji as ActiveEmoji, //           <EmojiPicker.ActiveEmoji />
+  EmojiPickerActiveSelection as ActiveSelection, //   <EmojiPicker.ActiveSelection />
   EmojiPickerSkinTone as SkinTone, //                 <EmojiPicker.SkinTone />
 };

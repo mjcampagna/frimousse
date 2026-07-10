@@ -809,7 +809,14 @@ describe("EmojiPicker.SkinToneSelector", () => {
 
 describe("EmojiPicker.Loading", () => {
   it("should render when loading emojis", async () => {
-    const store = createEmojiPickerStore(() => {}, "en", 10, true, "none");
+    const store = createEmojiPickerStore(
+      () => {},
+      () => {},
+      "en",
+      10,
+      true,
+      "none",
+    );
 
     page.render(
       <EmojiPickerStoreProvider store={store}>
