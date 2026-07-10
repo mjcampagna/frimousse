@@ -1,0 +1,7 @@
+packages:
+  - .
+  - playground
+  - site
+allowBuilds:
+  esbuild: true
+  sharp: true

@@ -24,7 +24,7 @@ export function Docs({
       {...props}
     >
       <PermalinkHeading as="h2">Installation</PermalinkHeading>
-      <CodeBlock lang="bash">npm i frimousse</CodeBlock>
+      <CodeBlock lang="bash">pnpm add frimousse</CodeBlock>
       <p>
         If you are using{" "}
         <a href="https://ui.shadcn.com/" rel="noreferrer" target="_blank">

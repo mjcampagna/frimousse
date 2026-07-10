@@ -361,12 +361,12 @@ export async function getEmojiData({
       );
 
       data =
-        !emojisEtag ||
-        !messagesEtag ||
-        emojisEtag !== localData.metadata.emojisEtag ||
-        messagesEtag !== localData.metadata.messagesEtag
-          ? await fetchEmojiData(baseUrl, locale, signal)
-          : localData.data;
+        !emojisEtag || !messagesEtag
+          ? localData.data
+          : emojisEtag !== localData.metadata.emojisEtag ||
+              messagesEtag !== localData.metadata.messagesEtag
+            ? await fetchEmojiData(baseUrl, locale, signal)
+            : localData.data;
     } catch {
       data = localData.data;
     }

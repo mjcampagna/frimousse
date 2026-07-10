@@ -11,7 +11,7 @@ A lightweight, unstyled, and composable emoji picker for React.
 ## Installation
 
 ```bash
-npm i frimousse
+pnpm add frimousse
 ```
 
 If you are using [shadcn/ui](https://ui.shadcn.com/), you can also install it as a pre-built component via the [shadcn CLI](https://ui.shadcn.com/docs/cli).

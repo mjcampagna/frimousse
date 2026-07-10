@@ -18,92 +18,70 @@ function hash(value: string) {
 }
 
 beforeEach(() => {
+  fetchMocker.resetMocks();
+
   fetchMocker.mockIf(EMOJIBASE_URL_REGEX, async (req) => {
     const [, locale, file] = req.url.match(EMOJIBASE_URL_REGEX) ?? [];
 
     if (locale === "en" && file === "data.json") {
       const headers: HeadersInit = {
-        ETag: hash("en/data.json"),
+        etag: hash("en/data.json"),
       };
 
       if (req.method === "GET") {
         const data = (await import("emojibase-data/en/data.json")).default;
-        return {
-          body: JSON.stringify(data),
-          headers,
-        };
+        return new Response(JSON.stringify(data), { headers });
       }
 
       if (req.method === "HEAD") {
-        return {
-          status: 200,
-          headers,
-        };
+        return new Response(null, { headers, status: 200 });
       }
     }
 
     if (locale === "en" && file === "messages.json") {
       const headers: HeadersInit = {
-        ETag: hash("en/messages.json"),
+        etag: hash("en/messages.json"),
       };
 
       if (req.method === "GET") {
         const messages = (await import("emojibase-data/en/messages.json"))
           .default;
-        return {
-          body: JSON.stringify(messages),
-          headers,
-        };
+        return new Response(JSON.stringify(messages), { headers });
       }
 
       if (req.method === "HEAD") {
-        return {
-          status: 200,
-          headers,
-        };
+        return new Response(null, { headers, status: 200 });
       }
     }
 
     if (locale === "fr" && file === "data.json") {
       const headers: HeadersInit = {
-        ETag: hash("fr/data.json"),
+        etag: hash("fr/data.json"),
       };
 
       if (req.method === "GET") {
         const data = (await import("emojibase-data/fr/data.json")).default;
-        return {
-          body: JSON.stringify(data),
-          headers,
-        };
+        return new Response(JSON.stringify(data), { headers });
       }
 
       if (req.method === "HEAD") {
-        return {
-          status: 200,
-          headers,
-        };
+        return new Response(null, { headers, status: 200 });
       }
     }
 
     if (locale === "fr" && file === "messages.json") {
       const headers: HeadersInit = {
-        ETag: hash("fr/messages.json"),
+        etag: hash("fr/messages.json"),
       };
 
       if (req.method === "GET") {
         const messages = (await import("emojibase-data/fr/messages.json"))
           .default;
-        return {
-          body: JSON.stringify(messages),
-          headers,
-        };
+        return new Response(JSON.stringify(messages), { headers });
       }
 
       if (req.method === "HEAD") {
-        return {
-          status: 200,
-          headers,
-        };
+        return new Response(null, { headers, status: 200 });
       }
     }
 

@@ -1,6 +1,6 @@
 /* biome-ignore-all lint/a11y/useAriaPropsSupportedByRole: ARIA attributes are used for testing purposes */
 
-import { page, userEvent } from "@vitest/browser/context";
+import { page, userEvent } from "vitest/browser";
 import { Children, type ReactNode, useState } from "react";
 import { describe, expect, it } from "vitest";
 import type {
@@ -13,6 +13,7 @@ import type {
   SkinTone,
 } from "../../types";
 import * as EmojiPicker from "../emoji-picker";
+import { createEmojiPickerStore, EmojiPickerStoreProvider } from "../../store";
 
 const EMOJI_BUTTON_HEIGHT = 28;
 
@@ -808,7 +809,15 @@ describe("EmojiPicker.SkinToneSelector", () => {
 
 describe("EmojiPicker.Loading", () => {
   it("should render when loading emojis", async () => {
-    page.render(<DefaultPage />);
+    const store = createEmojiPickerStore(() => {}, "en", 10, true, "none");
+
+    page.render(
+      <EmojiPickerStoreProvider store={store}>
+        <EmojiPicker.Loading data-testid="loading">
+          Loading…
+        </EmojiPicker.Loading>
+      </EmojiPickerStoreProvider>,
+    );
 
     await expect.element(page.getByTestId("loading")).toBeInTheDocument();
   });

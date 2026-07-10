@@ -60,6 +60,7 @@ import { shallow } from "../utils/compare";
 import { noop } from "../utils/noop";
 import { requestIdleCallback } from "../utils/request-idle-callback";
 import { useCreateStore, useSelector, useSelectorKey } from "../utils/store";
+import { isDevelopment } from "../utils/is-development";
 import { useLayoutEffect } from "../utils/use-layout-effect";
 import { useStableCallback } from "../utils/use-stable-callback";
 
@@ -524,13 +525,10 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, EmojiPickerSearchProps>(
     const wasControlled = useRef(isControlled);
 
     useEffect(() => {
-      if (
-        process.env.NODE_ENV !== "production" &&
-        wasControlled.current !== isControlled
-      ) {
+      if (isDevelopment() && wasControlled.current !== isControlled) {
         console.warn(
           `EmojiPicker.Search is changing from ${
-            wasControlled ? "controlled" : "uncontrolled"
+            wasControlled.current ? "controlled" : "uncontrolled"
           } to ${isControlled ? "controlled" : "uncontrolled"}.`,
         );
       }

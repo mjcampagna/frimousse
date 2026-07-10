@@ -1,4 +1,5 @@
-import { defineConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
+import { defineConfig, defineProject } from "vitest/config";
 
 export default defineConfig({
   optimizeDeps: {
@@ -12,5 +13,28 @@ export default defineConfig({
       ignoreEmptyLines: true,
       excludeAfterRemap: true,
     },
+    projects: [
+      defineProject({
+        test: {
+          name: "jsdom",
+          environment: "jsdom",
+          include: ["src/**/*.test.{ts,tsx}"],
+          setupFiles: ["test/setup-jsdom.ts", "test/setup-emojibase.ts"],
+        },
+      }),
+      defineProject({
+        test: {
+          name: "browser",
+          include: ["src/**/*.test.browser.{ts,tsx}"],
+          setupFiles: ["test/setup-browser.ts", "test/setup-emojibase.ts"],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright(),
+            instances: [{ browser: "chromium" }],
+          },
+        },
+      }),
+    ],
   },
 });

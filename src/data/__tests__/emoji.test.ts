@@ -70,6 +70,7 @@ describe("getEmojiData", () => {
     sessionStorage.clear();
 
     const fetchSpy = vi.spyOn(globalThis, "fetch");
+    fetchSpy.mockClear();
 
     await getEmojiData({ locale: "en" });
 
