@@ -1,5 +1,18 @@
 export * as EmojiPicker from "./components/emoji-picker";
+export {
+  buildEmojiPickerFrequentSection,
+  getEmojiPickerUsageKey,
+  rankEmojiPickerUsage,
+  recordEmojiPickerUsage,
+} from "./frequency";
 export { useActiveEmoji, useActiveSelection, useSkinTone } from "./hooks";
+export type {
+  EmojiPickerFrequentSection,
+  EmojiPickerFrequentSectionOptions,
+  EmojiPickerUsageEntry,
+  EmojiPickerUsageOptions,
+  EmojiPickerUsageSource,
+} from "./frequency-types";
 export type {
   EmojiPickerItem,
   EmojiPickerSection,
