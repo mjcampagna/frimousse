@@ -1,5 +1,12 @@
-import { useId, useState } from "react";
-import { EmojiPicker } from "frimousse";
+import { useId, useMemo, useState } from "react";
+import {
+  buildEmojiPickerFrequentSection,
+  createEmojiPickerCustomSection,
+  EmojiPicker,
+  recordEmojiPickerUsage,
+  type EmojiPickerItemSelection,
+  type EmojiPickerUsageEntry,
+} from "frimousse";
 
 type PickerState = {
   columns: number;
@@ -17,10 +24,103 @@ const INITIAL_STATE: PickerState = {
 
 export function App() {
   const [picker, setPicker] = useState<PickerState>(INITIAL_STATE);
-  const [selectedEmoji, setSelectedEmoji] = useState<string>("🙂");
-  const [selectedLabel, setSelectedLabel] = useState<string>("Slightly smiling face");
+  const [selectedSelection, setSelectedSelection] =
+    useState<EmojiPickerItemSelection>({
+      kind: "native",
+      item: {
+        kind: "native",
+        id: "🙂",
+        emoji: "🙂",
+        label: "Slightly smiling face",
+      },
+    });
+  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>([]);
   const [search, setSearch] = useState("");
   const headingId = useId();
+  const customSection = useMemo(
+    () =>
+      createEmojiPickerCustomSection(
+        [
+          {
+            id: "shipit",
+            label: "Ship It",
+            imageUrl: "https://github.githubassets.com/images/icons/emoji/shipit.png",
+            aliases: ["ship it", "approve"],
+            tags: ["approval", "launch"],
+          },
+          {
+            id: "party-parrot",
+            label: "Party Parrot",
+            imageUrl:
+              "https://cultofthepartyparrot.com/parrots/hd/parrot.gif",
+            aliases: ["party parrot"],
+            tags: ["party", "celebrate"],
+          },
+          {
+            id: "build-bot",
+            label: "Build Bot",
+            imageUrl:
+              "https://github.githubassets.com/images/icons/emoji/unicode/1f916.png?v8",
+            aliases: ["robot"],
+            tags: ["ci", "automation"],
+          },
+        ],
+        {
+          id: "workspace-custom",
+          label: "Custom emoji",
+        },
+      ),
+    [],
+  );
+  const frequentSection = useMemo(
+    () =>
+      buildEmojiPickerFrequentSection(usageEntries, {
+        label: "Frequently used",
+        limit: 6,
+        searchable: false,
+      }),
+    [usageEntries],
+  );
+  const supplemental = useMemo(
+    () => ({
+      sections: [
+        {
+          id: "starter-pack",
+          label: "Starter pack",
+          position: "prepend" as const,
+          searchable: false,
+          items: [
+            {
+              kind: "native" as const,
+              id: "🎉",
+              emoji: "🎉",
+              label: "Party popper",
+            },
+            customSection.items[0]!,
+          ],
+        },
+        ...(frequentSection ? [frequentSection] : []),
+        customSection,
+      ],
+      search: {
+        mode: "unified" as const,
+        resultsLabel: "Results",
+      },
+    }),
+    [customSection, frequentSection],
+  );
+  const selectedPreview =
+    selectedSelection.kind === "native" ? (
+      <span className="selection-emoji">{selectedSelection.item.emoji}</span>
+    ) : (
+      <img
+        className="selection-image"
+        src={selectedSelection.item.imageUrl}
+        alt={selectedSelection.item.label}
+        width="24"
+        height="24"
+      />
+    );
 
   return (
     <main className="app-shell">
@@ -112,8 +212,8 @@ export function App() {
           <div className="panel-header">
             <h2>Picker</h2>
             <div className="selection-pill" aria-live="polite">
-              <span className="selection-emoji">{selectedEmoji}</span>
-              <span>{selectedLabel}</span>
+              {selectedPreview}
+              <span>{selectedSelection.item.label}</span>
             </div>
           </div>
 
@@ -124,9 +224,23 @@ export function App() {
             columns={picker.columns}
             skinTone={picker.skinTone}
             sticky={picker.sticky}
+            supplemental={supplemental}
             onEmojiSelect={({ emoji, label }) => {
-              setSelectedEmoji(emoji);
-              setSelectedLabel(label);
+              setSelectedSelection({
+                kind: "native",
+                item: {
+                  kind: "native",
+                  id: emoji,
+                  emoji,
+                  label,
+                },
+              });
+            }}
+            onSelectionChange={(selection) => {
+              setSelectedSelection(selection);
+              setUsageEntries((current) =>
+                recordEmojiPickerUsage(current, selection),
+              );
             }}
           >
             <div className="picker-toolbar">
@@ -151,7 +265,30 @@ export function App() {
                     : `No emoji found for “${currentSearch}”.`
                 }
               </EmojiPicker.Empty>
-              <EmojiPicker.List className="picker-list" />
+              <EmojiPicker.List
+                className="picker-list"
+                components={{
+                  SupplementalEmoji: ({ emoji, ...props }) => (
+                    <button
+                      type="button"
+                      {...props}
+                      className="picker-custom-emoji"
+                    >
+                      {emoji.imageUrl ? (
+                        <img
+                          src={emoji.imageUrl}
+                          alt={emoji.label}
+                          loading="lazy"
+                          width="24"
+                          height="24"
+                        />
+                      ) : (
+                        <span>{emoji.label}</span>
+                      )}
+                    </button>
+                  ),
+                }}
+              />
             </EmojiPicker.Viewport>
           </EmojiPicker.Root>
         </article>
@@ -160,9 +297,10 @@ export function App() {
           <h2>What to validate here</h2>
           <ul className="notes-list">
             <li>Baseline import compatibility for a normal React consumer.</li>
+            <li>Mixed native and image-backed custom emoji in one picker.</li>
+            <li>Consumer-owned frequency tracking derived from selection callbacks.</li>
+            <li>Unified search behavior across native and supplemental items.</li>
             <li>Keyboard navigation and sticky-header behavior as props change.</li>
-            <li>Search behavior with a controlled input.</li>
-            <li>Surface area for future additive features without app-specific assumptions.</li>
           </ul>
         </article>
       </section>

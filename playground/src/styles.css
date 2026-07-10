@@ -175,6 +175,13 @@ select {
   font-size: 1.2rem;
 }
 
+.selection-image {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
 .picker-root {
   display: flex;
   flex-direction: column;
@@ -246,6 +253,33 @@ select {
 
 [frimousse-list-emoji][data-active],
 [frimousse-list-emoji]:hover {
+  background: rgba(236, 199, 148, 0.42);
+  transform: translateY(-1px);
+}
+
+.picker-custom-emoji {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 120ms ease,
+    background-color 120ms ease;
+}
+
+.picker-custom-emoji img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.picker-custom-emoji[data-active],
+.picker-custom-emoji:hover {
   background: rgba(236, 199, 148, 0.42);
   transform: translateY(-1px);
 }

@@ -2,6 +2,12 @@ import { page } from "vitest/browser";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
 import * as EmojiPicker from "../emoji-picker";
+import {
+  buildEmojiPickerFrequentSection,
+  createEmojiPickerCustomSection,
+  recordEmojiPickerUsage,
+  type EmojiPickerUsageEntry,
+} from "../../index";
 
 const supplemental = {
   sections: [
@@ -113,6 +119,70 @@ function SupplementalPage({
   );
 }
 
+function CustomEmojiPage() {
+  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>([]);
+  const frequentSection = buildEmojiPickerFrequentSection(usageEntries, {
+    label: "Frequently used",
+    limit: 3,
+    searchable: false,
+  });
+  const customSection = createEmojiPickerCustomSection(
+    [
+      {
+        id: "shipit",
+        label: "Ship It",
+        imageUrl: "https://example.com/shipit.png",
+        aliases: ["ship it"],
+        tags: ["approve"],
+      },
+    ],
+    {
+      id: "custom",
+      label: "Custom emoji",
+      position: "prepend",
+    },
+  );
+  const sections = frequentSection
+    ? [frequentSection, customSection]
+    : [customSection];
+
+  return (
+    <EmojiPicker.Root
+      onSelectionChange={(selection) => {
+        setUsageEntries((current) => recordEmojiPickerUsage(current, selection));
+      }}
+      supplemental={{
+        sections,
+        search: {
+          mode: "unified",
+          resultsLabel: "Results",
+        },
+      }}
+    >
+      <EmojiPicker.Search data-testid="custom-search" />
+      <EmojiPicker.Viewport style={{ height: 1200 }}>
+        <EmojiPicker.List
+          components={{
+            CategoryHeader: ({ category, ...props }) => (
+              <div {...props}>{category.label}</div>
+            ),
+            Emoji: ({ emoji, ...props }) => (
+              <button {...props} type="button">
+                {emoji.emoji}
+              </button>
+            ),
+            SupplementalEmoji: ({ emoji, ...props }) => (
+              <button {...props} data-image-url={emoji.imageUrl} type="button">
+                {emoji.label}
+              </button>
+            ),
+          }}
+        />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+
 describe("EmojiPicker supplemental items", () => {
   it("should render prepended supplemental sections ahead of native items", async () => {
     page.render(<SupplementalPage />);
@@ -218,5 +288,30 @@ describe("EmojiPicker supplemental items", () => {
     await expect
       .element(page.getByTestId("selection"))
       .toHaveTextContent("native:😀");
+  });
+
+  it("should support helper-created custom emoji sections and derived frequent sections", async () => {
+    page.render(<CustomEmojiPage />);
+
+    await expect.element(page.getByText("Custom emoji")).toBeInTheDocument();
+    await expect
+      .element(page.getByText("Ship It"))
+      .toHaveAttribute("data-image-url", "https://example.com/shipit.png");
+
+    await page.getByText("Ship It").click();
+
+    await expect
+      .element(page.getByText("Frequently used"))
+      .toBeInTheDocument();
+    await expect
+      .element(page.getByRole("gridcell").first())
+      .toHaveTextContent("Ship It");
+
+    await page.getByTestId("custom-search").fill("ship it");
+
+    await expect.element(page.getByText("Results")).toBeInTheDocument();
+    await expect
+      .element(page.getByRole("gridcell", { name: "Ship It" }))
+      .toBeInTheDocument();
   });
 });
