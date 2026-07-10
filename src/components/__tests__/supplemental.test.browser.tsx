@@ -1,4 +1,4 @@
-import { page, userEvent } from "vitest/browser";
+import { page } from "vitest/browser";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
 import * as EmojiPicker from "../emoji-picker";
@@ -9,8 +9,13 @@ const supplemental = {
       id: "favorites",
       label: "Favorites",
       position: "prepend" as const,
-      searchable: false,
       items: [
+        {
+          kind: "native" as const,
+          id: "🎉",
+          emoji: "🎉",
+          label: "Party popper",
+        },
         {
           kind: "supplemental" as const,
           id: "shipit",
@@ -113,8 +118,16 @@ describe("EmojiPicker supplemental items", () => {
     page.render(<SupplementalPage />);
 
     await expect.element(page.getByRole("gridcell").first()).toHaveTextContent(
-      "Ship It",
+      "🎉",
     );
+  });
+
+  it("should support mixed native and supplemental items inside one custom section", async () => {
+    page.render(<SupplementalPage />);
+
+    await expect
+      .element(page.getByRole("gridcell").nth(1))
+      .toHaveTextContent("Ship It");
   });
 
   it("should preserve native selection while exposing supplemental selections", async () => {
@@ -151,16 +164,14 @@ describe("EmojiPicker supplemental items", () => {
       .element(page.getByTestId("active-emoji"))
       .not.toBeInTheDocument();
 
-    await page.getByTestId("search").click();
-    await userEvent.keyboard("{ArrowDown}");
-    await userEvent.keyboard("{ArrowRight}");
+    await page.getByTestId("viewport").click();
 
     await expect
       .element(page.getByTestId("active-selection"))
-      .toHaveTextContent("native:Grinning face");
+      .toHaveTextContent("native:Party popper");
     await expect
       .element(page.getByTestId("active-emoji"))
-      .toHaveTextContent("Grinning face");
+      .toHaveTextContent("Party popper");
   });
 
   it("should support unified search across native and supplemental items", async () => {

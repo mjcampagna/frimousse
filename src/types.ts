@@ -49,10 +49,9 @@ export type SkinToneVariation = {
 export type Emoji = Resolve<EmojiPickerEmoji>;
 export type NativeItem = Resolve<NativeEmojiPickerItem>;
 export type SupplementalEmoji = Resolve<SupplementalEmojiPickerItem>;
+export type PickerItem = Resolve<EmojiPickerItem>;
 export type EmojiPickerItemSelection = Resolve<EmojiPickerSelection>;
-export type SupplementalSection = Resolve<
-  EmojiPickerSection<SupplementalEmojiPickerItem>
->;
+export type SupplementalSection = Resolve<EmojiPickerSection>;
 export type SupplementalSearch = Resolve<EmojiPickerSupplementalSearch>;
 export type SectionPosition = Resolve<EmojiPickerSectionPosition>;
 
@@ -246,8 +245,9 @@ export interface EmojiPickerRootProps extends ComponentProps<"div"> {
   /**
    * Additive supplemental item support for consumer-provided sections.
    *
-   * These sections are supplemental-only; native emoji continue to come from
-   * the built-in Emojibase dataset.
+   * These sections may contain native or supplemental items. Native emoji in
+   * consumer-provided sections are rendered alongside the built-in Emojibase
+   * dataset rather than replacing it.
    */
   supplemental?: EmojiPickerSupplementalConfig;
 }

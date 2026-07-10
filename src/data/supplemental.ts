@@ -9,7 +9,6 @@ import type {
   EmojiPickerSection,
   EmojiPickerSupplementalConfig,
   NativeEmojiPickerItem,
-  SupplementalEmojiPickerItem,
 } from "../supplemental-types";
 import { chunk } from "../utils/chunk";
 
@@ -71,10 +70,24 @@ export function toNativeEmojiPickerItem(
   };
 }
 
-function filterSupplementalItems(
-  items: SupplementalEmojiPickerItem[],
-  searchText: string,
-) {
+function getItemTerms(item: EmojiPickerItem): string[] {
+  if (item.kind === "native") {
+    return [item.id];
+  }
+
+  return [
+    ...(item.tags ?? []),
+    ...(item.keywords ?? []),
+    ...(item.aliases ?? []),
+    item.id,
+  ];
+}
+
+function scoreItemMatch(item: EmojiPickerItem, searchText: string): number {
+  return scoreTextMatch(item.label, getItemTerms(item), searchText);
+}
+
+function filterSectionItems(items: EmojiPickerItem[], searchText: string) {
   if (!searchText) {
     return items;
   }
@@ -83,29 +96,24 @@ function filterSupplementalItems(
 
   return items
     .filter((item) => {
-      const score = scoreTextMatch(
-        item.label,
-        [
-          ...(item.tags ?? []),
-          ...(item.keywords ?? []),
-          ...(item.aliases ?? []),
-          item.id,
-        ],
-        searchText,
-      );
+      const score = scoreItemMatch(item, searchText);
 
       if (score > 0) {
-        scores.set(item.id, score);
+        scores.set(`${item.kind}:${item.id}`, score);
         return true;
       }
 
       return false;
     })
-    .sort((a, b) => (scores.get(b.id) ?? 0) - (scores.get(a.id) ?? 0));
+    .sort(
+      (a, b) =>
+        (scores.get(`${b.kind}:${b.id}`) ?? 0) -
+        (scores.get(`${a.kind}:${a.id}`) ?? 0),
+    );
 }
 
 export function buildSupplementalSections(
-  sections: EmojiPickerSection<SupplementalEmojiPickerItem>[],
+  sections: EmojiPickerSection[],
   search: string,
   columns: number,
   categoryIndexStart: number,
@@ -122,7 +130,7 @@ export function buildSupplementalSections(
     const items = searchText
       ? section.searchable === false
         ? []
-        : filterSupplementalItems(section.items, searchText)
+        : filterSectionItems(section.items, searchText)
       : section.items;
 
     if (items.length === 0) {
@@ -177,17 +185,8 @@ export function buildUnifiedSearchRows(
       continue;
     }
 
-    for (const item of filterSupplementalItems(section.items, searchText)) {
-      const score = scoreTextMatch(
-        item.label,
-        [
-          ...(item.tags ?? []),
-          ...(item.keywords ?? []),
-          ...(item.aliases ?? []),
-          item.id,
-        ],
-        searchText,
-      );
+    for (const item of filterSectionItems(section.items, searchText)) {
+      const score = scoreItemMatch(item, searchText);
 
       if (score > 0) {
         scored.set(`${item.kind}:${item.id}`, score);

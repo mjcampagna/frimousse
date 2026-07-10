@@ -950,7 +950,7 @@ const EmojiPickerListRow = memo(
             Emoji={Emoji}
             SupplementalEmoji={SupplementalEmoji}
             emoji={emoji}
-            key={`${emoji.kind}:${emoji.id}`}
+            key={`${rowIndex}:${columnIndex}:${emoji.kind}:${emoji.id}`}
             rowIndex={rowIndex}
           />
         ))}

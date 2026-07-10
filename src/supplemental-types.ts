@@ -34,7 +34,7 @@ export type EmojiPickerSupplementalSearch = {
 };
 
 export type EmojiPickerSupplementalConfig = {
-  sections?: EmojiPickerSection<SupplementalEmojiPickerItem>[];
+  sections?: EmojiPickerSection[];
   search?: EmojiPickerSupplementalSearch;
 };
 

@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { EmojiDataEmoji } from "../../types";
 import type {
+  EmojiPickerItem,
   EmojiPickerSection,
   EmojiPickerSupplementalConfig,
-  SupplementalEmojiPickerItem,
 } from "../../supplemental-types";
 import {
   buildSupplementalSections,
@@ -47,13 +47,19 @@ const nativeEmojis: EmojiDataEmoji[] = [
   },
 ];
 
-const supplementalSections: EmojiPickerSection<SupplementalEmojiPickerItem>[] = [
+const supplementalSections: EmojiPickerSection[] = [
   {
     id: "favorites",
     label: "Favorites",
     position: "prepend",
     searchable: false,
     items: [
+      {
+        kind: "native",
+        id: "😀",
+        emoji: "😀",
+        label: "Grinning face",
+      },
       {
         kind: "supplemental",
         id: "shipit",
@@ -86,6 +92,27 @@ const supplementalSections: EmojiPickerSection<SupplementalEmojiPickerItem>[] = 
   },
 ];
 
+const mixedSearchSection: EmojiPickerSection = {
+  id: "frequently-used",
+  label: "Frequently used",
+  position: "prepend",
+  items: [
+    {
+      kind: "native",
+      id: "🎉",
+      emoji: "🎉",
+      label: "Party popper",
+    },
+    {
+      kind: "supplemental",
+      id: "party-parrot",
+      label: "Party Parrot",
+      aliases: ["party_parrot"],
+      tags: ["party", "celebrate"],
+    },
+  ],
+};
+
 describe("toNativeEmojiPickerItem", () => {
   it("should derive a stable item shape for native emojis", () => {
     expect(toNativeEmojiPickerItem(nativeEmojis[0]!, undefined)).toEqual({
@@ -110,23 +137,24 @@ describe("buildSupplementalSections", () => {
   it("should build rows and categories for supplemental sections", () => {
     const result = buildSupplementalSections(supplementalSections, "", 1, 3, 5);
 
-    expect(result.count).toBe(3);
+    expect(result.count).toBe(4);
     expect(result.categories).toEqual([
       {
         label: "Favorites",
-        rowsCount: 1,
+        rowsCount: 2,
         startRowIndex: 5,
       },
       {
         label: "Team",
         rowsCount: 2,
-        startRowIndex: 6,
+        startRowIndex: 7,
       },
     ]);
-    expect(result.rows).toHaveLength(3);
+    expect(result.rows).toHaveLength(4);
     expect(result.rows[0]?.categoryIndex).toBe(3);
-    expect(result.rows[1]?.categoryIndex).toBe(4);
+    expect(result.rows[1]?.categoryIndex).toBe(3);
     expect(result.rows[2]?.categoryIndex).toBe(4);
+    expect(result.rows[3]?.categoryIndex).toBe(4);
   });
 
   it("should filter items by normalized search text", () => {
@@ -165,19 +193,27 @@ describe("buildSupplementalSections", () => {
   });
 
   it("should rank better matches ahead of weaker ones", () => {
-    const result = buildSupplementalSections(
-      supplementalSections,
-      "party",
-      10,
-      0,
-      0,
-    );
+    const result = buildSupplementalSections([mixedSearchSection], "party", 10, 0, 0);
+    const items = result.rows[0]?.emojis as EmojiPickerItem[] | undefined;
 
-    const firstItem = result.rows[0]?.emojis[0];
+    expect(items?.map((item) => item.id)).toEqual(["party-parrot", "🎉"]);
+  });
 
-    expect(firstItem && "id" in firstItem ? firstItem.id : undefined).toBe(
-      "party-parrot",
-    );
+  it("should support mixed native and supplemental items within one section", () => {
+    const result = buildSupplementalSections([mixedSearchSection], "", 2, 0, 0);
+
+    expect(result.count).toBe(2);
+    expect(result.categories).toEqual([
+      {
+        label: "Frequently used",
+        rowsCount: 1,
+        startRowIndex: 0,
+      },
+    ]);
+    expect(result.rows[0]?.emojis.map((item) => item.kind)).toEqual([
+      "native",
+      "supplemental",
+    ]);
   });
 });
 
@@ -208,7 +244,10 @@ describe("buildUnifiedSearchRows", () => {
   it("should merge native and supplemental matches into one category", () => {
     const result = buildUnifiedSearchRows(
       nativeEmojis,
-      supplemental,
+      {
+        ...supplemental,
+        sections: [...supplementalSections, mixedSearchSection],
+      },
       "grinning",
       10,
       undefined,
@@ -227,6 +266,25 @@ describe("buildUnifiedSearchRows", () => {
     expect(result?.rows[0]?.emojis.map((item) => item.kind)).toEqual([
       "supplemental",
       "native",
+    ]);
+  });
+
+  it("should include native items supplied through custom sections in unified search", () => {
+    const result = buildUnifiedSearchRows(
+      nativeEmojis,
+      {
+        ...supplemental,
+        sections: [mixedSearchSection],
+      },
+      "party",
+      10,
+      undefined,
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "party-parrot",
+      "🎉",
+      "🎉",
     ]);
   });
 
