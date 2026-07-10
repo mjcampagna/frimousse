@@ -1,17 +1,14 @@
 <h1>
-  <a href="https://frimousse.liveblocks.io#gh-light-mode-only">
+  <a href="https://github.com/mjcampagna/frimousse">
     <img src=".github/assets/logo-light.svg" width="107" height="24" alt="Frimousse" align="center" />
   </a>
-  <a href="https://frimousse.liveblocks.io#gh-dark-mode-only">
+  <a href="https://github.com/mjcampagna/frimousse">
     <img src=".github/assets/logo-dark.svg" width="107" height="24" alt="Frimousse" align="center" />
   </a>
 </h1>
 
-[![npm](https://img.shields.io/npm/v/frimousse?labelColor=651&color=fc0)](https://www.npmjs.com/package/frimousse)
-[![downloads](https://img.shields.io/npm/dm/frimousse?label=downloads&labelColor=651&color=fc0)](https://www.npmjs.com/package/frimousse)
-[![size](https://img.shields.io/bundlephobia/minzip/frimousse?label=size&labelColor=651&color=fc0)](https://bundlephobia.com/package/frimousse)
-[![tests](https://img.shields.io/github/actions/workflow/status/liveblocks/frimousse/.github/workflows/tests.yml?label=tests&labelColor=651&color=fc0)](https://github.com/liveblocks/frimousse/actions/workflows/tests.yml)
-[![license](https://img.shields.io/github/license/liveblocks/frimousse?labelColor=651&color=fc0)](https://github.com/liveblocks/frimousse/blob/main/LICENSE)
+[![tests](https://img.shields.io/github/actions/workflow/status/mjcampagna/frimousse/.github/workflows/tests.yml?label=tests&labelColor=651&color=fc0)](https://github.com/mjcampagna/frimousse/actions/workflows/tests.yml)
+[![license](https://img.shields.io/github/license/mjcampagna/frimousse?labelColor=651&color=fc0)](https://github.com/mjcampagna/frimousse/blob/main/LICENSE)
 
 A lightweight, unstyled, and composable emoji picker for React.
 
@@ -23,26 +20,56 @@ A lightweight, unstyled, and composable emoji picker for React.
 
  <img src=".github/assets/header.svg" alt="Various emoji pickers." />
 
+## Fork purpose
+
+This repository is a compatibility-conscious fork of Frimousse.
+
+The goal of the fork is:
+
+- preserve the baseline picker contract for existing consumers
+- add generally useful extension seams rather than app-specific behavior
+- keep fork changes additive and easy to reason about
+- keep future upstream rebases practical by isolating new behavior where possible
+
+Current fork additions include:
+
+- mixed consumer-defined sections
+- widened selection APIs
+- consumer-owned frequency helpers
+- image-backed custom emoji helpers
+
+The upstream project remains the baseline reference for the original picker composition model. Repository-specific extensions are documented separately in [guides/extensions.md](./guides/extensions.md).
+
+The intended published package identity for this fork is `@slithy/frimousse`.
+
 ## Installation
 
-```bash
-pnpm add frimousse
-```
-
-If you are using [shadcn/ui](https://ui.shadcn.com/), you can also install it as a pre-built component via the [shadcn CLI](https://ui.shadcn.com/docs/cli).
+Once published, install the fork with:
 
 ```bash
-npx shadcn@latest add https://frimousse.liveblocks.io/r/emoji-picker
+pnpm add @slithy/frimousse
 ```
 
-Learn more in the [shadcn/ui](#shadcnui) section.
+Until the scoped package is published, install directly from the repository:
+
+```bash
+pnpm add github:mjcampagna/frimousse
+```
+
+To adopt the fork, consumers should only need to swap the import source:
+
+```tsx
+import { EmojiPicker } from "@slithy/frimousse";
+```
+
+The upstream hosted installer and site examples are not the canonical distribution channel for this fork.
 
 ## Usage
 
 Import the `EmojiPicker` parts and create your own component by composing them.
 
 ```tsx
-import { EmojiPicker } from "frimousse";
+import { EmojiPicker } from "@slithy/frimousse";
 
 export function MyEmojiPicker() {
   return (
@@ -62,19 +89,15 @@ Apart from a few sizing and overflow defaults, the parts don’t have any styles
 
 You might want to use it in a popover rather than on its own. Frimousse only provides the emoji picker itself so if you don’t have a popover component in your app yet, there are several libraries available: [Radix UI](https://www.radix-ui.com/primitives/docs/components/popover), [Base UI](https://base-ui.com/react/components/popover), [Headless UI](https://headlessui.com/react/popover), and [React Aria](https://react-spectrum.adobe.com/react-aria/Popover.html), to name a few.
 
-### shadcn/ui
-
-If you are using [shadcn/ui](https://ui.shadcn.com/), you can install a pre-built version which integrates with the existing shadcn/ui variables via the [shadcn CLI](https://ui.shadcn.com/docs/cli).
-
-```bash
-npx shadcn@latest add https://frimousse.liveblocks.io/r/emoji-picker
-```
-
-It can be composed and combined with other shadcn/ui components like [Popover](https://ui.shadcn.com/docs/components/popover).
-
 ## Documentation
 
-Find the full documentation and examples on [frimousse.liveblocks.io](https://frimousse.liveblocks.io).
+The upstream documentation site remains useful for the baseline picker composition model, but it does not document the fork-specific extensions in this repository.
+
+Baseline upstream docs and examples:
+
+- [frimousse.liveblocks.io](https://frimousse.liveblocks.io)
+
+Additional repository-specific extension guidance for mixed sections, frequent items, custom emoji helpers, and widened selection APIs lives in [guides/extensions.md](./guides/extensions.md).
 
 ## Compatibility
 
@@ -93,9 +116,9 @@ The emoji data is based on [Emojibase](https://emojibase.dev/).
 
 ## Contributing
 
-All contributions are welcome! If you find a bug or have a feature request, feel free to create an [issue](https://github.com/liveblocks/frimousse/issues) or a [PR](https://github.com/liveblocks/frimousse/pulls).
+All contributions are welcome! If you find a bug or have a feature request, feel free to create an [issue](https://github.com/mjcampagna/frimousse/issues) or a [PR](https://github.com/mjcampagna/frimousse/pulls).
 
-The project is setup as a monorepo with the `frimousse` package at the root and [frimousse.liveblocks.io](https://frimousse.liveblocks.io) in the `site` directory.
+The project is setup as a monorepo with the `frimousse` package at the root and the inherited site in the `site` directory.
 
 ### Development
 
@@ -113,7 +136,7 @@ pnpm dev:playground
 ```
 
 This starts the playground app. Open the local Vite URL shown in the terminal, typically `http://localhost:5173`.
-The playground resolves `frimousse` from the local source tree during development, so library changes should reflect without running a separate package watcher.
+The playground resolves `@slithy/frimousse` from the local source tree during development, so library changes should reflect without running a separate package watcher.
 
 The inherited site is still available when needed.
 

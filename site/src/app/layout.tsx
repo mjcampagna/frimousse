@@ -37,15 +37,16 @@ export const metadata: Metadata = {
     "unstyled",
     "component",
     "emojibase",
-    "liveblocks",
+    "frimousse",
+    "slithy",
   ],
   authors: [
     {
-      name: "Liveblocks",
-      url: "https://liveblocks.io",
+      name: "mjcampagna",
+      url: "https://github.com/mjcampagna",
     },
   ],
-  creator: "Liveblocks",
+  creator: "mjcampagna",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -58,7 +59,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: config.name,
     description: config.description,
-    creator: "@liveblocks",
   },
 };
 

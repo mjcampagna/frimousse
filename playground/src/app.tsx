@@ -6,7 +6,7 @@ import {
   recordEmojiPickerUsage,
   type EmojiPickerItemSelection,
   type EmojiPickerUsageEntry,
-} from "frimousse";
+} from "@slithy/frimousse";
 
 type PickerState = {
   columns: number;

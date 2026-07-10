@@ -9,7 +9,7 @@
     "lint:tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "frimousse": "workspace:*",
+    "@slithy/frimousse": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

@@ -1,10 +1,9 @@
 export const config = {
   name: "Frimousse — An emoji picker for React",
-  url: "https://frimousse.liveblocks.io",
+  url: "https://github.com/mjcampagna/frimousse",
   description:
-    "Frimousse is an open-source, lightweight, unstyled, and composable emoji picker for React—originally created for Liveblocks Comments. Styles can be applied with CSS, Tailwind CSS, CSS-in-JS, and more.",
+    "Frimousse is a lightweight, unstyled, and composable emoji picker for React. This repository maintains a compatibility-conscious fork with additive extension APIs.",
   links: {
-    twitter: "https://x.com/liveblocks",
-    github: "https://github.com/liveblocks/frimousse",
+    github: "https://github.com/mjcampagna/frimousse",
   },
 } as const;

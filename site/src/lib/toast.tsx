@@ -1,6 +1,6 @@
 "use client";
 
-import type { Emoji } from "frimousse";
+import type { Emoji } from "@slithy/frimousse";
 import { toast as sonnerToast } from "sonner";
 
 export function toast({ emoji, label }: Emoji) {

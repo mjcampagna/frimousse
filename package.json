@@ -1,11 +1,14 @@
 {
-  "name": "frimousse",
+  "name": "@slithy/frimousse",
   "description": "A lightweight, unstyled, and composable emoji picker for React.",
   "version": "0.3.0",
   "license": "MIT",
   "packageManager": "pnpm@11.7.0",
   "type": "module",
   "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.cts",
   "exports": {
@@ -76,13 +79,13 @@
     "vitest-fetch-mock": "^0.4.5"
   },
   "bugs": {
-    "url": "https://github.com/liveblocks/frimousse/issues"
+    "url": "https://github.com/mjcampagna/frimousse/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liveblocks/frimousse.git"
+    "url": "git+https://github.com/mjcampagna/frimousse.git"
   },
-  "homepage": "https://frimousse.liveblocks.io",
+  "homepage": "https://github.com/mjcampagna/frimousse",
   "keywords": [
     "emoji",
     "emoji picker",
@@ -90,6 +93,7 @@
     "unstyled",
     "component",
     "emojibase",
-    "liveblocks"
+    "frimousse",
+    "slithy"
   ]
 }

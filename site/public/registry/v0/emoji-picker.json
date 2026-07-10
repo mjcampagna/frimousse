@@ -1,11 +1,11 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "homepage": "https://frimousse.liveblocks.io/",
-  "author": "Liveblocks (https://liveblocks.io/)",
+  "homepage": "https://github.com/mjcampagna/frimousse",
+  "author": "mjcampagna (https://github.com/mjcampagna)",
   "name": "emoji-picker",
   "type": "registry:block",
   "categories": ["emoji-picker"],
-  "dependencies": ["frimousse", "lucide-react"],
+  "dependencies": ["@slithy/frimousse", "lucide-react"],
   "registryDependencies": ["https://frimousse.liveblocks.io/r/emoji-picker"],
   "files": [
     {

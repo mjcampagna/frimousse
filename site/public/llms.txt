@@ -11,14 +11,10 @@ A lightweight, unstyled, and composable emoji picker for React.
 ## Installation
 
 ```bash
-pnpm add frimousse
+pnpm add @slithy/frimousse
 ```
 
-If you are using [shadcn/ui](https://ui.shadcn.com/), you can also install it as a pre-built component via the [shadcn CLI](https://ui.shadcn.com/docs/cli).
-
-```bash
-npx shadcn@latest add https://frimousse.liveblocks.io/r/emoji-picker
-```
+If you are using [shadcn/ui](https://ui.shadcn.com/), this fork does not publish its own hosted registry entry yet. Use the package directly and copy the wrapper example from the repository when needed.
 
 Learn more in the [shadcn/ui](#shadcnui) section.
 
@@ -27,7 +23,7 @@ Learn more in the [shadcn/ui](#shadcnui) section.
 Import the `EmojiPicker` parts and create your own component by composing them.
 
 ```tsx
-import { EmojiPicker } from "frimousse";
+import { EmojiPicker } from "@slithy/frimousse";
 
 export function MyEmojiPicker() {
   return (
@@ -49,17 +45,13 @@ You might want to use it in a popover rather than on its own. Frimousse only pro
 
 ### shadcn/ui
 
-If you are using [shadcn/ui](https://ui.shadcn.com/), you can install a pre-built version which integrates with the existing shadcn/ui variables via the [shadcn CLI](https://ui.shadcn.com/docs/cli).
-
-```bash
-npx shadcn@latest add https://frimousse.liveblocks.io/r/emoji-picker
-```
+If you are using [shadcn/ui](https://ui.shadcn.com/), the wrapper example in this repository shows how to integrate with the existing shadcn/ui variables while importing from `@slithy/frimousse`.
 
 It can be composed and combined with other shadcn/ui components like [Popover](https://ui.shadcn.com/docs/components/popover).
 
 ## Documentation
 
-Find the full documentation and examples on [frimousse.liveblocks.io](https://frimousse.liveblocks.io).
+Find the baseline upstream documentation and examples on [frimousse.liveblocks.io](https://frimousse.liveblocks.io). Fork-specific additions are documented in this repository.
 
 ## Miscellaneous
 

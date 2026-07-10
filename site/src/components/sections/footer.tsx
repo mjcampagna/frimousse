@@ -30,7 +30,7 @@ export function Footer() {
             </Suspense>{" "}
             <a
               className="link"
-              href="https://github.com/liveblocks/frimousse/blob/main/LICENSE"
+              href="https://github.com/mjcampagna/frimousse/blob/main/LICENSE"
               rel="noreferrer"
               target="_blank"
             >
@@ -49,15 +49,7 @@ export function Footer() {
               <title>Heart</title>
               <path d="M7 2H4V3.5H2.5V5H1V9.5H2.5V11H4V12.5H5.5V14H7V15.6H8.5V17H10V15.6H11.5V14H13.0455V12.5H14.5V11H16V9.5H17.5V5H16V3.5H14.5V2H11.5V3.5H10V5H8.5V3.5H7V2ZM7 3.5V5H8.5V6.5H10V5H11.5V3.5H14.5V5H16V9.5H14.5V11H13.0455V12.5H11.5V14H10V15.6H8.5V14H7V12.5H5.5V11H4V9.5H2.5V5H4V3.5H7Z" />
             </svg>{" "}
-            by{" "}
-            <a
-              className="link"
-              href="https://liveblocks.io"
-              rel="noreferrer"
-              target="_blank"
-            >
-              Liveblocks
-            </a>
+            in this fork
           </span>
         </div>
         <div className="flex flex-none items-center gap-1.5">
@@ -66,7 +58,7 @@ export function Footer() {
               buttonVariants({ variant: "outline", size: "icon" }),
               "rounded-full outline-offset-2",
             )}
-            href="https://github.com/liveblocks/frimousse"
+            href="https://github.com/mjcampagna/frimousse"
             rel="noreferrer"
             target="_blank"
           >

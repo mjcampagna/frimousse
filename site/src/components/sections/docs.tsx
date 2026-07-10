@@ -24,25 +24,28 @@ export function Docs({
       {...props}
     >
       <PermalinkHeading as="h2">Installation</PermalinkHeading>
-      <CodeBlock lang="bash">pnpm add frimousse</CodeBlock>
+      <CodeBlock lang="bash">pnpm add @slithy/frimousse</CodeBlock>
       <p>
         If you are using{" "}
         <a href="https://ui.shadcn.com/" rel="noreferrer" target="_blank">
           shadcn/ui
         </a>
-        , you can also install it as a pre-built component via the{" "}
+        , a fork-hosted registry entry is not published yet. Until then, use
+        the package directly and copy the example component from this
+        repository if you want the prebuilt wrapper.
+      </p>
+      <p>
+        The inherited site examples still show how the wrapper is composed with
+        the{" "}
         <a
           href="https://ui.shadcn.com/docs/cli"
           rel="noreferrer"
           target="_blank"
         >
-          shadcn CLI
+          shadcn/ui
         </a>
-        .
+        component model.
       </p>
-      <CodeBlock lang="bash">
-        npx shadcn@latest add https://frimousse.liveblocks.io/r/emoji-picker
-      </CodeBlock>
       <p>
         Learn more in the shadcn/ui <a href="#shadcnui">section</a>.
       </p>
@@ -53,7 +56,7 @@ export function Docs({
         by composing them.
       </p>
       <CodeBlock lang="tsx">{`
-        import { EmojiPicker } from "frimousse";
+        import { EmojiPicker } from "@slithy/frimousse";
     
         export function MyEmojiPicker() {
           return (
@@ -123,20 +126,10 @@ export function Docs({
         <a href="https://ui.shadcn.com/" rel="noreferrer" target="_blank">
           shadcn/ui
         </a>
-        , you can install a pre-built version of the component which integrates
-        with the existing shadcn/ui variables via the{" "}
-        <a
-          href="https://ui.shadcn.com/docs/cli"
-          rel="noreferrer"
-          target="_blank"
-        >
-          shadcn CLI
-        </a>
-        .
+        , the fork does not publish its own hosted registry entry yet. For now,
+        treat the example below as source you can copy into your own project
+        and point at <code>@slithy/frimousse</code>.
       </p>
-      <CodeBlock lang="bash">
-        npx shadcn@latest add https://frimousse.liveblocks.io/r/emoji-picker
-      </CodeBlock>
       <ShadcnUi />
       <p>
         It can be composed and combined with other shadcn/ui components like{" "}

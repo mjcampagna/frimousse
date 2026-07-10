@@ -3,7 +3,7 @@
 import {
   EmojiPicker as EmojiPickerPrimitive,
   type EmojiPickerRootProps,
-} from "frimousse";
+} from "@slithy/frimousse";
 import { ExamplePreview } from "@/examples/example-preview";
 import { toast } from "@/lib/toast";
 import { cn } from "@/lib/utils";

@@ -1,6 +1,6 @@
 "use client";
 
-import type { Emoji as EmojiObject } from "frimousse";
+import type { Emoji as EmojiObject } from "@slithy/frimousse";
 import { type ComponentProps, type PointerEvent, useCallback } from "react";
 import { toast } from "@/lib/toast";
 import { cn } from "@/lib/utils";

@@ -6,7 +6,7 @@ import {
   type EmojiPickerListRowProps,
   EmojiPicker as EmojiPickerPrimitive,
   type EmojiPickerRootProps,
-} from "frimousse";
+} from "@slithy/frimousse";
 import type { ComponentProps, CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./button";

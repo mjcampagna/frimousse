@@ -20,7 +20,7 @@ function hash(value: string) {
 beforeEach(() => {
   fetchMocker.resetMocks();
 
-  fetchMocker.mockIf(EMOJIBASE_URL_REGEX, async (req) => {
+  fetchMocker.mockIf(EMOJIBASE_URL_REGEX, async (req: Request) => {
     const [, locale, file] = req.url.match(EMOJIBASE_URL_REGEX) ?? [];
 
     if (locale === "en" && file === "data.json") {

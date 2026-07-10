@@ -27,7 +27,7 @@ export function Usage({
               <CodeBlock className="absolute inset-0 rounded-none" lang="tsx">{`
                 "use client";
       
-                import { EmojiPicker } from "frimousse";
+                import { EmojiPicker } from "@slithy/frimousse";
 
                 export function MyEmojiPicker() {
                   return (

@@ -81,7 +81,7 @@ importers:
 
   playground:
     dependencies:
-      frimousse:
+      '@slithy/frimousse':
         specifier: workspace:*
         version: link:..
       react:
@@ -133,6 +133,9 @@ importers:
       '@shikijs/transformers':
         specifier: ^3.2.1
         version: 3.23.0
+      '@slithy/frimousse':
+        specifier: workspace:*
+        version: link:..
       '@vercel/functions':
         specifier: ^2.0.0
         version: 2.2.13
@@ -145,9 +148,6 @@ importers:
       dedent:
         specifier: ^1.5.3
         version: 1.7.2
-      frimousse:
-        specifier: workspace:*
-        version: link:..
       lucide-react:
         specifier: ^0.482.0
         version: 0.482.0(react@19.2.7)
