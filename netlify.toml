@@ -1,0 +1,6 @@
+[build]
+  command = "pnpm --filter website build"
+  publish = "website/dist"
+
+[build.environment]
+  NODE_VERSION = "24"

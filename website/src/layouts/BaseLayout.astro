@@ -1,0 +1,91 @@
+---
+import "../styles/global.css";
+
+type Props = {
+  title: string;
+  description?: string;
+};
+
+const {
+  title,
+  description = "A compatibility-conscious fork of frimousse with additive extensions for custom sections, search, and emoji composition.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="system">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <script is:inline>
+      const storageKey = "slithy-frimousse-theme";
+      const root = document.documentElement;
+      const preferred = localStorage.getItem(storageKey) ?? "system";
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+      const applyTheme = (value) => {
+        const resolved = value === "system" ? (media.matches ? "dark" : "light") : value;
+        root.dataset.theme = resolved;
+        root.dataset.themePreference = value;
+      };
+
+      const emitThemeChange = () => {
+        window.dispatchEvent(
+          new CustomEvent("frimousse-theme-change", {
+            detail: { preference: root.dataset.themePreference ?? "system" },
+          }),
+        );
+      };
+
+      applyTheme(preferred);
+      emitThemeChange();
+
+      media.addEventListener("change", () => {
+        if ((root.dataset.themePreference ?? "system") === "system") {
+          applyTheme("system");
+          emitThemeChange();
+        }
+      });
+
+      globalThis.__setFrimousseTheme = (value) => {
+        localStorage.setItem(storageKey, value);
+        applyTheme(value);
+        emitThemeChange();
+      };
+
+      const syncThemeButtons = () => {
+        const current = root.dataset.themePreference ?? "system";
+        for (const toggle of document.querySelectorAll(".theme-toggle")) {
+          for (const button of toggle.querySelectorAll("[data-theme-target]")) {
+            button.toggleAttribute(
+              "data-active",
+              button.getAttribute("data-theme-target") === current,
+            );
+          }
+        }
+      };
+
+      document.addEventListener("click", (event) => {
+        const button = event.target instanceof Element
+          ? event.target.closest("[data-theme-target]")
+          : null;
+
+        if (!(button instanceof HTMLElement)) {
+          return;
+        }
+
+        globalThis.__setFrimousseTheme?.(
+          button.getAttribute("data-theme-target") ?? "system",
+        );
+      });
+
+      window.addEventListener("frimousse-theme-change", syncThemeButtons);
+      syncThemeButtons();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -31,9 +31,11 @@
   "scripts": {
     "dev": "tsup --watch",
     "dev:playground": "turbo run dev --filter=playground",
+    "dev:website": "turbo run dev --filter=website",
     "dev:site": "turbo run dev --filter=site",
     "build": "tsup --minify",
     "build:playground": "turbo run build --filter=playground",
+    "build:website": "turbo run build --filter=website",
     "build:site": "turbo run build --filter=site",
     "test": "vitest run --silent",
     "test:watch": "vitest watch --silent",
