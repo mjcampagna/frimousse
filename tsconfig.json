@@ -4,18 +4,13 @@
     "target": "es2022",
     "lib": ["dom", "es2022"],
     "module": "es2022",
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "vitest/browser": ["test/vitest-browser-context.d.ts"]
-    },
+    "moduleResolution": "Bundler",
     "types": [
       "react",
       "@vitest/browser/matchers",
       "@vitest/browser-playwright",
       "vitest-browser-react"
     ],
-    "ignoreDeprecations": "6.0",
     "noEmit": true,
     "esModuleInterop": true,
     "stripInternal": true,
