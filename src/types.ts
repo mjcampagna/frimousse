@@ -183,6 +183,8 @@ export interface EmojiPickerRootProps extends ComponentProps<"div"> {
   /**
    * A callback invoked when any picker item is selected, including
    * supplemental items when configured.
+   *
+   * This callback is additive and does not replace {@link onEmojiSelect}.
    */
   onSelectionChange?: (selection: EmojiPickerSelection) => void;
 
@@ -243,6 +245,9 @@ export interface EmojiPickerRootProps extends ComponentProps<"div"> {
 
   /**
    * Additive supplemental item support for consumer-provided sections.
+   *
+   * These sections are supplemental-only; native emoji continue to come from
+   * the built-in Emojibase dataset.
    */
   supplemental?: EmojiPickerSupplementalConfig;
 }
@@ -283,6 +288,8 @@ export type EmojiPickerActiveEmojiRenderProps = {
   /**
    * The currently active emoji (either hovered or selected
    * via keyboard navigation).
+   *
+   * This render prop remains native-only even when supplemental items are configured.
    */
   emoji?: Emoji;
 };
@@ -298,6 +305,8 @@ export type EmojiPickerActiveEmojiProps = {
 export type EmojiPickerActiveSelectionRenderProps = {
   /**
    * The currently active selection, including supplemental items when configured.
+   *
+   * This is the widened additive active-item surface.
    */
   selection?: EmojiPickerSelection;
 };

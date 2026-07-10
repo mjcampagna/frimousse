@@ -1,4 +1,4 @@
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
 import * as EmojiPicker from "../emoji-picker";
@@ -37,8 +37,10 @@ const supplemental = {
 
 function SupplementalPage({
   searchMode,
+  withActiveEmoji = false,
 }: {
   searchMode?: "grouped" | "unified";
+  withActiveEmoji?: boolean;
 }) {
   const [nativeSelection, setNativeSelection] = useState("");
   const [selection, setSelection] = useState("");
@@ -65,6 +67,15 @@ function SupplementalPage({
       >
         <EmojiPicker.Search data-testid="search" />
         <EmojiPicker.Viewport data-testid="viewport" style={{ height: 1200 }}>
+          {withActiveEmoji ? (
+            <EmojiPicker.ActiveEmoji>
+              {({ emoji }) =>
+                emoji ? (
+                  <p data-testid="active-emoji">{emoji.label}</p>
+                ) : null
+              }
+            </EmojiPicker.ActiveEmoji>
+          ) : null}
           <EmojiPicker.ActiveSelection>
             {({ selection }) =>
               selection ? (
@@ -128,6 +139,30 @@ describe("EmojiPicker supplemental items", () => {
       .toHaveTextContent("native:😀");
   });
 
+  it("should keep ActiveEmoji native-only while ActiveSelection includes supplemental items", async () => {
+    page.render(<SupplementalPage withActiveEmoji />);
+
+    await page.getByText("Ship It").hover();
+
+    await expect
+      .element(page.getByTestId("active-selection"))
+      .toHaveTextContent("supplemental:Ship It");
+    await expect
+      .element(page.getByTestId("active-emoji"))
+      .not.toBeInTheDocument();
+
+    await page.getByTestId("search").click();
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{ArrowRight}");
+
+    await expect
+      .element(page.getByTestId("active-selection"))
+      .toHaveTextContent("native:Grinning face");
+    await expect
+      .element(page.getByTestId("active-emoji"))
+      .toHaveTextContent("Grinning face");
+  });
+
   it("should support unified search across native and supplemental items", async () => {
     page.render(<SupplementalPage searchMode="unified" />);
 
@@ -138,5 +173,39 @@ describe("EmojiPicker supplemental items", () => {
     await expect
       .element(page.getByRole("gridcell", { name: "Grinning Bot" }))
       .toBeInTheDocument();
+  });
+
+  it("should allow onSelectionChange without supplemental configuration", async () => {
+    function NativeSelectionPage() {
+      const [selection, setSelection] = useState("");
+
+      return (
+        <>
+          <p data-testid="selection">{selection}</p>
+          <EmojiPicker.Root
+            onSelectionChange={(nextSelection) => {
+              setSelection(
+                nextSelection.kind === "native"
+                  ? `native:${nextSelection.item.emoji}`
+                  : `supplemental:${nextSelection.item.id}`,
+              );
+            }}
+          >
+            <EmojiPicker.Search />
+            <EmojiPicker.Viewport style={{ height: 400 }}>
+              <EmojiPicker.List />
+            </EmojiPicker.Viewport>
+          </EmojiPicker.Root>
+        </>
+      );
+    }
+
+    page.render(<NativeSelectionPage />);
+
+    await page.getByText("😀").click();
+
+    await expect
+      .element(page.getByTestId("selection"))
+      .toHaveTextContent("native:😀");
   });
 });
