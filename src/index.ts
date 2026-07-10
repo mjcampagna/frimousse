@@ -1,11 +1,22 @@
 export * as EmojiPicker from "./components/emoji-picker";
 export {
+  createEmojiPickerCustomEmoji,
+  createEmojiPickerCustomSection,
+  isEmojiPickerCustomEmoji,
+} from "./custom-emoji";
+export {
   buildEmojiPickerFrequentSection,
   getEmojiPickerUsageKey,
   rankEmojiPickerUsage,
   recordEmojiPickerUsage,
 } from "./frequency";
 export { useActiveEmoji, useActiveSelection, useSkinTone } from "./hooks";
+export type {
+  EmojiPickerCustomEmoji,
+  EmojiPickerCustomEmojiInput,
+  EmojiPickerCustomSection,
+  EmojiPickerCustomSectionOptions,
+} from "./custom-emoji-types";
 export type {
   EmojiPickerFrequentSection,
   EmojiPickerFrequentSectionOptions,
@@ -44,6 +55,7 @@ export type {
   EmojiPickerViewportProps,
   Locale,
   NativeItem,
+  PickerItem,
   SectionPosition,
   SkinTone,
   SupplementalEmoji,

@@ -6,6 +6,12 @@ import type {
 } from "emojibase/lib/types";
 import type { ComponentProps, ComponentType, ReactNode } from "react";
 import type {
+  EmojiPickerCustomEmoji,
+  EmojiPickerCustomEmojiInput,
+  EmojiPickerCustomSection,
+  EmojiPickerCustomSectionOptions,
+} from "./custom-emoji-types";
+import type {
   EmojiPickerItem,
   EmojiPickerSection,
   EmojiPickerSectionPosition,
@@ -47,6 +53,10 @@ export type SkinToneVariation = {
 };
 
 export type Emoji = Resolve<EmojiPickerEmoji>;
+export type CustomEmoji = Resolve<EmojiPickerCustomEmoji>;
+export type CustomEmojiInput = Resolve<EmojiPickerCustomEmojiInput>;
+export type CustomSection = Resolve<EmojiPickerCustomSection>;
+export type CustomSectionOptions = Resolve<EmojiPickerCustomSectionOptions>;
 export type NativeItem = Resolve<NativeEmojiPickerItem>;
 export type SupplementalEmoji = Resolve<SupplementalEmojiPickerItem>;
 export type PickerItem = Resolve<EmojiPickerItem>;
