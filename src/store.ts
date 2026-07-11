@@ -194,12 +194,24 @@ export function createEmojiPickerStore(
     },
 
     onDataChange: (data: EmojiPickerData) => {
+      const previousState = get();
+      const nextActiveColumnIndex =
+        data.rows[previousState.activeRowIndex]?.emojis[
+          previousState.activeColumnIndex
+        ]
+          ? previousState.activeColumnIndex
+          : 0;
+      const nextActiveRowIndex =
+        data.rows[previousState.activeRowIndex]?.emojis[
+          previousState.activeColumnIndex
+        ]
+          ? previousState.activeRowIndex
+          : 0;
+
       get().updateViewportState({
         data,
-
-        // Reset active emoji when data changes
-        activeColumnIndex: 0,
-        activeRowIndex: 0,
+        activeColumnIndex: nextActiveColumnIndex,
+        activeRowIndex: nextActiveRowIndex,
       });
     },
     onSearchChange: (search: string) => {
@@ -296,10 +308,6 @@ export function createEmojiPickerStore(
     onActiveEmojiReset: () => {
       set({
         interaction: "none",
-
-        // Reset active emoji when interaction goes back to none
-        activeColumnIndex: 0,
-        activeRowIndex: 0,
       });
     },
     onRowHeightChange: (rowHeight: number) => {
