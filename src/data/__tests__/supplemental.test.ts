@@ -284,6 +284,23 @@ describe("buildUnifiedSearchRows", () => {
     expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
       "party-parrot",
       "🎉",
+    ]);
+  });
+
+  it("should dedupe identical supplemental items that appear in multiple sections", () => {
+    const result = buildUnifiedSearchRows(
+      nativeEmojis,
+      {
+        ...supplemental,
+        sections: [mixedSearchSection, { ...mixedSearchSection, id: "copy" }],
+      },
+      "party",
+      10,
+      undefined,
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "party-parrot",
       "🎉",
     ]);
   });

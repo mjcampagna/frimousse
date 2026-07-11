@@ -168,15 +168,20 @@ export function buildUnifiedSearchRows(
   }
 
   const scored = new Map<string, number>();
-  const items: EmojiPickerItem[] = [];
+  const itemsByKey = new Map<string, EmojiPickerItem>();
 
   for (const emoji of nativeEmojis) {
     const score = scoreTextMatch(emoji.label, emoji.tags, searchText);
 
     if (score > 0) {
       const item = toNativeEmojiPickerItem(emoji, skinTone);
-      scored.set(`${item.kind}:${item.id}`, score);
-      items.push(item);
+      const key = `${item.kind}:${item.id}`;
+      const previousScore = scored.get(key) ?? -1;
+
+      if (score > previousScore) {
+        scored.set(key, score);
+        itemsByKey.set(key, item);
+      }
     }
   }
 
@@ -189,11 +194,18 @@ export function buildUnifiedSearchRows(
       const score = scoreItemMatch(item, searchText);
 
       if (score > 0) {
-        scored.set(`${item.kind}:${item.id}`, score);
-        items.push(item);
+        const key = `${item.kind}:${item.id}`;
+        const previousScore = scored.get(key) ?? -1;
+
+        if (score > previousScore) {
+          scored.set(key, score);
+          itemsByKey.set(key, item);
+        }
       }
     }
   }
+
+  const items = Array.from(itemsByKey.values());
 
   if (items.length === 0) {
     return { count: 0, categories: [], rows: [] };

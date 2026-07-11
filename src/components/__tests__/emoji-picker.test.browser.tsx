@@ -312,6 +312,18 @@ describe("EmojiPicker", () => {
       .not.toBeInTheDocument();
   });
 
+  it("should activate and select the first filtered result after searching", async () => {
+    page.render(<DefaultPage />);
+
+    await page.getByTestId("search").fill("holding");
+    await expect.element(page.getByText("🧑‍🤝‍🧑")).toBeInTheDocument();
+    await userEvent.keyboard("{Enter}");
+
+    await expect
+      .element(page.getByTestId("selected-emoji"))
+      .toHaveTextContent("🧑‍🤝‍🧑");
+  });
+
   it("should fallback to default values for unsupported locales and skin tones", async () => {
     page.render(
       <DefaultPage
