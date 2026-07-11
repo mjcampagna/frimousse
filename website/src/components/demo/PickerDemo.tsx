@@ -188,103 +188,105 @@ export function PickerDemo() {
   }, [usageEntries]);
 
   return (
-    <section className="demo-card">
-      <div className="demo-header">
-        <div className="selection-pill" aria-live="polite">
-          {selection.kind === "native" ? (
-            <span className="selection-emoji">{selection.item.emoji}</span>
-          ) : (
-            <img
-              className="selection-image"
-              src={selection.item.imageUrl}
-              alt={selection.item.label}
-              width="24"
-              height="24"
-            />
-          )}
-          <span>{selection.item.label}</span>
+    <section className="demo-section">
+      <div className="demo-card">
+        <div className="demo-header">
+          <div className="selection-pill" aria-live="polite">
+            {selection.kind === "native" ? (
+              <span className="selection-emoji">{selection.item.emoji}</span>
+            ) : (
+              <img
+                className="selection-image"
+                src={selection.item.imageUrl}
+                alt={selection.item.label}
+                width="24"
+                height="24"
+              />
+            )}
+            <span>{selection.item.label}</span>
+          </div>
+        </div>
+
+        <div className="demo-grid">
+          <EmojiPicker.Root
+            columns={columns}
+            sticky
+            supplemental={supplemental}
+            onSelectionChange={(nextSelection) => {
+              setSelection(nextSelection);
+              setUsageEntries((current) =>
+                recordEmojiPickerUsage(current, nextSelection),
+              );
+            }}
+          >
+            <div className="picker-toolbar">
+              <EmojiPicker.Search placeholder="Search emoji" />
+              <EmojiPicker.SkinToneSelector />
+            </div>
+
+            <EmojiPicker.Viewport ref={viewportRef} tabIndex={0}>
+              <EmojiPicker.Loading>Loading emoji data…</EmojiPicker.Loading>
+              <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+              <EmojiPicker.List
+                components={{
+                  SupplementalEmoji: ({ emoji, ...props }) => (
+                    <button {...props} className="picker-custom-emoji" type="button">
+                      {emoji.imageUrl ? (
+                        <img
+                          src={emoji.imageUrl}
+                          alt={emoji.label}
+                          width="24"
+                          height="24"
+                        />
+                      ) : (
+                        emoji.label
+                      )}
+                    </button>
+                  ),
+                }}
+              />
+            </EmojiPicker.Viewport>
+            <div className="picker-footer">
+              <EmojiPicker.ActiveSelection>
+                {({ selection }) =>
+                  selection && (
+                    <>
+                      {selection.kind === "native" ? (
+                        <div className="picker-footer-emoji">
+                          {selection.item.emoji}
+                        </div>
+                      ) : (
+                        <img
+                          className="picker-footer-image"
+                          src={selection.item.imageUrl}
+                          alt={selection.item.label}
+                          width="20"
+                          height="20"
+                        />
+                      )}
+                      <span className="picker-footer-label">
+                        {selection.item.label}
+                      </span>
+                    </>
+                  )
+                }
+              </EmojiPicker.ActiveSelection>
+            </div>
+          </EmojiPicker.Root>
         </div>
       </div>
 
-      <div className="demo-grid">
-        <div className="demo-notes">
-          <p>
-            This first pass keeps the site mostly static while letting us preview
-            the package under both light and dark mode.
-          </p>
-          <ul>
-            <li>Mixed supplemental sections</li>
-            <li>Custom image-backed emoji</li>
-            <li>Unified search</li>
-            <li>Consumer-owned frequent tracking</li>
-          </ul>
-        </div>
-
-        <EmojiPicker.Root
-          columns={columns}
-          sticky
-          supplemental={supplemental}
-          onSelectionChange={(nextSelection) => {
-            setSelection(nextSelection);
-            setUsageEntries((current) =>
-              recordEmojiPickerUsage(current, nextSelection),
-            );
-          }}
-        >
-          <div className="picker-toolbar">
-            <EmojiPicker.Search placeholder="Search emoji" />
-            <EmojiPicker.SkinToneSelector />
-          </div>
-
-          <EmojiPicker.Viewport ref={viewportRef} tabIndex={0}>
-            <EmojiPicker.Loading>Loading emoji data…</EmojiPicker.Loading>
-            <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
-            <EmojiPicker.List
-              components={{
-                SupplementalEmoji: ({ emoji, ...props }) => (
-                  <button {...props} className="picker-custom-emoji" type="button">
-                    {emoji.imageUrl ? (
-                      <img
-                        src={emoji.imageUrl}
-                        alt={emoji.label}
-                        width="24"
-                        height="24"
-                      />
-                    ) : (
-                      emoji.label
-                    )}
-                  </button>
-                ),
-              }}
-            />
-          </EmojiPicker.Viewport>
-          <div className="picker-footer">
-            <EmojiPicker.ActiveSelection>
-              {({ selection }) =>
-                selection && (
-                  <>
-                    {selection.kind === "native" ? (
-                      <div className="picker-footer-emoji">
-                        {selection.item.emoji}
-                      </div>
-                    ) : (
-                      <img
-                        className="picker-footer-image"
-                        src={selection.item.imageUrl}
-                        alt={selection.item.label}
-                        width="20"
-                        height="20"
-                      />
-                    )}
-                    <span className="picker-footer-label">
-                      {selection.item.label}
-                    </span>
-                  </>
-                )
-              }
-            </EmojiPicker.ActiveSelection>
-          </div>
-        </EmojiPicker.Root>
+      <div className="demo-notes">
+        <p>
+          This demo exercises the fork’s additive model without changing the
+          familiar picker composition.
+        </p>
+        <ul>
+          <li>Supplemental sections alongside native emoji</li>
+          <li>Image-backed custom emoji rendered in-place</li>
+          <li>Unified search across native and supplemental items</li>
+          <li>Library helpers for consumer-owned "frecency" items</li>
+        </ul>
       </div>
     </section>
   );

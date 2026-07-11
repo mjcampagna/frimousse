@@ -413,6 +413,12 @@ pre {
   padding: 16px;
 }
 
+.demo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .demo-header {
   align-items: stretch;
   display: flex;
@@ -456,15 +462,13 @@ pre {
 .demo-grid {
   align-items: start;
   display: grid;
-  gap: 20px;
+  gap: 16px;
+  justify-items: center;
   grid-template-columns: 1fr;
 }
 
 .demo-notes {
-  background: var(--bg-strong);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 16px;
+  color: var(--text-muted);
 }
 
 .demo-notes ul {
@@ -511,10 +515,6 @@ pre {
     grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
   }
 
-  .demo-grid {
-    grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
-  }
-
   .feature-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -552,9 +552,9 @@ pre {
 }
 
 .picker-toolbar {
-  align-items: stretch;
+  align-items: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
   padding: 8px 8px 0;
 }
@@ -579,7 +579,7 @@ pre {
   background: var(--bg-accent);
   color: var(--text-muted);
   height: 36px;
-  width: 100%;
+  width: 36px;
 }
 
 [frimousse-viewport] {
@@ -734,15 +734,4 @@ pre {
 :root[data-theme="dark"] .picker-custom-emoji[data-active],
 :root[data-theme="dark"] .picker-custom-emoji:hover {
   background: #262626;
-}
-
-@media (min-width: 720px) {
-  .picker-toolbar {
-    align-items: center;
-    flex-direction: row;
-  }
-
-  [frimousse-skin-tone-selector] {
-    width: 36px;
-  }
 }
