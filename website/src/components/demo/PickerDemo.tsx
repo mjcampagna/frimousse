@@ -7,58 +7,17 @@ import {
   useState,
 } from "react";
 import {
+  buildEmojiPickerFrequentSection,
   EmojiPicker,
-  createEmojiPickerCustomSection,
   type EmojiPickerListSupplementalEmojiProps,
   type EmojiPickerItemSelection,
+  type EmojiPickerUsageEntry,
+  recordEmojiPickerUsage,
 } from "@slithy/frimousse";
-
-const staticSupplemental = {
-  sections: [
-    {
-      id: "starter-pack",
-      label: "Starter pack",
-      position: "prepend" as const,
-      items: [
-        {
-          kind: "native" as const,
-          id: "🎉",
-          emoji: "🎉",
-          label: "Party popper",
-        },
-        {
-          kind: "native" as const,
-          id: "👋",
-          emoji: "👋",
-          label: "Waving hand",
-        },
-      ],
-    },
-    createEmojiPickerCustomSection(
-      [
-        {
-          id: "angry",
-          label: "Angry",
-          imageUrl: "/emoji/angry.gif",
-        },
-        {
-          id: "excited",
-          label: "Excited",
-          imageUrl: "/emoji/excited.gif",
-        },
-      ],
-      {
-        id: "custom-emoji",
-        label: "Custom emoji",
-        position: "append",
-      },
-    ),
-  ],
-  search: {
-    mode: "unified" as const,
-    resultsLabel: "Results",
-  },
-};
+import {
+  createDemoInitialFrequentEntries,
+  demoCustomSection,
+} from "./picker-demo-data";
 
 const initialSelection: EmojiPickerItemSelection = {
   kind: "native",
@@ -230,11 +189,28 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
 }) {
   const [selection, setSelection] =
     useState<EmojiPickerItemSelection>(initialSelection);
+  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>(() =>
+    createDemoInitialFrequentEntries(),
+  );
   const [columns, setColumns] = useState(9);
   const [footerMode, setFooterMode] = useState<"selection" | "active">(
     "selection",
   );
   const viewportRef = useRef<HTMLDivElement>(null);
+  const frequentSection = buildEmojiPickerFrequentSection(usageEntries, {
+    label: "Frequently used",
+    limit: 8,
+    searchable: false,
+  });
+  const supplemental = {
+    sections: frequentSection
+      ? [frequentSection, demoCustomSection]
+      : [demoCustomSection],
+    search: {
+      mode: "unified" as const,
+      resultsLabel: "Results",
+    },
+  };
 
   useEffect(() => {
     const updateColumns = () => {
@@ -263,6 +239,7 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
 
   const handleSelectionChange = useCallback(
     (nextSelection: EmojiPickerItemSelection) => {
+      setUsageEntries((current) => recordEmojiPickerUsage(current, nextSelection));
       setSelection(nextSelection);
       setFooterMode("selection");
       onCelebrateSelection(nextSelection);
@@ -296,7 +273,7 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
         }}
         sticky
         onSelectionChange={handleSelectionChange}
-        supplemental={staticSupplemental}
+        supplemental={supplemental}
       >
         <div className="picker-toolbar">
           <EmojiPicker.Search placeholder="Search emoji" />
@@ -340,14 +317,14 @@ export function PickerDemo() {
 
       <div className="demo-notes">
         <p>
-          This checkpoint adds back one static supplemental section while
-          keeping the rest of the demo baseline simple.
+          This pass restores consumer-owned frequent tracking on top of custom
+          image-backed emoji, while keeping the demo site itself simple.
         </p>
         <ul>
-          <li>One static prepended supplemental section</li>
-          <li>Static custom emoji rendering is enabled</li>
-          <li>No consumer-managed frequency state</li>
+          <li>Seeded frequent entries update in place as selections change</li>
+          <li>Custom image-backed emoji stay in their own appended section</li>
           <li>Unified supplemental search is enabled</li>
+          <li>The site remains a thin playground around consumer-facing APIs</li>
         </ul>
       </div>
     </section>
