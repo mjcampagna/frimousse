@@ -322,19 +322,6 @@ export function PickerDemo() {
         <SelectionBurstLayer selection={burstSelection} />
         <DemoPickerPanel onCelebrateSelection={handleCelebrateSelection} />
       </div>
-
-      <div className="demo-notes">
-        <p>
-          This pass restores consumer-owned frequent tracking on top of custom
-          image-backed emoji, while keeping the demo site itself simple.
-        </p>
-        <ul>
-          <li>Seeded frequent entries update in place as selections change</li>
-          <li>Custom image-backed emoji stay in their own appended section</li>
-          <li>Unified supplemental search is enabled</li>
-          <li>The site remains a thin playground around consumer-facing APIs</li>
-        </ul>
-      </div>
     </section>
   );
 }

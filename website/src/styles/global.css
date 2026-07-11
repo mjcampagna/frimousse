@@ -321,16 +321,14 @@ pre {
 
 .hero-callout,
 .feature-strip article,
-.demo-card,
-.prose-card {
+.demo-card {
   background: var(--bg-elevated);
   border: 1px solid var(--line);
   border-radius: 16px;
   box-shadow: var(--shadow);
 }
 
-.hero h1,
-.prose-card h1 {
+.hero h1 {
   font-size: clamp(var(--text-4xl), 3.2vw, var(--text-5xl));
   letter-spacing: -0.04em;
   line-height: var(--leading-tighter);
@@ -370,8 +368,7 @@ pre {
   padding: 20px;
 }
 
-.hero-callout pre,
-.prose-card pre {
+.hero-callout pre {
   background: var(--bg-accent);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -380,8 +377,7 @@ pre {
   padding: 14px 16px;
 }
 
-.hero-callout code,
-.prose-card code {
+.hero-callout code {
   font-size: var(--text-base);
 }
 
@@ -405,10 +401,7 @@ pre {
   margin: 0 0 10px;
 }
 
-.feature-strip p,
-.demo-notes p,
-.prose-card p,
-.prose-card li {
+.feature-strip p {
   color: var(--text-muted);
   line-height: var(--leading-relaxed);
   margin: 0;
@@ -508,29 +501,6 @@ pre {
   border-radius: 2px;
   height: 8px;
   width: 12px;
-}
-
-.demo-notes {
-  color: var(--text-muted);
-}
-
-.demo-notes ul {
-  color: var(--text-muted);
-  margin: 14px 0 0;
-  padding-left: 18px;
-}
-
-.prose-card {
-  padding: 24px;
-}
-
-.prose-card h2 {
-  margin-bottom: 10px;
-  margin-top: 28px;
-}
-
-.prose-card ul {
-  padding-left: 18px;
 }
 
 @media (min-width: 720px) {
