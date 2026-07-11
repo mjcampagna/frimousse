@@ -8,8 +8,57 @@ import {
 } from "react";
 import {
   EmojiPicker,
+  createEmojiPickerCustomSection,
+  type EmojiPickerListSupplementalEmojiProps,
   type EmojiPickerItemSelection,
 } from "@slithy/frimousse";
+
+const staticSupplemental = {
+  sections: [
+    {
+      id: "starter-pack",
+      label: "Starter pack",
+      position: "prepend" as const,
+      items: [
+        {
+          kind: "native" as const,
+          id: "🎉",
+          emoji: "🎉",
+          label: "Party popper",
+        },
+        {
+          kind: "native" as const,
+          id: "👋",
+          emoji: "👋",
+          label: "Waving hand",
+        },
+      ],
+    },
+    createEmojiPickerCustomSection(
+      [
+        {
+          id: "angry",
+          label: "Angry",
+          imageUrl: "/emoji/angry.gif",
+        },
+        {
+          id: "excited",
+          label: "Excited",
+          imageUrl: "/emoji/excited.gif",
+        },
+      ],
+      {
+        id: "custom-emoji",
+        label: "Custom emoji",
+        position: "append",
+      },
+    ),
+  ],
+  search: {
+    mode: "unified" as const,
+    resultsLabel: "Results",
+  },
+};
 
 const initialSelection: EmojiPickerItemSelection = {
   kind: "native",
@@ -34,6 +83,26 @@ const confettiOffsets = [
   { x: 46, y: -116, rotation: 18, color: "var(--confetti-5)" },
   { x: 70, y: -92, rotation: -16, color: "var(--confetti-6)" },
 ] as const;
+
+const DemoSupplementalEmoji = memo(function DemoSupplementalEmoji({
+  emoji,
+  ...props
+}: EmojiPickerListSupplementalEmojiProps) {
+  return (
+    <button {...props} className="picker-custom-emoji" type="button">
+      {emoji.imageUrl ? (
+        <img
+          src={emoji.imageUrl}
+          alt={emoji.label}
+          width="24"
+          height="24"
+        />
+      ) : (
+        emoji.label
+      )}
+    </button>
+  );
+});
 
 function SelectionBurstLayer({
   selection,
@@ -227,6 +296,7 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
         }}
         sticky
         onSelectionChange={handleSelectionChange}
+        supplemental={staticSupplemental}
       >
         <div className="picker-toolbar">
           <EmojiPicker.Search placeholder="Search emoji" />
@@ -236,7 +306,11 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
         <EmojiPicker.Viewport ref={viewportRef} tabIndex={0}>
           <EmojiPicker.Loading>Loading emoji data…</EmojiPicker.Loading>
           <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
-          <EmojiPicker.List />
+          <EmojiPicker.List
+            components={{
+              SupplementalEmoji: DemoSupplementalEmoji,
+            }}
+          />
         </EmojiPicker.Viewport>
         <div className="picker-footer">
           <DemoPickerFooter mode={footerMode} selection={selection} />
@@ -266,14 +340,14 @@ export function PickerDemo() {
 
       <div className="demo-notes">
         <p>
-          This baseline demo keeps the picker close to the inherited behavior
-          so we can validate regressions against a simpler setup.
+          This checkpoint adds back one static supplemental section while
+          keeping the rest of the demo baseline simple.
         </p>
         <ul>
-          <li>Native emoji data only</li>
-          <li>No prepended or appended supplemental sections</li>
+          <li>One static prepended supplemental section</li>
+          <li>Static custom emoji rendering is enabled</li>
           <li>No consumer-managed frequency state</li>
-          <li>The same site shell around a simpler picker instance</li>
+          <li>Unified supplemental search is enabled</li>
         </ul>
       </div>
     </section>
