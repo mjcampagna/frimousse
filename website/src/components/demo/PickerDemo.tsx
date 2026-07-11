@@ -1,74 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  buildEmojiPickerFrequentSection,
-  createEmojiPickerCustomSection,
+  type CSSProperties,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import {
   EmojiPicker,
-  recordEmojiPickerUsage,
   type EmojiPickerItemSelection,
-  type EmojiPickerUsageEntry,
 } from "@slithy/frimousse";
-
-const customEmojiFiles = [
-  "angry",
-  "attitude",
-  "blow_up",
-  "bullhorn",
-  "chest_thump",
-  "cough",
-  "entranced",
-  "excited",
-  "eyebrows",
-  "good_job",
-  "haha",
-  "headbutt",
-  "hiding",
-  "holding_bomb",
-  "in_love",
-  "injured",
-  "looking",
-  "lookout",
-  "love",
-  "money_bath",
-  "nudge",
-  "pointing",
-  "puking",
-  "quivering",
-  "reading",
-  "say_nothing",
-  "scared",
-  "scheming",
-  "see_money",
-  "surrender",
-  "sweaty",
-  "whining",
-  "whisper",
-  "yelling",
-  "zombie",
-] as const;
-
-const customEmojiEntries = customEmojiFiles.map((name) => {
-  const words = name.split("_");
-  const label = words
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-  const alias = words.join(" ");
-
-  return {
-    id: name.replaceAll("_", "-"),
-    label,
-    imageUrl: `/emoji/${name}.gif`,
-    aliases: [alias],
-    tags: words,
-  };
-});
-
-const customSection = createEmojiPickerCustomSection(
-  customEmojiEntries,
-  {
-    id: "custom-emoji",
-    label: "Custom emoji",
-  },
-);
 
 const initialSelection: EmojiPickerItemSelection = {
   kind: "native",
@@ -80,67 +21,150 @@ const initialSelection: EmojiPickerItemSelection = {
   },
 };
 
-function createSeededUsageEntries(): EmojiPickerUsageEntry[] {
-  const now = Date.now();
+type SelectionBurst = {
+  id: number;
+  selection: EmojiPickerItemSelection;
+};
 
-  return [
-    {
-      key: "native:👍",
-      item: {
-        kind: "native",
-        id: "👍",
-        emoji: "👍",
-        label: "Thumbs up",
-      },
-      score: 5,
-      uses: 5,
-      lastUsedAt: now,
-    },
-    {
-      key: "native:👀",
-      item: {
-        kind: "native",
-        id: "👀",
-        emoji: "👀",
-        label: "Eyes",
-      },
-      score: 4,
-      uses: 4,
-      lastUsedAt: now,
-    },
-    {
-      key: "native:😂",
-      item: {
-        kind: "native",
-        id: "😂",
-        emoji: "😂",
-        label: "Face with tears of joy",
-      },
-      score: 3,
-      uses: 3,
-      lastUsedAt: now,
-    },
-    {
-      key: "native:😅",
-      item: {
-        kind: "native",
-        id: "😅",
-        emoji: "😅",
-        label: "Grinning face with sweat",
-      },
-      score: 2,
-      uses: 2,
-      lastUsedAt: now,
-    },
-  ];
+const confettiOffsets = [
+  { x: -64, y: -108, rotation: -30, color: "var(--confetti-1)" },
+  { x: -36, y: -132, rotation: -12, color: "var(--confetti-2)" },
+  { x: -8, y: -144, rotation: 14, color: "var(--confetti-3)" },
+  { x: 20, y: -138, rotation: 34, color: "var(--confetti-4)" },
+  { x: 46, y: -116, rotation: 18, color: "var(--confetti-5)" },
+  { x: 70, y: -92, rotation: -16, color: "var(--confetti-6)" },
+] as const;
+
+function SelectionBurstLayer({
+  selection,
+}: {
+  selection: EmojiPickerItemSelection;
+}) {
+  const [bursts, setBursts] = useState<SelectionBurst[]>([]);
+  const burstIdRef = useRef(0);
+  const hasMountedRef = useRef(false);
+  const timeoutIdsRef = useRef<number[]>([]);
+
+  useEffect(() => {
+    return () => {
+      for (const timeoutId of timeoutIdsRef.current) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
+
+    const id = burstIdRef.current++;
+
+    setBursts((current) => [...current, { id, selection }]);
+
+    const timeoutId = window.setTimeout(() => {
+      setBursts((current) => current.filter((burst) => burst.id !== id));
+      timeoutIdsRef.current = timeoutIdsRef.current.filter(
+        (currentTimeoutId) => currentTimeoutId !== timeoutId,
+      );
+    }, 1600);
+    timeoutIdsRef.current.push(timeoutId);
+  }, [selection]);
+
+  return (
+    <div className="selection-burst-layer" aria-live="polite">
+      {bursts.map((burst) => (
+        <div key={burst.id} className="selection-burst">
+          <div className="selection-burst-badge">
+            {burst.selection.kind === "native" ? (
+              <span className="selection-burst-emoji">
+                {burst.selection.item.emoji}
+              </span>
+            ) : (
+              <img
+                className="selection-burst-image"
+                src={burst.selection.item.imageUrl}
+                alt={burst.selection.item.label}
+                width="36"
+                height="36"
+              />
+            )}
+          </div>
+          <div className="selection-burst-confetti" aria-hidden="true">
+            {confettiOffsets.map((piece, index) => (
+              <span
+                key={index}
+                className="selection-burst-piece"
+                style={
+                  {
+                    "--burst-x": `${piece.x}px`,
+                    "--burst-y": `${piece.y}px`,
+                    "--burst-rotation": `${piece.rotation}deg`,
+                    "--burst-color": piece.color,
+                  } as CSSProperties
+                }
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
-export function PickerDemo() {
+function DemoPickerFooter({
+  mode,
+  selection,
+}: {
+  mode: "selection" | "active";
+  selection: EmojiPickerItemSelection;
+}) {
+  return (
+    <EmojiPicker.ActiveSelection>
+      {({ selection: activeSelection }) => {
+        const displayedSelection =
+          mode === "active" && activeSelection ? activeSelection : selection;
+
+        return displayedSelection.kind === "native" ? (
+          <>
+            <div className="picker-footer-emoji">
+              {displayedSelection.item.emoji}
+            </div>
+            <span className="picker-footer-label">
+              {displayedSelection.item.label}
+            </span>
+          </>
+        ) : (
+          <>
+            <img
+              className="picker-footer-image"
+              src={displayedSelection.item.imageUrl}
+              alt={displayedSelection.item.label}
+              width="20"
+              height="20"
+            />
+            <span className="picker-footer-label">
+              {displayedSelection.item.label}
+            </span>
+          </>
+        );
+      }}
+    </EmojiPicker.ActiveSelection>
+  );
+}
+
+const DemoPickerPanel = memo(function DemoPickerPanel({
+  onCelebrateSelection,
+}: {
+  onCelebrateSelection: (selection: EmojiPickerItemSelection) => void;
+}) {
   const [selection, setSelection] =
     useState<EmojiPickerItemSelection>(initialSelection);
-  const [usageEntries, setUsageEntries] =
-    useState<EmojiPickerUsageEntry[]>(() => createSeededUsageEntries());
   const [columns, setColumns] = useState(9);
+  const [footerMode, setFooterMode] = useState<"selection" | "active">(
+    "selection",
+  );
   const viewportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -168,124 +192,88 @@ export function PickerDemo() {
     };
   }, []);
 
-  const supplemental = useMemo(() => {
-    const frequentSection = buildEmojiPickerFrequentSection(usageEntries, {
-      label: "Frequently used",
-      limit: 6,
-      searchable: false,
-    });
+  const handleSelectionChange = useCallback(
+    (nextSelection: EmojiPickerItemSelection) => {
+      setSelection(nextSelection);
+      setFooterMode("selection");
+      onCelebrateSelection(nextSelection);
+    },
+    [onCelebrateSelection],
+  );
 
-    return {
-      sections: [
-        ...(frequentSection ? [frequentSection] : []),
-        customSection,
-      ],
-      search: {
-        mode: "unified" as const,
-        resultsLabel: "Results",
-      },
-    };
-  }, [usageEntries]);
+  return (
+    <div className="demo-grid">
+      <EmojiPicker.Root
+        columns={columns}
+        onKeyDownCapture={(event) => {
+          if (
+            event.key === "ArrowUp" ||
+            event.key === "ArrowDown" ||
+            event.key === "ArrowLeft" ||
+            event.key === "ArrowRight" ||
+            event.key === "Home" ||
+            event.key === "End" ||
+            event.key === "PageUp" ||
+            event.key === "PageDown"
+          ) {
+            setFooterMode("active");
+          }
+        }}
+        onPointerLeave={() => {
+          setFooterMode("selection");
+        }}
+        onPointerMove={() => {
+          setFooterMode("active");
+        }}
+        sticky
+        onSelectionChange={handleSelectionChange}
+      >
+        <div className="picker-toolbar">
+          <EmojiPicker.Search placeholder="Search emoji" />
+          <EmojiPicker.SkinToneSelector />
+        </div>
+
+        <EmojiPicker.Viewport ref={viewportRef} tabIndex={0}>
+          <EmojiPicker.Loading>Loading emoji data…</EmojiPicker.Loading>
+          <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+          <EmojiPicker.List />
+        </EmojiPicker.Viewport>
+        <div className="picker-footer">
+          <DemoPickerFooter mode={footerMode} selection={selection} />
+        </div>
+      </EmojiPicker.Root>
+    </div>
+  );
+});
+
+export function PickerDemo() {
+  const [burstSelection, setBurstSelection] =
+    useState<EmojiPickerItemSelection>(initialSelection);
+
+  const handleCelebrateSelection = useCallback(
+    (selection: EmojiPickerItemSelection) => {
+      setBurstSelection(selection);
+    },
+    [],
+  );
 
   return (
     <section className="demo-section">
       <div className="demo-card">
-        <div className="demo-header">
-          <div className="selection-pill" aria-live="polite">
-            {selection.kind === "native" ? (
-              <span className="selection-emoji">{selection.item.emoji}</span>
-            ) : (
-              <img
-                className="selection-image"
-                src={selection.item.imageUrl}
-                alt={selection.item.label}
-                width="24"
-                height="24"
-              />
-            )}
-            <span>{selection.item.label}</span>
-          </div>
-        </div>
-
-        <div className="demo-grid">
-          <EmojiPicker.Root
-            columns={columns}
-            sticky
-            supplemental={supplemental}
-            onSelectionChange={(nextSelection) => {
-              setSelection(nextSelection);
-              setUsageEntries((current) =>
-                recordEmojiPickerUsage(current, nextSelection),
-              );
-            }}
-          >
-            <div className="picker-toolbar">
-              <EmojiPicker.Search placeholder="Search emoji" />
-              <EmojiPicker.SkinToneSelector />
-            </div>
-
-            <EmojiPicker.Viewport ref={viewportRef} tabIndex={0}>
-              <EmojiPicker.Loading>Loading emoji data…</EmojiPicker.Loading>
-              <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
-              <EmojiPicker.List
-                components={{
-                  SupplementalEmoji: ({ emoji, ...props }) => (
-                    <button {...props} className="picker-custom-emoji" type="button">
-                      {emoji.imageUrl ? (
-                        <img
-                          src={emoji.imageUrl}
-                          alt={emoji.label}
-                          width="24"
-                          height="24"
-                        />
-                      ) : (
-                        emoji.label
-                      )}
-                    </button>
-                  ),
-                }}
-              />
-            </EmojiPicker.Viewport>
-            <div className="picker-footer">
-              <EmojiPicker.ActiveSelection>
-                {({ selection }) =>
-                  selection && (
-                    <>
-                      {selection.kind === "native" ? (
-                        <div className="picker-footer-emoji">
-                          {selection.item.emoji}
-                        </div>
-                      ) : (
-                        <img
-                          className="picker-footer-image"
-                          src={selection.item.imageUrl}
-                          alt={selection.item.label}
-                          width="20"
-                          height="20"
-                        />
-                      )}
-                      <span className="picker-footer-label">
-                        {selection.item.label}
-                      </span>
-                    </>
-                  )
-                }
-              </EmojiPicker.ActiveSelection>
-            </div>
-          </EmojiPicker.Root>
-        </div>
+        <SelectionBurstLayer selection={burstSelection} />
+        <DemoPickerPanel onCelebrateSelection={handleCelebrateSelection} />
       </div>
 
       <div className="demo-notes">
         <p>
-          This demo exercises the fork’s additive model without changing the
-          familiar picker composition.
+          This baseline demo keeps the picker close to the inherited behavior
+          so we can validate regressions against a simpler setup.
         </p>
         <ul>
-          <li>Supplemental sections alongside native emoji</li>
-          <li>Image-backed custom emoji rendered in-place</li>
-          <li>Unified search across native and supplemental items</li>
-          <li>Library helpers for consumer-owned "frecency" items</li>
+          <li>Native emoji data only</li>
+          <li>No prepended or appended supplemental sections</li>
+          <li>No consumer-managed frequency state</li>
+          <li>The same site shell around a simpler picker instance</li>
         </ul>
       </div>
     </section>
