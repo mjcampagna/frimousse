@@ -1494,6 +1494,44 @@ function EmojiPickerActiveEmoji({ children }: EmojiPickerActiveEmojiProps) {
   return children({ emoji: activeEmoji });
 }
 
+/**
+ * Exposes the currently active selection (either hovered or selected
+ * via keyboard navigation) via a render callback, including supplemental
+ * items when configured.
+ *
+ * @example
+ * ```tsx
+ * <EmojiPicker.ActiveSelection>
+ *   {({ selection }) => <span>{selection?.item.label}</span>}
+ * </EmojiPicker.ActiveSelection>
+ * ```
+ *
+ * It can be used to build a preview area next to the list that also
+ * reflects supplemental (custom) items.
+ *
+ * @example
+ * ```tsx
+ * <EmojiPicker.ActiveSelection>
+ *   {({ selection }) => (
+ *     <div>
+ *       {selection ? (
+ *         <span>{selection.item.label}</span>
+ *       ) : (
+ *         <span>Select an emoji…</span>
+ *       )}
+ *     </div>
+ *   )}
+ * </EmojiPicker.ActiveSelection>
+ * ```
+ *
+ * @see
+ * If you prefer to use a hook rather than a component,
+ * {@link useActiveSelection} is also available.
+ *
+ * @see
+ * {@link EmojiPicker.ActiveEmoji|`<EmojiPicker.ActiveEmoji />`} remains native-only,
+ * even when supplemental items are configured.
+ */
 function EmojiPickerActiveSelection({
   children,
 }: EmojiPickerActiveSelectionProps) {

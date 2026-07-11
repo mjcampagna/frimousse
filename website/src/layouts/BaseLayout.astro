@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import GitHubCorner from "../components/GitHubCorner.astro";
 
 type Props = {
   title: string;
@@ -13,7 +14,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="system">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,32 +23,24 @@ const {
     <script is:inline>
       const storageKey = "slithy-frimousse-theme";
       const root = document.documentElement;
-      const preferred = localStorage.getItem(storageKey) ?? "system";
       const media = window.matchMedia("(prefers-color-scheme: dark)");
+      const preferred = localStorage.getItem(storageKey) ?? (media.matches ? "dark" : "light");
 
       const applyTheme = (value) => {
-        const resolved = value === "system" ? (media.matches ? "dark" : "light") : value;
-        root.dataset.theme = resolved;
+        root.dataset.theme = value === "dark" ? "dark" : "light";
         root.dataset.themePreference = value;
       };
 
       const emitThemeChange = () => {
         window.dispatchEvent(
           new CustomEvent("frimousse-theme-change", {
-            detail: { preference: root.dataset.themePreference ?? "system" },
+            detail: { preference: root.dataset.themePreference ?? "light" },
           }),
         );
       };
 
       applyTheme(preferred);
       emitThemeChange();
-
-      media.addEventListener("change", () => {
-        if ((root.dataset.themePreference ?? "system") === "system") {
-          applyTheme("system");
-          emitThemeChange();
-        }
-      });
 
       globalThis.__setFrimousseTheme = (value) => {
         localStorage.setItem(storageKey, value);
@@ -56,7 +49,7 @@ const {
       };
 
       const syncThemeButtons = () => {
-        const current = root.dataset.themePreference ?? "system";
+        const current = root.dataset.themePreference ?? "light";
         for (const toggle of document.querySelectorAll(".theme-toggle")) {
           for (const button of toggle.querySelectorAll("[data-theme-target]")) {
             button.toggleAttribute(
@@ -77,7 +70,7 @@ const {
         }
 
         globalThis.__setFrimousseTheme?.(
-          button.getAttribute("data-theme-target") ?? "system",
+          button.getAttribute("data-theme-target") ?? "light",
         );
       });
 
@@ -86,6 +79,7 @@ const {
     </script>
   </head>
   <body>
+    <GitHubCorner />
     <slot />
   </body>
 </html>

@@ -140,10 +140,32 @@ export function PickerDemo() {
     useState<EmojiPickerItemSelection>(initialSelection);
   const [usageEntries, setUsageEntries] =
     useState<EmojiPickerUsageEntry[]>(() => createSeededUsageEntries());
+  const [columns, setColumns] = useState(9);
   const viewportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const updateColumns = () => {
+      if (window.matchMedia("(max-width: 359px)").matches) {
+        setColumns(7);
+        return;
+      }
+
+      if (window.matchMedia("(max-width: 429px)").matches) {
+        setColumns(8);
+        return;
+      }
+
+      setColumns(9);
+    };
+
     viewportRef.current?.focus();
+    updateColumns();
+
+    window.addEventListener("resize", updateColumns);
+
+    return () => {
+      window.removeEventListener("resize", updateColumns);
+    };
   }, []);
 
   const supplemental = useMemo(() => {
@@ -168,10 +190,6 @@ export function PickerDemo() {
   return (
     <section className="demo-card">
       <div className="demo-header">
-        <div>
-          <p className="demo-eyebrow">Live demo</p>
-          <h2>Theme-aware picker preview</h2>
-        </div>
         <div className="selection-pill" aria-live="polite">
           {selection.kind === "native" ? (
             <span className="selection-emoji">{selection.item.emoji}</span>
@@ -203,8 +221,7 @@ export function PickerDemo() {
         </div>
 
         <EmojiPicker.Root
-          className="picker-root"
-          columns={9}
+          columns={columns}
           sticky
           supplemental={supplemental}
           onSelectionChange={(nextSelection) => {
@@ -215,26 +232,14 @@ export function PickerDemo() {
           }}
         >
           <div className="picker-toolbar">
-            <EmojiPicker.Search
-              className="picker-search"
-              placeholder="Search emoji"
-            />
-            <EmojiPicker.SkinToneSelector className="picker-skin-tone" />
+            <EmojiPicker.Search placeholder="Search emoji" />
+            <EmojiPicker.SkinToneSelector />
           </div>
 
-          <EmojiPicker.Viewport
-            ref={viewportRef}
-            className="picker-viewport"
-            tabIndex={0}
-          >
-            <EmojiPicker.Loading className="picker-feedback">
-              Loading emoji data…
-            </EmojiPicker.Loading>
-            <EmojiPicker.Empty className="picker-feedback">
-              No emoji found.
-            </EmojiPicker.Empty>
+          <EmojiPicker.Viewport ref={viewportRef} tabIndex={0}>
+            <EmojiPicker.Loading>Loading emoji data…</EmojiPicker.Loading>
+            <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
             <EmojiPicker.List
-              className="picker-list"
               components={{
                 SupplementalEmoji: ({ emoji, ...props }) => (
                   <button {...props} className="picker-custom-emoji" type="button">
@@ -254,18 +259,30 @@ export function PickerDemo() {
             />
           </EmojiPicker.Viewport>
           <div className="picker-footer">
-            {selection.kind === "native" ? (
-              <div className="picker-footer-emoji">{selection.item.emoji}</div>
-            ) : (
-              <img
-                className="picker-footer-image"
-                src={selection.item.imageUrl}
-                alt={selection.item.label}
-                width="20"
-                height="20"
-              />
-            )}
-            <span className="picker-footer-label">{selection.item.label}</span>
+            <EmojiPicker.ActiveSelection>
+              {({ selection }) =>
+                selection && (
+                  <>
+                    {selection.kind === "native" ? (
+                      <div className="picker-footer-emoji">
+                        {selection.item.emoji}
+                      </div>
+                    ) : (
+                      <img
+                        className="picker-footer-image"
+                        src={selection.item.imageUrl}
+                        alt={selection.item.label}
+                        width="20"
+                        height="20"
+                      />
+                    )}
+                    <span className="picker-footer-label">
+                      {selection.item.label}
+                    </span>
+                  </>
+                )
+              }
+            </EmojiPicker.ActiveSelection>
           </div>
         </EmojiPicker.Root>
       </div>

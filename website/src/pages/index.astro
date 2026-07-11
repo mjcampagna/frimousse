@@ -1,6 +1,6 @@
 ---
-import ThemeToggle from "../components/ThemeToggle.astro";
 import { PickerDemo } from "../components/demo/PickerDemo";
+import SiteHeader from "../components/SiteHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
@@ -9,34 +9,27 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="A compatibility-conscious fork of frimousse with additive extensions and a static-first docs site."
 >
   <main class="page-shell">
-    <header class="site-header">
-      <a class="site-mark" href="/">
-        <span class="site-mark-kicker">slithy</span>
-        <span class="site-mark-name">frimousse</span>
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="#features">Features</a>
-        <a href="#docs">Docs</a>
-        <a href="https://github.com/mjcampagna/frimousse">GitHub</a>
-      </nav>
-      <ThemeToggle />
-    </header>
+    <SiteHeader />
 
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">Compatibility-conscious fork</p>
-        <h1>A composable emoji picker for React, with room to grow.</h1>
+        <h1>A composable emoji picker for React, built on tiny faces.</h1>
+        <p class="subhead">
+          A compatibility-conscious fork of
+          {" "}
+          <a
+            href="https://github.com/liveblocks/frimousse"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            Frimousse
+          </a>.
+        </p>
         <p class="lede">
           `@slithy/frimousse` keeps the baseline picker contract familiar while
           adding general-purpose extension seams for mixed sections, custom
           emoji, unified search, and consumer-owned frequent items.
         </p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#demo">See the demo</a>
-          <a class="button button-secondary" href="/docs/getting-started">
-            Getting started
-          </a>
-        </div>
       </div>
 
       <div class="hero-callout">
@@ -49,43 +42,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
     </section>
 
-    <section class="feature-strip" id="features">
-      <article>
-        <h2>Composable by default</h2>
-        <p>Bring your own styling, structure, and layout without fighting baked-in UI.</p>
-      </article>
-      <article>
-        <h2>Additive extensions</h2>
-        <p>Supplemental sections, mixed selections, and custom emoji stay opt-in.</p>
-      </article>
-      <article>
-        <h2>Theme-aware demos</h2>
-        <p>Preview the picker in both light and dark mode before dropping it into your app.</p>
-      </article>
-    </section>
-
     <div id="demo">
       <PickerDemo client:load />
     </div>
-
-    <section class="docs-grid" id="docs">
-      <article class="docs-card">
-        <p class="docs-kicker">Start here</p>
-        <h2>Getting started</h2>
-        <p>
-          Installation, baseline composition, and the fork’s compatibility goals.
-        </p>
-        <a href="/docs/getting-started">Open guide</a>
-      </article>
-      <article class="docs-card">
-        <p class="docs-kicker">Extensions</p>
-        <h2>What’s additive</h2>
-        <p>
-          Mixed sections, widened selection APIs, custom emoji helpers, and
-          frequency utilities.
-        </p>
-        <a href="/docs/extensions">Read more</a>
-      </article>
-    </section>
   </main>
 </BaseLayout>
