@@ -331,6 +331,56 @@ function DuplicateItemPage() {
   );
 }
 
+function FrequentDuplicatePage() {
+  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>([
+    {
+      key: "native:👍",
+      item: {
+        kind: "native",
+        id: "👍",
+        emoji: "👍",
+        label: "Thumbs up",
+      },
+      score: 5,
+      uses: 5,
+      lastUsedAt: Date.now(),
+    },
+  ]);
+  const frequentSection = buildEmojiPickerFrequentSection(usageEntries, {
+    label: "Frequently used",
+    limit: 4,
+    searchable: false,
+  });
+
+  return (
+    <EmojiPicker.Root
+      onSelectionChange={(selection) => {
+        setUsageEntries((current) => recordEmojiPickerUsage(current, selection));
+      }}
+      supplemental={{
+        sections: frequentSection ? [frequentSection] : [],
+      }}
+    >
+      <EmojiPicker.Search />
+      <EmojiPicker.Viewport style={{ height: 1200 }}>
+        <EmojiPicker.List
+          components={{
+            Emoji: ({ emoji, ...props }) => (
+              <button
+                {...props}
+                data-testid={`native:${emoji.label}:${emoji.isActive ? "active" : "idle"}`}
+                type="button"
+              >
+                {emoji.emoji}
+              </button>
+            ),
+          }}
+        />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+
 describe("EmojiPicker supplemental items", () => {
   it("should render prepended supplemental sections ahead of native items", async () => {
     page.render(<SupplementalPage />);
@@ -494,6 +544,20 @@ describe("EmojiPicker supplemental items", () => {
     await expect
       .element(page.getByTestId("active-selection-state"))
       .toHaveTextContent("native:Thinking face");
+  });
+
+  it("should keep only one active occurrence when a native emoji is duplicated into the frequent section", async () => {
+    page.render(<FrequentDuplicatePage />);
+
+    await page.getByRole("gridcell", { name: "Zany face", exact: true }).click();
+
+    await expect.element(page.getByText("Frequently used")).toBeInTheDocument();
+    await expect
+      .element(page.getByTestId("native:Zany face:active"))
+      .toBeInTheDocument();
+    await expect
+      .element(page.getByTestId("native:Zany face:idle"))
+      .toBeInTheDocument();
   });
 
   it("should only highlight the active occurrence when duplicate items appear in multiple sections", async () => {

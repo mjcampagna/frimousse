@@ -340,6 +340,37 @@ describe("EmojiPicker", () => {
       .toHaveTextContent("😀");
   });
 
+  it("should hand off from pointer activation to keyboard navigation without losing position", async () => {
+    page.render(
+      <DefaultPage
+        rootChildren={
+          <EmojiPicker.ActiveEmoji>
+            {({ emoji }) =>
+              emoji ? <p data-testid="active-emoji">{emoji.label}</p> : null
+            }
+          </EmojiPicker.ActiveEmoji>
+        }
+      />,
+    );
+
+    await page.getByTestId("search").click();
+    await page.getByText("😄").hover();
+
+    await expect
+      .element(page.getByTestId("active-emoji"))
+      .toHaveTextContent("Grinning face with smiling eyes");
+
+    await userEvent.keyboard("{ArrowRight}");
+    await userEvent.keyboard("{Enter}");
+
+    await expect
+      .element(page.getByTestId("active-emoji"))
+      .toHaveTextContent("Beaming face with smiling eyes");
+    await expect
+      .element(page.getByTestId("selected-emoji"))
+      .toHaveTextContent("😁");
+  });
+
   it("should fallback to default values for unsupported locales and skin tones", async () => {
     page.render(
       <DefaultPage
