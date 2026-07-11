@@ -3,6 +3,7 @@ import {
   memo,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -197,20 +198,27 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
     "selection",
   );
   const viewportRef = useRef<HTMLDivElement>(null);
-  const frequentSection = buildEmojiPickerFrequentSection(usageEntries, {
-    label: "Frequently used",
-    limit: 8,
-    searchable: false,
-  });
-  const supplemental = {
-    sections: frequentSection
-      ? [frequentSection, demoCustomSection]
-      : [demoCustomSection],
-    search: {
-      mode: "unified" as const,
-      resultsLabel: "Results",
-    },
-  };
+  const frequentSection = useMemo(
+    () =>
+      buildEmojiPickerFrequentSection(usageEntries, {
+        label: "Frequently used",
+        limit: 8,
+        searchable: false,
+      }),
+    [usageEntries],
+  );
+  const supplemental = useMemo(
+    () => ({
+      sections: frequentSection
+        ? [frequentSection, demoCustomSection]
+        : [demoCustomSection],
+      search: {
+        mode: "unified" as const,
+        resultsLabel: "Results",
+      },
+    }),
+    [frequentSection],
+  );
 
   useEffect(() => {
     const updateColumns = () => {

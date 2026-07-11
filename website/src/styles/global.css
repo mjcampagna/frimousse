@@ -627,6 +627,7 @@ pre {
 
 [frimousse-root] {
   --emoji-size: 32px;
+  --row-padding: 6px;
 
   background: var(--bg-strong);
   border: 1px solid var(--line);
@@ -686,18 +687,15 @@ pre {
 }
 
 [frimousse-list] {
-  padding: 0 0 6px;
-  padding-bottom: 6px;
+  padding: 0 0 var(--row-padding);
   width: calc(
-    var(--frimousse-list-columns) * var(--emoji-size) +
-      (var(--frimousse-list-columns) - 1) * 6px + 12px
+    var(--frimousse-list-columns) * var(--emoji-size) + var(--row-padding) * 2
   );
 }
 
 [frimousse-row] {
-  gap: 6px;
-  padding-inline: 6px;
-  scroll-margin-block: 6px;
+  padding-inline: var(--row-padding);
+  scroll-margin-block: var(--row-padding);
 }
 
 [frimousse-category-header] {
