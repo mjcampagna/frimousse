@@ -324,6 +324,22 @@ describe("EmojiPicker", () => {
       .toHaveTextContent("🧑‍🤝‍🧑");
   });
 
+  it("should reset to the first filtered result when search changes after deep keyboard navigation", async () => {
+    page.render(<DefaultPage />);
+
+    await page.getByTestId("search").click();
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{PageDown}{PageDown}{PageDown}{PageDown}{PageDown}");
+
+    await page.getByTestId("search").fill("a");
+    await expect.element(page.getByText("😀")).toBeInTheDocument();
+    await userEvent.keyboard("{Enter}");
+
+    await expect
+      .element(page.getByTestId("selected-emoji"))
+      .toHaveTextContent("😀");
+  });
+
   it("should fallback to default values for unsupported locales and skin tones", async () => {
     page.render(
       <DefaultPage

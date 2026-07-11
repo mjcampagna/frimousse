@@ -15,6 +15,28 @@ import {
 
 const VIEWPORT_OVERSCAN = 2;
 
+function findItemPosition(
+  data: EmojiPickerData,
+  item: EmojiPickerItem | undefined,
+) {
+  if (!item) {
+    return undefined;
+  }
+
+  for (const [activeRowIndex, row] of data.rows.entries()) {
+    for (const [activeColumnIndex, candidate] of row.emojis.entries()) {
+      if (sameEmojiPickerItem(candidate, item)) {
+        return {
+          activeColumnIndex,
+          activeRowIndex,
+        };
+      }
+    }
+  }
+
+  return undefined;
+}
+
 type Interaction = "keyboard" | "pointer" | "none";
 
 export type EmojiPickerStore = {
@@ -30,6 +52,7 @@ export type EmojiPickerStore = {
   interaction: Interaction;
   activeColumnIndex: number;
   activeRowIndex: number;
+  suppressPointerEnter: boolean;
 
   rowHeight: number | null;
   categoryHeaderHeight: number | null;
@@ -85,6 +108,7 @@ export function createEmojiPickerStore(
     interaction: "none",
     activeColumnIndex: 0,
     activeRowIndex: 0,
+    suppressPointerEnter: false,
 
     rowHeight: null,
     categoryHeaderHeight: null,
@@ -195,27 +219,42 @@ export function createEmojiPickerStore(
 
     onDataChange: (data: EmojiPickerData) => {
       const previousState = get();
-      const nextActiveColumnIndex =
+      const previousActiveItem =
+        previousState.data?.rows[previousState.activeRowIndex]?.emojis[
+          previousState.activeColumnIndex
+        ];
+      const nextItemAtSameCoordinates =
         data.rows[previousState.activeRowIndex]?.emojis[
           previousState.activeColumnIndex
-        ]
-          ? previousState.activeColumnIndex
-          : 0;
-      const nextActiveRowIndex =
-        data.rows[previousState.activeRowIndex]?.emojis[
-          previousState.activeColumnIndex
-        ]
-          ? previousState.activeRowIndex
-          : 0;
+        ];
+      const nextActivePosition =
+        sameEmojiPickerItem(previousActiveItem, nextItemAtSameCoordinates)
+          ? {
+              activeColumnIndex: previousState.activeColumnIndex,
+              activeRowIndex: previousState.activeRowIndex,
+            }
+          : findItemPosition(data, previousActiveItem);
 
       get().updateViewportState({
         data,
-        activeColumnIndex: nextActiveColumnIndex,
-        activeRowIndex: nextActiveRowIndex,
+        activeColumnIndex: nextActivePosition?.activeColumnIndex ?? 0,
+        activeRowIndex: nextActivePosition?.activeRowIndex ?? 0,
+        suppressPointerEnter:
+          previousState.interaction === "pointer" &&
+          !!nextActivePosition &&
+          (nextActivePosition.activeColumnIndex !==
+            previousState.activeColumnIndex ||
+            nextActivePosition.activeRowIndex !== previousState.activeRowIndex),
       });
     },
     onSearchChange: (search: string) => {
-      set({ search, interaction: search ? "keyboard" : "none" });
+      set({
+        search,
+        interaction: search ? "keyboard" : "none",
+        activeColumnIndex: search ? 0 : get().activeColumnIndex,
+        activeRowIndex: search ? 0 : get().activeRowIndex,
+        suppressPointerEnter: false,
+      });
     },
     onActiveEmojiChange: (
       interaction: Exclude<Interaction, "none">,
@@ -226,6 +265,7 @@ export function createEmojiPickerStore(
         interaction,
         activeColumnIndex,
         activeRowIndex,
+        suppressPointerEnter: false,
       });
 
       if (interaction !== "keyboard") {
@@ -308,6 +348,7 @@ export function createEmojiPickerStore(
     onActiveEmojiReset: () => {
       set({
         interaction: "none",
+        suppressPointerEnter: false,
       });
     },
     onRowHeightChange: (rowHeight: number) => {

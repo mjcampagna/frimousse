@@ -213,6 +213,50 @@ function DefaultCustomEmojiPage() {
   );
 }
 
+function FirstFrequentInsertionPage() {
+  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>([]);
+  const frequentSection = buildEmojiPickerFrequentSection(usageEntries, {
+    label: "Frequently used",
+    limit: 3,
+    searchable: false,
+  });
+
+  return (
+    <EmojiPicker.Root
+      onSelectionChange={(selection) => {
+        setUsageEntries((current) => recordEmojiPickerUsage(current, selection));
+      }}
+      supplemental={{
+        sections: frequentSection ? [frequentSection] : [],
+      }}
+    >
+      <EmojiPicker.Search />
+      <EmojiPicker.Viewport style={{ height: 1200 }}>
+        <EmojiPicker.ActiveSelection>
+          {({ selection }) =>
+            selection ? (
+              <p data-testid="active-selection-state">
+                {selection.kind}:{selection.item.label}
+              </p>
+            ) : (
+              <p data-testid="active-selection-state">none</p>
+            )
+          }
+        </EmojiPicker.ActiveSelection>
+        <EmojiPicker.List
+          components={{
+            Emoji: ({ emoji, ...props }) => (
+              <button {...props} type="button">
+                {emoji.emoji}
+              </button>
+            ),
+          }}
+        />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+
 function DuplicateItemPage() {
   return (
     <EmojiPicker.Root
@@ -428,6 +472,28 @@ describe("EmojiPicker supplemental items", () => {
     await expect
       .element(page.getByRole("gridcell", { name: "Ship It" }))
       .toBeInTheDocument();
+  });
+
+  it("should keep the hovered item active when the first frequent section is inserted above it", async () => {
+    page.render(<FirstFrequentInsertionPage />);
+
+    const thinkingFace = page.getByRole("gridcell", {
+      name: "Thinking face",
+      exact: true,
+    });
+
+    await thinkingFace.hover();
+
+    await expect
+      .element(page.getByTestId("active-selection-state"))
+      .toHaveTextContent("native:Thinking face");
+
+    await thinkingFace.click();
+
+    await expect.element(page.getByText("Frequently used")).toBeInTheDocument();
+    await expect
+      .element(page.getByTestId("active-selection-state"))
+      .toHaveTextContent("native:Thinking face");
   });
 
   it("should only highlight the active occurrence when duplicate items appear in multiple sections", async () => {

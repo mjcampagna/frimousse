@@ -893,6 +893,14 @@ const EmojiPickerListEmoji = memo(
     }, [emoji]);
 
     const handlePointerEnter = useCallback(() => {
+      if (store.get().suppressPointerEnter) {
+        return;
+      }
+
+      store.get().onActiveEmojiChange("pointer", columnIndex, rowIndex);
+    }, [columnIndex, rowIndex]);
+
+    const handlePointerMove = useCallback(() => {
       store.get().onActiveEmojiChange("pointer", columnIndex, rowIndex);
     }, [columnIndex, rowIndex]);
 
@@ -907,6 +915,7 @@ const EmojiPickerListEmoji = memo(
           onClick={handleSelect}
           onPointerDown={preventDefault}
           onPointerEnter={handlePointerEnter}
+          onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
         />
       ) : (
@@ -915,6 +924,7 @@ const EmojiPickerListEmoji = memo(
           onClick={handleSelect}
           onPointerDown={preventDefault}
           onPointerEnter={handlePointerEnter}
+          onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
         />
       )
