@@ -148,6 +148,54 @@ pre {
   width: min(1120px, calc(100vw - 32px));
 }
 
+.prose-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0 auto;
+  max-width: 72ch;
+  padding: 24px;
+}
+
+.prose-card h1,
+.prose-card h2 {
+  line-height: var(--leading-tight);
+}
+
+.prose-card h1 {
+  font-size: clamp(var(--text-3xl), 3vw, var(--text-4xl));
+  letter-spacing: -0.03em;
+}
+
+.prose-card h2 {
+  font-size: var(--text-xl);
+  margin-top: 8px;
+}
+
+.prose-card p,
+.prose-card li {
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.prose-card ul {
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
+}
+
+.prose-card pre {
+  background: var(--bg-accent);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: auto;
+  padding: 14px 16px;
+}
+
 .github-corner {
   color: var(--bg);
   line-height: 0;

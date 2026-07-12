@@ -147,6 +147,15 @@ const data: EmojiData = {
       skins: undefined,
     },
     {
+      emoji: "🦖",
+      category: 3,
+      version: 5,
+      label: "T-Rex",
+      tags: ["dinosaur"],
+      countryFlag: undefined,
+      skins: undefined,
+    },
+    {
       emoji: "🎦",
       category: 8,
       version: 0.6,
@@ -240,6 +249,13 @@ describe("searchEmojis", () => {
     expect(results).toHaveLength(0);
   });
 
+  it("should normalize label matching for hyphenated queries", () => {
+    const results = searchEmojis(data.emojis, "t-rex");
+
+    expect(results).toHaveLength(1);
+    expect(results[0]?.emoji).toBe("🦖");
+  });
+
   it("should filter emojis by configured native search terms", () => {
     const results = searchEmojis(data.emojis, "hyper link", {
       native: {
@@ -251,6 +267,27 @@ describe("searchEmojis", () => {
 
     expect(results).toHaveLength(1);
     expect(results[0]?.emoji).toBe("🔗");
+  });
+
+  it("should support VS16 and skin-tone-insensitive configured native term keys", () => {
+    const results = searchEmojis(data.emojis, "good bye", {
+      native: {
+        terms: {
+          "👋🏽": ["good_bye"],
+          "❤️": ["red_heart"],
+        },
+      },
+    });
+
+    expect(results[0]?.emoji).toBe("👋");
+  });
+
+  it("should tolerate an empty native search config", () => {
+    expect(
+      searchEmojis(data.emojis, "film", {
+        native: { terms: {} },
+      }),
+    ).toEqual(searchEmojis(data.emojis, "film"));
   });
 });
 
@@ -335,5 +372,24 @@ describe("getEmojiPickerData", () => {
     expect(result.count).toBe(1);
     expect(result.categories[0]?.label).toBe("Objects");
     expect(result.rows[0]?.emojis[0]?.id).toBe("🔗");
+  });
+
+  it("should apply configured native search terms with skin tone output", () => {
+    const result = getEmojiPickerData(
+      data,
+      10,
+      "dark",
+      "good bye",
+      undefined,
+      {
+        native: {
+          terms: {
+            "👋": ["good_bye"],
+          },
+        },
+      },
+    );
+
+    expect(result.rows[0]?.emojis[0]?.id).toBe("👋🏿");
   });
 });

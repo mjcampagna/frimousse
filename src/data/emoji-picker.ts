@@ -13,6 +13,7 @@ import {
   createNativeSearchTermsMap,
   normalizeNativeSearchText,
   scoreNativeEmojiMatch,
+  warnForUnmatchedNativeSearchTerms,
 } from "./native-search";
 import {
   buildSupplementalSections,
@@ -56,6 +57,8 @@ export function getEmojiPickerData(
   supplemental?: EmojiPickerSupplementalConfig,
   searchConfig?: EmojiPickerSearchConfig,
 ): EmojiPickerData {
+  warnForUnmatchedNativeSearchTerms(data.emojis, searchConfig);
+
   const unified = supplemental
     ? buildUnifiedSearchRows(
         data.emojis,

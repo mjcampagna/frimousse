@@ -14,6 +14,7 @@ import type {
 import { chunk } from "../utils/chunk";
 import {
   createNativeSearchTermsMap,
+  normalizeNativeSearchText,
   scoreNativeEmojiMatch,
 } from "./native-search";
 
@@ -24,7 +25,7 @@ type BuiltEmojiPickerRows = {
 };
 
 function normalizeSearch(search: string) {
-  return search.toLowerCase().trim().replace(/[_-]/g, " ");
+  return normalizeNativeSearchText(search);
 }
 
 function scoreTextMatch(

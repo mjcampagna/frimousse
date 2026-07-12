@@ -29,5 +29,5 @@ yarn-error.log*
 
 __screenshots__
 .vitest-attachments/
-docs/
+/docs/
 AGENTS.md

@@ -1,10 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { EmojiDataEmoji } from "../../types";
 import {
   createNativeSearchTermsMap,
   normalizeNativeSearchKey,
   normalizeNativeSearchText,
   scoreNativeEmojiMatch,
+  warnForUnmatchedNativeSearchTerms,
 } from "../native-search";
 
 const wavingHand: EmojiDataEmoji = {
@@ -53,8 +54,31 @@ describe("native search helpers", () => {
       },
     });
 
-    expect(scoreNativeEmojiMatch(wavingHand, "ttyl", terms)).toBe(1);
-    expect(scoreNativeEmojiMatch(wavingHand, "good bye", terms)).toBe(1);
+    expect(scoreNativeEmojiMatch(wavingHand, "ttyl", terms)).toBe(10);
+    expect(scoreNativeEmojiMatch(wavingHand, "good bye", terms)).toBe(10);
     expect(scoreNativeEmojiMatch(wavingHand, "waving", terms)).toBe(10);
+  });
+
+  it("warns once for unmatched configured keys in development", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    warnForUnmatchedNativeSearchTerms([wavingHand], {
+      native: {
+        terms: {
+          "🫥": ["dotted_line_face"],
+        },
+      },
+    });
+
+    warnForUnmatchedNativeSearchTerms([wavingHand], {
+      native: {
+        terms: {
+          "🫥": ["dotted_line_face"],
+        },
+      },
+    });
+
+    expect(warn).toHaveBeenCalledTimes(1);
+    warn.mockRestore();
   });
 });

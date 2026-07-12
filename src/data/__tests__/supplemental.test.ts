@@ -325,7 +325,7 @@ describe("buildUnifiedSearchRows", () => {
     const result = buildUnifiedSearchRows(
       nativeEmojis,
       supplemental,
-      "good bye",
+      "good__bye",
       10,
       undefined,
       {
