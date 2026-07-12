@@ -466,7 +466,7 @@ pre {
 }
 
 .docs-markdown-section {
-  max-width: 72ch;
+  max-width: 88ch;
 }
 
 .docs-markdown-section + .docs-markdown-section,
@@ -474,6 +474,7 @@ pre {
   margin-top: 56px;
 }
 
+.docs-markdown-section h1,
 .docs-markdown-section h2,
 .docs-markdown-section h3 {
   color: var(--text);
@@ -481,14 +482,19 @@ pre {
   line-height: var(--leading-tight);
 }
 
+.docs-markdown-section h1 {
+  font-size: clamp(var(--text-3xl), 4vw, var(--text-4xl));
+  margin: 0 0 18px;
+}
+
 .docs-markdown-section h2 {
   font-size: clamp(var(--text-2xl), 3vw, var(--text-3xl));
-  margin: 0 0 16px;
+  margin: 48px 0 16px;
 }
 
 .docs-markdown-section h3 {
   font-size: var(--text-lg);
-  margin: 32px 0 12px;
+  margin: 28px 0 12px;
 }
 
 .docs-markdown-section p,
@@ -503,6 +509,24 @@ pre {
 .docs-markdown-section ul,
 .docs-markdown-section ol {
   margin: 16px 0;
+}
+
+.docs-markdown-section ul,
+.docs-markdown-section ol {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+.docs-markdown-section li + li {
+  margin-top: 6px;
+}
+
+.docs-markdown-section > :first-child {
+  margin-top: 0;
+}
+
+.docs-markdown-section > :last-child {
+  margin-bottom: 0;
 }
 
 .docs-markdown-section table {
