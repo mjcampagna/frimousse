@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import {
   buildEmojiPickerFrequentSection,
   EmojiPicker,
@@ -14,14 +14,6 @@ import {
 } from "../demo/picker-demo-data";
 import { PickerLoadingSkeleton } from "../demo/PickerLoadingSkeleton";
 import { SelectionBurstLayer } from "../demo/SelectionBurstLayer";
-
-type SectionDemoShellProps = {
-  children: ReactNode;
-  kicker: string;
-  title: string;
-  body: string;
-  framed?: boolean;
-};
 
 const nativeSearchTerms = buildNativeEmojiSearchTermMap([
   {
@@ -125,29 +117,6 @@ function useResponsiveColumns(small = 7, medium = 8, large = 9) {
   return columns;
 }
 
-function SectionDemoShell({
-  kicker,
-  title,
-  body,
-  children,
-  framed = true,
-}: SectionDemoShellProps) {
-  return (
-    <section className="docs-demo">
-      <div className="docs-demo-copy">
-        <p className="eyebrow">{kicker}</p>
-        <h2>{title}</h2>
-        <p>{body}</p>
-      </div>
-      {framed ? (
-        <div className="docs-demo-card">{children}</div>
-      ) : (
-        <div className="docs-demo-flow">{children}</div>
-      )}
-    </section>
-  );
-}
-
 export function ExtendedDemo() {
   const columns = useResponsiveColumns(7, 8, 9);
   const [selection, setSelection] =
@@ -234,11 +203,7 @@ export function NativeSearchDemo() {
   ] as const;
 
   return (
-    <SectionDemoShell
-      kicker="Supplemental Packages"
-      title="Feed native search enrichment into the picker as plain data."
-      body="This demo generates the term map with `@slithy/emoji-kit`, then passes the resulting plain data into the picker. The picker stays ignorant of dataset policy and only consumes the enriched terms."
-    >
+    <div className="docs-demo-card">
       <div className="docs-demo-stack">
         <div className="docs-demo-chip-row">
           {examples.map((example) => (
@@ -283,32 +248,9 @@ export function NativeSearchDemo() {
               </EmojiPicker.Empty>
               <EmojiPicker.List />
             </EmojiPicker.Viewport>
-          </EmojiPicker.Root>
-        </div>
-        <pre className="docs-demo-code">
-          <code>{`<EmojiPicker.Root
-  search={{
-    native: {
-      terms: {
-        "👋": ["good_bye", "ttyl", "see_you"],
-        "🔗": ["hyper_link", "url"],
-        "❤️": ["red_heart", "love"],
-      },
-    },
-  }}
->
-  ...
-</EmojiPicker.Root>`}</code>
-        </pre>
+            </EmojiPicker.Root>
+          </div>
       </div>
-    </SectionDemoShell>
-  );
-}
-
-export function DocsDemos() {
-  return (
-    <div className="docs-demos">
-      <NativeSearchDemo />
     </div>
   );
 }

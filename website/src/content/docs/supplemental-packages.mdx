@@ -1,0 +1,68 @@
+---
+import NativeSearchDemoIsland from "../../components/docs/NativeSearchDemoIsland.astro";
+---
+
+<section class="docs-markdown-section">
+
+## Companion packages
+
+Companion packages can add search terms, metadata, or dataset tooling without changing the picker contract itself.
+
+Use them when you want one or more of these:
+
+- richer native search vocabulary than the built-in dataset provides
+- app-specific aliasing or shorthand for common emoji
+- separate ownership of metadata policy from picker rendering
+
+The example below enriches native search with `@slithy/emoji-kit`, then passes the resulting plain data into the picker.
+
+<NativeSearchDemoIsland />
+
+### Enrich native search
+
+Generate a native term map ahead of time, then pass it to `Root` through `search.native.terms`.
+
+```tsx
+import { EmojiPicker } from "@slithy/frimousse";
+import { buildNativeEmojiSearchTermMap } from "@slithy/emoji-kit";
+
+const nativeSearchTerms = buildNativeEmojiSearchTermMap([
+  {
+    emoji: "👋",
+    shortcodes: ["good_bye", "ttyl", "see_you"],
+  },
+  {
+    emoji: "🔗",
+    shortcodes: ["hyper_link", "url"],
+  },
+  {
+    emoji: "❤️",
+    shortcodes: ["red_heart"],
+    aliases: ["love"],
+  },
+]);
+
+<EmojiPicker.Root
+  search={{
+    native: {
+      terms: nativeSearchTerms,
+    },
+  }}
+>
+  <EmojiPicker.Search />
+  <EmojiPicker.Viewport>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+</EmojiPicker.Root>;
+```
+
+### Keep the picker dumb
+
+Frimousse only consumes the search data you pass in. It does not need to know how those terms were produced, where they came from, or which dataset policy your app uses.
+
+### Notes
+
+- Companion packages are optional. The base and extended picker APIs work without them.
+- `@slithy/emoji-kit` enriches native search data; it does not change the picker component surface.
+- If you already have your own emoji metadata pipeline, you can build the same `search.native.terms` shape yourself.
+</section>

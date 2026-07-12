@@ -4,7 +4,8 @@ import ExtendedApiSection from "../content/docs/extended-api.mdx";
 import SetupSection from "../content/docs/installation.mdx";
 import BaseApiDemoIsland from "../components/docs/BaseApiDemoIsland.astro";
 import ExtendedApiDemoIsland from "../components/docs/ExtendedApiDemoIsland.astro";
-import { DocsDemos } from "../components/docs/DocsDemos";
+import NativeSearchDemoIsland from "../components/docs/NativeSearchDemoIsland.astro";
+import SupplementalPackagesSection from "../content/docs/supplemental-packages.mdx";
 import SiteHeader from "../components/SiteHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
@@ -41,7 +42,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <p>Supplemental items, unified search, and consumer-owned frequent rows.</p>
         </article>
         <article>
-          <h2>Supplemental packages</h2>
+          <h2>Companion packages</h2>
           <p>Companion packages that extend search and metadata without changing the picker contract.</p>
         </article>
         <article>
@@ -55,6 +56,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <BaseApiSection components={{ BaseApiDemoIsland }} />
     <hr class="docs-section-divider" />
     <ExtendedApiSection components={{ ExtendedApiDemoIsland }} />
-    <DocsDemos client:load />
+    <hr class="docs-section-divider" />
+    <SupplementalPackagesSection components={{ NativeSearchDemoIsland }} />
   </main>
 </BaseLayout>
