@@ -1,0 +1,147 @@
+---
+import ExtendedApiDemoIsland from "../../components/docs/ExtendedApiDemoIsland.astro";
+---
+
+<section class="docs-markdown-section">
+
+## Extended API
+
+The Extended API keeps the base picker intact and adds consumer-owned sections, supplemental items, and widened selection surfaces on top.
+
+Use it when you need one or more of these:
+
+- image-backed or app-specific supplemental items
+- mixed native and supplemental sections in one picker
+- unified search across native and supplemental content
+- a frequent-items row that your app owns and persists
+
+The demo below combines supplemental image-backed items (scroll to the bottom), unified search, and a consumer-owned frequent row in one picker.
+
+<ExtendedApiDemoIsland />
+
+### Supplemental sections
+
+Pass `supplemental` to `EmojiPicker.Root` to add consumer-provided sections. Sections can contain native items, supplemental items, or both.
+
+```tsx
+import {
+  EmojiPicker,
+  createEmojiPickerCustomSection,
+} from "@slithy/frimousse";
+
+const customSection = createEmojiPickerCustomSection(
+  [
+    { id: "party-parrot", imageUrl: "/emoji/party-parrot.png", label: "Party parrot" },
+    { id: "ship-it", imageUrl: "/emoji/ship-it.png", label: "Ship it" },
+  ],
+  {
+    id: "custom",
+    label: "Custom",
+    position: "append",
+    searchable: true,
+  },
+);
+
+<EmojiPicker.Root
+  supplemental={{
+    sections: [customSection],
+  }}
+>
+  <EmojiPicker.Search />
+  <EmojiPicker.Viewport>
+    <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+    <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+</EmojiPicker.Root>;
+```
+
+### Unified search
+
+Supplemental search defaults to grouped results. Set `mode: "unified"` to merge native and supplemental matches into a single results surface.
+
+```tsx
+<EmojiPicker.Root
+  supplemental={{
+    sections: [customSection],
+    search: {
+      mode: "unified",
+      resultsLabel: "Results",
+    },
+  }}
+>
+  ...
+</EmojiPicker.Root>
+```
+
+### Selection widening
+
+Use `onSelectionChange`, `useActiveSelection`, or `EmojiPicker.ActiveSelection` when your UI needs to react to both native and supplemental items.
+
+```tsx
+import { EmojiPicker, type EmojiPickerSelection } from "@slithy/frimousse";
+
+function MyEmojiPicker() {
+  const handleSelectionChange = (selection: EmojiPickerSelection) => {
+    if (selection.kind === "native") {
+      console.log(selection.item.emoji);
+      return;
+    }
+
+    console.log(selection.item.imageUrl);
+  };
+
+  return (
+    <EmojiPicker.Root onSelectionChange={handleSelectionChange}>
+      ...
+    </EmojiPicker.Root>
+  );
+}
+```
+
+`onEmojiSelect` remains native-only. Keep using it when you only care about native emoji picks.
+
+### Consumer-owned frequent items
+
+The library does not persist recent or frequent selections for you. Instead, record usage in your own state and turn it into a prepend section when you want it.
+
+```tsx
+import {
+  buildEmojiPickerFrequentSection,
+  EmojiPicker,
+  recordEmojiPickerUsage,
+  type EmojiPickerUsageEntry,
+} from "@slithy/frimousse";
+
+function MyEmojiPicker() {
+  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>([]);
+
+  const frequentSection = buildEmojiPickerFrequentSection(usageEntries, {
+    label: "Frequently used",
+    limit: 8,
+    searchable: false,
+  });
+
+  return (
+    <EmojiPicker.Root
+      onSelectionChange={(selection) => {
+        setUsageEntries((current) => recordEmojiPickerUsage(current, selection));
+      }}
+      supplemental={{
+        sections: frequentSection ? [frequentSection, customSection] : [customSection],
+        search: { mode: "unified", resultsLabel: "Results" },
+      }}
+    >
+      ...
+    </EmojiPicker.Root>
+  );
+}
+```
+
+### Notes
+
+- `SupplementalEmoji` in `EmojiPicker.List` only needs to be customized if you want a different renderer for supplemental items.
+- `useActiveEmoji` and `EmojiPicker.ActiveEmoji` stay native-only.
+- `useActiveSelection` and `EmojiPicker.ActiveSelection` reflect supplemental items too.
+- Companion packages like `@slithy/emoji-kit` can enrich native search, but the Extended API itself does not depend on them.
+</section>

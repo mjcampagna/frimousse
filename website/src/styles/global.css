@@ -474,6 +474,23 @@ pre {
   margin-top: 56px;
 }
 
+.docs-markdown-section hr,
+.docs-section-divider {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 16px 0;
+  max-width: 88ch;
+}
+
+.docs-markdown-section + .docs-section-divider {
+  margin-top: 16px;
+}
+
+.docs-section-divider + .docs-markdown-section,
+.docs-section-divider + .docs-demos {
+  margin-top: 40px;
+}
+
 .docs-markdown-section h1,
 .docs-markdown-section h2,
 .docs-markdown-section h3 {

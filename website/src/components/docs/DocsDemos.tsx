@@ -64,6 +64,38 @@ const DocsSupplementalEmoji = memo(function DocsSupplementalEmoji({
   );
 });
 
+function DemoPickerFooter({
+  selection,
+}: {
+  selection: EmojiPickerItemSelection;
+}) {
+  return (
+    <EmojiPicker.ActiveSelection>
+      {({ selection: activeSelection }) => {
+        const displayedSelection = activeSelection ?? selection;
+
+        return displayedSelection.kind === "native" ? (
+          <>
+            <div className="picker-footer-emoji">{displayedSelection.item.emoji}</div>
+            <span className="picker-footer-label">{displayedSelection.item.label}</span>
+          </>
+        ) : (
+          <>
+            <img
+              className="picker-footer-image"
+              src={displayedSelection.item.imageUrl}
+              alt={displayedSelection.item.label}
+              width="20"
+              height="20"
+            />
+            <span className="picker-footer-label">{displayedSelection.item.label}</span>
+          </>
+        );
+      }}
+    </EmojiPicker.ActiveSelection>
+  );
+}
+
 function useResponsiveColumns(small = 7, medium = 8, large = 9) {
   const [columns, setColumns] = useState(large);
 
@@ -116,7 +148,7 @@ function SectionDemoShell({
   );
 }
 
-function ExtendedDemo() {
+export function ExtendedDemo() {
   const columns = useResponsiveColumns(7, 8, 9);
   const [selection, setSelection] =
     useState<EmojiPickerItemSelection>(initialSelection);
@@ -156,11 +188,7 @@ function ExtendedDemo() {
   );
 
   return (
-    <SectionDemoShell
-      kicker="Extended API"
-      title="Opt into mixed sections and consumer-owned frequent items."
-      body="This demonstrates fork-owned extensions: supplemental image-backed items, unified search, and a frequent row that stays consumer-owned."
-    >
+    <div className="docs-demo-card">
       <div className="docs-picker-wrap">
         <SelectionBurstLayer selection={selection} />
         <EmojiPicker.Root
@@ -185,31 +213,15 @@ function ExtendedDemo() {
             />
           </EmojiPicker.Viewport>
           <div className="picker-footer">
-            {selection.kind === "native" ? (
-              <>
-                <div className="picker-footer-emoji">{selection.item.emoji}</div>
-                <span className="picker-footer-label">{selection.item.label}</span>
-              </>
-            ) : (
-              <>
-                <img
-                  className="picker-footer-image"
-                  src={selection.item.imageUrl}
-                  alt={selection.item.label}
-                  width="20"
-                  height="20"
-                />
-                <span className="picker-footer-label">{selection.item.label}</span>
-              </>
-            )}
+            <DemoPickerFooter selection={selection} />
           </div>
         </EmojiPicker.Root>
       </div>
-    </SectionDemoShell>
+    </div>
   );
 }
 
-function NativeSearchDemo() {
+export function NativeSearchDemo() {
   const columns = useResponsiveColumns(7, 8, 9);
   const [query, setQuery] = useState("good bye");
   const [selection, setSelection] =
@@ -296,7 +308,6 @@ function NativeSearchDemo() {
 export function DocsDemos() {
   return (
     <div className="docs-demos">
-      <ExtendedDemo />
       <NativeSearchDemo />
     </div>
   );

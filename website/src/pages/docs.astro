@@ -1,7 +1,9 @@
 ---
 import BaseApiSection from "../content/docs/base-api.mdx";
+import ExtendedApiSection from "../content/docs/extended-api.mdx";
 import SetupSection from "../content/docs/installation.mdx";
 import BaseApiDemoIsland from "../components/docs/BaseApiDemoIsland.astro";
+import ExtendedApiDemoIsland from "../components/docs/ExtendedApiDemoIsland.astro";
 import { DocsDemos } from "../components/docs/DocsDemos";
 import SiteHeader from "../components/SiteHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -51,6 +53,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     <SetupSection />
     <BaseApiSection components={{ BaseApiDemoIsland }} />
+    <hr class="docs-section-divider" />
+    <ExtendedApiSection components={{ ExtendedApiDemoIsland }} />
     <DocsDemos client:load />
   </main>
 </BaseLayout>
