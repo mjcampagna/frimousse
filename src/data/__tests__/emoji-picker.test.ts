@@ -221,6 +221,42 @@ const data: EmojiData = {
   },
 };
 
+const groupedSupplemental = {
+  sections: [
+    {
+      id: "favorites",
+      label: "Favorites",
+      position: "prepend" as const,
+      searchable: false,
+      items: [
+        {
+          kind: "supplemental" as const,
+          id: "shipit",
+          label: "Ship It",
+          aliases: ["ship it"],
+        },
+      ],
+    },
+    {
+      id: "team",
+      label: "Team",
+      position: "append" as const,
+      items: [
+        {
+          kind: "supplemental" as const,
+          id: "party-parrot",
+          label: "Party Parrot",
+          aliases: ["party"],
+        },
+      ],
+    },
+  ],
+  search: {
+    mode: "grouped" as const,
+    resultsLabel: "Results",
+  },
+};
+
 describe("searchEmojis", () => {
   it("should return all emojis when search is missing or empty", () => {
     expect(searchEmojis(data.emojis)).toEqual(data.emojis);
@@ -391,5 +427,33 @@ describe("getEmojiPickerData", () => {
     );
 
     expect(result.rows[0]?.emojis[0]?.id).toBe("👋🏿");
+  });
+
+  it("should keep grouped search results split by section and native category", () => {
+    const result = getEmojiPickerData(
+      data,
+      10,
+      undefined,
+      "party",
+      groupedSupplemental,
+    );
+
+    expect(result.count).toBe(2);
+    expect(result.categories).toEqual([
+      {
+        label: "Activities",
+        rowsCount: 1,
+        startRowIndex: 0,
+      },
+      {
+        label: "Team",
+        rowsCount: 1,
+        startRowIndex: 1,
+      },
+    ]);
+    expect(result.categoriesStartRowIndices).toEqual([0, 1]);
+    expect(result.rows).toHaveLength(2);
+    expect(result.rows[0]?.emojis.map((item) => item.id)).toEqual(["🎉"]);
+    expect(result.rows[1]?.emojis.map((item) => item.id)).toEqual(["party-parrot"]);
   });
 });

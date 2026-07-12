@@ -19,7 +19,9 @@ import type {
   EmojiPickerSelection,
   EmojiPickerSupplementalConfig,
   EmojiPickerSupplementalSearch,
+  NativeEmojiPickerSelection,
   NativeEmojiPickerItem,
+  SupplementalEmojiPickerSelection,
   SupplementalEmojiPickerItem,
 } from "./supplemental-types";
 
@@ -59,9 +61,14 @@ export type CustomEmojiInput = Resolve<EmojiPickerCustomEmojiInput>;
 export type CustomSection = Resolve<EmojiPickerCustomSection>;
 export type CustomSectionOptions = Resolve<EmojiPickerCustomSectionOptions>;
 export type NativeItem = Resolve<NativeEmojiPickerItem>;
+export type SupplementalItem = Resolve<SupplementalEmojiPickerItem>;
 export type SupplementalEmoji = Resolve<SupplementalEmojiPickerItem>;
 export type PickerItem = Resolve<EmojiPickerItem>;
+export type NativeSelection = Resolve<NativeEmojiPickerSelection>;
+export type SupplementalSelection = Resolve<SupplementalEmojiPickerSelection>;
+export type PickerSelection = Resolve<EmojiPickerSelection>;
 export type EmojiPickerItemSelection = Resolve<EmojiPickerSelection>;
+export type PickerSection = Resolve<EmojiPickerSection>;
 export type SupplementalSection = Resolve<EmojiPickerSection>;
 export type SupplementalSearch = Resolve<EmojiPickerSupplementalSearch>;
 export type SectionPosition = Resolve<EmojiPickerSectionPosition>;

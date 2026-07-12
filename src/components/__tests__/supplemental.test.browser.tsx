@@ -454,6 +454,21 @@ describe("EmojiPicker supplemental items", () => {
       .toBeInTheDocument();
   });
 
+  it("should keep grouped search results separated by section and native category", async () => {
+    page.render(<SupplementalPage searchMode="grouped" />);
+
+    await page.getByTestId("search").fill("grinning");
+
+    await expect.element(page.getByText("Results")).not.toBeInTheDocument();
+    await expect.element(page.getByText("Favorites")).not.toBeInTheDocument();
+    await expect.element(page.getByText("Smileys & Emotion")).toBeInTheDocument();
+    await expect.element(page.getByText("Team")).toBeInTheDocument();
+    await expect.element(page.getByText("😀")).toBeInTheDocument();
+    await expect
+      .element(page.getByRole("gridcell", { name: "Grinning Bot" }))
+      .toBeInTheDocument();
+  });
+
   it("should allow onSelectionChange without supplemental configuration", async () => {
     function NativeSelectionPage() {
       const [selection, setSelection] = useState("");

@@ -126,7 +126,7 @@ function BasicDemo() {
     <SectionDemoShell
       kicker="Base API"
       title="Start with the familiar picker composition model."
-      body="This stays close to upstream: search, viewport, loading, empty, list, and the default native dataset."
+      body="This stays close to upstream: grouped search, viewport, loading, empty, list, and the default native dataset."
     >
       <div className="docs-picker-wrap">
         <SelectionBurstLayer selection={selection} />
