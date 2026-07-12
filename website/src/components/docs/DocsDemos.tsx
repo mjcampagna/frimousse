@@ -1,11 +1,4 @@
-import {
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { memo, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   buildEmojiPickerFrequentSection,
   EmojiPicker,
@@ -27,6 +20,7 @@ type SectionDemoShellProps = {
   kicker: string;
   title: string;
   body: string;
+  framed?: boolean;
 };
 
 const nativeSearchTerms = buildNativeEmojiSearchTermMap([
@@ -104,6 +98,7 @@ function SectionDemoShell({
   title,
   body,
   children,
+  framed = true,
 }: SectionDemoShellProps) {
   return (
     <section className="docs-demo">
@@ -112,43 +107,12 @@ function SectionDemoShell({
         <h2>{title}</h2>
         <p>{body}</p>
       </div>
-      <div className="docs-demo-card">{children}</div>
+      {framed ? (
+        <div className="docs-demo-card">{children}</div>
+      ) : (
+        <div className="docs-demo-flow">{children}</div>
+      )}
     </section>
-  );
-}
-
-function BasicDemo() {
-  const columns = useResponsiveColumns(7, 8, 9);
-  const [selection, setSelection] =
-    useState<EmojiPickerItemSelection>(initialSelection);
-
-  return (
-    <SectionDemoShell
-      kicker="Base API"
-      title="Start with the familiar picker composition model."
-      body="This stays close to upstream: grouped search, viewport, loading, empty, list, and the default native dataset."
-    >
-      <div className="docs-picker-wrap">
-        <SelectionBurstLayer selection={selection} />
-        <EmojiPicker.Root
-          columns={columns}
-          onSelectionChange={setSelection}
-          sticky
-        >
-          <div className="picker-toolbar">
-            <EmojiPicker.Search placeholder="Search emoji" />
-            <EmojiPicker.SkinToneSelector />
-          </div>
-          <EmojiPicker.Viewport tabIndex={0}>
-            <EmojiPicker.Loading>
-              <PickerLoadingSkeleton columns={columns} />
-            </EmojiPicker.Loading>
-            <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
-            <EmojiPicker.List />
-          </EmojiPicker.Viewport>
-        </EmojiPicker.Root>
-      </div>
-    </SectionDemoShell>
   );
 }
 
@@ -332,7 +296,6 @@ function NativeSearchDemo() {
 export function DocsDemos() {
   return (
     <div className="docs-demos">
-      <BasicDemo />
       <ExtendedDemo />
       <NativeSearchDemo />
     </div>

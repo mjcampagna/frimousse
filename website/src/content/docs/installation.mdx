@@ -1,0 +1,23 @@
+<section class="docs-markdown-section">
+
+## Installation
+
+If you are coming from upstream Frimousse, start by switching the package and imports, then opt into additive APIs when you need them.
+
+### Install
+
+Add the package to your project.
+
+```bash
+pnpm add @slithy/frimousse
+```
+
+### Migrate
+
+For baseline usage, migration from upstream Frimousse is usually just an import change. Existing native-only picker composition can stay as-is.
+
+```tsx
+- import { EmojiPicker } from "frimousse";
++ import { EmojiPicker } from "@slithy/frimousse";
+```
+</section>

@@ -1,0 +1,84 @@
+---
+import BaseApiDemoIsland from "../../components/docs/BaseApiDemoIsland.astro";
+---
+
+<section class="docs-markdown-section">
+
+## Base API
+
+> For the complete native-only reference, see [frimousse.liveblocks.io](https://frimousse.liveblocks.io/).
+
+Import the `EmojiPicker` parts and create your own component by composing them.
+
+The default picker uses the native emoji dataset, grouped search, loading and empty states, and keyboard navigation out of the box.
+
+```tsx
+import { EmojiPicker } from "@slithy/frimousse";
+
+export function MyEmojiPicker() {
+  return (
+    <EmojiPicker.Root>
+      <EmojiPicker.Search placeholder="Search emoji" />
+      <EmojiPicker.Viewport>
+        <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+        <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+        <EmojiPicker.List />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+```
+
+The parts are intentionally unstyled. Apply layout and visual styling in your own system, whether that is Tailwind CSS, CSS-in-JS, or vanilla CSS.
+
+```tsx
+<EmojiPicker.Root className="flex h-[368px] w-fit flex-col bg-white">
+  <EmojiPicker.Search className="mx-2 mt-2 rounded-md bg-neutral-100 px-2.5 py-2 text-sm" />
+  <EmojiPicker.Viewport className="relative flex-1 outline-hidden">
+    <EmojiPicker.Loading className="absolute inset-0 flex items-center justify-center text-sm text-neutral-400">
+      Loading…
+    </EmojiPicker.Loading>
+    <EmojiPicker.Empty className="absolute inset-0 flex items-center justify-center text-sm text-neutral-400">
+      No emoji found.
+    </EmojiPicker.Empty>
+    <EmojiPicker.List
+      className="select-none pb-1.5"
+      components={{
+        CategoryHeader: ({ category, ...props }) => (
+          <div className="bg-white px-3 pt-3 pb-1.5 text-xs font-medium text-neutral-600" {...props}>
+            {category.label}
+          </div>
+        ),
+        Row: ({ children, ...props }) => (
+          <div className="scroll-my-1.5 px-1.5" {...props}>
+            {children}
+          </div>
+        ),
+        Emoji: ({ emoji, ...props }) => (
+          <button
+            className="flex size-8 items-center justify-center rounded-md text-lg data-[active]:bg-neutral-100"
+            {...props}
+          >
+            {emoji.emoji}
+          </button>
+        ),
+      }}
+    />
+  </EmojiPicker.Viewport>
+</EmojiPicker.Root>
+```
+
+<BaseApiDemoIsland />
+
+### Using it in a popover
+
+The picker only provides the emoji UI. If you want a menu, dialog, or popover around it, compose it with your existing overlay components.
+
+### Behavior notes
+
+`Root` manages locale, skin tone, keyboard navigation, active state, and selection callbacks for the picker tree. Use `Root`, `Search`, `Viewport`, `List`, `Loading`, and `Empty` for the baseline composition.
+
+Search filters the native dataset and keeps matching emoji grouped under their category headings. Use `onEmojiSelect` for native emoji selection. `SkinToneSelector`, `SkinTone`, `ActiveEmoji`, `useSkinTone`, and `useActiveEmoji` work with native emoji only.
+
+`List` is virtualized, so custom row and category-header components should keep consistent dimensions for accurate scrolling and sticky headers.
+</section>

@@ -10,6 +10,7 @@
     "lint:biome": "biome lint src/components src/styles"
   },
   "dependencies": {
+    "@astrojs/mdx": "^7.0.2",
     "@astrojs/react": "^6.0.1",
     "@slithy/emoji-kit": "link:../../emoji-kit",
     "@slithy/frimousse": "workspace:*",

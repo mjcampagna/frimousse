@@ -36,16 +36,16 @@
   --font-weight-normal: 400;
   --font-weight-light: 300;
 
-  --bg: #f8f8f6;
-  --bg-elevated: rgba(255, 255, 255, 0.9);
+  --bg: #ffffff;
+  --bg-elevated: #ffffff;
   --bg-strong: #ffffff;
-  --bg-accent: #f3f3ef;
-  --text: #171717;
-  --text-muted: #4f4f4d;
-  --text-soft: #787874;
-  --line: rgba(23, 23, 23, 0.1);
-  --line-strong: rgba(23, 23, 23, 0.18);
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --bg-accent: #f5f5f5;
+  --text: #0a0a0a;
+  --text-muted: #525252;
+  --text-soft: #a3a3a3;
+  --line: #e5e5e5;
+  --line-strong: #d4d4d4;
+  --shadow: none;
   --button: #171717;
   --button-text: #fafaf9;
   --button-secondary: #ffffff;
@@ -419,7 +419,7 @@ pre {
 .docs-summary {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .docs-summary article,
@@ -427,6 +427,14 @@ pre {
   background: var(--bg-elevated);
   border: 1px solid var(--line);
   border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.docs-demo-card,
+.docs-summary article,
+.hero-callout,
+.feature-strip article,
+.demo-card {
   box-shadow: var(--shadow);
 }
 
@@ -457,11 +465,109 @@ pre {
   gap: 18px;
 }
 
+.docs-markdown-section {
+  max-width: 72ch;
+}
+
+.docs-markdown-section + .docs-markdown-section,
+.docs-markdown-section + .docs-demos {
+  margin-top: 56px;
+}
+
+.docs-markdown-section h2,
+.docs-markdown-section h3 {
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: var(--leading-tight);
+}
+
+.docs-markdown-section h2 {
+  font-size: clamp(var(--text-2xl), 3vw, var(--text-3xl));
+  margin: 0 0 16px;
+}
+
+.docs-markdown-section h3 {
+  font-size: var(--text-lg);
+  margin: 32px 0 12px;
+}
+
+.docs-markdown-section p,
+.docs-markdown-section blockquote,
+.docs-markdown-section ul,
+.docs-markdown-section ol {
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.docs-markdown-section p,
+.docs-markdown-section ul,
+.docs-markdown-section ol {
+  margin: 16px 0;
+}
+
+.docs-markdown-section a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 0.18em;
+}
+
+.docs-markdown-section strong {
+  color: var(--text);
+}
+
+.docs-markdown-section :not(pre) > code {
+  background: var(--bg-accent);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.12em 0.35em;
+}
+
+.docs-markdown-section blockquote {
+  background: var(--bg-accent);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line-strong);
+  border-radius: 10px;
+  margin: 20px 0;
+  padding: 12px 14px;
+}
+
+.docs-markdown-section blockquote > :first-child {
+  margin-top: 0;
+}
+
+.docs-markdown-section blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.docs-markdown-section .astro-code,
+.docs-markdown-section .docs-demo-card {
+  margin: 20px 0;
+}
+
 .docs-demo-copy {
   display: flex;
   flex-direction: column;
   gap: 10px;
   max-width: 68ch;
+}
+
+.docs-note {
+  background: var(--bg-accent);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+  padding: 12px 14px;
+}
+
+.docs-note a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .docs-demo-copy h2 {
@@ -473,6 +579,66 @@ pre {
 .docs-demo-card {
   overflow: hidden;
   padding: 16px;
+}
+
+.docs-demo-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.docs-base-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.docs-base-copy p {
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+}
+
+.docs-base-copy a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.docs-base-copy h3 {
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.docs-base-copy code {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+}
+
+.docs-markdown-section .astro-code {
+  background: var(--bg-accent) !important;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  margin: 20px 0;
+  overflow-x: auto;
+  padding: 14px 16px;
+}
+
+.docs-markdown-section .astro-code code {
+  display: block;
+  min-width: 100%;
+  white-space: pre;
+}
+
+.docs-markdown-section .astro-code span {
+  color: var(--shiki-light);
+}
+
+:root[data-theme="dark"] .docs-markdown-section .astro-code span {
+  color: var(--shiki-dark);
 }
 
 .docs-picker-wrap {
