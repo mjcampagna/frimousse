@@ -2,14 +2,14 @@ import { describe, expect, expectTypeOf, it } from "vitest";
 import {
   isNativeSelection,
   isSupplementalSelection,
-  type EmojiPickerSelection,
-  type NativeEmojiPickerSelection,
-  type SupplementalEmojiPickerSelection,
+  type ItemSelection,
+  type NativeItemSelection,
+  type SupplementalItemSelection,
 } from "../index";
 
 describe("selection guards", () => {
   it("should identify native selections", () => {
-    const selection: EmojiPickerSelection = {
+    const selection: ItemSelection = {
       kind: "native",
       item: {
         kind: "native",
@@ -24,12 +24,12 @@ describe("selection guards", () => {
 
     if (isNativeSelection(selection)) {
       expect(selection.item.emoji).toBe("😀");
-      expectTypeOf(selection).toEqualTypeOf<NativeEmojiPickerSelection>();
+      expectTypeOf(selection).toEqualTypeOf<NativeItemSelection>();
     }
   });
 
   it("should identify supplemental selections", () => {
-    const selection: EmojiPickerSelection = {
+    const selection: ItemSelection = {
       kind: "supplemental",
       item: {
         kind: "supplemental",
@@ -44,7 +44,7 @@ describe("selection guards", () => {
 
     if (isSupplementalSelection(selection)) {
       expect(selection.item.id).toBe("shipit");
-      expectTypeOf(selection).toEqualTypeOf<SupplementalEmojiPickerSelection>();
+      expectTypeOf(selection).toEqualTypeOf<SupplementalItemSelection>();
     }
   });
 });

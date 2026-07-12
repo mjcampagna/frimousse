@@ -10,7 +10,7 @@ import {
   buildEmojiPickerFrequentSection,
   EmojiPicker,
   type EmojiPickerListSupplementalEmojiProps,
-  type EmojiPickerItemSelection,
+  type ItemSelection,
   type EmojiPickerUsageEntry,
   recordEmojiPickerUsage,
 } from "@slithy/frimousse";
@@ -21,7 +21,7 @@ import {
 import { PickerLoadingSkeleton } from "./PickerLoadingSkeleton";
 import { SelectionBurstLayer } from "./SelectionBurstLayer";
 
-const initialSelection: EmojiPickerItemSelection = {
+const initialSelection: ItemSelection = {
   kind: "native",
   item: {
     kind: "native",
@@ -56,11 +56,11 @@ function DemoPickerFooter({
   selection,
 }: {
   mode: "selection" | "active";
-  selection: EmojiPickerItemSelection;
+  selection: ItemSelection;
 }) {
   return (
-    <EmojiPicker.ActiveSelection>
-      {({ selection: activeSelection }) => {
+    <EmojiPicker.ActiveItem>
+      {({ item: activeSelection }) => {
         const displayedSelection =
           mode === "active" && activeSelection ? activeSelection : selection;
 
@@ -88,17 +88,17 @@ function DemoPickerFooter({
           </>
         );
       }}
-    </EmojiPicker.ActiveSelection>
+    </EmojiPicker.ActiveItem>
   );
 }
 
 const DemoPickerPanel = memo(function DemoPickerPanel({
   onCelebrateSelection,
 }: {
-  onCelebrateSelection: (selection: EmojiPickerItemSelection) => void;
+  onCelebrateSelection: (selection: ItemSelection) => void;
 }) {
   const [selection, setSelection] =
-    useState<EmojiPickerItemSelection>(initialSelection);
+    useState<ItemSelection>(initialSelection);
   const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>(() =>
     createDemoInitialFrequentEntries(),
   );
@@ -155,7 +155,7 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
   }, []);
 
   const handleSelectionChange = useCallback(
-    (nextSelection: EmojiPickerItemSelection) => {
+    (nextSelection: ItemSelection) => {
       setUsageEntries((current) => recordEmojiPickerUsage(current, nextSelection));
       setSelection(nextSelection);
       setFooterMode("selection");
@@ -189,7 +189,7 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
           setFooterMode("active");
         }}
         sticky
-        onSelectionChange={handleSelectionChange}
+        onItemSelect={handleSelectionChange}
         supplemental={supplemental}
       >
         <div className="picker-toolbar">
@@ -218,10 +218,10 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
 
 export function PickerDemo() {
   const [burstSelection, setBurstSelection] =
-    useState<EmojiPickerItemSelection>(initialSelection);
+    useState<ItemSelection>(initialSelection);
 
   const handleCelebrateSelection = useCallback(
-    (selection: EmojiPickerItemSelection) => {
+    (selection: ItemSelection) => {
       setBurstSelection(selection);
     },
     [],

@@ -74,15 +74,15 @@ Supplemental search defaults to grouped results. Set `mode: "unified"` to merge 
 </EmojiPicker.Root>
 ```
 
-### Selection widening
+### Item widening
 
-Use `onSelectionChange`, `useActiveSelection`, or `EmojiPicker.ActiveSelection` when your UI needs to react to both native and supplemental items.
+Use `onItemSelect`, `useActiveItem`, or `EmojiPicker.ActiveItem` when your UI needs to react to both native and supplemental items.
 
 ```tsx
-import { EmojiPicker, type EmojiPickerSelection } from "@slithy/frimousse";
+import { EmojiPicker, type ItemSelection } from "@slithy/frimousse";
 
 function MyEmojiPicker() {
-  const handleSelectionChange = (selection: EmojiPickerSelection) => {
+  const handleItemSelect = (selection: ItemSelection) => {
     if (selection.kind === "native") {
       console.log(selection.item.emoji);
       return;
@@ -92,7 +92,7 @@ function MyEmojiPicker() {
   };
 
   return (
-    <EmojiPicker.Root onSelectionChange={handleSelectionChange}>
+    <EmojiPicker.Root onItemSelect={handleItemSelect}>
       ...
     </EmojiPicker.Root>
   );
@@ -124,7 +124,7 @@ function MyEmojiPicker() {
 
   return (
     <EmojiPicker.Root
-      onSelectionChange={(selection) => {
+      onItemSelect={(selection) => {
         setUsageEntries((current) => recordEmojiPickerUsage(current, selection));
       }}
       supplemental={{
@@ -142,6 +142,6 @@ function MyEmojiPicker() {
 
 - `SupplementalEmoji` in `EmojiPicker.List` only needs to be customized if you want a different renderer for supplemental items.
 - `useActiveEmoji` and `EmojiPicker.ActiveEmoji` stay native-only.
-- `useActiveSelection` and `EmojiPicker.ActiveSelection` reflect supplemental items too.
+- `useActiveItem` and `EmojiPicker.ActiveItem` reflect supplemental items too.
 - Companion packages like `@slithy/emoji-kit` can enrich native search, but the Extended API itself does not depend on them.
 </section>

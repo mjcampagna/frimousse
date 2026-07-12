@@ -4,10 +4,10 @@ import { createEmojiPickerStore } from "../store";
 describe("createEmojiPickerStore", () => {
   it("should invoke both callbacks for native selections", () => {
     const onEmojiSelect = vi.fn();
-    const onSelectionChange = vi.fn();
+    const onItemSelect = vi.fn();
     const store = createEmojiPickerStore(
       onEmojiSelect,
-      onSelectionChange,
+      onItemSelect,
       "en",
       9,
       true,
@@ -25,7 +25,7 @@ describe("createEmojiPickerStore", () => {
       emoji: "😀",
       label: "Grinning face",
     });
-    expect(onSelectionChange).toHaveBeenCalledWith({
+    expect(onItemSelect).toHaveBeenCalledWith({
       kind: "native",
       item: {
         kind: "native",
@@ -38,10 +38,10 @@ describe("createEmojiPickerStore", () => {
 
   it("should only invoke the widened callback for supplemental selections", () => {
     const onEmojiSelect = vi.fn();
-    const onSelectionChange = vi.fn();
+    const onItemSelect = vi.fn();
     const store = createEmojiPickerStore(
       onEmojiSelect,
-      onSelectionChange,
+      onItemSelect,
       "en",
       9,
       true,
@@ -56,7 +56,7 @@ describe("createEmojiPickerStore", () => {
     });
 
     expect(onEmojiSelect).not.toHaveBeenCalled();
-    expect(onSelectionChange).toHaveBeenCalledWith({
+    expect(onItemSelect).toHaveBeenCalledWith({
       kind: "supplemental",
       item: {
         kind: "supplemental",

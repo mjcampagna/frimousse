@@ -64,7 +64,7 @@ function SupplementalPage({
         onEmojiSelect={(emoji) => {
           setNativeSelection(emoji.emoji);
         }}
-        onSelectionChange={(nextSelection) => {
+        onItemSelect={(nextSelection) => {
           setSelection(
             nextSelection.kind === "native"
               ? `native:${nextSelection.item.emoji}`
@@ -87,15 +87,15 @@ function SupplementalPage({
               }
             </EmojiPicker.ActiveEmoji>
           ) : null}
-          <EmojiPicker.ActiveSelection>
-            {({ selection }) =>
-              selection ? (
+          <EmojiPicker.ActiveItem>
+            {({ item }) =>
+              item ? (
                 <p data-testid="active-selection">
-                  {selection.kind}:{selection.item.label}
+                  {item.kind}:{item.item.label}
                 </p>
               ) : null
             }
-          </EmojiPicker.ActiveSelection>
+          </EmojiPicker.ActiveItem>
           <EmojiPicker.List
             components={{
               CategoryHeader: ({ category, ...props }) => (
@@ -148,7 +148,7 @@ function CustomEmojiPage() {
 
   return (
     <EmojiPicker.Root
-      onSelectionChange={(selection) => {
+      onItemSelect={(selection) => {
         setUsageEntries((current) => recordEmojiPickerUsage(current, selection));
       }}
       supplemental={{
@@ -223,7 +223,7 @@ function FirstFrequentInsertionPage() {
 
   return (
     <EmojiPicker.Root
-      onSelectionChange={(selection) => {
+      onItemSelect={(selection) => {
         setUsageEntries((current) => recordEmojiPickerUsage(current, selection));
       }}
       supplemental={{
@@ -232,17 +232,17 @@ function FirstFrequentInsertionPage() {
     >
       <EmojiPicker.Search />
       <EmojiPicker.Viewport style={{ height: 1200 }}>
-        <EmojiPicker.ActiveSelection>
-          {({ selection }) =>
-            selection ? (
+        <EmojiPicker.ActiveItem>
+          {({ item }) =>
+            item ? (
               <p data-testid="active-selection-state">
-                {selection.kind}:{selection.item.label}
+                {item.kind}:{item.item.label}
               </p>
             ) : (
               <p data-testid="active-selection-state">none</p>
             )
           }
-        </EmojiPicker.ActiveSelection>
+        </EmojiPicker.ActiveItem>
         <EmojiPicker.List
           components={{
             Emoji: ({ emoji, ...props }) => (
@@ -354,7 +354,7 @@ function FrequentDuplicatePage() {
 
   return (
     <EmojiPicker.Root
-      onSelectionChange={(selection) => {
+      onItemSelect={(selection) => {
         setUsageEntries((current) => recordEmojiPickerUsage(current, selection));
       }}
       supplemental={{
@@ -420,7 +420,7 @@ describe("EmojiPicker supplemental items", () => {
       .toHaveTextContent("native:😀");
   });
 
-  it("should keep ActiveEmoji native-only while ActiveSelection includes supplemental items", async () => {
+  it("should keep ActiveEmoji native-only while ActiveItem includes supplemental items", async () => {
     page.render(<SupplementalPage withActiveEmoji />);
 
     await page.getByText("Ship It").hover();
@@ -469,7 +469,7 @@ describe("EmojiPicker supplemental items", () => {
       .toBeInTheDocument();
   });
 
-  it("should allow onSelectionChange without supplemental configuration", async () => {
+  it("should allow onItemSelect without supplemental configuration", async () => {
     function NativeSelectionPage() {
       const [selection, setSelection] = useState("");
 
@@ -477,7 +477,7 @@ describe("EmojiPicker supplemental items", () => {
         <>
           <p data-testid="selection">{selection}</p>
           <EmojiPicker.Root
-            onSelectionChange={(nextSelection) => {
+            onItemSelect={(nextSelection) => {
               setSelection(
                 nextSelection.kind === "native"
                   ? `native:${nextSelection.item.emoji}`

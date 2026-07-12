@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import {
   buildEmojiPickerFrequentSection,
   EmojiPicker,
-  type EmojiPickerItemSelection,
+  type ItemSelection,
   type EmojiPickerListSupplementalEmojiProps,
   type EmojiPickerUsageEntry,
   recordEmojiPickerUsage,
@@ -31,7 +31,7 @@ const nativeSearchTerms = buildNativeEmojiSearchTermMap([
   },
 ]);
 
-const initialSelection: EmojiPickerItemSelection = {
+const initialSelection: ItemSelection = {
   kind: "native",
   item: {
     kind: "native",
@@ -59,12 +59,12 @@ const DocsSupplementalEmoji = memo(function DocsSupplementalEmoji({
 function DemoPickerFooter({
   selection,
 }: {
-  selection: EmojiPickerItemSelection;
+  selection: ItemSelection;
 }) {
   return (
-    <EmojiPicker.ActiveSelection>
-      {({ selection: activeSelection }) => {
-        const displayedSelection = activeSelection ?? selection;
+    <EmojiPicker.ActiveItem>
+      {({ item: activeItem }) => {
+        const displayedSelection = activeItem ?? selection;
 
         return displayedSelection.kind === "native" ? (
           <>
@@ -84,7 +84,7 @@ function DemoPickerFooter({
           </>
         );
       }}
-    </EmojiPicker.ActiveSelection>
+    </EmojiPicker.ActiveItem>
   );
 }
 
@@ -120,7 +120,7 @@ function useResponsiveColumns(small = 7, medium = 8, large = 9) {
 export function ExtendedDemo() {
   const columns = useResponsiveColumns(7, 8, 9);
   const [selection, setSelection] =
-    useState<EmojiPickerItemSelection>(initialSelection);
+    useState<ItemSelection>(initialSelection);
   const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>(() =>
     createDemoInitialFrequentEntries(),
   );
@@ -149,7 +149,7 @@ export function ExtendedDemo() {
   );
 
   const handleSelectionChange = useCallback(
-    (nextSelection: EmojiPickerItemSelection) => {
+    (nextSelection: ItemSelection) => {
       setSelection(nextSelection);
       setUsageEntries((current) => recordEmojiPickerUsage(current, nextSelection));
     },
@@ -162,7 +162,7 @@ export function ExtendedDemo() {
         <SelectionBurstLayer selection={selection} />
         <EmojiPicker.Root
           columns={columns}
-          onSelectionChange={handleSelectionChange}
+          onItemSelect={handleSelectionChange}
           sticky
           supplemental={supplemental}
         >
@@ -194,7 +194,7 @@ export function NativeSearchDemo() {
   const columns = useResponsiveColumns(7, 8, 9);
   const [query, setQuery] = useState("good bye");
   const [selection, setSelection] =
-    useState<EmojiPickerItemSelection>(initialSelection);
+    useState<ItemSelection>(initialSelection);
 
   const examples = [
     { term: "good_bye", value: "good_bye", emoji: "👋" },
@@ -227,7 +227,7 @@ export function NativeSearchDemo() {
           <SelectionBurstLayer selection={selection} />
           <EmojiPicker.Root
             columns={columns}
-            onSelectionChange={setSelection}
+            onItemSelect={setSelection}
             search={{ native: { terms: nativeSearchTerms } }}
             sticky
           >

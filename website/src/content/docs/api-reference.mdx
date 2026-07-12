@@ -31,7 +31,7 @@ Available parts:
 - `EmojiPicker.Empty`
 - `EmojiPicker.SkinToneSelector`
 - `EmojiPicker.ActiveEmoji`
-- `EmojiPicker.ActiveSelection`
+- `EmojiPicker.ActiveItem`
 - `EmojiPicker.SkinTone`
 
 ### Named exports
@@ -48,7 +48,7 @@ import {
   rankEmojiPickerUsage,
   recordEmojiPickerUsage,
   useActiveEmoji,
-  useActiveSelection,
+  useActiveItem,
   useSkinTone,
 } from "@slithy/frimousse";
 ```
@@ -64,7 +64,7 @@ Props:
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
 | `onEmojiSelect` | `(emoji: Emoji) => void` | - | Called when a native emoji is selected. |
-| `onSelectionChange` | `(selection: EmojiPickerSelection) => void` | - | Called when any picker item is selected, including supplemental items. Additive; does not replace `onEmojiSelect`. |
+| `onItemSelect` | `(selection: ItemSelection) => void` | - | Called when any picker item is selected, including supplemental items. Additive; does not replace `onEmojiSelect`. |
 | `locale` | `Locale` | `"en"` | Emojibase locale. |
 | `skinTone` | `SkinTone` | `"none"` | Initial skin tone. |
 | `columns` | `number` | `10` | Number of visible list columns. |
@@ -246,19 +246,19 @@ Props:
 
 - `emoji?: Emoji`
 
-### `EmojiPicker.ActiveSelection`
+### `EmojiPicker.ActiveItem`
 
-Render-prop component for the currently active selection, including supplemental items.
+Render-prop component for the currently active item, including supplemental items.
 
 Props:
 
 | Prop | Type | Notes |
 | --- | --- | --- |
-| `children` | `(props: EmojiPickerActiveSelectionRenderProps) => ReactNode` | Widened active-item surface. |
+| `children` | `(props: EmojiPickerActiveItemRenderProps) => ReactNode` | Widened active-item surface. |
 
-`EmojiPickerActiveSelectionRenderProps`:
+`EmojiPickerActiveItemRenderProps`:
 
-- `selection?: EmojiPickerSelection`
+- `item?: ItemSelection`
 
 ### `EmojiPicker.SkinTone`
 
@@ -296,17 +296,17 @@ Notes:
 - Native-only.
 - Returns the hovered item or the keyboard-active item.
 
-### `useActiveSelection()`
+### `useActiveItem()`
 
-Returns the currently active selection, including supplemental items.
+Returns the currently active item, including supplemental items.
 
 ```ts
-const activeSelection = useActiveSelection();
+const activeItem = useActiveItem();
 ```
 
 Return type:
 
-- `EmojiPickerItemSelection | undefined`
+- `ItemSelection | undefined`
 
 ### `useSkinTone(emoji = "✋")`
 
@@ -340,7 +340,7 @@ type EmojiPickerSupplementalConfig = {
 | `mode` | `"grouped" \| "unified"` | `"grouped"` | Search result presentation mode for supplemental content. |
 | `resultsLabel` | `string` | - | Label used for unified result sections. |
 
-### Items, sections, and selections
+### Items, sections, and item selections
 
 ```ts
 type NativeEmojiPickerItem = {
@@ -373,19 +373,19 @@ type EmojiPickerSection<TItem extends EmojiPickerItem = EmojiPickerItem> = {
   searchable?: boolean;
 };
 
-type NativeEmojiPickerSelection = {
+type NativeItemSelection = {
   kind: "native";
   item: NativeEmojiPickerItem;
 };
 
-type SupplementalEmojiPickerSelection = {
+type SupplementalItemSelection = {
   kind: "supplemental";
   item: SupplementalEmojiPickerItem;
 };
 
-type EmojiPickerSelection =
-  | NativeEmojiPickerSelection
-  | SupplementalEmojiPickerSelection;
+type ItemSelection =
+  | NativeItemSelection
+  | SupplementalItemSelection;
 ```
 
 ### Selection guards
@@ -395,7 +395,7 @@ isNativeSelection(selection)
 isSupplementalSelection(selection)
 ```
 
-Use these to narrow `EmojiPickerSelection` unions safely.
+Use these to narrow `ItemSelection` unions safely.
 
 ## Custom Emoji Helpers
 
@@ -454,7 +454,7 @@ Type guard for a supplemental item with a required `imageUrl`.
 ### Types
 
 ```ts
-type EmojiPickerUsageSource = EmojiPickerItem | EmojiPickerSelection;
+type EmojiPickerUsageSource = EmojiPickerItem | ItemSelection;
 
 type EmojiPickerUsageEntry = {
   key: string;
@@ -570,8 +570,7 @@ The implementation also uses internal measurement and sizing attributes. Treat t
 - `PickerItem`
 - `NativeSelection`
 - `SupplementalSelection`
-- `PickerSelection`
-- `EmojiPickerItemSelection`
+- `ItemSelection`
 
 ### Sections and search
 
@@ -595,8 +594,8 @@ The implementation also uses internal measurement and sizing attributes. Treat t
 - `EmojiPickerSkinToneSelectorProps`
 - `EmojiPickerActiveEmojiProps`
 - `EmojiPickerActiveEmojiRenderProps`
-- `EmojiPickerActiveSelectionProps`
-- `EmojiPickerActiveSelectionRenderProps`
+- `EmojiPickerActiveItemProps`
+- `EmojiPickerActiveItemRenderProps`
 - `EmojiPickerSkinToneProps`
 - `EmojiPickerSkinToneRenderProps`
 - `EmojiPickerListComponents`
@@ -636,19 +635,20 @@ The implementation also uses internal measurement and sizing attributes. Treat t
 ### Supplemental additive surface
 
 - `EmojiPickerItem`
+- `Item`
 - `EmojiPickerSection`
 - `EmojiPickerSectionPosition`
-- `EmojiPickerSelection`
 - `EmojiPickerSupplementalConfig`
 - `EmojiPickerSupplementalSearch`
 - `NativeEmojiPickerItem`
 - `SupplementalEmojiPickerItem`
-- `NativeEmojiPickerSelection`
-- `SupplementalEmojiPickerSelection`
+- `NativeItemSelection`
+- `SupplementalItemSelection`
+- `ItemSelection`
 
 ## Notes
 
 - `useActiveEmoji` and `EmojiPicker.ActiveEmoji` remain native-only.
-- `useActiveSelection` and `EmojiPicker.ActiveSelection` include supplemental items.
+- `useActiveItem` and `EmojiPicker.ActiveItem` include supplemental items.
 - `onEmojiSelect` remains native-only.
-- `onSelectionChange` is the widened additive callback for both native and supplemental items.
+- `onItemSelect` is the widened additive callback for both native and supplemental items.

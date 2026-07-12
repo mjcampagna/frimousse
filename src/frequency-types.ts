@@ -2,10 +2,10 @@ import type {
   EmojiPickerItem,
   EmojiPickerSection,
   EmojiPickerSectionPosition,
-  EmojiPickerSelection,
+  ItemSelection,
 } from "./supplemental-types";
 
-export type EmojiPickerUsageSource = EmojiPickerItem | EmojiPickerSelection;
+export type EmojiPickerUsageSource = EmojiPickerItem | ItemSelection;
 
 export type EmojiPickerUsageEntry = {
   key: string;

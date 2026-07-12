@@ -1,9 +1,9 @@
 import { type CSSProperties, useEffect, useRef, useState } from "react";
-import type { EmojiPickerItemSelection } from "@slithy/frimousse";
+import type { ItemSelection } from "@slithy/frimousse";
 
 type SelectionBurst = {
   id: number;
-  selection: EmojiPickerItemSelection;
+  selection: ItemSelection;
 };
 
 const confettiOffsets = [
@@ -18,7 +18,7 @@ const confettiOffsets = [
 export function SelectionBurstLayer({
   selection,
 }: {
-  selection: EmojiPickerItemSelection;
+  selection: ItemSelection;
 }) {
   const [bursts, setBursts] = useState<SelectionBurst[]>([]);
   const burstIdRef = useRef(0);

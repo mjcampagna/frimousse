@@ -2,6 +2,7 @@ import type { RefObject } from "react";
 import type {
   EmojiPickerData,
   EmojiPickerDataRow,
+  ItemSelection,
   EmojiPickerRootProps,
   Locale,
   SkinTone,
@@ -45,7 +46,7 @@ export type EmojiPickerStore = {
   sticky: boolean;
   skinTone: SkinTone;
   onEmojiSelect: NonNullable<EmojiPickerRootProps["onEmojiSelect"]>;
-  onSelectionChange: NonNullable<EmojiPickerRootProps["onSelectionChange"]>;
+  onItemSelect: NonNullable<EmojiPickerRootProps["onItemSelect"]>;
 
   data: EmojiPickerData | null | undefined;
   search: string;
@@ -87,7 +88,7 @@ export type EmojiPickerStore = {
 
 export function createEmojiPickerStore(
   onEmojiSelect: NonNullable<EmojiPickerRootProps["onEmojiSelect"]>,
-  onSelectionChange: NonNullable<EmojiPickerRootProps["onSelectionChange"]>,
+  onItemSelect: NonNullable<EmojiPickerRootProps["onItemSelect"]>,
   initialLocale: Locale,
   initialColumns: number,
   initialSticky: boolean,
@@ -101,7 +102,7 @@ export function createEmojiPickerStore(
     sticky: initialSticky,
     skinTone: initialSkinTone,
     onEmojiSelect,
-    onSelectionChange,
+    onItemSelect,
 
     data: null,
     search: "",
@@ -133,11 +134,11 @@ export function createEmojiPickerStore(
         });
       }
 
-      get().onSelectionChange(
-        isNativeEmojiPickerItem(item)
-          ? { kind: "native", item }
-          : { kind: "supplemental", item },
-      );
+      const selection: ItemSelection = isNativeEmojiPickerItem(item)
+        ? { kind: "native", item }
+        : { kind: "supplemental", item };
+
+      get().onItemSelect(selection);
     },
 
     updateViewportState: (partial?: Partial<EmojiPickerStore>) => {

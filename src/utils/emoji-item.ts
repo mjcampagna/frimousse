@@ -1,9 +1,9 @@
 import type {
   EmojiPickerItem,
-  EmojiPickerSelection,
-  NativeEmojiPickerSelection,
+  ItemSelection,
+  NativeItemSelection,
   NativeEmojiPickerItem,
-  SupplementalEmojiPickerSelection,
+  SupplementalItemSelection,
   SupplementalEmojiPickerItem,
 } from "../supplemental-types";
 
@@ -20,14 +20,14 @@ export function isNativeEmojiPickerItem(
 }
 
 export function isSupplementalSelection(
-  selection: EmojiPickerSelection,
-): selection is SupplementalEmojiPickerSelection {
+  selection: ItemSelection,
+): selection is SupplementalItemSelection {
   return selection.kind === "supplemental";
 }
 
 export function isNativeSelection(
-  selection: EmojiPickerSelection,
-): selection is NativeEmojiPickerSelection {
+  selection: ItemSelection,
+): selection is NativeItemSelection {
   return selection.kind === "native";
 }
 

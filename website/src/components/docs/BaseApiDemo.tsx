@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { EmojiPicker, type EmojiPickerItemSelection } from "@slithy/frimousse";
+import { EmojiPicker, type ItemSelection } from "@slithy/frimousse";
 import { PickerLoadingSkeleton } from "../demo/PickerLoadingSkeleton";
 import { SelectionBurstLayer } from "../demo/SelectionBurstLayer";
 
-const initialSelection: EmojiPickerItemSelection = {
+const initialSelection: ItemSelection = {
   kind: "native",
   item: {
     kind: "native",
@@ -45,7 +45,7 @@ function useResponsiveColumns(small = 7, medium = 8, large = 9) {
 export function BaseApiDemo() {
   const columns = useResponsiveColumns(7, 8, 9);
   const [selection, setSelection] =
-    useState<EmojiPickerItemSelection>(initialSelection);
+    useState<ItemSelection>(initialSelection);
 
   return (
     <div className="docs-demo-card">
@@ -54,7 +54,7 @@ export function BaseApiDemo() {
         <EmojiPicker.Root
           className="base-picker"
           columns={columns}
-          onSelectionChange={setSelection}
+          onItemSelect={setSelection}
           sticky
         >
           <div className="base-picker-toolbar">

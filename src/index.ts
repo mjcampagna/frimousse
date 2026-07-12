@@ -11,7 +11,7 @@ export {
   recordEmojiPickerUsage,
 } from "./frequency";
 export { isNativeSelection, isSupplementalSelection } from "./utils/emoji-item";
-export { useActiveEmoji, useActiveSelection, useSkinTone } from "./hooks";
+export { useActiveEmoji, useActiveItem, useSkinTone } from "./hooks";
 export type {
   EmojiPickerCustomEmoji,
   EmojiPickerCustomEmojiInput,
@@ -27,14 +27,13 @@ export type {
 } from "./frequency-types";
 export type {
   EmojiPickerItem,
-  NativeEmojiPickerSelection,
+  NativeItemSelection,
   EmojiPickerSection,
   EmojiPickerSectionPosition,
-  EmojiPickerSelection,
   EmojiPickerSupplementalConfig,
   EmojiPickerSupplementalSearch,
   NativeEmojiPickerItem,
-  SupplementalEmojiPickerSelection,
+  SupplementalItemSelection,
   SupplementalEmojiPickerItem,
 } from "./supplemental-types";
 export type {
@@ -45,9 +44,12 @@ export type {
   Category,
   Emoji,
   EmojiPickerActiveEmojiProps,
-  EmojiPickerActiveSelectionProps,
+  EmojiPickerActiveEmojiRenderProps,
+  EmojiPickerActiveItemProps,
+  EmojiPickerActiveItemRenderProps,
   EmojiPickerEmptyProps,
-  EmojiPickerItemSelection,
+  Item,
+  ItemSelection,
   EmojiPickerListCategoryHeaderProps,
   EmojiPickerListComponents,
   EmojiPickerListEmojiProps,
@@ -58,6 +60,7 @@ export type {
   EmojiPickerRootProps,
   EmojiPickerSearchProps,
   EmojiPickerSkinToneProps,
+  EmojiPickerSkinToneRenderProps,
   EmojiPickerSkinToneSelectorProps,
   EmojiPickerViewportProps,
   Locale,
@@ -65,7 +68,6 @@ export type {
   NativeSelection,
   PickerItem,
   PickerSection,
-  PickerSelection,
   SearchConfig,
   SectionPosition,
   SkinTone,

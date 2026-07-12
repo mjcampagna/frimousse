@@ -20,7 +20,7 @@ import {
 import { EMOJI_FONT_FAMILY } from "../constants";
 import { getEmojiData, validateLocale, validateSkinTone } from "../data/emoji";
 import { getEmojiPickerData } from "../data/emoji-picker";
-import { useActiveEmoji, useActiveSelection, useSkinTone } from "../hooks";
+import { useActiveEmoji, useActiveItem, useSkinTone } from "../hooks";
 import {
   $activeEmoji,
   $categoriesCount,
@@ -39,7 +39,7 @@ import {
 import type {
   EmojiData,
   EmojiPickerActiveEmojiProps,
-  EmojiPickerActiveSelectionProps,
+  EmojiPickerActiveItemProps,
   EmojiPickerCategory,
   EmojiPickerDataCategory,
   EmojiPickerDataRow,
@@ -161,7 +161,7 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
       columns = 9,
       skinTone = "none",
       onEmojiSelect = noop,
-      onSelectionChange = noop,
+      onItemSelect = noop,
       emojiVersion,
       emojibaseUrl,
       supplemental,
@@ -176,11 +176,11 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
     forwardedRef,
   ) => {
     const stableOnEmojiSelect = useStableCallback(onEmojiSelect);
-    const stableOnSelectionChange = useStableCallback(onSelectionChange);
+    const stableOnItemSelect = useStableCallback(onItemSelect);
     const store = useCreateStore(() =>
       createEmojiPickerStore(
         stableOnEmojiSelect,
-        stableOnSelectionChange,
+        stableOnItemSelect,
         validateLocale(locale),
         columns,
         sticky,
@@ -613,7 +613,7 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, EmojiPickerSearchProps>(
 );
 
 const ActiveEmojiAnnouncer = memo(() => {
-  const selection = useActiveSelection();
+  const selection = useActiveItem();
 
   if (!selection) {
     return null;
@@ -1509,49 +1509,17 @@ function EmojiPickerActiveEmoji({ children }: EmojiPickerActiveEmojiProps) {
 }
 
 /**
- * Exposes the currently active selection (either hovered or selected
+ * Exposes the currently active item (either hovered or selected
  * via keyboard navigation) via a render callback, including supplemental
  * items when configured.
  *
- * @example
- * ```tsx
- * <EmojiPicker.ActiveSelection>
- *   {({ selection }) => <span>{selection?.item.label}</span>}
- * </EmojiPicker.ActiveSelection>
- * ```
- *
- * It can be used to build a preview area next to the list that also
- * reflects supplemental (custom) items.
- *
- * @example
- * ```tsx
- * <EmojiPicker.ActiveSelection>
- *   {({ selection }) => (
- *     <div>
- *       {selection ? (
- *         <span>{selection.item.label}</span>
- *       ) : (
- *         <span>Select an emoji…</span>
- *       )}
- *     </div>
- *   )}
- * </EmojiPicker.ActiveSelection>
- * ```
- *
  * @see
- * If you prefer to use a hook rather than a component,
- * {@link useActiveSelection} is also available.
- *
- * @see
- * {@link EmojiPicker.ActiveEmoji|`<EmojiPicker.ActiveEmoji />`} remains native-only,
- * even when supplemental items are configured.
+ * {@link useActiveItem} is also available.
  */
-function EmojiPickerActiveSelection({
-  children,
-}: EmojiPickerActiveSelectionProps) {
-  const selection = useActiveSelection();
+function EmojiPickerActiveItem({ children }: EmojiPickerActiveItemProps) {
+  const item = useActiveItem();
 
-  return children({ selection });
+  return children({ item });
 }
 
 /**
@@ -1612,7 +1580,7 @@ EmojiPickerLoading.displayName = "EmojiPicker.Loading";
 EmojiPickerEmpty.displayName = "EmojiPicker.Empty";
 EmojiPickerSkinToneSelector.displayName = "EmojiPicker.SkinToneSelector";
 EmojiPickerActiveEmoji.displayName = "EmojiPicker.ActiveEmoji";
-EmojiPickerActiveSelection.displayName = "EmojiPicker.ActiveSelection";
+EmojiPickerActiveItem.displayName = "EmojiPicker.ActiveItem";
 EmojiPickerSkinTone.displayName = "EmojiPicker.SkinTone";
 
 export {
@@ -1624,6 +1592,6 @@ export {
   EmojiPickerEmpty as Empty, //                       <EmojiPicker.Empty />
   EmojiPickerSkinToneSelector as SkinToneSelector, // <EmojiPicker.SkinToneSelector />
   EmojiPickerActiveEmoji as ActiveEmoji, //           <EmojiPicker.ActiveEmoji />
-  EmojiPickerActiveSelection as ActiveSelection, //   <EmojiPicker.ActiveSelection />
+  EmojiPickerActiveItem as ActiveItem, //             <EmojiPicker.ActiveItem />
   EmojiPickerSkinTone as SkinTone, //                 <EmojiPicker.SkinTone />
 };

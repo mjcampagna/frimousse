@@ -38,16 +38,16 @@ export type EmojiPickerSupplementalConfig = {
   search?: EmojiPickerSupplementalSearch;
 };
 
-export type NativeEmojiPickerSelection = {
+export type NativeItemSelection = {
   kind: "native";
   item: NativeEmojiPickerItem;
 };
 
-export type SupplementalEmojiPickerSelection = {
+export type SupplementalItemSelection = {
   kind: "supplemental";
   item: SupplementalEmojiPickerItem;
 };
 
-export type EmojiPickerSelection =
-  | NativeEmojiPickerSelection
-  | SupplementalEmojiPickerSelection;
+export type ItemSelection =
+  | NativeItemSelection
+  | SupplementalItemSelection;

@@ -7,7 +7,7 @@ import {
 } from "../../frequency";
 import type {
   EmojiPickerItem,
-  EmojiPickerSelection,
+  ItemSelection,
 } from "../../supplemental-types";
 
 const nativeItem: EmojiPickerItem = {
@@ -26,7 +26,7 @@ const supplementalItem: EmojiPickerItem = {
 
 describe("getEmojiPickerUsageKey", () => {
   it("should derive stable keys for items and selections", () => {
-    const selection: EmojiPickerSelection = {
+    const selection: ItemSelection = {
       kind: "supplemental",
       item: supplementalItem,
     };

@@ -7,7 +7,7 @@ import {
 } from "./store";
 import type {
   Emoji,
-  EmojiPickerItemSelection,
+  ItemSelection,
   SkinTone,
   SkinToneVariation,
 } from "./types";
@@ -58,12 +58,12 @@ export function useActiveEmoji(): Emoji | undefined {
 }
 
 /**
- * Returns the currently active selection (either hovered or selected
+ * Returns the currently active item (either hovered or selected
  * via keyboard navigation), including supplemental items when configured.
  *
  * @example
  * ```tsx
- * const activeSelection = useActiveSelection();
+ * const activeItem = useActiveItem();
  * ```
  *
  * It can be used to build a preview area next to the list that also
@@ -71,11 +71,11 @@ export function useActiveEmoji(): Emoji | undefined {
  *
  * @example
  * ```tsx
- * const activeSelection = useActiveSelection();
+ * const activeItem = useActiveItem();
  *
  * <div>
- *   {activeSelection ? (
- *     <span>{activeSelection.item.label}</span>
+ *   {activeItem ? (
+ *     <span>{activeItem.item.label}</span>
  *   ) : (
  *     <span>Select an emoji…</span>
  *   )}
@@ -84,12 +84,12 @@ export function useActiveEmoji(): Emoji | undefined {
  *
  * @see
  * If you prefer to use a component rather than a hook,
- * {@link EmojiPicker.ActiveSelection|`<EmojiPicker.ActiveSelection />`} is also available.
+ * {@link EmojiPicker.ActiveItem|`<EmojiPicker.ActiveItem />`} is also available.
  *
  * @see
  * {@link useActiveEmoji} remains native-only, even when supplemental items are configured.
  */
-export function useActiveSelection(): EmojiPickerItemSelection | undefined {
+export function useActiveItem(): ItemSelection | undefined {
   const store = useEmojiPickerStore();
   const activeEmoji = useSelector(store, $activeEmoji, sameEmojiPickerEmoji);
 

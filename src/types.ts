@@ -16,12 +16,12 @@ import type {
   EmojiPickerItem,
   EmojiPickerSection,
   EmojiPickerSectionPosition,
-  EmojiPickerSelection,
+  ItemSelection as EmojiPickerSelectionItem,
   EmojiPickerSupplementalConfig,
   EmojiPickerSupplementalSearch,
-  NativeEmojiPickerSelection,
+  NativeItemSelection as EmojiPickerNativeItemSelection,
   NativeEmojiPickerItem,
-  SupplementalEmojiPickerSelection,
+  SupplementalItemSelection as EmojiPickerSupplementalItemSelection,
   SupplementalEmojiPickerItem,
 } from "./supplemental-types";
 
@@ -60,14 +60,14 @@ export type CustomEmoji = Resolve<EmojiPickerCustomEmoji>;
 export type CustomEmojiInput = Resolve<EmojiPickerCustomEmojiInput>;
 export type CustomSection = Resolve<EmojiPickerCustomSection>;
 export type CustomSectionOptions = Resolve<EmojiPickerCustomSectionOptions>;
+export type Item = Resolve<EmojiPickerItem>;
 export type NativeItem = Resolve<NativeEmojiPickerItem>;
 export type SupplementalItem = Resolve<SupplementalEmojiPickerItem>;
 export type SupplementalEmoji = Resolve<SupplementalEmojiPickerItem>;
 export type PickerItem = Resolve<EmojiPickerItem>;
-export type NativeSelection = Resolve<NativeEmojiPickerSelection>;
-export type SupplementalSelection = Resolve<SupplementalEmojiPickerSelection>;
-export type PickerSelection = Resolve<EmojiPickerSelection>;
-export type EmojiPickerItemSelection = Resolve<EmojiPickerSelection>;
+export type ItemSelection = Resolve<EmojiPickerSelectionItem>;
+export type NativeSelection = Resolve<EmojiPickerNativeItemSelection>;
+export type SupplementalSelection = Resolve<EmojiPickerSupplementalItemSelection>;
 export type PickerSection = Resolve<EmojiPickerSection>;
 export type SupplementalSection = Resolve<EmojiPickerSection>;
 export type SupplementalSearch = Resolve<EmojiPickerSupplementalSearch>;
@@ -204,7 +204,7 @@ export interface EmojiPickerRootProps extends ComponentProps<"div"> {
    *
    * This callback is additive and does not replace {@link onEmojiSelect}.
    */
-  onSelectionChange?: (selection: EmojiPickerSelection) => void;
+  onItemSelect?: (selection: ItemSelection) => void;
 
   /**
    * The locale of the emoji picker.
@@ -329,20 +329,20 @@ export type EmojiPickerActiveEmojiProps = {
   children: (props: EmojiPickerActiveEmojiRenderProps) => ReactNode;
 };
 
-export type EmojiPickerActiveSelectionRenderProps = {
+export type EmojiPickerActiveItemRenderProps = {
   /**
-   * The currently active selection, including supplemental items when configured.
+   * The currently active item, including supplemental items when configured.
    *
    * This is the widened additive active-item surface.
    */
-  selection?: EmojiPickerSelection;
+  item?: ItemSelection;
 };
 
-export type EmojiPickerActiveSelectionProps = {
+export type EmojiPickerActiveItemProps = {
   /**
-   * A render callback which receives the currently active selection.
+   * A render callback which receives the currently active item.
    */
-  children: (props: EmojiPickerActiveSelectionRenderProps) => ReactNode;
+  children: (props: EmojiPickerActiveItemRenderProps) => ReactNode;
 };
 
 export type EmojiPickerSkinToneRenderProps = {
