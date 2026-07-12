@@ -52,20 +52,45 @@ export function BaseApiDemo() {
       <div className="docs-picker-wrap">
         <SelectionBurstLayer selection={selection} />
         <EmojiPicker.Root
+          className="base-picker"
           columns={columns}
           onSelectionChange={setSelection}
           sticky
         >
-          <div className="picker-toolbar">
-            <EmojiPicker.Search placeholder="Search emoji" />
+          <div className="base-picker-toolbar">
+            <EmojiPicker.Search
+              className="base-picker-search"
+              placeholder="Search emoji"
+            />
             <EmojiPicker.SkinToneSelector />
           </div>
-          <EmojiPicker.Viewport tabIndex={0}>
-            <EmojiPicker.Loading>
+          <EmojiPicker.Viewport className="base-picker-viewport" tabIndex={0}>
+            <EmojiPicker.Loading className="base-picker-loading">
               <PickerLoadingSkeleton columns={columns} />
             </EmojiPicker.Loading>
-            <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
-            <EmojiPicker.List />
+            <EmojiPicker.Empty className="base-picker-empty">
+              No emoji found.
+            </EmojiPicker.Empty>
+            <EmojiPicker.List
+              className="base-picker-list"
+              components={{
+                CategoryHeader: ({ category, ...props }) => (
+                  <div className="base-picker-category-header" {...props}>
+                    {category.label}
+                  </div>
+                ),
+                Row: ({ children, ...props }) => (
+                  <div className="base-picker-row" {...props}>
+                    {children}
+                  </div>
+                ),
+                Emoji: ({ emoji, ...props }) => (
+                  <button className="base-picker-emoji" {...props} type="button">
+                    {emoji.emoji}
+                  </button>
+                ),
+              }}
+            />
           </EmojiPicker.Viewport>
         </EmojiPicker.Root>
       </div>

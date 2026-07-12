@@ -1,0 +1,17 @@
+---
+import ApiReference from "../../content/docs/api-reference.mdx";
+import SiteHeader from "../../components/SiteHeader.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="API Reference — Frimousse by Slithy"
+  description="API reference for Frimousse by Slithy, including components, props, hooks, additive helpers, and exported types."
+>
+  <main class="docs-page-shell">
+    <SiteHeader />
+    <section class="docs-markdown-section">
+      <ApiReference />
+    </section>
+  </main>
+</BaseLayout>

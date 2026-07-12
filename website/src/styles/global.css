@@ -505,6 +505,41 @@ pre {
   margin: 16px 0;
 }
 
+.docs-markdown-section table {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: block;
+  margin: 20px 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.docs-markdown-section thead {
+  background: var(--bg-accent);
+}
+
+.docs-markdown-section th,
+.docs-markdown-section td {
+  border-bottom: 1px solid var(--line);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.docs-markdown-section th {
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.docs-markdown-section td {
+  color: var(--text-muted);
+}
+
+.docs-markdown-section tbody tr:last-child td {
+  border-bottom: 0;
+}
+
 .docs-markdown-section a {
   color: var(--text);
   text-decoration: underline;
@@ -639,6 +674,93 @@ pre {
 
 :root[data-theme="dark"] .docs-markdown-section .astro-code span {
   color: var(--shiki-dark);
+}
+
+.base-picker {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  height: 368px;
+  max-width: 100%;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.base-picker-toolbar {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  padding: 8px 8px 0;
+}
+
+.base-picker-search {
+  appearance: none;
+  background: #f5f5f5;
+  border: 0;
+  border-radius: 10px;
+  color: #171717;
+  flex: 1;
+  font-size: var(--text-sm);
+  height: 36px;
+  padding: 0 12px;
+}
+
+.base-picker-viewport {
+  flex: 1;
+  outline: none;
+  overflow: auto;
+  position: relative;
+}
+
+.base-picker-loading,
+.base-picker-empty {
+  align-items: center;
+  color: #737373;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: absolute;
+}
+
+.base-picker-loading:has(.picker-loading-skeleton) {
+  display: block;
+}
+
+.base-picker-list {
+  padding-bottom: 6px;
+}
+
+.base-picker-category-header {
+  background: #fff;
+  color: #737373;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 12px 12px 6px;
+}
+
+.base-picker-row {
+  padding: 0 6px;
+  scroll-margin: 6px;
+}
+
+.base-picker-emoji {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  display: flex;
+  font-size: 18px;
+  height: 32px;
+  justify-content: center;
+  transition: background-color 120ms ease;
+  width: 32px;
+}
+
+.base-picker-emoji[data-active],
+.base-picker-emoji:hover {
+  background: #f5f5f5;
 }
 
 .docs-picker-wrap {
