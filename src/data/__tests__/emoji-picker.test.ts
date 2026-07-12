@@ -239,6 +239,19 @@ describe("searchEmojis", () => {
 
     expect(results).toHaveLength(0);
   });
+
+  it("should filter emojis by configured native search terms", () => {
+    const results = searchEmojis(data.emojis, "hyper link", {
+      native: {
+        terms: {
+          "🔗": ["hyper_link"],
+        },
+      },
+    });
+
+    expect(results).toHaveLength(1);
+    expect(results[0]?.emoji).toBe("🔗");
+  });
 });
 
 describe("getEmojiPickerData", () => {
@@ -301,5 +314,26 @@ describe("getEmojiPickerData", () => {
     expect(result.categories).toEqual([]);
     expect(result.rows).toEqual([]);
     expect(result.categoriesStartRowIndices).toEqual([]);
+  });
+
+  it("should include configured native search terms in grouped native search", () => {
+    const result = getEmojiPickerData(
+      data,
+      10,
+      undefined,
+      "hyper link",
+      undefined,
+      {
+        native: {
+          terms: {
+            "🔗": ["hyper_link"],
+          },
+        },
+      },
+    );
+
+    expect(result.count).toBe(1);
+    expect(result.categories[0]?.label).toBe("Objects");
+    expect(result.rows[0]?.emojis[0]?.id).toBe("🔗");
   });
 });

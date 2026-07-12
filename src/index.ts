@@ -35,6 +35,10 @@ export type {
   SupplementalEmojiPickerItem,
 } from "./supplemental-types";
 export type {
+  EmojiPickerNativeSearchConfig,
+  EmojiPickerSearchConfig,
+} from "./search-types";
+export type {
   Category,
   Emoji,
   EmojiPickerActiveEmojiProps,
@@ -56,6 +60,7 @@ export type {
   Locale,
   NativeItem,
   PickerItem,
+  SearchConfig,
   SectionPosition,
   SkinTone,
   SupplementalEmoji,

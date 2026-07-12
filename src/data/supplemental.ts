@@ -4,6 +4,7 @@ import type {
   EmojiPickerDataRow,
   SkinTone,
 } from "../types";
+import type { EmojiPickerSearchConfig } from "../search-types";
 import type {
   EmojiPickerItem,
   EmojiPickerSection,
@@ -11,6 +12,10 @@ import type {
   NativeEmojiPickerItem,
 } from "../supplemental-types";
 import { chunk } from "../utils/chunk";
+import {
+  createNativeSearchTermsMap,
+  scoreNativeEmojiMatch,
+} from "./native-search";
 
 type BuiltEmojiPickerRows = {
   count: number;
@@ -160,6 +165,7 @@ export function buildUnifiedSearchRows(
   search: string,
   columns: number,
   skinTone: SkinTone | undefined,
+  searchConfig?: EmojiPickerSearchConfig,
 ): BuiltEmojiPickerRows | null {
   const searchText = normalizeSearch(search);
 
@@ -169,9 +175,10 @@ export function buildUnifiedSearchRows(
 
   const scored = new Map<string, number>();
   const itemsByKey = new Map<string, EmojiPickerItem>();
+  const nativeTerms = createNativeSearchTermsMap(searchConfig);
 
   for (const emoji of nativeEmojis) {
-    const score = scoreTextMatch(emoji.label, emoji.tags, searchText);
+    const score = scoreNativeEmojiMatch(emoji, searchText, nativeTerms);
 
     if (score > 0) {
       const item = toNativeEmojiPickerItem(emoji, skinTone);

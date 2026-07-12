@@ -73,9 +73,10 @@ function EmojiPickerDataHandler({
   emojiVersion,
   emojibaseUrl,
   supplemental,
+  search: searchConfig,
 }: Pick<
   EmojiPickerRootProps,
-  "emojiVersion" | "emojibaseUrl" | "supplemental"
+  "emojiVersion" | "emojibaseUrl" | "supplemental" | "search"
 >) {
   const [emojiData, setEmojiData] = useState<EmojiData | undefined>(undefined);
   const store = useEmojiPickerStore();
@@ -119,12 +120,13 @@ function EmojiPickerDataHandler({
               skinTone,
               search,
               supplemental,
+              searchConfig,
             ),
           );
       },
       { timeout: 100 },
     );
-  }, [emojiData, columns, skinTone, search, supplemental]);
+  }, [emojiData, columns, skinTone, search, supplemental, searchConfig]);
 
   return null;
 }
@@ -163,6 +165,7 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
       emojiVersion,
       emojibaseUrl,
       supplemental,
+      search: searchConfig,
       onFocusCapture,
       onBlurCapture,
       children,
@@ -493,6 +496,7 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
             emojibaseUrl={emojibaseUrl}
             emojiVersion={emojiVersion}
             supplemental={supplemental}
+            search={searchConfig}
           />
           {children}
         </EmojiPickerStoreProvider>

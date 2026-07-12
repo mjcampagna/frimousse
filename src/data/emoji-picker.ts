@@ -6,35 +6,36 @@ import type {
   EmojiPickerDataRow,
   SkinTone,
 } from "../types";
+import type { EmojiPickerSearchConfig } from "../search-types";
 import type { EmojiPickerSupplementalConfig } from "../supplemental-types";
 import { chunk } from "../utils/chunk";
+import {
+  createNativeSearchTermsMap,
+  normalizeNativeSearchText,
+  scoreNativeEmojiMatch,
+} from "./native-search";
 import {
   buildSupplementalSections,
   buildUnifiedSearchRows,
   toNativeEmojiPickerItem,
 } from "./supplemental";
 
-export function searchEmojis(emojis: EmojiDataEmoji[], search?: string) {
+export function searchEmojis(
+  emojis: EmojiDataEmoji[],
+  search?: string,
+  searchConfig?: EmojiPickerSearchConfig,
+) {
   if (!search) {
     return emojis;
   }
 
-  const searchText = search.toLowerCase().trim();
+  const searchText = normalizeNativeSearchText(search);
+  const nativeTerms = createNativeSearchTermsMap(searchConfig);
   const scores = new WeakMap<EmojiDataEmoji, number>();
 
   return emojis
     .filter((emoji) => {
-      let score = 0;
-
-      if (emoji.label.toLowerCase().includes(searchText)) {
-        score += 10;
-      }
-
-      for (const tag of emoji.tags) {
-        if (tag.toLowerCase().includes(searchText)) {
-          score += 1;
-        }
-      }
+      const score = scoreNativeEmojiMatch(emoji, searchText, nativeTerms);
 
       if (score > 0) {
         scores.set(emoji, score);
@@ -53,9 +54,17 @@ export function getEmojiPickerData(
   skinTone: SkinTone | undefined,
   search: string,
   supplemental?: EmojiPickerSupplementalConfig,
+  searchConfig?: EmojiPickerSearchConfig,
 ): EmojiPickerData {
   const unified = supplemental
-    ? buildUnifiedSearchRows(data.emojis, supplemental, search, columns, skinTone)
+    ? buildUnifiedSearchRows(
+        data.emojis,
+        supplemental,
+        search,
+        columns,
+        skinTone,
+        searchConfig,
+      )
     : null;
 
   if (unified) {
@@ -70,7 +79,7 @@ export function getEmojiPickerData(
     };
   }
 
-  const emojis = searchEmojis(data.emojis, search);
+  const emojis = searchEmojis(data.emojis, search, searchConfig);
   const rows: EmojiPickerDataRow[] = [];
   const categories: EmojiPickerDataCategory[] = [];
   const categoriesStartRowIndices: number[] = [];

@@ -5,6 +5,7 @@ import type {
   SkinToneKey as EmojibaseSkinToneKey,
 } from "emojibase/lib/types";
 import type { ComponentProps, ComponentType, ReactNode } from "react";
+import type { EmojiPickerSearchConfig } from "./search-types";
 import type {
   EmojiPickerCustomEmoji,
   EmojiPickerCustomEmojiInput,
@@ -64,6 +65,7 @@ export type EmojiPickerItemSelection = Resolve<EmojiPickerSelection>;
 export type SupplementalSection = Resolve<EmojiPickerSection>;
 export type SupplementalSearch = Resolve<EmojiPickerSupplementalSearch>;
 export type SectionPosition = Resolve<EmojiPickerSectionPosition>;
+export type SearchConfig = Resolve<EmojiPickerSearchConfig>;
 
 export type Category = Resolve<EmojiPickerCategory>;
 
@@ -260,6 +262,14 @@ export interface EmojiPickerRootProps extends ComponentProps<"div"> {
    * dataset rather than replacing it.
    */
   supplemental?: EmojiPickerSupplementalConfig;
+
+  /**
+   * Additive search configuration for enriching native emoji matching.
+   *
+   * This accepts plain consumer-owned data and does not couple the picker to
+   * any specific metadata package or shortcode vocabulary.
+   */
+  search?: EmojiPickerSearchConfig;
 }
 
 export type EmojiPickerViewportProps = ComponentProps<"div">;

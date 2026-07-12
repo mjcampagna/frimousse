@@ -320,4 +320,23 @@ describe("buildUnifiedSearchRows", () => {
       rows: [],
     });
   });
+
+  it("should include configured native search terms in unified search", () => {
+    const result = buildUnifiedSearchRows(
+      nativeEmojis,
+      supplemental,
+      "good bye",
+      10,
+      undefined,
+      {
+        native: {
+          terms: {
+            "👋": ["good_bye"],
+          },
+        },
+      },
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual(["👋"]);
+  });
 });
