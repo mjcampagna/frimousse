@@ -1,0 +1,43 @@
+---
+import { DocsDemos } from "../components/docs/DocsDemos";
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Documentation — Frimousse by Slithy"
+  description="Documentation and demos for the compatibility-conscious Frimousse fork and its additive extension seams."
+>
+  <main class="docs-page-shell">
+    <SiteHeader />
+
+    <section class="docs-hero">
+      <div class="docs-hero-copy">
+        <p class="eyebrow">Documentation</p>
+        <h1>One picker, layered contracts.</h1>
+        <p class="lede">
+          The fork keeps the base Frimousse composition model intact, adds
+          generally useful extension seams, and leaves broader emoji metadata
+          policy to companion packages.
+        </p>
+      </div>
+
+      <div class="docs-summary">
+        <article>
+          <h2>Base API</h2>
+          <p>Familiar picker composition for existing Frimousse consumers.</p>
+        </article>
+        <article>
+          <h2>Extended API</h2>
+          <p>Supplemental items, unified search, and consumer-owned frequent rows.</p>
+        </article>
+        <article>
+          <h2>Supplemental packages</h2>
+          <p>Plain-data seams that companion packages can feed without coupling.</p>
+        </article>
+      </div>
+    </section>
+
+    <DocsDemos client:load />
+  </main>
+</BaseLayout>

@@ -148,6 +148,12 @@ pre {
   width: min(1120px, calc(100vw - 32px));
 }
 
+.docs-page-shell {
+  margin: 0 auto;
+  padding: 0 0 80px;
+  width: min(1120px, calc(100vw - 32px));
+}
+
 .prose-card {
   background: var(--bg-elevated);
   border: 1px solid var(--line);
@@ -391,6 +397,139 @@ pre {
   margin-bottom: 16px;
 }
 
+.docs-hero {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.docs-hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 64ch;
+}
+
+.docs-hero-copy h1 {
+  font-size: clamp(var(--text-4xl), 4vw, var(--text-5xl));
+  letter-spacing: -0.04em;
+  line-height: var(--leading-tighter);
+}
+
+.docs-summary {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.docs-summary article,
+.docs-demo-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.docs-summary article {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+}
+
+.docs-summary h2 {
+  font-size: var(--text-base);
+}
+
+.docs-summary p,
+.docs-demo-copy p {
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.docs-demos {
+  display: grid;
+  gap: 28px;
+}
+
+.docs-demo {
+  display: grid;
+  gap: 18px;
+}
+
+.docs-demo-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 68ch;
+}
+
+.docs-demo-copy h2 {
+  font-size: clamp(var(--text-2xl), 3vw, var(--text-3xl));
+  letter-spacing: -0.03em;
+  line-height: var(--leading-tight);
+}
+
+.docs-demo-card {
+  overflow: hidden;
+  padding: 16px;
+}
+
+.docs-picker-wrap {
+  position: relative;
+}
+
+.docs-demo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.docs-demo-chip-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.docs-demo-chip {
+  align-items: center;
+  background: var(--bg-accent);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  gap: 10px;
+  padding: 10px 14px;
+}
+
+.docs-demo-chip-term {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1;
+}
+
+.docs-demo-chip-arrow {
+  color: var(--text-soft);
+  font-size: var(--text-sm);
+  line-height: 1;
+}
+
+.docs-demo-chip-emoji {
+  font-size: var(--text-lg);
+  line-height: 1;
+}
+
+.docs-demo-code {
+  background: var(--bg-accent);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: auto;
+  padding: 14px 16px;
+}
+
+
 .hero-copy {
   display: flex;
   flex-direction: column;
@@ -576,6 +715,11 @@ pre {
     grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
   }
 
+  .docs-hero {
+    align-items: start;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  }
+
   .feature-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -627,6 +771,12 @@ pre {
       translate(var(--burst-x), var(--burst-y))
       rotate(var(--burst-rotation))
       scale(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .docs-summary {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -702,6 +852,58 @@ pre {
   color: var(--text-muted);
   display: block;
   padding: 16px;
+}
+
+[frimousse-loading]:has(.picker-loading-skeleton) {
+  padding: 0;
+}
+
+.picker-loading-skeleton {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--row-padding);
+  width: calc(
+    var(--picker-loading-columns) * var(--emoji-size) + var(--row-padding) * 2
+  );
+}
+
+.picker-loading-header {
+  align-items: center;
+  color: transparent;
+  display: flex;
+  height: var(--frimousse-category-header-height, 28px);
+  padding: 8px 12px 6px;
+}
+
+.picker-loading-header-pill {
+  background: currentColor;
+  border-radius: 999px;
+  display: block;
+  height: 0.8em;
+  opacity: 0.12;
+}
+
+.picker-loading-row {
+  display: flex;
+  height: var(--frimousse-row-height, 44px);
+  padding-inline: var(--row-padding);
+}
+
+.picker-loading-cell {
+  align-items: center;
+  display: flex;
+  height: var(--emoji-size);
+  justify-content: center;
+  width: var(--emoji-size);
+}
+
+.picker-loading-emoji {
+  background: currentColor;
+  border-radius: 999px;
+  display: block;
+  height: 1em;
+  opacity: 0.12;
+  width: 1em;
 }
 
 [frimousse-list] {
