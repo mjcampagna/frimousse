@@ -59,8 +59,6 @@ import {
 
 Base provider and interaction boundary for the picker tree.
 
-Inherits standard `<div>` props.
-
 Props:
 
 | Prop | Type | Default | Notes |
@@ -76,34 +74,69 @@ Props:
 | `supplemental` | `EmojiPickerSupplementalConfig` | - | Adds consumer-owned sections and supplemental search behavior. |
 | `search` | `EmojiPickerSearchConfig` | - | Adds native search enrichment data. |
 
+Built-in element props:
+
+- All built-in `div` props.
+
+Attributes:
+
+- `[frimousse-root]`
+- `[data-focused]` when the picker or one of its descendants is focused
+
+CSS variables:
+
+- `--frimousse-emoji-font`
+- `--frimousse-viewport-width`
+- `--frimousse-viewport-height`
+- `--frimousse-row-height`
+- `--frimousse-category-header-height`
+
 ### `EmojiPicker.Search`
 
 Search input for the picker.
-
-Inherits standard `<input>` props.
 
 Notes:
 
 - Can be used as an uncontrolled input.
 - Can also be controlled with `value` and `onChange`.
 
+Built-in element props:
+
+- All built-in `input` props.
+
+Attributes:
+
+- `[frimousse-search]`
+
 ### `EmojiPicker.Viewport`
 
 Scrollable viewport for loading, empty, and list content.
 
-Inherits standard `<div>` props.
+Built-in element props:
+
+- All built-in `div` props.
+
+Attributes:
+
+- `[frimousse-viewport]`
 
 ### `EmojiPicker.List`
 
 Virtualized list renderer for categories, rows, and emoji buttons.
-
-Inherits standard `<div>` props.
 
 Props:
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
 | `components` | `Partial<EmojiPickerListComponents>` | - | Replaces internal renderers for category headers, rows, native emoji buttons, and supplemental emoji buttons. |
+
+Built-in element props:
+
+- All built-in `div` props.
+
+Attributes:
+
+- `[frimousse-list]`
 
 `EmojiPickerListComponents` shape:
 
@@ -112,37 +145,65 @@ Props:
 - `Emoji: ComponentType<EmojiPickerListEmojiProps>`
 - `SupplementalEmoji: ComponentType<EmojiPickerListSupplementalEmojiProps>`
 
-Renderer prop types:
+Inner components:
 
-- `EmojiPickerListCategoryHeaderProps`
-  - inherits `<div>` props except `children`
-  - `category: Category`
-- `EmojiPickerListRowProps`
-  - inherits `<div>` props
-- `EmojiPickerListEmojiProps`
-  - inherits `<button>` props except `children`
-  - `emoji: Emoji & { isActive: boolean }`
-- `EmojiPickerListSupplementalEmojiProps`
-  - inherits `<button>` props except `children`
-  - `emoji: SupplementalEmoji & { isActive: boolean }`
+- `CategoryHeader`
+  - props: `EmojiPickerListCategoryHeaderProps`
+  - attributes: `[frimousse-category-header]`
+  - notes: all category headers should be the same size
+  - shape:
+    - inherits built-in `div` props except `children`
+    - `category: Category`
+- `Row`
+  - props: `EmojiPickerListRowProps`
+  - attributes: `[frimousse-row]`
+  - notes: all rows should be the same size
+  - shape:
+    - inherits built-in `div` props
+- `Emoji`
+  - props: `EmojiPickerListEmojiProps`
+  - attributes: `[frimousse-emoji]`
+  - state: `[data-active]`
+  - notes: all emoji buttons should be the same size
+  - shape:
+    - inherits built-in `button` props except `children`
+    - `emoji: Emoji & { isActive: boolean }`
+- `SupplementalEmoji`
+  - props: `EmojiPickerListSupplementalEmojiProps`
+  - notes: supplemental button renderer for additive sections
+  - shape:
+    - inherits built-in `button` props except `children`
+    - `emoji: SupplementalEmoji & { isActive: boolean }`
 
 ### `EmojiPicker.Loading`
 
 Rendered while emoji data is loading.
 
-Inherits standard `<span>` props.
+Built-in element props:
+
+- All built-in `span` props.
+
+Attributes:
+
+- `[frimousse-loading]`
 
 ### `EmojiPicker.Empty`
 
 Rendered when the current search has no results.
-
-Inherits standard `<span>` props except `children`.
 
 Props:
 
 | Prop | Type | Notes |
 | --- | --- | --- |
 | `children` | `ReactNode \| ((props: EmojiPickerEmptyRenderProps) => ReactNode)` | Can be static content or a render callback. |
+
+Built-in element props:
+
+- All built-in `span` props except `children`.
+
+Attributes:
+
+- `[frimousse-empty]`
 
 `EmojiPickerEmptyRenderProps`:
 
@@ -152,13 +213,24 @@ Props:
 
 Built-in skin tone toggle button.
 
-Inherits standard `<button>` props except `children`.
-
 Props:
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
 | `emoji` | `string` | `"✋"` | Emoji used as the visual basis for skin tone variations. |
+
+Notes:
+
+- Cycles through available skin tones.
+- Use `EmojiPicker.SkinTone` or `useSkinTone` for a custom selector.
+
+Built-in element props:
+
+- All built-in `button` props except `children`.
+
+Attributes:
+
+- `[frimousse-skin-tone-selector]`
 
 ### `EmojiPicker.ActiveEmoji`
 
