@@ -3,10 +3,16 @@ import type {
   Item,
   ItemSelection,
   NativeItemSelection,
+  Section,
+  SupplementalConfig,
   SupplementalItemSelection,
   SupplementalItem,
 } from "../index";
-import type { EmojiPickerItem, EmojiPickerSection } from "../supplemental-types";
+import type {
+  EmojiPickerItem,
+  EmojiPickerSection,
+  EmojiPickerSupplementalConfig,
+} from "../supplemental-types";
 
 describe("public type exports", () => {
   it("should expose explicit native and supplemental selection branches", () => {
@@ -23,8 +29,11 @@ describe("public type exports", () => {
     expectTypeOf<SupplementalItem>().toEqualTypeOf<
       Extract<EmojiPickerItem, { kind: "supplemental" }>
     >();
-    expectTypeOf<EmojiPickerSection>().toEqualTypeOf<
+    expectTypeOf<Section>().toEqualTypeOf<
       EmojiPickerSection<EmojiPickerItem>
+    >();
+    expectTypeOf<SupplementalConfig>().toEqualTypeOf<
+      EmojiPickerSupplementalConfig
     >();
   });
 });

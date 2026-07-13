@@ -8,6 +8,7 @@ import type { ComponentProps, ComponentType, ReactNode } from "react";
 import type { EmojiPickerSearchConfig } from "./search-types";
 import type {
   EmojiPickerItem,
+  EmojiPickerSection,
   EmojiPickerSectionPosition,
   ItemSelection as EmojiPickerSelectionItem,
   EmojiPickerSupplementalConfig,
@@ -51,6 +52,8 @@ export type Item = Resolve<EmojiPickerItem>;
 export type NativeItem = Resolve<NativeEmojiPickerItem>;
 export type SupplementalItem = Resolve<SupplementalEmojiPickerItem>;
 export type ItemSelection = Resolve<EmojiPickerSelectionItem>;
+export type Section = Resolve<EmojiPickerSection>;
+export type SupplementalConfig = Resolve<EmojiPickerSupplementalConfig>;
 export type SupplementalSearch = Resolve<EmojiPickerSupplementalSearch>;
 export type SectionPosition = Resolve<EmojiPickerSectionPosition>;
 export type SearchConfig = Resolve<EmojiPickerSearchConfig>;

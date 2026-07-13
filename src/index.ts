@@ -35,15 +35,8 @@ export type {
   EmojiPickerUsageSource,
 } from "./frequency-types";
 export type {
-  EmojiPickerItem,
   NativeItemSelection,
-  EmojiPickerSection,
-  EmojiPickerSectionPosition,
-  EmojiPickerSupplementalConfig,
-  EmojiPickerSupplementalSearch,
-  NativeEmojiPickerItem,
   SupplementalItemSelection,
-  SupplementalEmojiPickerItem,
 } from "./supplemental-types";
 export type {
   EmojiPickerNativeSearchConfig,
@@ -75,8 +68,10 @@ export type {
   Locale,
   NativeItem,
   SearchConfig,
+  Section,
   SectionPosition,
   SkinTone,
+  SupplementalConfig,
   SupplementalItem,
   SupplementalSearch,
 } from "./types";

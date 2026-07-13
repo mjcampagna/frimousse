@@ -1,11 +1,11 @@
 import {
   createCustomSection,
-  type EmojiPickerItem,
+  type Item,
   type EmojiPickerUsageEntry,
 } from "@slithy/frimousse";
 
 function createUsageEntry(
-  item: EmojiPickerItem,
+  item: Item,
   score: number,
   uses: number,
   lastUsedAt: number,

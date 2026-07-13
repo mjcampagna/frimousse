@@ -74,7 +74,7 @@ Props:
 | `emojiVersion` | `number` | browser-supported latest | Restricts visible emoji by Emoji version. |
 | `emojibaseUrl` | `string` | `"https://cdn.jsdelivr.net/npm/emojibase-data"` | Base URL used to fetch Emojibase JSON datasets. |
 | `sticky` | `boolean` | `true` | Makes category headers sticky. |
-| `supplemental` | `EmojiPickerSupplementalConfig` | - | Adds consumer-owned sections and supplemental search behavior. |
+| `supplemental` | `SupplementalConfig` | - | Adds consumer-owned sections and supplemental search behavior. |
 | `search` | `EmojiPickerSearchConfig` | - | Adds native search enrichment data. |
 
 Built-in element props:
@@ -330,13 +330,15 @@ Return type:
 `EmojiPickerRootProps["supplemental"]` accepts:
 
 ```ts
-type EmojiPickerSupplementalConfig = {
-  sections?: EmojiPickerSection[];
-  search?: EmojiPickerSupplementalSearch;
+type SupplementalConfig = {
+  sections?: Section[];
+  search?: SupplementalSearch;
 };
 ```
 
-`EmojiPickerSupplementalSearch`:
+Use `SupplementalConfig`, `Section`, `Item`, and `ItemSelection` as the consumer-facing additive types.
+
+`SupplementalSearch`:
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
@@ -346,14 +348,14 @@ type EmojiPickerSupplementalConfig = {
 ### Items, sections, and item selections
 
 ```ts
-type NativeEmojiPickerItem = {
+type NativeItem = {
   kind: "native";
   id: string;
   emoji: string;
   label: string;
 };
 
-type SupplementalEmojiPickerItem = {
+type SupplementalItem = {
   kind: "supplemental";
   id: string;
   label: string;
@@ -364,26 +366,26 @@ type SupplementalEmojiPickerItem = {
   data?: unknown;
 };
 
-type EmojiPickerItem =
-  | NativeEmojiPickerItem
-  | SupplementalEmojiPickerItem;
+type Item =
+  | NativeItem
+  | SupplementalItem;
 
-type EmojiPickerSection<TItem extends EmojiPickerItem = EmojiPickerItem> = {
+type Section = {
   id: string;
   label?: string;
   position?: "prepend" | "append";
-  items: TItem[];
+  items: Item[];
   searchable?: boolean;
 };
 
 type NativeItemSelection = {
   kind: "native";
-  item: NativeEmojiPickerItem;
+  item: NativeItem;
 };
 
 type SupplementalItemSelection = {
   kind: "supplemental";
-  item: SupplementalEmojiPickerItem;
+  item: SupplementalItem;
 };
 
 type ItemSelection =
@@ -422,7 +424,7 @@ type SupplementalItemInput = {
 
 Return type:
 
-- `SupplementalEmojiPickerItem`
+- `SupplementalItem`
 
 ### `createSupplementalSection(items, options)`
 
@@ -505,11 +507,11 @@ Type guard for a supplemental item with a required `imageUrl`.
 ### Types
 
 ```ts
-type EmojiPickerUsageSource = EmojiPickerItem | ItemSelection;
+type EmojiPickerUsageSource = Item | ItemSelection;
 
 type EmojiPickerUsageEntry = {
   key: string;
-  item: EmojiPickerItem;
+  item: Item;
   score: number;
   uses: number;
   lastUsedAt: number;
@@ -619,21 +621,16 @@ The implementation also uses internal measurement and sizing attributes. Treat t
 - `NativeItem`
 - `SupplementalItem`
 - `ItemSelection`
-- `EmojiPickerItem`
-- `NativeEmojiPickerItem`
-- `SupplementalEmojiPickerItem`
 - `NativeItemSelection`
 - `SupplementalItemSelection`
 
 ### Sections and search
 
+- `Section`
+- `SupplementalConfig`
 - `SectionPosition`
 - `SupplementalSearch`
 - `SearchConfig`
-- `EmojiPickerSection`
-- `EmojiPickerSectionPosition`
-- `EmojiPickerSupplementalConfig`
-- `EmojiPickerSupplementalSearch`
 - `EmojiPickerNativeSearchConfig`
 - `EmojiPickerSearchConfig`
 
@@ -685,20 +682,6 @@ The implementation also uses internal measurement and sizing attributes. Treat t
 - `EmojiPickerUsageSource`
 - `EmojiPickerFrequentSection`
 - `EmojiPickerFrequentSectionOptions`
-
-### Supplemental additive surface
-
-- `EmojiPickerItem`
-- `Item`
-- `EmojiPickerSection`
-- `EmojiPickerSectionPosition`
-- `EmojiPickerSupplementalConfig`
-- `EmojiPickerSupplementalSearch`
-- `NativeEmojiPickerItem`
-- `SupplementalEmojiPickerItem`
-- `NativeItemSelection`
-- `SupplementalItemSelection`
-- `ItemSelection`
 
 ## Notes
 
