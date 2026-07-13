@@ -116,7 +116,6 @@ export function createEmojiPickerStore(
     viewportWidth: null,
     viewportHeight: null,
 
-    viewportCurrentCategoryIndex: null,
     viewportStartCategoryIndex: 0,
     viewportStartRowIndex: 0,
     viewportEndRowIndex: 0,

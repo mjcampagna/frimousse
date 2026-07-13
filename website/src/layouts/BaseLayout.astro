@@ -24,7 +24,24 @@ const {
       const storageKey = "slithy-frimousse-theme";
       const root = document.documentElement;
       const media = window.matchMedia("(prefers-color-scheme: dark)");
-      const preferred = localStorage.getItem(storageKey) ?? (media.matches ? "dark" : "light");
+
+      const getStoredTheme = () => {
+        try {
+          return localStorage.getItem(storageKey);
+        } catch {
+          return null;
+        }
+      };
+
+      const setStoredTheme = (value) => {
+        try {
+          localStorage.setItem(storageKey, value);
+        } catch {
+          // Storage access is optional; keep theme switching working in-memory.
+        }
+      };
+
+      const preferred = getStoredTheme() ?? (media.matches ? "dark" : "light");
 
       const applyTheme = (value) => {
         root.dataset.theme = value === "dark" ? "dark" : "light";
@@ -43,7 +60,7 @@ const {
       emitThemeChange();
 
       globalThis.__setFrimousseTheme = (value) => {
-        localStorage.setItem(storageKey, value);
+        setStoredTheme(value);
         applyTheme(value);
         emitThemeChange();
       };

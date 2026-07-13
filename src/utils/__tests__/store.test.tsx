@@ -135,6 +135,20 @@ describe("createStore", () => {
     expect(subscriber).toHaveBeenCalledWith({ id: "456", count: 1 });
   });
 
+  it("should not mutate previously read snapshots before the next frame", () => {
+    const store = createStore(() => ({ id: "123", count: 0 }));
+    const snapshot = store.get();
+
+    store.set({ count: 1 });
+
+    expect(snapshot).toEqual({ id: "123", count: 0 });
+    expect(store.get()).toEqual({ id: "123", count: 1 });
+
+    vi.advanceTimersToNextFrame();
+
+    expect(store.get()).toEqual({ id: "123", count: 1 });
+  });
+
   it("should always return the latest state with get", () => {
     type State = {
       id: string;

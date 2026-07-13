@@ -40,13 +40,14 @@ export function createStore<T extends object>(
   const get = () => pending ?? state;
 
   const set: Store<T>["set"] = (partial) => {
-    pending ??= state;
-    Object.assign(
-      pending as T,
-      typeof partial === "function"
-        ? (partial as (state: T) => Partial<T>)(get())
-        : partial,
-    );
+    const nextPartial =
+      typeof partial === "function" ? partial(get()) : partial;
+    const nextState = pending ?? state;
+
+    pending = {
+      ...nextState,
+      ...nextPartial,
+    };
 
     if (!frameId) {
       frameId = requestAnimationFrame(flush);
