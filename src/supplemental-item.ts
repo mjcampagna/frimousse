@@ -4,6 +4,7 @@ import type {
   SupplementalSectionOptions,
 } from "./supplemental-item-types";
 import type { SupplementalEmojiPickerItem } from "./supplemental-types";
+import { formatAsShortcode } from "./utils/format-as-shortcode";
 
 function normalizeRequiredText(value: string, field: string) {
   const normalized = value.trim();
@@ -19,6 +20,14 @@ function normalizeOptionalText(value: string | undefined) {
   const normalized = value?.trim();
 
   return normalized && normalized.length > 0 ? normalized : undefined;
+}
+
+function normalizeOptionalShortcode(value: string | undefined) {
+  const normalized = value?.trim();
+
+  return normalized && normalized.length > 0
+    ? formatAsShortcode(normalized)
+    : undefined;
 }
 
 function normalizeTextList(values: string[] | undefined) {
@@ -47,6 +56,7 @@ export function createSupplementalItem(
     kind: "supplemental",
     id,
     label,
+    shortcode: normalizeOptionalShortcode(input.shortcode),
     imageUrl: normalizeOptionalText(input.imageUrl),
     tags: normalizeTextList(input.tags),
     keywords: normalizeTextList(input.keywords),

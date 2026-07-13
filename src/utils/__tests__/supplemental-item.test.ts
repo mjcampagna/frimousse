@@ -10,12 +10,14 @@ describe("createSupplementalItem", () => {
       createSupplementalItem({
         id: "shipit",
         label: "Ship It",
+        shortcode: "ship_it",
         aliases: ["ship it"],
       }),
     ).toEqual({
       kind: "supplemental",
       id: "shipit",
       label: "Ship It",
+      shortcode: ":ship_it:",
       imageUrl: undefined,
       tags: undefined,
       keywords: undefined,
@@ -31,6 +33,7 @@ describe("createSupplementalItem", () => {
       createSupplementalItem({
         id: " party_parrot ",
         label: " Party parrot ",
+        shortcode: " :party-parrot: ",
         imageUrl: " https://example.com/party-parrot.gif ",
         tags: [" fun ", "", "fun"],
         keywords: [" mascot "],
@@ -41,6 +44,7 @@ describe("createSupplementalItem", () => {
       kind: "supplemental",
       id: "party_parrot",
       label: "Party parrot",
+      shortcode: ":party_parrot:",
       imageUrl: "https://example.com/party-parrot.gif",
       tags: ["fun"],
       keywords: ["mascot"],
@@ -83,6 +87,7 @@ describe("createSupplementalSection", () => {
           kind: "supplemental",
           id: "shipit",
           label: "Ship It",
+          shortcode: undefined,
           imageUrl: undefined,
           tags: undefined,
           keywords: undefined,

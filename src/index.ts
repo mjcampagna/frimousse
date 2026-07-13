@@ -16,6 +16,10 @@ export {
   sanitizeEmojiPickerUsageEntries,
 } from "./frequency";
 export { buildNativeSearchTermsMap } from "./native-search-terms";
+export {
+  getEmojiPrimaryShortcode,
+  getEmojiShortcodes,
+} from "./shortcodes";
 export { formatAsShortcode } from "./utils/format-as-shortcode";
 export { isNativeSelection, isSupplementalSelection } from "./utils/emoji-item";
 export { useActiveEmoji, useActiveItem, useSkinTone } from "./hooks";
@@ -33,6 +37,11 @@ export type {
 export type {
   NativeSearchTermSource,
 } from "./native-search-terms";
+export type {
+  EmojiNativeShortcodeMap,
+  EmojiShortcodeOptions,
+  EmojiShortcodeSource,
+} from "./shortcodes";
 export type {
   EmojiPickerFrequentSection,
   EmojiPickerFrequentSectionOptions,
@@ -74,10 +83,13 @@ export type {
   EmojiPickerViewportProps,
   Locale,
   NativeItem,
+  NativeShortcodeMap,
   SearchConfig,
   Section,
   SectionPosition,
   SkinTone,
+  ShortcodeOptions,
+  ShortcodeSource,
   SupplementalConfig,
   SupplementalItem,
   SupplementalSearch,

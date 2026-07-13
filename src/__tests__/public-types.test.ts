@@ -1,9 +1,12 @@
 import { describe, expectTypeOf, it } from "vitest";
 import type {
+  NativeShortcodeMap,
   Item,
   ItemSelection,
   NativeItemSelection,
   Section,
+  ShortcodeOptions,
+  ShortcodeSource,
   SupplementalConfig,
   SupplementalItemSelection,
   SupplementalItem,
@@ -35,5 +38,12 @@ describe("public type exports", () => {
     expectTypeOf<SupplementalConfig>().toEqualTypeOf<
       EmojiPickerSupplementalConfig
     >();
+  });
+
+  it("should expose shortcode helper aliases", () => {
+    expectTypeOf<ShortcodeSource>().toEqualTypeOf<Item | ItemSelection>();
+    expectTypeOf<ShortcodeOptions>().toEqualTypeOf<{
+      nativeShortcodes?: NativeShortcodeMap | undefined;
+    }>();
   });
 });

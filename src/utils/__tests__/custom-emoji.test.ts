@@ -12,12 +12,14 @@ describe("createCustomEmoji", () => {
       createCustomEmoji({
         id: "shipit",
         label: "Ship It",
+        shortcode: "ship_it",
         imageUrl: "https://example.com/shipit.png",
       }),
     ).toEqual({
       kind: "supplemental",
       id: "shipit",
       label: "Ship It",
+      shortcode: ":ship_it:",
       imageUrl: "https://example.com/shipit.png",
       tags: undefined,
       keywords: undefined,
@@ -31,6 +33,7 @@ describe("createCustomEmoji", () => {
       createCustomEmoji({
         id: " shipit ",
         label: " Ship It ",
+        shortcode: " :ship-it: ",
         imageUrl: " https://example.com/shipit.png ",
         tags: [" approve ", "", "approve"],
         keywords: [" launch ", "launch"],
@@ -40,6 +43,7 @@ describe("createCustomEmoji", () => {
       kind: "supplemental",
       id: "shipit",
       label: "Ship It",
+      shortcode: ":ship_it:",
       imageUrl: "https://example.com/shipit.png",
       tags: ["approve"],
       keywords: ["launch"],
@@ -124,6 +128,7 @@ describe("createCustomSection", () => {
           kind: "supplemental",
           id: "shipit",
           label: "Ship It",
+          shortcode: undefined,
           imageUrl: "https://example.com/shipit.png",
           tags: undefined,
           keywords: undefined,

@@ -22,6 +22,7 @@ const supplementalItem: EmojiPickerItem = {
   kind: "supplemental",
   id: "shipit",
   label: "Ship It",
+  shortcode: ":ship_it:",
   aliases: ["ship it"],
 };
 
@@ -58,6 +59,7 @@ describe("sanitizeEmojiPickerUsageEntries", () => {
             kind: "supplemental",
             id: " shipit ",
             label: " Ship It ",
+            shortcode: " ship-it ",
             aliases: [" ship it ", 123],
             imageUrl: " https://example.com/shipit.png ",
           },
@@ -80,6 +82,7 @@ describe("sanitizeEmojiPickerUsageEntries", () => {
           kind: "supplemental",
           id: "shipit",
           label: "Ship It",
+          shortcode: ":ship_it:",
           aliases: ["ship it"],
           imageUrl: "https://example.com/shipit.png",
         },

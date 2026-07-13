@@ -11,6 +11,7 @@ export type SupplementalEmojiPickerItem = {
   kind: "supplemental";
   id: string;
   label: string;
+  shortcode?: string;
   imageUrl?: string;
   tags?: string[];
   keywords?: string[];

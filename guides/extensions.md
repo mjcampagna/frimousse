@@ -109,6 +109,10 @@ The same distinction applies to the preview helpers:
 - `useActiveEmoji()` and `<EmojiPicker.ActiveEmoji />` remain native-only
 - `useActiveItem()` and `<EmojiPicker.ActiveItem />` expose the widened selection
 
+If your UI needs a display-oriented `:shortcode:` token, use
+`getEmojiPrimaryShortcode()` or `getEmojiShortcodes()` with the
+widened item surface.
+
 ## Frequent items
 
 Frequency tracking utilities are intentionally storage-agnostic.
@@ -247,6 +251,7 @@ Notes:
 
 - `id` is required and should come from the consumer’s own stable identity model
 - if your product treats shortcode as the canonical custom-emoji identity, use that shortcode as `id`
+- `shortcode` is optional display metadata for a canonical `:shortcode:` token
 - `imageUrl` is presentation data, not fallback identity
 - `aliases`, `keywords`, and `tags` are optional search inputs for supplemental matching; alternate shortcode forms belong in `aliases`
 - `data` is opaque consumer payload that the picker preserves but does not read

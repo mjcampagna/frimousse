@@ -90,6 +90,8 @@ function sanitizeUsageItem(item: unknown): EmojiPickerItem {
     : createSupplementalItem({
         id: typeof item.id === "string" ? item.id : "",
         label: typeof item.label === "string" ? item.label : undefined,
+        shortcode:
+          typeof item.shortcode === "string" ? item.shortcode : undefined,
         imageUrl: typeof item.imageUrl === "string" ? item.imageUrl : undefined,
         tags: Array.isArray(item.tags)
           ? item.tags.filter((value): value is string => typeof value === "string")

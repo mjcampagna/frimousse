@@ -46,6 +46,8 @@ import {
   createSupplementalItem,
   createSupplementalSection,
   formatAsShortcode,
+  getEmojiPrimaryShortcode,
+  getEmojiShortcodes,
   getEmojiPickerUsageKey,
   isCustomEmoji,
   isNativeSelection,
@@ -90,6 +92,22 @@ Notes:
 - returns colon-wrapped values like `:party_parrot:`
 - useful when your app persists shortcode-first identifiers
 - intentionally small in scope; it does not provide a full shortcode dataset
+
+### `getEmojiShortcodes(source, options?)`
+
+Returns normalized shortcode-like display tokens for an item or widened item selection.
+
+Notes:
+
+- supplemental items use `shortcode` when provided, otherwise fall back to `id`
+- supplemental `aliases` are included as alternate shortcode-like display forms
+- native items only return values when `nativeShortcodes` are provided by the consumer
+
+### `getEmojiPrimaryShortcode(source, options?)`
+
+Returns the first normalized shortcode-like display token for an item or widened item selection.
+
+Useful for footer or preview UIs that want one canonical `:shortcode:` string.
 
 ## Components
 
@@ -450,6 +468,7 @@ Input type:
 type SupplementalItemInput = {
   id: string;
   label?: string;
+  shortcode?: string;
   imageUrl?: string;
   tags?: string[];
   keywords?: string[];
@@ -462,6 +481,7 @@ Field semantics:
 
 - `id`: required stable identity owned by the consumer
 - `label`: display label; defaults to `id` when omitted
+- `shortcode`: optional canonical display-oriented `:shortcode:` token
 - `imageUrl`: optional presentation data for image-backed rendering
 - `aliases`: alternate names that participate in supplemental search
 - `keywords`: search-oriented descriptors that participate in supplemental search

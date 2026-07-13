@@ -7,6 +7,11 @@ import type {
 import type { ComponentProps, ComponentType, ReactNode } from "react";
 import type { EmojiPickerSearchConfig } from "./search-types";
 import type {
+  EmojiNativeShortcodeMap,
+  EmojiShortcodeOptions,
+  EmojiShortcodeSource,
+} from "./shortcodes";
+import type {
   EmojiPickerItem,
   EmojiPickerSection,
   EmojiPickerSectionPosition,
@@ -59,6 +64,9 @@ export type SupplementalSearch = Resolve<EmojiPickerSupplementalSearch>;
 export type SupplementalSearchWeights = Resolve<EmojiPickerSupplementalSearchWeights>;
 export type SectionPosition = Resolve<EmojiPickerSectionPosition>;
 export type SearchConfig = Resolve<EmojiPickerSearchConfig>;
+export type NativeShortcodeMap = Resolve<EmojiNativeShortcodeMap>;
+export type ShortcodeOptions = Resolve<EmojiShortcodeOptions>;
+export type ShortcodeSource = Resolve<EmojiShortcodeSource>;
 
 export type Category = Resolve<EmojiPickerCategory>;
 

@@ -7,6 +7,7 @@ import type {
 export type SupplementalItemInput = {
   id: string;
   label?: string;
+  shortcode?: string;
   imageUrl?: string;
   tags?: string[];
   keywords?: string[];
