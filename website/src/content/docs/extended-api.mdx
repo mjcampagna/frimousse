@@ -124,21 +124,37 @@ If you want a strict "Recently used" section instead, pass `mode: "recent"` to
 the frequency helpers.
 
 ```tsx
+import { useEffect, useMemo, useState } from "react";
 import {
   buildEmojiPickerFrequentSection,
   EmojiPicker,
   recordEmojiPickerUsage,
+  sanitizeEmojiPickerUsageEntries,
   type EmojiPickerUsageEntry,
 } from "@slithy/frimousse";
 
-function MyEmojiPicker() {
-  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>([]);
+const STORAGE_KEY = "emoji-picker-usage";
 
-  const frequentSection = buildEmojiPickerFrequentSection(usageEntries, {
-    label: "Frequently used",
-    limit: 8,
-    searchable: false,
+function MyEmojiPicker() {
+  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>(() => {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+
+    return sanitizeEmojiPickerUsageEntries(raw ? JSON.parse(raw) : []);
   });
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(usageEntries));
+  }, [usageEntries]);
+
+  const frequentSection = useMemo(
+    () =>
+      buildEmojiPickerFrequentSection(usageEntries, {
+        label: "Frequently used",
+        limit: 8,
+        searchable: false,
+      }),
+    [usageEntries],
+  );
 
   return (
     <EmojiPicker.Root
@@ -157,6 +173,9 @@ function MyEmojiPicker() {
   );
 }
 ```
+
+That keeps storage fully consumer-owned while still giving you a small helper for
+rehydrating unknown persisted data safely.
 
 ### Notes
 

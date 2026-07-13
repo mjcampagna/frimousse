@@ -636,6 +636,30 @@ Return type:
 
 - `EmojiPickerUsageEntry[]`
 
+### `sanitizeEmojiPickerUsageEntries(value)`
+
+Sanitizes persisted usage-entry data from consumer-owned storage.
+
+Behavior:
+
+- accepts unknown input and returns a valid `EmojiPickerUsageEntry[]`
+- drops malformed entries instead of throwing
+- re-derives each entry key from the sanitized item shape
+- normalizes supplemental items with the same rules as `createSupplementalItem`
+
+Typical use:
+
+```ts
+const raw = localStorage.getItem("emoji-picker-usage");
+const usageEntries = sanitizeEmojiPickerUsageEntries(
+  raw ? JSON.parse(raw) : [],
+);
+```
+
+Return type:
+
+- `EmojiPickerUsageEntry[]`
+
 ### `buildEmojiPickerFrequentSection(entries, options?)`
 
 Builds a frequent-items section from ranked usage.
