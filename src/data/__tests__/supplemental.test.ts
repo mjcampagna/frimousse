@@ -192,6 +192,29 @@ describe("buildSupplementalSections", () => {
     expect(result.rows).toEqual([]);
   });
 
+  it("should omit non-matching sections while preserving matching section order", () => {
+    const result = buildSupplementalSections(
+      supplementalSections,
+      "party",
+      10,
+      2,
+      4,
+    );
+
+    expect(result.categories).toEqual([
+      {
+        label: "Team",
+        rowsCount: 1,
+        startRowIndex: 4,
+      },
+    ]);
+    expect(result.rows).toHaveLength(1);
+    expect(result.rows[0]?.categoryIndex).toBe(2);
+    expect(result.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "party-parrot",
+    ]);
+  });
+
   it("should rank better matches ahead of weaker ones", () => {
     const result = buildSupplementalSections([mixedSearchSection], "party", 10, 0, 0);
     const items = result.rows[0]?.emojis as EmojiPickerItem[] | undefined;

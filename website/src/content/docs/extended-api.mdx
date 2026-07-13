@@ -62,6 +62,8 @@ Use `createCustomSection` when you specifically want image-backed custom emoji w
 
 Supplemental search defaults to grouped results. Set `mode: "unified"` to merge native and supplemental matches into a single results surface.
 
+In grouped mode, native matches stay under their native category headings and supplemental matches stay under the labels of the matching sections. Sections with no matches are omitted, and `resultsLabel` is ignored.
+
 ```tsx
 <EmojiPicker.Root
   supplemental={{

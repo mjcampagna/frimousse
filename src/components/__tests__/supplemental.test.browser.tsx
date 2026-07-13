@@ -469,6 +469,16 @@ describe("EmojiPicker supplemental items", () => {
       .toBeInTheDocument();
   });
 
+  it("should ignore resultsLabel in grouped search mode", async () => {
+    page.render(<SupplementalPage searchMode="grouped" />);
+
+    await page.getByTestId("search").fill("party");
+
+    await expect.element(page.getByText("Results")).not.toBeInTheDocument();
+    await expect.element(page.getByText("Activities")).toBeInTheDocument();
+    await expect.element(page.getByText("Team")).toBeInTheDocument();
+  });
+
   it("should allow onItemSelect without supplemental configuration", async () => {
     function NativeSelectionPage() {
       const [selection, setSelection] = useState("");
