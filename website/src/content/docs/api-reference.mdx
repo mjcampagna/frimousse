@@ -7,6 +7,7 @@ It covers:
 - `EmojiPicker` components
 - hooks
 - additive supplemental APIs
+- supplemental item helpers
 - custom emoji helpers
 - frequency helpers
 - search configuration
@@ -41,6 +42,8 @@ import {
   buildEmojiPickerFrequentSection,
   createEmojiPickerCustomEmoji,
   createEmojiPickerCustomSection,
+  createSupplementalItem,
+  createSupplementalSection,
   getEmojiPickerUsageKey,
   isEmojiPickerCustomEmoji,
   isNativeSelection,
@@ -173,7 +176,7 @@ Inner components:
   - notes: supplemental button renderer for additive sections
   - shape:
     - inherits built-in `button` props except `children`
-    - `emoji: SupplementalEmoji & { isActive: boolean }`
+    - `emoji: SupplementalItem & { isActive: boolean }`
 
 ### `EmojiPicker.Loading`
 
@@ -397,11 +400,59 @@ isSupplementalSelection(selection)
 
 Use these to narrow `ItemSelection` unions safely.
 
+## Supplemental Item Helpers
+
+### `createSupplementalItem(input)`
+
+Creates a normalized supplemental item.
+
+Input type:
+
+```ts
+type SupplementalItemInput = {
+  id: string;
+  label?: string;
+  imageUrl?: string;
+  tags?: string[];
+  keywords?: string[];
+  aliases?: string[];
+  data?: unknown;
+};
+```
+
+Return type:
+
+- `SupplementalEmojiPickerItem`
+
+### `createSupplementalSection(items, options)`
+
+Creates a normalized supplemental section that can contain plain or image-backed supplemental items.
+
+Arguments:
+
+- `items: readonly SupplementalItemInput[]`
+- `options: SupplementalSectionOptions`
+
+`SupplementalSectionOptions`:
+
+```ts
+type SupplementalSectionOptions = {
+  id: string;
+  label?: string;
+  position?: "prepend" | "append";
+  searchable?: boolean;
+};
+```
+
+Return type:
+
+- `SupplementalSection`
+
 ## Custom Emoji Helpers
 
 ### `createEmojiPickerCustomEmoji(input)`
 
-Creates a normalized supplemental item with required `id` and `imageUrl`.
+Creates a normalized image-backed supplemental item with required `id` and `imageUrl`.
 
 Input type:
 
@@ -564,21 +615,25 @@ The implementation also uses internal measurement and sizing attributes. Treat t
 
 ### Items and selections
 
+- `Item`
 - `NativeItem`
 - `SupplementalItem`
-- `SupplementalEmoji`
-- `PickerItem`
-- `NativeSelection`
-- `SupplementalSelection`
 - `ItemSelection`
+- `EmojiPickerItem`
+- `NativeEmojiPickerItem`
+- `SupplementalEmojiPickerItem`
+- `NativeItemSelection`
+- `SupplementalItemSelection`
 
 ### Sections and search
 
-- `PickerSection`
-- `SupplementalSection`
 - `SectionPosition`
 - `SupplementalSearch`
 - `SearchConfig`
+- `EmojiPickerSection`
+- `EmojiPickerSectionPosition`
+- `EmojiPickerSupplementalConfig`
+- `EmojiPickerSupplementalSearch`
 - `EmojiPickerNativeSearchConfig`
 - `EmojiPickerSearchConfig`
 
@@ -619,6 +674,9 @@ The implementation also uses internal measurement and sizing attributes. Treat t
 - `EmojiPickerCustomEmojiInput`
 - `EmojiPickerCustomSection`
 - `EmojiPickerCustomSectionOptions`
+- `SupplementalItemInput`
+- `SupplementalSection`
+- `SupplementalSectionOptions`
 - `CustomEmoji`
 - `CustomEmojiInput`
 - `CustomSection`

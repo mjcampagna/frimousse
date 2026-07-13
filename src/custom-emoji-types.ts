@@ -1,5 +1,5 @@
+import type { SupplementalItemInput, SupplementalSection } from "./supplemental-item-types";
 import type {
-  EmojiPickerSection,
   EmojiPickerSectionPosition,
   SupplementalEmojiPickerItem,
 } from "./supplemental-types";
@@ -8,14 +8,8 @@ export type EmojiPickerCustomEmoji = SupplementalEmojiPickerItem & {
   imageUrl: string;
 };
 
-export type EmojiPickerCustomEmojiInput = {
-  id: string;
-  label?: string;
+export type EmojiPickerCustomEmojiInput = SupplementalItemInput & {
   imageUrl: string;
-  tags?: string[];
-  keywords?: string[];
-  aliases?: string[];
-  data?: unknown;
 };
 
 export type EmojiPickerCustomSectionOptions = {
@@ -25,4 +19,6 @@ export type EmojiPickerCustomSectionOptions = {
   searchable?: boolean;
 };
 
-export type EmojiPickerCustomSection = EmojiPickerSection<EmojiPickerCustomEmoji>;
+export type EmojiPickerCustomSection = SupplementalSection & {
+  items: EmojiPickerCustomEmoji[];
+};

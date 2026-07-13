@@ -14,14 +14,11 @@ import type {
 } from "./custom-emoji-types";
 import type {
   EmojiPickerItem,
-  EmojiPickerSection,
   EmojiPickerSectionPosition,
   ItemSelection as EmojiPickerSelectionItem,
   EmojiPickerSupplementalConfig,
   EmojiPickerSupplementalSearch,
-  NativeItemSelection as EmojiPickerNativeItemSelection,
   NativeEmojiPickerItem,
-  SupplementalItemSelection as EmojiPickerSupplementalItemSelection,
   SupplementalEmojiPickerItem,
 } from "./supplemental-types";
 
@@ -63,13 +60,7 @@ export type CustomSectionOptions = Resolve<EmojiPickerCustomSectionOptions>;
 export type Item = Resolve<EmojiPickerItem>;
 export type NativeItem = Resolve<NativeEmojiPickerItem>;
 export type SupplementalItem = Resolve<SupplementalEmojiPickerItem>;
-export type SupplementalEmoji = Resolve<SupplementalEmojiPickerItem>;
-export type PickerItem = Resolve<EmojiPickerItem>;
 export type ItemSelection = Resolve<EmojiPickerSelectionItem>;
-export type NativeSelection = Resolve<EmojiPickerNativeItemSelection>;
-export type SupplementalSelection = Resolve<EmojiPickerSupplementalItemSelection>;
-export type PickerSection = Resolve<EmojiPickerSection>;
-export type SupplementalSection = Resolve<EmojiPickerSection>;
 export type SupplementalSearch = Resolve<EmojiPickerSupplementalSearch>;
 export type SectionPosition = Resolve<EmojiPickerSectionPosition>;
 export type SearchConfig = Resolve<EmojiPickerSearchConfig>;
@@ -182,7 +173,7 @@ export interface EmojiPickerListSupplementalEmojiProps
    * The supplemental item for this button and whether the item is currently
    * active (either hovered or selected via keyboard navigation).
    */
-  emoji: Resolve<SupplementalEmoji & { isActive: boolean }>;
+  emoji: Resolve<SupplementalItem & { isActive: boolean }>;
 }
 
 export interface EmojiPickerListProps extends ComponentProps<"div"> {

@@ -3,14 +3,8 @@ import type {
   Item,
   ItemSelection,
   NativeItemSelection,
-  NativeSelection,
-  PickerSection,
-  PickerItem,
   SupplementalItemSelection,
   SupplementalItem,
-  SupplementalSelection,
-  SupplementalSection,
-  SupplementalEmoji,
 } from "../index";
 import type { EmojiPickerItem, EmojiPickerSection } from "../supplemental-types";
 
@@ -24,16 +18,13 @@ describe("public type exports", () => {
     >();
   });
 
-  it("should keep the convenience aliases aligned with the explicit branch types", () => {
-    expectTypeOf<NativeSelection>().toEqualTypeOf<NativeItemSelection>();
-    expectTypeOf<SupplementalSelection>().toEqualTypeOf<SupplementalItemSelection>();
-  });
-
-  it("should expose parallel convenience aliases for mixed item surfaces", () => {
+  it("should keep the concise item aliases aligned with the explicit item types", () => {
     expectTypeOf<Item>().toEqualTypeOf<EmojiPickerItem>();
-    expectTypeOf<PickerItem>().toEqualTypeOf<EmojiPickerItem>();
-    expectTypeOf<SupplementalItem>().toEqualTypeOf<SupplementalEmoji>();
-    expectTypeOf<PickerSection>().toEqualTypeOf<EmojiPickerSection>();
-    expectTypeOf<SupplementalSection>().toEqualTypeOf<EmojiPickerSection>();
+    expectTypeOf<SupplementalItem>().toEqualTypeOf<
+      Extract<EmojiPickerItem, { kind: "supplemental" }>
+    >();
+    expectTypeOf<EmojiPickerSection>().toEqualTypeOf<
+      EmojiPickerSection<EmojiPickerItem>
+    >();
   });
 });

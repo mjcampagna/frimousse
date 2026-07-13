@@ -26,13 +26,13 @@ Pass `supplemental` to `EmojiPicker.Root` to add consumer-provided sections. Sec
 ```tsx
 import {
   EmojiPicker,
-  createEmojiPickerCustomSection,
+  createSupplementalSection,
 } from "@slithy/frimousse";
 
-const customSection = createEmojiPickerCustomSection(
+const customSection = createSupplementalSection(
   [
     { id: "party-parrot", imageUrl: "/emoji/party-parrot.png", label: "Party parrot" },
-    { id: "ship-it", imageUrl: "/emoji/ship-it.png", label: "Ship it" },
+    { id: "ship-it", label: "Ship it", aliases: ["ship it"] },
   ],
   {
     id: "custom",
@@ -55,6 +55,8 @@ const customSection = createEmojiPickerCustomSection(
   </EmojiPicker.Viewport>
 </EmojiPicker.Root>;
 ```
+
+Use `createEmojiPickerCustomSection` when you specifically want image-backed custom emoji with required `imageUrl` values. Use `createSupplementalSection` for the broader supplemental-item model.
 
 ### Unified search
 

@@ -5,6 +5,10 @@ export {
   isEmojiPickerCustomEmoji,
 } from "./custom-emoji";
 export {
+  createSupplementalItem,
+  createSupplementalSection,
+} from "./supplemental-item";
+export {
   buildEmojiPickerFrequentSection,
   getEmojiPickerUsageKey,
   rankEmojiPickerUsage,
@@ -18,6 +22,11 @@ export type {
   EmojiPickerCustomSection,
   EmojiPickerCustomSectionOptions,
 } from "./custom-emoji-types";
+export type {
+  SupplementalItemInput,
+  SupplementalSection,
+  SupplementalSectionOptions,
+} from "./supplemental-item-types";
 export type {
   EmojiPickerFrequentSection,
   EmojiPickerFrequentSectionOptions,
@@ -65,15 +74,9 @@ export type {
   EmojiPickerViewportProps,
   Locale,
   NativeItem,
-  NativeSelection,
-  PickerItem,
-  PickerSection,
   SearchConfig,
   SectionPosition,
   SkinTone,
-  SupplementalEmoji,
   SupplementalItem,
-  SupplementalSelection,
   SupplementalSearch,
-  SupplementalSection,
 } from "./types";
