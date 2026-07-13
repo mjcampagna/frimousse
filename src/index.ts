@@ -13,6 +13,7 @@ export {
   getEmojiPickerUsageKey,
   rankEmojiPickerUsage,
   recordEmojiPickerUsage,
+  sanitizeEmojiPickerUsageEntries,
 } from "./frequency";
 export { buildNativeSearchTermsMap } from "./native-search-terms";
 export { formatAsShortcode } from "./utils/format-as-shortcode";

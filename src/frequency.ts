@@ -1,4 +1,5 @@
 import type { EmojiPickerItem } from "./supplemental-types";
+import { createSupplementalItem } from "./supplemental-item";
 import type {
   EmojiPickerFrequentSection,
   EmojiPickerFrequentSectionOptions,
@@ -40,6 +41,66 @@ function trimEntries(entries: EmojiPickerUsageEntry[], maxEntries: number) {
   return entries.slice(0, Math.max(0, maxEntries));
 }
 
+function sanitizeNativeItem(item: unknown): EmojiPickerItem {
+  const record = item as Record<string, unknown>;
+
+  if (
+    typeof item !== "object" ||
+    item === null ||
+    record.kind !== "native" ||
+    typeof record.id !== "string" ||
+    typeof record.emoji !== "string" ||
+    typeof record.label !== "string"
+  ) {
+    throw new Error();
+  }
+
+  const id = record.id.trim();
+  const emoji = record.emoji.trim();
+  const label = record.label.trim();
+
+  if (id.length === 0 || emoji.length === 0 || label.length === 0) {
+    throw new Error();
+  }
+
+  return {
+    kind: "native",
+    id,
+    emoji,
+    label,
+  };
+}
+
+function sanitizeUsageItem(item: unknown): EmojiPickerItem {
+  const record = item as Record<string, unknown>;
+
+  if (typeof item !== "object" || item === null || typeof record.kind !== "string") {
+    throw new Error();
+  }
+
+  return record.kind === "native"
+    ? sanitizeNativeItem(item)
+    : createSupplementalItem({
+        id: typeof record.id === "string" ? record.id : "",
+        label: typeof record.label === "string" ? record.label : undefined,
+        imageUrl: typeof record.imageUrl === "string" ? record.imageUrl : undefined,
+        tags: Array.isArray(record.tags)
+          ? record.tags.filter((value): value is string => typeof value === "string")
+          : undefined,
+        keywords: Array.isArray(record.keywords)
+          ? record.keywords.filter(
+              (value): value is string => typeof value === "string",
+            )
+          : undefined,
+        aliases: Array.isArray(record.aliases)
+          ? record.aliases.filter(
+              (value): value is string => typeof value === "string",
+            )
+          : undefined,
+        data: record.data,
+      });
+}
+
 function sortUsageEntries(
   entries: EmojiPickerUsageEntry[],
   mode: "frecency" | "recent",
@@ -73,6 +134,44 @@ export function getEmojiPickerUsageKey(source: EmojiPickerUsageSource) {
   const item = toItem(source);
 
   return `${item.kind}:${item.id}`;
+}
+
+export function sanitizeEmojiPickerUsageEntries(value: unknown) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const entries: EmojiPickerUsageEntry[] = [];
+
+  for (const entry of value) {
+    try {
+      const record = entry as Record<string, unknown>;
+
+      if (
+        typeof entry !== "object" ||
+        entry === null ||
+        typeof record.score !== "number" ||
+        typeof record.uses !== "number" ||
+        typeof record.lastUsedAt !== "number"
+      ) {
+        continue;
+      }
+
+      const item = sanitizeUsageItem(record.item);
+
+      entries.push({
+        key: getEmojiPickerUsageKey(item),
+        item,
+        score: record.score,
+        uses: record.uses,
+        lastUsedAt: record.lastUsedAt,
+      });
+    } catch {
+      continue;
+    }
+  }
+
+  return entries;
 }
 
 export function rankEmojiPickerUsage(

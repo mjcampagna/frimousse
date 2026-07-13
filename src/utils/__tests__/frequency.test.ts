@@ -4,6 +4,7 @@ import {
   getEmojiPickerUsageKey,
   rankEmojiPickerUsage,
   recordEmojiPickerUsage,
+  sanitizeEmojiPickerUsageEntries,
 } from "../../frequency";
 import type {
   EmojiPickerItem,
@@ -33,6 +34,87 @@ describe("getEmojiPickerUsageKey", () => {
 
     expect(getEmojiPickerUsageKey(nativeItem)).toBe("native:😀");
     expect(getEmojiPickerUsageKey(selection)).toBe("supplemental:shipit");
+  });
+});
+
+describe("sanitizeEmojiPickerUsageEntries", () => {
+  it("should sanitize valid native and supplemental persisted entries", () => {
+    expect(
+      sanitizeEmojiPickerUsageEntries([
+        {
+          key: "wrong:key",
+          item: {
+            kind: "native",
+            id: " 😀 ",
+            emoji: " 😀 ",
+            label: " Grinning face ",
+          },
+          score: 2,
+          uses: 2,
+          lastUsedAt: 123,
+        },
+        {
+          item: {
+            kind: "supplemental",
+            id: " shipit ",
+            label: " Ship It ",
+            aliases: [" ship it ", 123],
+            imageUrl: " https://example.com/shipit.png ",
+          },
+          score: 1,
+          uses: 1,
+          lastUsedAt: 456,
+        },
+      ]),
+    ).toEqual([
+      {
+        key: "native:😀",
+        item: nativeItem,
+        score: 2,
+        uses: 2,
+        lastUsedAt: 123,
+      },
+      {
+        key: "supplemental:shipit",
+        item: {
+          kind: "supplemental",
+          id: "shipit",
+          label: "Ship It",
+          aliases: ["ship it"],
+          imageUrl: "https://example.com/shipit.png",
+        },
+        score: 1,
+        uses: 1,
+        lastUsedAt: 456,
+      },
+    ]);
+  });
+
+  it("should drop malformed persisted entries", () => {
+    expect(
+      sanitizeEmojiPickerUsageEntries([
+        null,
+        {
+          item: nativeItem,
+          score: "1",
+          uses: 1,
+          lastUsedAt: 1,
+        },
+        {
+          item: {
+            kind: "supplemental",
+            id: "   ",
+          },
+          score: 1,
+          uses: 1,
+          lastUsedAt: 1,
+        },
+      ]),
+    ).toEqual([]);
+  });
+
+  it("should return an empty array for non-array input", () => {
+    expect(sanitizeEmojiPickerUsageEntries({})).toEqual([]);
   });
 });
 

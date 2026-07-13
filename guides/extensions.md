@@ -139,11 +139,14 @@ import {
   buildEmojiPickerFrequentSection,
   EmojiPicker,
   recordEmojiPickerUsage,
+  sanitizeEmojiPickerUsageEntries,
   type EmojiPickerUsageEntry,
 } from "@slithy/frimousse";
 
 export function FrequentEmojiPicker() {
-  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>([]);
+  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>(() =>
+    sanitizeEmojiPickerUsageEntries([]),
+  );
 
   const frequentSection = useMemo(
     () =>
@@ -176,6 +179,10 @@ export function FrequentEmojiPicker() {
 ```
 
 By default, `buildEmojiPickerFrequentSection` creates a prepended section, but the section can be positioned anywhere through `position`.
+
+If you persist usage entries outside memory, `sanitizeEmojiPickerUsageEntries`
+is the small helper for turning unknown stored data back into a valid
+`EmojiPickerUsageEntry[]`.
 
 ## Custom emoji helpers
 
