@@ -476,7 +476,7 @@ describe("EmojiPicker supplemental items", () => {
 
     await expect.element(page.getByText("Results")).not.toBeInTheDocument();
     await expect.element(page.getByText("Activities")).toBeInTheDocument();
-    await expect.element(page.getByText("Team")).toBeInTheDocument();
+    await expect.element(page.getByText("Favorites")).toBeInTheDocument();
   });
 
   it("should allow onItemSelect without supplemental configuration", async () => {

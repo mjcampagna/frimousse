@@ -25,6 +25,7 @@
   },
   "files": [
     "dist/**",
+    "guides/**",
     "README.md",
     "LICENSE"
   ],

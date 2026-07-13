@@ -9,7 +9,7 @@ const WHITESPACE_PATTERN = /\s+/g;
 const LABEL_AND_ENRICHED_TERM_SCORE = 10;
 const TAG_SCORE = 1;
 
-type NativeSearchTermsMap = Map<string, string[]>;
+export type NativeSearchTermsMap = Map<string, string[]>;
 const warnedUnmatchedKeys = new Set<string>();
 
 export function normalizeNativeSearchKey(emoji: string): string {

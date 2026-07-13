@@ -108,6 +108,8 @@ export function getEmojiPickerData(
       categoryIndex,
       startRowIndex,
       supplemental?.search,
+      searchConfig,
+      data.emojis,
     );
 
     rows.push(...built.rows);
@@ -166,6 +168,8 @@ export function getEmojiPickerData(
       categoryIndex,
       startRowIndex,
       supplemental?.search,
+      searchConfig,
+      data.emojis,
     );
 
     rows.push(...built.rows);

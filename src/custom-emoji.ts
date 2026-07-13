@@ -27,12 +27,26 @@ export function createCustomEmoji(
     throw new Error('Emoji picker custom emoji "imageUrl" must be non-empty.');
   }
 
-  return createSupplementalItem(input) as CustomEmoji;
+  const item = createSupplementalItem(input);
+
+  if (!item.imageUrl) {
+    throw new Error('Emoji picker custom emoji "imageUrl" must be non-empty.');
+  }
+
+  return {
+    ...item,
+    imageUrl: item.imageUrl,
+  };
 }
 
 export function createCustomSection(
   items: readonly CustomEmojiInput[],
   options: CustomSectionOptions,
 ): CustomSection {
-  return createSupplementalSection(items, options) as CustomSection;
+  const section = createSupplementalSection(items, options);
+
+  return {
+    ...section,
+    items: items.map(createCustomEmoji),
+  };
 }

@@ -209,7 +209,7 @@ export interface EmojiPickerRootProps extends ComponentProps<"div"> {
   /**
    * The number of columns in the list.
    *
-   * @default 10
+   * @default 9
    */
   columns?: number;
 

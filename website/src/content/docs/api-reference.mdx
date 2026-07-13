@@ -52,6 +52,7 @@ import {
   isSupplementalSelection,
   rankEmojiPickerUsage,
   recordEmojiPickerUsage,
+  sanitizeEmojiPickerUsageEntries,
   useActiveEmoji,
   useActiveItem,
   useSkinTone,
@@ -104,7 +105,7 @@ Props:
 | `onItemSelect` | `(selection: ItemSelection) => void` | - | Called when any picker item is selected, including supplemental items. Additive; does not replace `onEmojiSelect`. |
 | `locale` | `Locale` | `"en"` | Emojibase locale. |
 | `skinTone` | `SkinTone` | `"none"` | Initial skin tone. |
-| `columns` | `number` | `10` | Number of visible list columns. |
+| `columns` | `number` | `9` | Number of visible list columns. |
 | `emojiVersion` | `number` | browser-supported latest | Restricts visible emoji by Emoji version. |
 | `emojibaseUrl` | `string` | `"https://cdn.jsdelivr.net/npm/emojibase-data"` | Base URL used to fetch Emojibase JSON datasets. |
 | `sticky` | `boolean` | `true` | Makes category headers sticky. |
@@ -644,16 +645,28 @@ Behavior:
 
 - accepts unknown input and returns a valid `EmojiPickerUsageEntry[]`
 - drops malformed entries instead of throwing
+- drops entries with non-finite or non-positive `score` and `uses` values
+- drops entries with non-finite or negative `lastUsedAt` values
+- deduplicates entries by sanitized usage key
 - re-derives each entry key from the sanitized item shape
 - normalizes supplemental items with the same rules as `createSupplementalItem`
 
 Typical use:
 
 ```ts
-const raw = localStorage.getItem("emoji-picker-usage");
-const usageEntries = sanitizeEmojiPickerUsageEntries(
-  raw ? JSON.parse(raw) : [],
-);
+function readEmojiPickerUsageEntries() {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  try {
+    const raw = window.localStorage.getItem("emoji-picker-usage");
+
+    return sanitizeEmojiPickerUsageEntries(raw ? JSON.parse(raw) : []);
+  } catch {
+    return [];
+  }
+}
 ```
 
 Return type:
@@ -784,6 +797,7 @@ This section lists the types re-exported from the package entrypoint.
 ### Frequency
 
 - `EmojiPickerUsageEntry`
+- `EmojiPickerUsageMode`
 - `EmojiPickerUsageOptions`
 - `EmojiPickerUsageSource`
 - `EmojiPickerFrequentSection`

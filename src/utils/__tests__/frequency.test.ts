@@ -101,6 +101,30 @@ describe("sanitizeEmojiPickerUsageEntries", () => {
           lastUsedAt: 1,
         },
         {
+          item: nativeItem,
+          score: Number.POSITIVE_INFINITY,
+          uses: 1,
+          lastUsedAt: 1,
+        },
+        {
+          item: nativeItem,
+          score: 1,
+          uses: Number.POSITIVE_INFINITY,
+          lastUsedAt: 1,
+        },
+        {
+          item: nativeItem,
+          score: 1,
+          uses: 1,
+          lastUsedAt: Number.POSITIVE_INFINITY,
+        },
+        {
+          item: nativeItem,
+          score: Number.NaN,
+          uses: 1,
+          lastUsedAt: 1,
+        },
+        {
           item: {
             kind: "supplemental",
             id: "   ",
@@ -111,6 +135,38 @@ describe("sanitizeEmojiPickerUsageEntries", () => {
         },
       ]),
     ).toEqual([]);
+  });
+
+  it("should dedupe persisted entries by sanitized usage key", () => {
+    expect(
+      sanitizeEmojiPickerUsageEntries([
+        {
+          item: nativeItem,
+          score: 1,
+          uses: 1,
+          lastUsedAt: 3_000,
+        },
+        {
+          item: {
+            kind: "native",
+            id: "😀",
+            emoji: "😀",
+            label: "Grinning face",
+          },
+          score: 3,
+          uses: 3,
+          lastUsedAt: 1_000,
+        },
+      ]),
+    ).toEqual([
+      {
+        key: "native:😀",
+        item: nativeItem,
+        score: 3,
+        uses: 3,
+        lastUsedAt: 1_000,
+      },
+    ]);
   });
 
   it("should return an empty array for non-array input", () => {
@@ -384,6 +440,16 @@ describe("buildEmojiPickerFrequentSection", () => {
         score: 3,
         uses: 3,
         lastUsedAt: 2_000,
+      },
+      {
+        item: {
+          kind: "supplemental",
+          id: "shipit",
+          label: "Ignored duplicate",
+        },
+        score: 1,
+        uses: 1,
+        lastUsedAt: 3_000,
       },
       {
         item: {

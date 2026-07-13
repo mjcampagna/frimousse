@@ -41,23 +41,32 @@ function trimEntries(entries: EmojiPickerUsageEntry[], maxEntries: number) {
   return entries.slice(0, Math.max(0, maxEntries));
 }
 
-function sanitizeNativeItem(item: unknown): EmojiPickerItem {
-  const record = item as Record<string, unknown>;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
 
+function isPositiveFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value) && value > 0;
+}
+
+function isNonNegativeFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0;
+}
+
+function sanitizeNativeItem(item: unknown): EmojiPickerItem {
   if (
-    typeof item !== "object" ||
-    item === null ||
-    record.kind !== "native" ||
-    typeof record.id !== "string" ||
-    typeof record.emoji !== "string" ||
-    typeof record.label !== "string"
+    !isRecord(item) ||
+    item.kind !== "native" ||
+    typeof item.id !== "string" ||
+    typeof item.emoji !== "string" ||
+    typeof item.label !== "string"
   ) {
     throw new Error();
   }
 
-  const id = record.id.trim();
-  const emoji = record.emoji.trim();
-  const label = record.label.trim();
+  const id = item.id.trim();
+  const emoji = item.emoji.trim();
+  const label = item.label.trim();
 
   if (id.length === 0 || emoji.length === 0 || label.length === 0) {
     throw new Error();
@@ -72,32 +81,30 @@ function sanitizeNativeItem(item: unknown): EmojiPickerItem {
 }
 
 function sanitizeUsageItem(item: unknown): EmojiPickerItem {
-  const record = item as Record<string, unknown>;
-
-  if (typeof item !== "object" || item === null || typeof record.kind !== "string") {
+  if (!isRecord(item) || typeof item.kind !== "string") {
     throw new Error();
   }
 
-  return record.kind === "native"
+  return item.kind === "native"
     ? sanitizeNativeItem(item)
     : createSupplementalItem({
-        id: typeof record.id === "string" ? record.id : "",
-        label: typeof record.label === "string" ? record.label : undefined,
-        imageUrl: typeof record.imageUrl === "string" ? record.imageUrl : undefined,
-        tags: Array.isArray(record.tags)
-          ? record.tags.filter((value): value is string => typeof value === "string")
+        id: typeof item.id === "string" ? item.id : "",
+        label: typeof item.label === "string" ? item.label : undefined,
+        imageUrl: typeof item.imageUrl === "string" ? item.imageUrl : undefined,
+        tags: Array.isArray(item.tags)
+          ? item.tags.filter((value): value is string => typeof value === "string")
           : undefined,
-        keywords: Array.isArray(record.keywords)
-          ? record.keywords.filter(
+        keywords: Array.isArray(item.keywords)
+          ? item.keywords.filter(
               (value): value is string => typeof value === "string",
             )
           : undefined,
-        aliases: Array.isArray(record.aliases)
-          ? record.aliases.filter(
+        aliases: Array.isArray(item.aliases)
+          ? item.aliases.filter(
               (value): value is string => typeof value === "string",
             )
           : undefined,
-        data: record.data,
+        data: item.data,
       });
 }
 
@@ -141,37 +148,49 @@ export function sanitizeEmojiPickerUsageEntries(value: unknown) {
     return [];
   }
 
-  const entries: EmojiPickerUsageEntry[] = [];
+  const entries = new Map<string, EmojiPickerUsageEntry>();
 
   for (const entry of value) {
     try {
-      const record = entry as Record<string, unknown>;
-
       if (
-        typeof entry !== "object" ||
-        entry === null ||
-        typeof record.score !== "number" ||
-        typeof record.uses !== "number" ||
-        typeof record.lastUsedAt !== "number"
+        !isRecord(entry) ||
+        !isPositiveFiniteNumber(entry.score) ||
+        !isPositiveFiniteNumber(entry.uses) ||
+        !isNonNegativeFiniteNumber(entry.lastUsedAt)
       ) {
         continue;
       }
 
-      const item = sanitizeUsageItem(record.item);
-
-      entries.push({
-        key: getEmojiPickerUsageKey(item),
+      const item = sanitizeUsageItem(entry.item);
+      const key = getEmojiPickerUsageKey(item);
+      const sanitizedEntry = {
+        key,
         item,
-        score: record.score,
-        uses: record.uses,
-        lastUsedAt: record.lastUsedAt,
-      });
+        score: entry.score,
+        uses: entry.uses,
+        lastUsedAt: entry.lastUsedAt,
+      };
+      const existingEntry = entries.get(key);
+
+      if (!existingEntry) {
+        entries.set(key, sanitizedEntry);
+        continue;
+      }
+
+      const preferredEntry = sortUsageEntries(
+        [existingEntry, sanitizedEntry],
+        "frecency",
+      )[0];
+
+      if (preferredEntry) {
+        entries.set(key, preferredEntry);
+      }
     } catch {
       continue;
     }
   }
 
-  return entries;
+  return Array.from(entries.values());
 }
 
 export function rankEmojiPickerUsage(
@@ -193,8 +212,12 @@ export function rankEmojiPickerUsage(
               ? entry.score
               : decayScore(entry.score, entry.lastUsedAt, now, halfLifeMs),
         }))
-      .filter((entry) => entry.score > 0)
-      ,
+        .filter(
+          (entry) =>
+            isPositiveFiniteNumber(entry.score) &&
+            isPositiveFiniteNumber(entry.uses) &&
+            isNonNegativeFiniteNumber(entry.lastUsedAt),
+        ),
       mode,
     ),
     maxEntries,

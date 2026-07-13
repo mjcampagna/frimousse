@@ -16,8 +16,10 @@ import type {
 import { chunk } from "../utils/chunk";
 import {
   createNativeSearchTermsMap,
+  normalizeNativeSearchKey,
   normalizeNativeSearchText,
   scoreNativeEmojiMatch,
+  type NativeSearchTermsMap,
 } from "./native-search";
 
 type BuiltEmojiPickerRows = {
@@ -79,10 +81,36 @@ export function toNativeEmojiPickerItem(
   };
 }
 
-function scoreNativeItemMatch(item: NativeEmojiPickerItem, searchText: string) {
-  let score = 0;
+function createNativeEmojiMap(nativeEmojis: readonly EmojiDataEmoji[] | undefined) {
+  if (!nativeEmojis) {
+    return undefined;
+  }
 
-  if (matchesSearchTerm(item.label, searchText)) {
+  return new Map(
+    nativeEmojis.map((emoji) => [normalizeNativeSearchKey(emoji.emoji), emoji]),
+  );
+}
+
+function scoreNativeItemMatch(
+  item: NativeEmojiPickerItem,
+  searchText: string,
+  nativeTerms: NativeSearchTermsMap | undefined,
+  nativeEmojiByKey: Map<string, EmojiDataEmoji> | undefined,
+) {
+  let score = 0;
+  const nativeEmoji = nativeEmojiByKey?.get(normalizeNativeSearchKey(item.emoji));
+
+  if (nativeEmoji) {
+    score += scoreNativeEmojiMatch(nativeEmoji, searchText, nativeTerms);
+  } else if (matchesSearchTerm(item.label, searchText)) {
+    score += 10;
+  }
+
+  if (
+    nativeEmoji &&
+    nativeEmoji.label !== item.label &&
+    matchesSearchTerm(item.label, searchText)
+  ) {
     score += 10;
   }
 
@@ -134,9 +162,11 @@ function scoreItemMatch(
   item: EmojiPickerItem,
   searchText: string,
   searchConfig?: EmojiPickerSupplementalSearch,
+  nativeTerms?: NativeSearchTermsMap,
+  nativeEmojiByKey?: Map<string, EmojiDataEmoji>,
 ): number {
   return item.kind === "native"
-    ? scoreNativeItemMatch(item, searchText)
+    ? scoreNativeItemMatch(item, searchText, nativeTerms, nativeEmojiByKey)
     : scoreSupplementalItemMatch(item, searchText, searchConfig?.weights);
 }
 
@@ -144,6 +174,8 @@ function filterSectionItems(
   items: EmojiPickerItem[],
   searchText: string,
   searchConfig?: EmojiPickerSupplementalSearch,
+  nativeTerms?: NativeSearchTermsMap,
+  nativeEmojiByKey?: Map<string, EmojiDataEmoji>,
 ) {
   if (!searchText) {
     return items;
@@ -153,7 +185,13 @@ function filterSectionItems(
 
   return items
     .filter((item) => {
-      const score = scoreItemMatch(item, searchText, searchConfig);
+      const score = scoreItemMatch(
+        item,
+        searchText,
+        searchConfig,
+        nativeTerms,
+        nativeEmojiByKey,
+      );
 
       if (score > 0) {
         scores.set(`${item.kind}:${item.id}`, score);
@@ -176,8 +214,12 @@ export function buildSupplementalSections(
   categoryIndexStart: number,
   startRowIndexStart: number,
   searchConfig?: EmojiPickerSupplementalSearch,
+  nativeSearchConfig?: EmojiPickerSearchConfig,
+  nativeEmojis?: readonly EmojiDataEmoji[],
 ): BuiltEmojiPickerRows {
   const searchText = normalizeSearch(search);
+  const nativeTerms = createNativeSearchTermsMap(nativeSearchConfig);
+  const nativeEmojiByKey = createNativeEmojiMap(nativeEmojis);
   const rows: EmojiPickerDataRow[] = [];
   const categories: EmojiPickerDataCategory[] = [];
   let count = 0;
@@ -188,7 +230,13 @@ export function buildSupplementalSections(
     const items = searchText
       ? section.searchable === false
         ? []
-        : filterSectionItems(section.items, searchText, searchConfig)
+        : filterSectionItems(
+            section.items,
+            searchText,
+            searchConfig,
+            nativeTerms,
+            nativeEmojiByKey,
+          )
       : section.items;
 
     if (items.length === 0) {
@@ -229,6 +277,7 @@ export function buildUnifiedSearchRows(
   const scored = new Map<string, number>();
   const itemsByKey = new Map<string, EmojiPickerItem>();
   const nativeTerms = createNativeSearchTermsMap(searchConfig);
+  const nativeEmojiByKey = createNativeEmojiMap(nativeEmojis);
 
   for (const emoji of nativeEmojis) {
     const score = scoreNativeEmojiMatch(emoji, searchText, nativeTerms);
@@ -254,8 +303,16 @@ export function buildUnifiedSearchRows(
       section.items,
       searchText,
       supplemental.search,
+      nativeTerms,
+      nativeEmojiByKey,
     )) {
-      const score = scoreItemMatch(item, searchText, supplemental.search);
+      const score = scoreItemMatch(
+        item,
+        searchText,
+        supplemental.search,
+        nativeTerms,
+        nativeEmojiByKey,
+      );
 
       if (score > 0) {
         const key = `${item.kind}:${item.id}`;

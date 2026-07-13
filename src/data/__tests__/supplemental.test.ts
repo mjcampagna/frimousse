@@ -93,6 +93,19 @@ const supplementalSections: EmojiPickerSection[] = [
   },
 ];
 
+const nativeSearchSection: EmojiPickerSection = {
+  id: "native-search",
+  label: "Native search",
+  items: [
+    {
+      kind: "native",
+      id: "🎉",
+      emoji: "🎉",
+      label: "Party popper",
+    },
+  ],
+};
+
 const mixedSearchSection: EmojiPickerSection = {
   id: "frequently-used",
   label: "Frequently used",
@@ -367,6 +380,42 @@ describe("buildSupplementalSections", () => {
       "ops-bot",
     ]);
   });
+
+  it("should search native items in custom sections by dataset tags", () => {
+    const result = buildSupplementalSections(
+      [nativeSearchSection],
+      "tada",
+      10,
+      0,
+      0,
+      undefined,
+      undefined,
+      nativeEmojis,
+    );
+
+    expect(result.rows[0]?.emojis.map((item) => item.id)).toEqual(["🎉"]);
+  });
+
+  it("should search native items in custom sections by configured native terms", () => {
+    const result = buildSupplementalSections(
+      [nativeSearchSection],
+      "confetti cannon",
+      10,
+      0,
+      0,
+      undefined,
+      {
+        native: {
+          terms: {
+            "🎉": ["confetti_cannon"],
+          },
+        },
+      },
+      nativeEmojis,
+    );
+
+    expect(result.rows[0]?.emojis.map((item) => item.id)).toEqual(["🎉"]);
+  });
 });
 
 describe("buildUnifiedSearchRows", () => {
@@ -490,6 +539,31 @@ describe("buildUnifiedSearchRows", () => {
     );
 
     expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual(["👋"]);
+  });
+
+  it("should include configured native search terms for section-native items in unified search", () => {
+    const result = buildUnifiedSearchRows(
+      nativeEmojis,
+      {
+        sections: [nativeSearchSection],
+        search: {
+          mode: "unified",
+          resultsLabel: "Results",
+        },
+      },
+      "confetti cannon",
+      10,
+      undefined,
+      {
+        native: {
+          terms: {
+            "🎉": ["confetti_cannon"],
+          },
+        },
+      },
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual(["🎉"]);
   });
 
   it("should support shortcode-first native and supplemental search in one unified result set", () => {
