@@ -1,36 +1,70 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { buildNativeEmojiSearchTermMapFromEmojibase } from "@slithy/emoji-kit";
 import {
   buildEmojiPickerFrequentSection,
+  createCustomSection,
   EmojiPicker,
+  getEmojiPrimaryShortcode,
   type ItemSelection,
+  type EmojiNativeShortcodeMap,
   type EmojiPickerListSupplementalEmojiProps,
   type EmojiPickerUsageEntry,
   recordEmojiPickerUsage,
 } from "@slithy/frimousse";
-import { buildNativeSearchTermsMap } from "../../../../src/native-search-terms";
 import {
   createDemoInitialFrequentEntries,
   demoCustomSection,
 } from "../demo/picker-demo-data";
+import { fullNativeShortcodes } from "./generated/companion-demo-data";
 import { PickerLoadingSkeleton } from "../demo/PickerLoadingSkeleton";
 import { SelectionBurstLayer } from "../demo/SelectionBurstLayer";
 
-const nativeSearchTerms = buildNativeSearchTermsMap([
+const companionEmojiRecords = [
   {
     emoji: "👋",
-    terms: ["good bye", "see you"],
-    aliases: ["ttyl"],
+    label: "Waving hand",
+    shortcodes: ["wave", "good_bye"],
+    tags: ["see you", "farewell"],
   },
   {
     emoji: "🔗",
-    terms: ["hyper link", "url"],
+    label: "Link",
+    shortcodes: ["link"],
+    tags: ["hyper link", "url"],
   },
   {
     emoji: "❤️",
-    terms: ["red heart"],
-    aliases: ["love"],
+    label: "Red heart",
+    shortcodes: ["red_heart"],
+    tags: ["love"],
   },
-]);
+];
+
+const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(
+  companionEmojiRecords,
+  { includeTags: true },
+);
+
+const shortcodeFirstCustomSection = createCustomSection(
+  [
+    {
+      id: "good_job",
+      label: "Good job",
+      imageUrl: "/emoji/good_job.gif",
+      aliases: [":good_job:", "good-job"],
+    },
+    {
+      id: "say_nothing",
+      label: "Say nothing",
+      imageUrl: "/emoji/say_nothing.gif",
+      aliases: [":say_nothing:", "say-nothing"],
+    },
+  ],
+  {
+    id: "custom",
+    label: "Custom emoji",
+  },
+);
 
 const initialSelection: ItemSelection = {
   kind: "native",
@@ -39,6 +73,16 @@ const initialSelection: ItemSelection = {
     id: "🙂",
     emoji: "🙂",
     label: "Slightly smiling face",
+  },
+};
+
+const initialMappedSelection: ItemSelection = {
+  kind: "native",
+  item: {
+    kind: "native",
+    id: "👋",
+    emoji: "👋",
+    label: "Waving hand",
   },
 };
 
@@ -57,7 +101,11 @@ const DocsSupplementalEmoji = memo(function DocsSupplementalEmoji({
   );
 });
 
-function DemoPickerFooter() {
+function DemoPickerFooter({
+  nativeShortcodeMap,
+}: {
+  nativeShortcodeMap?: EmojiNativeShortcodeMap;
+}) {
   return (
     <EmojiPicker.ActiveItem>
       {({ item: activeItem }) => {
@@ -65,21 +113,61 @@ function DemoPickerFooter() {
           return null;
         }
 
-        return activeItem.kind === "native" ? (
+        const shortcode = getEmojiPrimaryShortcode(activeItem, {
+          nativeShortcodes: nativeShortcodeMap,
+        });
+
+        return (
+          <>
+            {activeItem.kind === "native" ? (
+              <div className="picker-footer-emoji">{activeItem.item.emoji}</div>
+            ) : (
+              <img
+                className="picker-footer-image"
+                src={activeItem.item.imageUrl}
+                alt={activeItem.item.label}
+                width="20"
+                height="20"
+              />
+            )}
+            <div className="picker-footer-copy">
+              <span className="picker-footer-label">{activeItem.item.label}</span>
+              {shortcode ? (
+                <span className="picker-footer-shortcode">{shortcode}</span>
+              ) : null}
+            </div>
+          </>
+        );
+      }}
+    </EmojiPicker.ActiveItem>
+  );
+}
+
+function DemoPickerShortcodeFooter({
+  nativeShortcodeMap,
+}: {
+  nativeShortcodeMap: EmojiNativeShortcodeMap;
+}) {
+  return (
+    <EmojiPicker.ActiveItem>
+      {({ item: activeItem }) => {
+        if (!activeItem || activeItem.kind !== "native") {
+          return null;
+        }
+
+        const shortcode = getEmojiPrimaryShortcode(activeItem, {
+          nativeShortcodes: nativeShortcodeMap,
+        });
+
+        return (
           <>
             <div className="picker-footer-emoji">{activeItem.item.emoji}</div>
-            <span className="picker-footer-label">{activeItem.item.label}</span>
-          </>
-        ) : (
-          <>
-            <img
-              className="picker-footer-image"
-              src={activeItem.item.imageUrl}
-              alt={activeItem.item.label}
-              width="20"
-              height="20"
-            />
-            <span className="picker-footer-label">{activeItem.item.label}</span>
+            <div className="picker-footer-copy">
+              <span className="picker-footer-label">{activeItem.item.label}</span>
+              {shortcode ? (
+                <span className="picker-footer-shortcode">{shortcode}</span>
+              ) : null}
+            </div>
           </>
         );
       }}
@@ -224,12 +312,12 @@ export function NativeSearchDemo() {
         </div>
         <div className="docs-picker-wrap">
           <SelectionBurstLayer selection={selection} />
-          <EmojiPicker.Root
-            columns={columns}
-            onItemSelect={setSelection}
-            search={{ native: { terms: nativeSearchTerms } }}
-            sticky
-          >
+            <EmojiPicker.Root
+              columns={columns}
+              onItemSelect={setSelection}
+              search={{ native: { terms: nativeSearchTerms } }}
+              sticky
+            >
             <div className="picker-toolbar">
               <EmojiPicker.Search
                 onChange={(event) => setQuery(event.target.value)}
@@ -247,8 +335,173 @@ export function NativeSearchDemo() {
               </EmojiPicker.Empty>
               <EmojiPicker.List />
             </EmojiPicker.Viewport>
-            </EmojiPicker.Root>
-          </div>
+          </EmojiPicker.Root>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function NativeShortcodeDemo() {
+  const columns = useResponsiveColumns(7, 8, 9);
+  const [query, setQuery] = useState("wave");
+  const [selection, setSelection] =
+    useState<ItemSelection>(initialMappedSelection);
+  const examples = [
+    { term: "wave", value: "wave", emoji: "👋" },
+    { term: "link", value: "link", emoji: "🔗" },
+    { term: "red_heart", value: "red_heart", emoji: "❤️" },
+  ] as const;
+
+  return (
+    <div className="docs-demo-card">
+      <div className="docs-demo-stack">
+        <div className="docs-demo-caption">
+          Select one of the mapped examples below to show its canonical shortcode in the footer.
+        </div>
+        <div className="docs-demo-chip-row">
+          {examples.map((example) => (
+            <button
+              key={example.value}
+              className="docs-demo-chip"
+              onClick={() => setQuery(example.value)}
+              type="button"
+            >
+              <span className="docs-demo-chip-term">{example.term}</span>
+              <span className="docs-demo-chip-arrow" aria-hidden="true">
+                →
+              </span>
+              <span className="docs-demo-chip-emoji" aria-hidden="true">
+                {example.emoji}
+              </span>
+            </button>
+          ))}
+        </div>
+        <div className="docs-picker-wrap">
+          <SelectionBurstLayer selection={selection} />
+          <EmojiPicker.Root
+            columns={columns}
+            onItemSelect={setSelection}
+            search={{ native: { terms: nativeSearchTerms } }}
+            sticky
+          >
+            <div className="picker-toolbar">
+              <EmojiPicker.Search
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Try wave, link, or red_heart"
+                value={query}
+              />
+              <EmojiPicker.SkinToneSelector />
+            </div>
+            <EmojiPicker.Viewport tabIndex={0}>
+              <EmojiPicker.Loading>
+                <PickerLoadingSkeleton columns={columns} />
+              </EmojiPicker.Loading>
+              <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+              <EmojiPicker.List />
+            </EmojiPicker.Viewport>
+            <div className="picker-footer">
+              <DemoPickerShortcodeFooter
+                nativeShortcodeMap={fullNativeShortcodes}
+              />
+            </div>
+          </EmojiPicker.Root>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ShortcodeFirstDemo() {
+  const columns = useResponsiveColumns(7, 8, 9);
+  const [query, setQuery] = useState("say_nothing");
+  const [selection, setSelection] = useState<ItemSelection>({
+    kind: "supplemental",
+    item: shortcodeFirstCustomSection.items[1],
+  });
+  const examples = [
+    { term: "wave", value: "wave", emoji: "👋" },
+    { term: "red_heart", value: "red_heart", emoji: "❤️" },
+    { term: "good_job", value: "good_job", imageUrl: "/emoji/good_job.gif" },
+    {
+      term: "say_nothing",
+      value: "say_nothing",
+      imageUrl: "/emoji/say_nothing.gif",
+    },
+  ] as const;
+
+  return (
+    <div className="docs-demo-card">
+      <div className="docs-demo-stack">
+        <div className="docs-demo-caption">
+          Unified search can mix native shortcode aliases with shortcode-first custom emoji names.
+        </div>
+        <div className="docs-demo-chip-row">
+          {examples.map((example) => (
+            <button
+              key={example.value}
+              className="docs-demo-chip"
+              onClick={() => setQuery(example.value)}
+              type="button"
+            >
+              <span className="docs-demo-chip-term">{example.term}</span>
+              <span className="docs-demo-chip-arrow" aria-hidden="true">
+                →
+              </span>
+              <span className="docs-demo-chip-emoji" aria-hidden="true">
+                {"emoji" in example ? (
+                  example.emoji
+                ) : (
+                  <img
+                    src={example.imageUrl}
+                    alt=""
+                    width="20"
+                    height="20"
+                  />
+                )}
+              </span>
+            </button>
+          ))}
+        </div>
+        <div className="docs-picker-wrap">
+          <SelectionBurstLayer selection={selection} />
+          <EmojiPicker.Root
+            columns={columns}
+            onItemSelect={setSelection}
+            search={{ native: { terms: nativeSearchTerms } }}
+            sticky
+            supplemental={{
+              sections: [shortcodeFirstCustomSection],
+              search: {
+                mode: "unified",
+                resultsLabel: "Results",
+              },
+            }}
+          >
+            <div className="picker-toolbar">
+              <EmojiPicker.Search
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Try wave, red_heart, good_job, or say_nothing"
+                value={query}
+              />
+              <EmojiPicker.SkinToneSelector />
+            </div>
+            <EmojiPicker.Viewport tabIndex={0}>
+              <EmojiPicker.Loading>
+                <PickerLoadingSkeleton columns={columns} />
+              </EmojiPicker.Loading>
+              <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+              <EmojiPicker.List
+                components={{
+                  SupplementalEmoji: DocsSupplementalEmoji,
+                }}
+              />
+            </EmojiPicker.Viewport>
+            <div className="picker-footer">
+              <DemoPickerFooter nativeShortcodeMap={fullNativeShortcodes} />
+            </div>
+          </EmojiPicker.Root>
+        </div>
       </div>
     </div>
   );

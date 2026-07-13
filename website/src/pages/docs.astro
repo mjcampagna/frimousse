@@ -5,6 +5,8 @@ import SetupSection from "../content/docs/installation.mdx";
 import BaseApiDemoIsland from "../components/docs/BaseApiDemoIsland.astro";
 import ExtendedApiDemoIsland from "../components/docs/ExtendedApiDemoIsland.astro";
 import NativeSearchDemoIsland from "../components/docs/NativeSearchDemoIsland.astro";
+import NativeShortcodeDemoIsland from "../components/docs/NativeShortcodeDemoIsland.astro";
+import ShortcodeFirstDemoIsland from "../components/docs/ShortcodeFirstDemoIsland.astro";
 import SupplementalPackagesSection from "../content/docs/supplemental-packages.mdx";
 import SiteHeader from "../components/SiteHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -57,6 +59,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <hr class="docs-section-divider" />
     <ExtendedApiSection components={{ ExtendedApiDemoIsland }} />
     <hr class="docs-section-divider" />
-    <SupplementalPackagesSection components={{ NativeSearchDemoIsland }} />
+    <SupplementalPackagesSection
+      components={{
+        NativeSearchDemoIsland,
+        NativeShortcodeDemoIsland,
+        ShortcodeFirstDemoIsland,
+      }}
+    />
   </main>
 </BaseLayout>

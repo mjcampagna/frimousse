@@ -103,7 +103,7 @@ function MyEmojiPicker() {
 
 `onEmojiSelect` remains native-only. Keep using it when you only care about native emoji picks.
 
-If your UI needs one canonical display shortcode, use `getEmojiPrimaryShortcode`. If you need alternate forms too, use `getEmojiShortcodes` with the widened item surface.
+If your UI needs one canonical display shortcode, use `getEmojiPrimaryShortcode`. If you need alternate forms too, use `getEmojiShortcodes` with the widened item surface. For native emoji, pass a companion-owned `nativeShortcodes` map when you want Unicode items to resolve to app-facing shortcode names.
 
 ### Consumer-owned frequent items
 

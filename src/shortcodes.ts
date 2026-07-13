@@ -2,6 +2,9 @@ import type { ItemSelection } from "./supplemental-types";
 import type { EmojiPickerItem } from "./supplemental-types";
 import { formatAsShortcode } from "./utils/format-as-shortcode";
 
+const VARIATION_SELECTOR_PATTERN = /[\uFE0E\uFE0F]/gu;
+const SKIN_TONE_PATTERN = /[\u{1F3FB}-\u{1F3FF}]/gu;
+
 export type EmojiNativeShortcodeMap = Record<
   string,
   string | readonly string[]
@@ -30,6 +33,12 @@ function toItem(source: EmojiShortcodeSource) {
   return "item" in source ? source.item : source;
 }
 
+function normalizeNativeEmojiKey(value: string) {
+  return value
+    .replace(VARIATION_SELECTOR_PATTERN, "")
+    .replace(SKIN_TONE_PATTERN, "");
+}
+
 export function getEmojiShortcodes(
   source: EmojiShortcodeSource,
   options: EmojiShortcodeOptions = {},
@@ -38,7 +47,9 @@ export function getEmojiShortcodes(
 
   if (item.kind === "native") {
     const nativeShortcodes = options.nativeShortcodes?.[item.emoji] ??
-      options.nativeShortcodes?.[item.id];
+      options.nativeShortcodes?.[item.id] ??
+      options.nativeShortcodes?.[normalizeNativeEmojiKey(item.emoji)] ??
+      options.nativeShortcodes?.[normalizeNativeEmojiKey(item.id)];
 
     if (!nativeShortcodes) {
       return [];

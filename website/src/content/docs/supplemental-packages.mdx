@@ -10,37 +10,47 @@ Use them when you want one or more of these:
 - app-specific aliasing or shorthand for common emoji
 - separate ownership of metadata policy from picker rendering
 
-The example below builds a native term map, then passes the resulting plain data into the picker.
-
-<NativeSearchDemoIsland />
+The examples below keep those jobs separate: one demo enriches native search, and the other shows native shortcode display.
 
 ### Enrich native search
 
-Generate a native term map ahead of time, then pass it to `Root` through `search.native.terms`.
+Generate native search terms ahead of time, then pass them to `Root` through `search.native.terms`.
 
-The source records can use whatever metadata shape your app or companion package prefers. Frimousse itself only consumes the derived `search.native.terms` map.
+The source records can use whatever metadata shape your app or companion package prefers. Frimousse only consumes the derived term map.
 
-Frimousse exports `buildNativeSearchTermsMap` when you want to build that shape yourself. `@slithy/emoji-kit` can also produce the same `search.native.terms` shape when your app already has a broader emoji metadata layer.
+<NativeSearchDemoIsland />
 
 ```tsx
-import { buildNativeSearchTermsMap, EmojiPicker } from "@slithy/frimousse";
+import {
+  buildNativeEmojiSearchTermMapFromEmojibase,
+} from "@slithy/emoji-kit";
+import { EmojiPicker } from "@slithy/frimousse";
 
-const nativeSearchTerms = buildNativeSearchTermsMap([
+const emojiRecords = [
   {
     emoji: "👋",
-    terms: ["good bye", "see you"],
-    aliases: ["ttyl"],
+    label: "Waving hand",
+    shortcodes: ["wave", "good_bye"],
+    tags: ["see you", "farewell"],
   },
   {
     emoji: "🔗",
-    terms: ["hyper link", "url"],
+    label: "Link",
+    shortcodes: ["link"],
+    tags: ["hyper link", "url"],
   },
   {
     emoji: "❤️",
-    terms: ["red heart"],
-    aliases: ["love"],
+    label: "Red heart",
+    shortcodes: ["red_heart"],
+    tags: ["love"],
   },
-]);
+];
+
+const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(
+  emojiRecords,
+  { includeTags: true },
+);
 
 <EmojiPicker.Root
   search={{
@@ -56,9 +66,112 @@ const nativeSearchTerms = buildNativeSearchTermsMap([
 </EmojiPicker.Root>;
 ```
 
-### Map shortcode-first custom emoji into supplemental items
+Frimousse also exports `buildNativeSearchTermsMap` when you want to build the same shape from your own records directly.
 
-If your app treats shortcode as the canonical identity for custom emoji, use that shortcode as the supplemental `id`, then put alternate forms in `aliases`.
+For production apps, prefer computing these maps ahead of time and shipping the final plain objects to the client. That keeps bundle size and runtime work lower than importing full emoji datasets in the browser.
+
+One simple pattern is to generate a checked-in artifact during a build or data-prep step:
+
+```ts
+// scripts/generate-emoji-maps.ts
+import fs from "node:fs/promises";
+import emojiData from "emojibase-data/en/data.json";
+import iamcalShortcodes from "emojibase-data/en/shortcodes/iamcal.json";
+import {
+  buildNativeEmojiSearchTermMapFromEmojibase,
+  buildShortcodeMapFromPreset,
+} from "@slithy/emoji-kit";
+
+const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(emojiData, {
+  includeTags: true,
+});
+
+const nativeShortcodes = buildShortcodeMapFromPreset(
+  emojiData,
+  iamcalShortcodes,
+);
+
+await fs.writeFile(
+  "./src/generated/emoji-maps.ts",
+  [
+    "export const nativeSearchTerms = " +
+      JSON.stringify(nativeSearchTerms, null, 2),
+    "export const nativeShortcodes = " +
+      JSON.stringify(nativeShortcodes, null, 2),
+  ].join("\n\n"),
+);
+```
+
+At runtime, import the generated plain objects instead of the raw datasets:
+
+```tsx
+import { nativeSearchTerms, nativeShortcodes } from "./generated/emoji-maps";
+import { EmojiPicker, getEmojiPrimaryShortcode } from "@slithy/frimousse";
+
+<EmojiPicker.Root search={{ native: { terms: nativeSearchTerms } }}>
+  <EmojiPicker.Viewport>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+  <EmojiPicker.ActiveItem>
+    {({ item }) =>
+      item?.kind === "native" ? (
+        <div>{getEmojiPrimaryShortcode(item, { nativeShortcodes })}</div>
+      ) : null
+    }
+  </EmojiPicker.ActiveItem>
+</EmojiPicker.Root>;
+```
+
+### Display native shortcodes
+
+Build a native shortcode map separately when your UI needs one canonical display token for selected native emoji.
+
+The same production advice applies here: precompute the shortcode map during your build or data-prep step when possible, then pass the final map into your picker UI at runtime.
+
+<NativeShortcodeDemoIsland />
+
+```tsx
+import emojiData from "emojibase-data/en/data.json";
+import iamcalShortcodes from "emojibase-data/en/shortcodes/iamcal.json";
+import { buildShortcodeMapFromPreset } from "@slithy/emoji-kit";
+import { EmojiPicker, getEmojiPrimaryShortcode } from "@slithy/frimousse";
+
+const nativeShortcodes = buildShortcodeMapFromPreset(
+  emojiData,
+  iamcalShortcodes,
+);
+
+<EmojiPicker.Root>
+  <EmojiPicker.Viewport>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+  <EmojiPicker.ActiveItem>
+    {({ item }) =>
+      item?.kind === "native" ? (
+        <div>{getEmojiPrimaryShortcode(item, { nativeShortcodes })}</div>
+      ) : null
+    }
+  </EmojiPicker.ActiveItem>
+</EmojiPicker.Root>;
+```
+
+### Shortcode-first apps
+
+Slack-style apps usually treat native and custom emoji differently:
+
+- native emoji render by Unicode, but search and display often use shortcode-like names
+- custom emoji use the shortcode-like name itself as the canonical identity
+
+In Frimousse, that maps to:
+
+- native search aliases -> `search.native.terms`
+- native display shortcode -> `getEmojiPrimaryShortcode(..., { nativeShortcodes })`
+- custom emoji canonical name -> `id`
+- alternate custom typed forms -> `aliases`
+
+For custom emoji, use the shortcode-like name as the supplemental `id`, then put alternate forms in `aliases`.
+
+<ShortcodeFirstDemoIsland />
 
 ```tsx
 import { createCustomSection, EmojiPicker } from "@slithy/frimousse";
@@ -66,16 +179,16 @@ import { createCustomSection, EmojiPicker } from "@slithy/frimousse";
 const customSection = createCustomSection(
   [
     {
-      id: "party_parrot",
-      label: "Party Parrot",
-      imageUrl: "https://example.com/emoji/party-parrot.gif",
-      aliases: [":party_parrot:", "party-parrot"],
+      id: "good_job",
+      label: "Good job",
+      imageUrl: "/emoji/good_job.gif",
+      aliases: [":good_job:", "good-job"],
     },
     {
-      id: "shipit",
-      label: "Ship It",
-      imageUrl: "https://example.com/emoji/shipit.png",
-      aliases: [":shipit:"],
+      id: "say_nothing",
+      label: "Say nothing",
+      imageUrl: "/emoji/say_nothing.gif",
+      aliases: [":say_nothing:", "say-nothing"],
     },
   ],
   {
@@ -96,19 +209,6 @@ const customSection = createCustomSection(
   </EmojiPicker.Viewport>
 </EmojiPicker.Root>;
 ```
-
-### Slack-style naming model
-
-Slack-style apps usually treat native and custom emoji differently:
-
-- native emoji use Unicode for rendering, but shortcode-like names for search and display
-- custom emoji use the shortcode-like name itself as the canonical identity
-
-In Frimousse, that maps to:
-
-- native shortcode metadata -> `search.native.terms`
-- custom emoji canonical name -> `id`
-- alternate typed forms -> `aliases`
 
 That keeps the picker contract generic while still fitting apps that persist and display shortcode-like names as their primary emoji vocabulary.
 

@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "generate:companion-demo-data": "node ./scripts/generate-companion-demo-data.mjs",
     "lint:tsc": "astro check",
     "lint:biome": "biome lint src/components src/styles"
   },

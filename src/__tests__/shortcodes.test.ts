@@ -46,6 +46,40 @@ describe("getEmojiShortcodes", () => {
     ).toEqual([":wave_party:", ":hello_there:"]);
   });
 
+  it("should read native shortcodes from normalized base-emoji keys", () => {
+    expect(
+      getEmojiShortcodes(
+        {
+          kind: "native",
+          id: "❤️",
+          emoji: "❤️",
+          label: "Red heart",
+        },
+        {
+          nativeShortcodes: {
+            "❤": ["red_heart"],
+          },
+        },
+      ),
+    ).toEqual([":red_heart:"]);
+
+    expect(
+      getEmojiShortcodes(
+        {
+          kind: "native",
+          id: "👍🏽",
+          emoji: "👍🏽",
+          label: "Thumbs up",
+        },
+        {
+          nativeShortcodes: {
+            "👍": ["+1"],
+          },
+        },
+      ),
+    ).toEqual([":1:"]);
+  });
+
   it("should accept widened item selections too", () => {
     const selection: ItemSelection = {
       kind: "supplemental",
