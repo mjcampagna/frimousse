@@ -24,6 +24,26 @@ const wavingHand: EmojiDataEmoji = {
   },
 };
 
+const redHeart: EmojiDataEmoji = {
+  emoji: "❤️",
+  category: 1,
+  version: 0.6,
+  label: "Red heart",
+  tags: ["heart", "love"],
+  countryFlag: undefined,
+  skins: undefined,
+};
+
+const heartDecoration: EmojiDataEmoji = {
+  emoji: "💟",
+  category: 1,
+  version: 0.6,
+  label: "Heart decoration",
+  tags: ["heart", "hearth"],
+  countryFlag: undefined,
+  skins: undefined,
+};
+
 describe("native search helpers", () => {
   it("normalizes search keys and search text", () => {
     expect(normalizeNativeSearchKey("❤️")).toBe("❤");
@@ -45,7 +65,7 @@ describe("native search helpers", () => {
     expect(terms?.get("❤")).toEqual(["red_heart"]);
   });
 
-  it("scores configured native terms alongside labels and tags", () => {
+  it("scores exact and prefix-quality native matches above loose contains matches", () => {
     const terms = createNativeSearchTermsMap({
       native: {
         terms: {
@@ -54,9 +74,26 @@ describe("native search helpers", () => {
       },
     });
 
-    expect(scoreNativeEmojiMatch(wavingHand, "ttyl", terms)).toBe(10);
-    expect(scoreNativeEmojiMatch(wavingHand, "good bye", terms)).toBe(10);
-    expect(scoreNativeEmojiMatch(wavingHand, "waving", terms)).toBe(10);
+    expect(scoreNativeEmojiMatch(wavingHand, "ttyl", terms)).toBe(30);
+    expect(scoreNativeEmojiMatch(wavingHand, "good bye", terms)).toBe(30);
+    expect(scoreNativeEmojiMatch(wavingHand, "waving", terms)).toBe(20);
+  });
+
+  it("prefers exact enriched shortcode hits over stacked prefix-style matches", () => {
+    const terms = createNativeSearchTermsMap({
+      native: {
+        terms: {
+          "❤️": ["heart"],
+          "💟": ["heart_decoration", "heart decoration"],
+        },
+      },
+    });
+
+    expect(scoreNativeEmojiMatch(redHeart, "heart", terms)).toBe(33);
+    expect(scoreNativeEmojiMatch(heartDecoration, "heart", terms)).toBe(25);
+    expect(scoreNativeEmojiMatch(redHeart, "heart", terms)).toBeGreaterThan(
+      scoreNativeEmojiMatch(heartDecoration, "heart", terms),
+    );
   });
 
   it("warns once for unmatched configured keys in development", () => {

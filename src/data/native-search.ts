@@ -8,6 +8,8 @@ const SEPARATOR_PATTERN = /[_-]+/g;
 const WHITESPACE_PATTERN = /\s+/g;
 const LABEL_AND_ENRICHED_TERM_SCORE = 10;
 const TAG_SCORE = 1;
+const EXACT_MATCH_MULTIPLIER = 3;
+const PREFIX_MATCH_MULTIPLIER = 2;
 
 export type NativeSearchTermsMap = Map<string, string[]>;
 const warnedUnmatchedKeys = new Set<string>();
@@ -20,6 +22,14 @@ export function normalizeNativeSearchKey(emoji: string): string {
 
 export function normalizeNativeSearchText(search: string): string {
   return normalizeNativeSearchTerm(search);
+}
+
+export function normalizeNativeSearchTerm(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(SEPARATOR_PATTERN, " ")
+    .replace(WHITESPACE_PATTERN, " ");
 }
 
 export function createNativeSearchTermsMap(
@@ -81,33 +91,59 @@ export function scoreNativeEmojiMatch(
   searchText: string,
   nativeTerms?: NativeSearchTermsMap,
 ): number {
-  let score = 0;
-
-  if (normalizeNativeSearchTerm(emoji.label).includes(searchText)) {
-    score += LABEL_AND_ENRICHED_TERM_SCORE;
-  }
-
-  for (const tag of emoji.tags) {
-    if (normalizeNativeSearchTerm(tag).includes(searchText)) {
-      score += TAG_SCORE;
-    }
-  }
+  let primaryScore = scoreSearchQuality(
+    normalizeNativeSearchTerm(emoji.label),
+    searchText,
+    LABEL_AND_ENRICHED_TERM_SCORE,
+  );
+  const tagScore = getTagMatchScore(emoji, searchText);
 
   const terms = nativeTerms?.get(normalizeNativeSearchKey(emoji.emoji)) ?? [];
 
   for (const term of terms) {
-    if (normalizeNativeSearchTerm(term).includes(searchText)) {
-      score += LABEL_AND_ENRICHED_TERM_SCORE;
-    }
+    primaryScore = Math.max(
+      primaryScore,
+      scoreSearchQuality(
+        normalizeNativeSearchTerm(term),
+        searchText,
+        LABEL_AND_ENRICHED_TERM_SCORE,
+      ),
+    );
+  }
+
+  return primaryScore + tagScore;
+}
+
+function getTagMatchScore(emoji: EmojiDataEmoji, searchText: string) {
+  let score = 0;
+
+  for (const tag of emoji.tags) {
+    score += scoreSearchQuality(
+      normalizeNativeSearchTerm(tag),
+      searchText,
+      TAG_SCORE,
+    );
   }
 
   return score;
 }
 
-function normalizeNativeSearchTerm(value: string): string {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(SEPARATOR_PATTERN, " ")
-    .replace(WHITESPACE_PATTERN, " ");
+export function scoreSearchQuality(
+  value: string,
+  searchText: string,
+  baseScore: number,
+) {
+  if (value === searchText) {
+    return baseScore * EXACT_MATCH_MULTIPLIER;
+  }
+
+  if (value.startsWith(searchText)) {
+    return baseScore * PREFIX_MATCH_MULTIPLIER;
+  }
+
+  if (value.includes(searchText)) {
+    return baseScore;
+  }
+
+  return 0;
 }

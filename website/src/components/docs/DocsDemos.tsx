@@ -15,7 +15,10 @@ import {
   createDemoInitialFrequentEntries,
   demoCustomSection,
 } from "../demo/picker-demo-data";
-import { fullNativeShortcodes } from "./generated/companion-demo-data";
+import {
+  fullNativeSearchTerms,
+  fullNativeShortcodes,
+} from "./generated/companion-demo-data";
 import { PickerLoadingSkeleton } from "../demo/PickerLoadingSkeleton";
 import { SelectionBurstLayer } from "../demo/SelectionBurstLayer";
 
@@ -468,7 +471,7 @@ export function ShortcodeFirstDemo() {
           <EmojiPicker.Root
             columns={columns}
             onItemSelect={setSelection}
-            search={{ native: { terms: nativeSearchTerms } }}
+            search={{ native: { terms: fullNativeSearchTerms } }}
             sticky
             supplemental={{
               sections: [shortcodeFirstCustomSection],

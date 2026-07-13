@@ -175,6 +175,21 @@ const weightedSearchSection: EmojiPickerSection = {
   ],
 };
 
+const denseMetadataSection: EmojiPickerSection = {
+  id: "dense-metadata",
+  label: "Dense metadata",
+  items: [
+    {
+      kind: "supplemental",
+      id: "heart-helper",
+      label: "Heart helper",
+      aliases: ["heart_helper", "heart helper"],
+      keywords: ["heart helper"],
+      tags: ["heart"],
+    },
+  ],
+};
+
 const shortcodeFirstSection: EmojiPickerSection = {
   id: "custom-shortcodes",
   label: "Custom",
@@ -195,6 +210,41 @@ const shortcodeFirstSection: EmojiPickerSection = {
     },
   ],
 };
+
+const oceanSection: EmojiPickerSection = {
+  id: "ocean-custom",
+  label: "Ocean",
+  items: [
+    {
+      kind: "supplemental",
+      id: "ocean",
+      label: "Water wave",
+      aliases: [":ocean:"],
+      tags: ["wave", "sea"],
+    },
+  ],
+};
+
+const oceanNativeEmojis: EmojiDataEmoji[] = [
+  {
+    emoji: "🏄",
+    category: 0,
+    version: 1,
+    label: "Person surfing",
+    tags: ["ocean", "surf", "wave"],
+    countryFlag: undefined,
+    skins: undefined,
+  },
+  {
+    emoji: "🐋",
+    category: 0,
+    version: 1,
+    label: "Whale",
+    tags: ["ocean", "sea"],
+    countryFlag: undefined,
+    skins: undefined,
+  },
+];
 
 describe("toNativeEmojiPickerItem", () => {
   it("should derive a stable item shape for native emojis", () => {
@@ -465,8 +515,8 @@ describe("buildUnifiedSearchRows", () => {
     ]);
     expect(result?.rows).toHaveLength(1);
     expect(result?.rows[0]?.emojis.map((item) => item.kind)).toEqual([
-      "supplemental",
       "native",
+      "supplemental",
     ]);
   });
 
@@ -483,8 +533,8 @@ describe("buildUnifiedSearchRows", () => {
     );
 
     expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
-      "party-parrot",
       "🎉",
+      "party-parrot",
     ]);
   });
 
@@ -501,8 +551,8 @@ describe("buildUnifiedSearchRows", () => {
     );
 
     expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
-      "party-parrot",
       "🎉",
+      "party-parrot",
     ]);
   });
 
@@ -601,6 +651,173 @@ describe("buildUnifiedSearchRows", () => {
     expect(result?.rows[0]?.emojis.map((item) => item.kind)).toEqual([
       "supplemental",
       "native",
+    ]);
+  });
+
+  it("should rank exact supplemental shortcode matches ahead of looser native matches", () => {
+    const result = buildUnifiedSearchRows(
+      oceanNativeEmojis,
+      {
+        sections: [oceanSection],
+        search: {
+          mode: "unified",
+          resultsLabel: "Results",
+        },
+      },
+      "ocean",
+      10,
+      undefined,
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "ocean",
+      "🏄",
+      "🐋",
+    ]);
+  });
+
+  it("should rank exact supplemental ids ahead of exact native shortcode aliases", () => {
+    const result = buildUnifiedSearchRows(
+      [
+        {
+          emoji: "🌊",
+          category: 0,
+          version: 1,
+          label: "Water wave",
+          tags: ["sea", "wave"],
+          countryFlag: undefined,
+          skins: undefined,
+        },
+      ],
+      {
+        sections: [oceanSection],
+        search: {
+          mode: "unified",
+          resultsLabel: "Results",
+        },
+      },
+      "ocean",
+      10,
+      undefined,
+      {
+        native: {
+          terms: {
+            "🌊": ["ocean"],
+          },
+        },
+      },
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "ocean",
+      "🌊",
+    ]);
+  });
+
+  it("should rank exact supplemental ids ahead of native exact-term-plus-tag ties", () => {
+    const result = buildUnifiedSearchRows(
+      [
+        {
+          emoji: "🌊",
+          category: 0,
+          version: 1,
+          label: "Water wave",
+          tags: ["ocean"],
+          countryFlag: undefined,
+          skins: undefined,
+        },
+      ],
+      {
+        sections: [oceanSection],
+        search: {
+          mode: "unified",
+          resultsLabel: "Results",
+        },
+      },
+      "ocean",
+      10,
+      undefined,
+      {
+        native: {
+          terms: {
+            "🌊": ["ocean"],
+          },
+        },
+      },
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "ocean",
+      "🌊",
+    ]);
+  });
+
+  it("should not boost canonical ids for prefix-only unified matches", () => {
+    const result = buildUnifiedSearchRows(
+      [
+        {
+          emoji: "🌊",
+          category: 0,
+          version: 1,
+          label: "Ocean current",
+          tags: [],
+          countryFlag: undefined,
+          skins: undefined,
+        },
+      ],
+      {
+        sections: [oceanSection],
+        search: {
+          mode: "unified",
+          resultsLabel: "Results",
+        },
+      },
+      "oce",
+      10,
+      undefined,
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "🌊",
+      "ocean",
+    ]);
+  });
+
+  it("should avoid stacking dense supplemental metadata above an exact native match", () => {
+    const result = buildUnifiedSearchRows(
+      [
+        {
+          emoji: "❤️",
+          category: 0,
+          version: 1,
+          label: "Red heart",
+          tags: ["heart"],
+          countryFlag: undefined,
+          skins: undefined,
+        },
+      ],
+      {
+        sections: [denseMetadataSection],
+        search: {
+          mode: "unified",
+          resultsLabel: "Results",
+        },
+      },
+      "heart",
+      10,
+      undefined,
+      {
+        native: {
+          terms: {
+            "❤️": ["heart"],
+          },
+        },
+      },
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "❤️",
+      "heart-helper",
     ]);
   });
 

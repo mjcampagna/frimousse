@@ -18,7 +18,9 @@ import {
   createNativeSearchTermsMap,
   normalizeNativeSearchKey,
   normalizeNativeSearchText,
+  normalizeNativeSearchTerm,
   scoreNativeEmojiMatch,
+  scoreSearchQuality,
   type NativeSearchTermsMap,
 } from "./native-search";
 
@@ -32,8 +34,8 @@ function normalizeSearch(search: string) {
   return normalizeNativeSearchText(search);
 }
 
-function matchesSearchTerm(value: string, searchText: string) {
-  return value.toLowerCase().replace(/[_-]/g, " ").includes(searchText);
+function normalizeSupplementalSearchValue(value: string) {
+  return normalizeNativeSearchTerm(value);
 }
 
 const DEFAULT_SUPPLEMENTAL_SEARCH_WEIGHTS = {
@@ -102,21 +104,32 @@ function scoreNativeItemMatch(
 
   if (nativeEmoji) {
     score += scoreNativeEmojiMatch(nativeEmoji, searchText, nativeTerms);
-  } else if (matchesSearchTerm(item.label, searchText)) {
-    score += 10;
+  } else {
+    score += scoreSearchQuality(
+      normalizeSupplementalSearchValue(item.label),
+      searchText,
+      10,
+    );
   }
 
   if (
     nativeEmoji &&
     nativeEmoji.label !== item.label &&
-    matchesSearchTerm(item.label, searchText)
+    normalizeSupplementalSearchValue(item.label) !==
+      normalizeSupplementalSearchValue(nativeEmoji.label)
   ) {
-    score += 10;
+    score += scoreSearchQuality(
+      normalizeSupplementalSearchValue(item.label),
+      searchText,
+      10,
+    );
   }
 
-  if (matchesSearchTerm(item.id, searchText)) {
-    score += 1;
-  }
+  score += scoreSearchQuality(
+    normalizeSupplementalSearchValue(item.id),
+    searchText,
+    1,
+  );
 
   return score;
 }
@@ -125,37 +138,123 @@ function scoreSupplementalItemMatch(
   item: Extract<EmojiPickerItem, { kind: "supplemental" }>,
   searchText: string,
   weights: EmojiPickerSupplementalSearchWeights | undefined,
+  preferCanonicalId = false,
 ) {
   const resolvedWeights = resolveSupplementalSearchWeights(weights);
-  let score = 0;
-
-  if (matchesSearchTerm(item.label, searchText)) {
-    score += resolvedWeights.label;
-  }
+  const normalizedId = normalizeSupplementalSearchValue(item.id);
+  const normalizedLabel = normalizeSupplementalSearchValue(item.label);
+  let primaryScore = scoreSearchQuality(
+    normalizedLabel,
+    searchText,
+    resolvedWeights.label,
+  );
+  let tagScore = 0;
 
   for (const alias of item.aliases ?? []) {
-    if (matchesSearchTerm(alias, searchText)) {
-      score += resolvedWeights.aliases;
-    }
+    primaryScore = Math.max(
+      primaryScore,
+      scoreSearchQuality(
+      normalizeSupplementalSearchValue(alias),
+      searchText,
+      resolvedWeights.aliases,
+      ),
+    );
   }
 
   for (const keyword of item.keywords ?? []) {
-    if (matchesSearchTerm(keyword, searchText)) {
-      score += resolvedWeights.keywords;
-    }
+    primaryScore = Math.max(
+      primaryScore,
+      scoreSearchQuality(
+      normalizeSupplementalSearchValue(keyword),
+      searchText,
+      resolvedWeights.keywords,
+      ),
+    );
   }
 
   for (const tag of item.tags ?? []) {
-    if (matchesSearchTerm(tag, searchText)) {
-      score += resolvedWeights.tags;
+    tagScore += scoreSearchQuality(
+      normalizeSupplementalSearchValue(tag),
+      searchText,
+      resolvedWeights.tags,
+    );
+  }
+
+  primaryScore = Math.max(
+    primaryScore,
+    scoreSearchQuality(
+      normalizedId,
+      searchText,
+      resolvedWeights.id,
+    ),
+  );
+
+  if (
+    preferCanonicalId &&
+    weights?.id === undefined &&
+    normalizedId === searchText
+  ) {
+    primaryScore = Math.max(
+      primaryScore,
+      scoreSearchQuality(
+        normalizedId,
+        searchText,
+        resolvedWeights.label,
+      ) + 1,
+    );
+  }
+
+  return primaryScore + tagScore;
+}
+
+function compareScoredItems(
+  a: EmojiPickerItem,
+  b: EmojiPickerItem,
+  scores: Map<string, number>,
+  searchText: string,
+  preferCanonicalId = false,
+) {
+  if (preferCanonicalId) {
+    const aIsExactCanonicalSupplementalId =
+      a.kind === "supplemental" &&
+      normalizeSupplementalSearchValue(a.id) === searchText;
+    const bIsExactCanonicalSupplementalId =
+      b.kind === "supplemental" &&
+      normalizeSupplementalSearchValue(b.id) === searchText;
+
+    if (aIsExactCanonicalSupplementalId !== bIsExactCanonicalSupplementalId) {
+      return aIsExactCanonicalSupplementalId ? -1 : 1;
     }
   }
 
-  if (matchesSearchTerm(item.id, searchText)) {
-    score += resolvedWeights.id;
+  const scoreDifference =
+    (scores.get(`${b.kind}:${b.id}`) ?? 0) -
+    (scores.get(`${a.kind}:${a.id}`) ?? 0);
+
+  if (scoreDifference !== 0) {
+    return scoreDifference;
   }
 
-  return score;
+  return 0;
+}
+
+function getItemScoreKey(item: EmojiPickerItem) {
+  return `${item.kind}:${item.id}`;
+}
+
+function setItemScore(
+  scores: Map<string, number>,
+  item: EmojiPickerItem,
+  score: number,
+) {
+  scores.set(getItemScoreKey(item), score);
+}
+
+function getPreviousItemScore(
+  scores: Map<string, number>,
+  item: EmojiPickerItem,
+) {
+  return scores.get(getItemScoreKey(item)) ?? -1;
 }
 
 function scoreItemMatch(
@@ -167,7 +266,12 @@ function scoreItemMatch(
 ): number {
   return item.kind === "native"
     ? scoreNativeItemMatch(item, searchText, nativeTerms, nativeEmojiByKey)
-    : scoreSupplementalItemMatch(item, searchText, searchConfig?.weights);
+    : scoreSupplementalItemMatch(
+        item,
+        searchText,
+        searchConfig?.weights,
+        searchConfig?.mode === "unified",
+      );
 }
 
 function filterSectionItems(
@@ -194,7 +298,7 @@ function filterSectionItems(
       );
 
       if (score > 0) {
-        scores.set(`${item.kind}:${item.id}`, score);
+        setItemScore(scores, item, score);
         return true;
       }
 
@@ -202,8 +306,13 @@ function filterSectionItems(
     })
     .sort(
       (a, b) =>
-        (scores.get(`${b.kind}:${b.id}`) ?? 0) -
-        (scores.get(`${a.kind}:${a.id}`) ?? 0),
+        compareScoredItems(
+          a,
+          b,
+          scores,
+          searchText,
+          searchConfig?.mode === "unified",
+        ),
     );
 }
 
@@ -284,11 +393,11 @@ export function buildUnifiedSearchRows(
 
     if (score > 0) {
       const item = toNativeEmojiPickerItem(emoji, skinTone);
-      const key = `${item.kind}:${item.id}`;
-      const previousScore = scored.get(key) ?? -1;
+      const key = getItemScoreKey(item);
+      const previousScore = getPreviousItemScore(scored, item);
 
       if (score > previousScore) {
-        scored.set(key, score);
+        setItemScore(scored, item, score);
         itemsByKey.set(key, item);
       }
     }
@@ -315,11 +424,11 @@ export function buildUnifiedSearchRows(
       );
 
       if (score > 0) {
-        const key = `${item.kind}:${item.id}`;
-        const previousScore = scored.get(key) ?? -1;
+        const key = getItemScoreKey(item);
+        const previousScore = getPreviousItemScore(scored, item);
 
         if (score > previousScore) {
-          scored.set(key, score);
+          setItemScore(scored, item, score);
           itemsByKey.set(key, item);
         }
       }
@@ -332,10 +441,8 @@ export function buildUnifiedSearchRows(
     return { count: 0, categories: [], rows: [] };
   }
 
-  items.sort(
-    (a, b) =>
-      (scored.get(`${b.kind}:${b.id}`) ?? 0) -
-      (scored.get(`${a.kind}:${a.id}`) ?? 0),
+  items.sort((a, b) =>
+    compareScoredItems(a, b, scored, searchText, true),
   );
 
   const rows = buildRows(items, columns, 0);

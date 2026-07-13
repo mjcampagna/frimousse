@@ -77,7 +77,25 @@ describe("getEmojiShortcodes", () => {
           },
         },
       ),
-    ).toEqual([":1:"]);
+    ).toEqual([":+1:"]);
+  });
+
+  it("should preserve symbolic native shortcodes like -1", () => {
+    expect(
+      getEmojiShortcodes(
+        {
+          kind: "native",
+          id: "👎🏽",
+          emoji: "👎🏽",
+          label: "Thumbs down",
+        },
+        {
+          nativeShortcodes: {
+            "👎": ["-1"],
+          },
+        },
+      ),
+    ).toEqual([":-1:"]);
   });
 
   it("should accept widened item selections too", () => {

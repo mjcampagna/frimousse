@@ -1,6 +1,6 @@
 import type { ItemSelection } from "./supplemental-types";
 import type { EmojiPickerItem } from "./supplemental-types";
-import { formatAsShortcode } from "./utils/format-as-shortcode";
+import { normalizeShortcode } from "./utils/normalize-shortcode";
 
 const VARIATION_SELECTOR_PATTERN = /[\uFE0E\uFE0F]/gu;
 const SKIN_TONE_PATTERN = /[\u{1F3FB}-\u{1F3FF}]/gu;
@@ -22,7 +22,7 @@ function normalizeShortcodes(values: readonly string[]) {
       values
         .map((value) => value.trim())
         .filter((value) => value.length > 0)
-        .map(formatAsShortcode),
+        .map(normalizeShortcode),
     ),
   );
 

@@ -5782,3 +5782,6969 @@ export const fullNativeShortcodes = {
     "flag-wales"
   ]
 } as const;
+export const fullNativeSearchTerms = {
+  "😀": [
+    "grinning"
+  ],
+  "😃": [
+    "smiley"
+  ],
+  "😄": [
+    "smile"
+  ],
+  "😁": [
+    "grin"
+  ],
+  "😆": [
+    "laughing",
+    "satisfied"
+  ],
+  "😅": [
+    "sweat_smile",
+    "sweat smile"
+  ],
+  "🤣": [
+    "rolling_on_the_floor_laughing",
+    "rolling on the floor laughing"
+  ],
+  "😂": [
+    "joy"
+  ],
+  "🙂": [
+    "slightly_smiling_face",
+    "slightly smiling face"
+  ],
+  "🙃": [
+    "upside_down_face",
+    "upside down face"
+  ],
+  "🫠": [
+    "melting_face",
+    "melting face"
+  ],
+  "😉": [
+    "wink"
+  ],
+  "😊": [
+    "blush"
+  ],
+  "😇": [
+    "innocent"
+  ],
+  "🥰": [
+    "smiling_face_with_3_hearts",
+    "smiling face with 3 hearts"
+  ],
+  "😍": [
+    "heart_eyes",
+    "heart eyes"
+  ],
+  "🤩": [
+    "star-struck",
+    "star struck",
+    "grinning_face_with_star_eyes",
+    "grinning face with star eyes"
+  ],
+  "😘": [
+    "kissing_heart",
+    "kissing heart"
+  ],
+  "😗": [
+    "kissing"
+  ],
+  "☺": [
+    "relaxed"
+  ],
+  "😚": [
+    "kissing_closed_eyes",
+    "kissing closed eyes"
+  ],
+  "😙": [
+    "kissing_smiling_eyes",
+    "kissing smiling eyes"
+  ],
+  "🥲": [
+    "smiling_face_with_tear",
+    "smiling face with tear"
+  ],
+  "😋": [
+    "yum"
+  ],
+  "😛": [
+    "stuck_out_tongue",
+    "stuck out tongue"
+  ],
+  "😜": [
+    "stuck_out_tongue_winking_eye",
+    "stuck out tongue winking eye"
+  ],
+  "🤪": [
+    "zany_face",
+    "zany face",
+    "grinning_face_with_one_large_and_one_small_eye",
+    "grinning face with one large and one small eye"
+  ],
+  "😝": [
+    "stuck_out_tongue_closed_eyes",
+    "stuck out tongue closed eyes"
+  ],
+  "🤑": [
+    "money_mouth_face",
+    "money mouth face"
+  ],
+  "🤗": [
+    "hugging_face",
+    "hugging face"
+  ],
+  "🤭": [
+    "face_with_hand_over_mouth",
+    "face with hand over mouth",
+    "smiling_face_with_smiling_eyes_and_hand_covering_mouth",
+    "smiling face with smiling eyes and hand covering mouth"
+  ],
+  "🫢": [
+    "face_with_open_eyes_and_hand_over_mouth",
+    "face with open eyes and hand over mouth"
+  ],
+  "🫣": [
+    "face_with_peeking_eye",
+    "face with peeking eye"
+  ],
+  "🤫": [
+    "shushing_face",
+    "shushing face",
+    "face_with_finger_covering_closed_lips",
+    "face with finger covering closed lips"
+  ],
+  "🤔": [
+    "thinking_face",
+    "thinking face"
+  ],
+  "🫡": [
+    "saluting_face",
+    "saluting face"
+  ],
+  "🤐": [
+    "zipper_mouth_face",
+    "zipper mouth face"
+  ],
+  "🤨": [
+    "face_with_raised_eyebrow",
+    "face with raised eyebrow",
+    "face_with_one_eyebrow_raised",
+    "face with one eyebrow raised"
+  ],
+  "😐": [
+    "neutral_face",
+    "neutral face"
+  ],
+  "😑": [
+    "expressionless"
+  ],
+  "😶": [
+    "no_mouth",
+    "no mouth"
+  ],
+  "🫥": [
+    "dotted_line_face",
+    "dotted line face"
+  ],
+  "😶‍🌫": [
+    "face_in_clouds",
+    "face in clouds"
+  ],
+  "😏": [
+    "smirk"
+  ],
+  "😒": [
+    "unamused"
+  ],
+  "🙄": [
+    "face_with_rolling_eyes",
+    "face with rolling eyes"
+  ],
+  "😬": [
+    "grimacing"
+  ],
+  "😮‍💨": [
+    "face_exhaling",
+    "face exhaling"
+  ],
+  "🤥": [
+    "lying_face",
+    "lying face"
+  ],
+  "🫨": [
+    "shaking_face",
+    "shaking face"
+  ],
+  "🙂‍↔": [
+    "head_shaking_horizontally",
+    "head shaking horizontally"
+  ],
+  "🙂‍↕": [
+    "head_shaking_vertically",
+    "head shaking vertically"
+  ],
+  "😌": [
+    "relieved"
+  ],
+  "😔": [
+    "pensive"
+  ],
+  "😪": [
+    "sleepy"
+  ],
+  "🤤": [
+    "drooling_face",
+    "drooling face"
+  ],
+  "😴": [
+    "sleeping"
+  ],
+  "🫩": [
+    "face_with_bags_under_eyes",
+    "face with bags under eyes"
+  ],
+  "😷": [
+    "mask"
+  ],
+  "🤒": [
+    "face_with_thermometer",
+    "face with thermometer"
+  ],
+  "🤕": [
+    "face_with_head_bandage",
+    "face with head bandage"
+  ],
+  "🤢": [
+    "nauseated_face",
+    "nauseated face"
+  ],
+  "🤮": [
+    "face_vomiting",
+    "face vomiting",
+    "face_with_open_mouth_vomiting",
+    "face with open mouth vomiting"
+  ],
+  "🤧": [
+    "sneezing_face",
+    "sneezing face"
+  ],
+  "🥵": [
+    "hot_face",
+    "hot face"
+  ],
+  "🥶": [
+    "cold_face",
+    "cold face"
+  ],
+  "🥴": [
+    "woozy_face",
+    "woozy face"
+  ],
+  "😵": [
+    "dizzy_face",
+    "dizzy face"
+  ],
+  "😵‍💫": [
+    "face_with_spiral_eyes",
+    "face with spiral eyes"
+  ],
+  "🤯": [
+    "exploding_head",
+    "exploding head",
+    "shocked_face_with_exploding_head",
+    "shocked face with exploding head"
+  ],
+  "🤠": [
+    "face_with_cowboy_hat",
+    "face with cowboy hat"
+  ],
+  "🥳": [
+    "partying_face",
+    "partying face"
+  ],
+  "🥸": [
+    "disguised_face",
+    "disguised face"
+  ],
+  "😎": [
+    "sunglasses"
+  ],
+  "🤓": [
+    "nerd_face",
+    "nerd face"
+  ],
+  "🧐": [
+    "face_with_monocle",
+    "face with monocle"
+  ],
+  "😕": [
+    "confused"
+  ],
+  "🫤": [
+    "face_with_diagonal_mouth",
+    "face with diagonal mouth"
+  ],
+  "😟": [
+    "worried"
+  ],
+  "🙁": [
+    "slightly_frowning_face",
+    "slightly frowning face"
+  ],
+  "☹": [
+    "white_frowning_face",
+    "white frowning face"
+  ],
+  "😮": [
+    "open_mouth",
+    "open mouth"
+  ],
+  "😯": [
+    "hushed"
+  ],
+  "😲": [
+    "astonished"
+  ],
+  "😳": [
+    "flushed"
+  ],
+  "🥺": [
+    "pleading_face",
+    "pleading face"
+  ],
+  "🥹": [
+    "face_holding_back_tears",
+    "face holding back tears"
+  ],
+  "😦": [
+    "frowning"
+  ],
+  "😧": [
+    "anguished"
+  ],
+  "😨": [
+    "fearful"
+  ],
+  "😰": [
+    "cold_sweat",
+    "cold sweat"
+  ],
+  "😥": [
+    "disappointed_relieved",
+    "disappointed relieved"
+  ],
+  "😢": [
+    "cry"
+  ],
+  "😭": [
+    "sob"
+  ],
+  "😱": [
+    "scream"
+  ],
+  "😖": [
+    "confounded"
+  ],
+  "😣": [
+    "persevere"
+  ],
+  "😞": [
+    "disappointed"
+  ],
+  "😓": [
+    "sweat"
+  ],
+  "😩": [
+    "weary"
+  ],
+  "😫": [
+    "tired_face",
+    "tired face"
+  ],
+  "🥱": [
+    "yawning_face",
+    "yawning face"
+  ],
+  "😤": [
+    "triumph"
+  ],
+  "😡": [
+    "rage"
+  ],
+  "😠": [
+    "angry"
+  ],
+  "🤬": [
+    "face_with_symbols_on_mouth",
+    "face with symbols on mouth",
+    "serious_face_with_symbols_covering_mouth",
+    "serious face with symbols covering mouth"
+  ],
+  "😈": [
+    "smiling_imp",
+    "smiling imp"
+  ],
+  "👿": [
+    "imp"
+  ],
+  "💀": [
+    "skull"
+  ],
+  "☠": [
+    "skull_and_crossbones",
+    "skull and crossbones"
+  ],
+  "💩": [
+    "hankey",
+    "poop",
+    "shit"
+  ],
+  "🤡": [
+    "clown_face",
+    "clown face"
+  ],
+  "👹": [
+    "japanese_ogre",
+    "japanese ogre"
+  ],
+  "👺": [
+    "japanese_goblin",
+    "japanese goblin"
+  ],
+  "👻": [
+    "ghost"
+  ],
+  "👽": [
+    "alien"
+  ],
+  "👾": [
+    "space_invader",
+    "space invader"
+  ],
+  "🤖": [
+    "robot_face",
+    "robot face"
+  ],
+  "😺": [
+    "smiley_cat",
+    "smiley cat"
+  ],
+  "😸": [
+    "smile_cat",
+    "smile cat"
+  ],
+  "😹": [
+    "joy_cat",
+    "joy cat"
+  ],
+  "😻": [
+    "heart_eyes_cat",
+    "heart eyes cat"
+  ],
+  "😼": [
+    "smirk_cat",
+    "smirk cat"
+  ],
+  "😽": [
+    "kissing_cat",
+    "kissing cat"
+  ],
+  "🙀": [
+    "scream_cat",
+    "scream cat"
+  ],
+  "😿": [
+    "crying_cat_face",
+    "crying cat face"
+  ],
+  "😾": [
+    "pouting_cat",
+    "pouting cat"
+  ],
+  "🙈": [
+    "see_no_evil",
+    "see no evil"
+  ],
+  "🙉": [
+    "hear_no_evil",
+    "hear no evil"
+  ],
+  "🙊": [
+    "speak_no_evil",
+    "speak no evil"
+  ],
+  "💌": [
+    "love_letter",
+    "love letter"
+  ],
+  "💘": [
+    "cupid"
+  ],
+  "💝": [
+    "gift_heart",
+    "gift heart"
+  ],
+  "💖": [
+    "sparkling_heart",
+    "sparkling heart"
+  ],
+  "💗": [
+    "heartpulse"
+  ],
+  "💓": [
+    "heartbeat"
+  ],
+  "💞": [
+    "revolving_hearts",
+    "revolving hearts"
+  ],
+  "💕": [
+    "two_hearts",
+    "two hearts"
+  ],
+  "💟": [
+    "heart_decoration",
+    "heart decoration"
+  ],
+  "❣": [
+    "heavy_heart_exclamation_mark_ornament",
+    "heavy heart exclamation mark ornament"
+  ],
+  "💔": [
+    "broken_heart",
+    "broken heart"
+  ],
+  "❤‍🔥": [
+    "heart_on_fire",
+    "heart on fire"
+  ],
+  "❤‍🩹": [
+    "mending_heart",
+    "mending heart"
+  ],
+  "❤": [
+    "heart"
+  ],
+  "🩷": [
+    "pink_heart",
+    "pink heart"
+  ],
+  "🧡": [
+    "orange_heart",
+    "orange heart"
+  ],
+  "💛": [
+    "yellow_heart",
+    "yellow heart"
+  ],
+  "💚": [
+    "green_heart",
+    "green heart"
+  ],
+  "💙": [
+    "blue_heart",
+    "blue heart"
+  ],
+  "🩵": [
+    "light_blue_heart",
+    "light blue heart"
+  ],
+  "💜": [
+    "purple_heart",
+    "purple heart"
+  ],
+  "🤎": [
+    "brown_heart",
+    "brown heart"
+  ],
+  "🖤": [
+    "black_heart",
+    "black heart"
+  ],
+  "🩶": [
+    "grey_heart",
+    "grey heart"
+  ],
+  "🤍": [
+    "white_heart",
+    "white heart"
+  ],
+  "💋": [
+    "kiss"
+  ],
+  "💯": [
+    "100"
+  ],
+  "💢": [
+    "anger"
+  ],
+  "💥": [
+    "boom",
+    "collision"
+  ],
+  "💫": [
+    "dizzy"
+  ],
+  "💦": [
+    "sweat_drops",
+    "sweat drops"
+  ],
+  "💨": [
+    "dash"
+  ],
+  "🕳": [
+    "hole"
+  ],
+  "💬": [
+    "speech_balloon",
+    "speech balloon"
+  ],
+  "👁‍🗨": [
+    "eye-in-speech-bubble",
+    "eye in speech bubble"
+  ],
+  "🗨": [
+    "left_speech_bubble",
+    "left speech bubble"
+  ],
+  "🗯": [
+    "right_anger_bubble",
+    "right anger bubble"
+  ],
+  "💭": [
+    "thought_balloon",
+    "thought balloon"
+  ],
+  "💤": [
+    "zzz"
+  ],
+  "👋": [
+    "wave"
+  ],
+  "🤚": [
+    "raised_back_of_hand",
+    "raised back of hand"
+  ],
+  "🖐": [
+    "raised_hand_with_fingers_splayed",
+    "raised hand with fingers splayed"
+  ],
+  "✋": [
+    "hand",
+    "raised_hand",
+    "raised hand"
+  ],
+  "🖖": [
+    "spock-hand",
+    "spock hand"
+  ],
+  "🫱": [
+    "rightwards_hand",
+    "rightwards hand"
+  ],
+  "🫲": [
+    "leftwards_hand",
+    "leftwards hand"
+  ],
+  "🫳": [
+    "palm_down_hand",
+    "palm down hand"
+  ],
+  "🫴": [
+    "palm_up_hand",
+    "palm up hand"
+  ],
+  "🫷": [
+    "leftwards_pushing_hand",
+    "leftwards pushing hand"
+  ],
+  "🫸": [
+    "rightwards_pushing_hand",
+    "rightwards pushing hand"
+  ],
+  "👌": [
+    "ok_hand",
+    "ok hand"
+  ],
+  "🤌": [
+    "pinched_fingers",
+    "pinched fingers"
+  ],
+  "🤏": [
+    "pinching_hand",
+    "pinching hand"
+  ],
+  "✌": [
+    "v"
+  ],
+  "🤞": [
+    "crossed_fingers",
+    "crossed fingers",
+    "hand_with_index_and_middle_fingers_crossed",
+    "hand with index and middle fingers crossed"
+  ],
+  "🫰": [
+    "hand_with_index_finger_and_thumb_crossed",
+    "hand with index finger and thumb crossed"
+  ],
+  "🤟": [
+    "i_love_you_hand_sign",
+    "i love you hand sign"
+  ],
+  "🤘": [
+    "the_horns",
+    "the horns",
+    "sign_of_the_horns",
+    "sign of the horns"
+  ],
+  "🤙": [
+    "call_me_hand",
+    "call me hand"
+  ],
+  "👈": [
+    "point_left",
+    "point left"
+  ],
+  "👉": [
+    "point_right",
+    "point right"
+  ],
+  "👆": [
+    "point_up_2",
+    "point up 2"
+  ],
+  "🖕": [
+    "middle_finger",
+    "middle finger",
+    "reversed_hand_with_middle_finger_extended",
+    "reversed hand with middle finger extended"
+  ],
+  "👇": [
+    "point_down",
+    "point down"
+  ],
+  "☝": [
+    "point_up",
+    "point up"
+  ],
+  "🫵": [
+    "index_pointing_at_the_viewer",
+    "index pointing at the viewer"
+  ],
+  "👍": [
+    "+1",
+    "thumbsup"
+  ],
+  "👎": [
+    "-1",
+    " 1",
+    "thumbsdown"
+  ],
+  "✊": [
+    "fist"
+  ],
+  "👊": [
+    "facepunch",
+    "punch"
+  ],
+  "🤛": [
+    "left-facing_fist",
+    "left facing fist"
+  ],
+  "🤜": [
+    "right-facing_fist",
+    "right facing fist"
+  ],
+  "👏": [
+    "clap"
+  ],
+  "🙌": [
+    "raised_hands",
+    "raised hands"
+  ],
+  "🫶": [
+    "heart_hands",
+    "heart hands"
+  ],
+  "👐": [
+    "open_hands",
+    "open hands"
+  ],
+  "🤲": [
+    "palms_up_together",
+    "palms up together"
+  ],
+  "🤝": [
+    "handshake"
+  ],
+  "🙏": [
+    "pray"
+  ],
+  "✍": [
+    "writing_hand",
+    "writing hand"
+  ],
+  "💅": [
+    "nail_care",
+    "nail care"
+  ],
+  "🤳": [
+    "selfie"
+  ],
+  "💪": [
+    "muscle"
+  ],
+  "🦾": [
+    "mechanical_arm",
+    "mechanical arm"
+  ],
+  "🦿": [
+    "mechanical_leg",
+    "mechanical leg"
+  ],
+  "🦵": [
+    "leg"
+  ],
+  "🦶": [
+    "foot"
+  ],
+  "👂": [
+    "ear"
+  ],
+  "🦻": [
+    "ear_with_hearing_aid",
+    "ear with hearing aid"
+  ],
+  "👃": [
+    "nose"
+  ],
+  "🧠": [
+    "brain"
+  ],
+  "🫀": [
+    "anatomical_heart",
+    "anatomical heart"
+  ],
+  "🫁": [
+    "lungs"
+  ],
+  "🦷": [
+    "tooth"
+  ],
+  "🦴": [
+    "bone"
+  ],
+  "👀": [
+    "eyes"
+  ],
+  "👁": [
+    "eye"
+  ],
+  "👅": [
+    "tongue"
+  ],
+  "👄": [
+    "lips"
+  ],
+  "🫦": [
+    "biting_lip",
+    "biting lip"
+  ],
+  "👶": [
+    "baby"
+  ],
+  "🧒": [
+    "child"
+  ],
+  "👦": [
+    "boy"
+  ],
+  "👧": [
+    "girl"
+  ],
+  "🧑": [
+    "adult"
+  ],
+  "👱": [
+    "person_with_blond_hair",
+    "person with blond hair"
+  ],
+  "👨": [
+    "man"
+  ],
+  "🧔": [
+    "bearded_person",
+    "bearded person"
+  ],
+  "🧔‍♂": [
+    "man_with_beard",
+    "man with beard"
+  ],
+  "🧔‍♀": [
+    "woman_with_beard",
+    "woman with beard"
+  ],
+  "👨‍🦰": [
+    "red_haired_man",
+    "red haired man"
+  ],
+  "👨‍🦱": [
+    "curly_haired_man",
+    "curly haired man"
+  ],
+  "👨‍🦳": [
+    "white_haired_man",
+    "white haired man"
+  ],
+  "👨‍🦲": [
+    "bald_man",
+    "bald man"
+  ],
+  "👩": [
+    "woman"
+  ],
+  "👩‍🦰": [
+    "red_haired_woman",
+    "red haired woman"
+  ],
+  "🧑‍🦰": [
+    "red_haired_person",
+    "red haired person"
+  ],
+  "👩‍🦱": [
+    "curly_haired_woman",
+    "curly haired woman"
+  ],
+  "🧑‍🦱": [
+    "curly_haired_person",
+    "curly haired person"
+  ],
+  "👩‍🦳": [
+    "white_haired_woman",
+    "white haired woman"
+  ],
+  "🧑‍🦳": [
+    "white_haired_person",
+    "white haired person"
+  ],
+  "👩‍🦲": [
+    "bald_woman",
+    "bald woman"
+  ],
+  "🧑‍🦲": [
+    "bald_person",
+    "bald person"
+  ],
+  "👱‍♀": [
+    "blond-haired-woman",
+    "blond haired woman"
+  ],
+  "👱‍♂": [
+    "blond-haired-man",
+    "blond haired man"
+  ],
+  "🧓": [
+    "older_adult",
+    "older adult"
+  ],
+  "👴": [
+    "older_man",
+    "older man"
+  ],
+  "👵": [
+    "older_woman",
+    "older woman"
+  ],
+  "🙍": [
+    "person_frowning",
+    "person frowning"
+  ],
+  "🙍‍♂": [
+    "man-frowning",
+    "man frowning"
+  ],
+  "🙍‍♀": [
+    "woman-frowning",
+    "woman frowning"
+  ],
+  "🙎": [
+    "person_with_pouting_face",
+    "person with pouting face"
+  ],
+  "🙎‍♂": [
+    "man-pouting",
+    "man pouting"
+  ],
+  "🙎‍♀": [
+    "woman-pouting",
+    "woman pouting"
+  ],
+  "🙅": [
+    "no_good",
+    "no good"
+  ],
+  "🙅‍♂": [
+    "man-gesturing-no",
+    "man gesturing no"
+  ],
+  "🙅‍♀": [
+    "woman-gesturing-no",
+    "woman gesturing no"
+  ],
+  "🙆": [
+    "ok_woman",
+    "ok woman"
+  ],
+  "🙆‍♂": [
+    "man-gesturing-ok",
+    "man gesturing ok"
+  ],
+  "🙆‍♀": [
+    "woman-gesturing-ok",
+    "woman gesturing ok"
+  ],
+  "💁": [
+    "information_desk_person",
+    "information desk person"
+  ],
+  "💁‍♂": [
+    "man-tipping-hand",
+    "man tipping hand"
+  ],
+  "💁‍♀": [
+    "woman-tipping-hand",
+    "woman tipping hand"
+  ],
+  "🙋": [
+    "raising_hand",
+    "raising hand"
+  ],
+  "🙋‍♂": [
+    "man-raising-hand",
+    "man raising hand"
+  ],
+  "🙋‍♀": [
+    "woman-raising-hand",
+    "woman raising hand"
+  ],
+  "🧏": [
+    "deaf_person",
+    "deaf person"
+  ],
+  "🧏‍♂": [
+    "deaf_man",
+    "deaf man"
+  ],
+  "🧏‍♀": [
+    "deaf_woman",
+    "deaf woman"
+  ],
+  "🙇": [
+    "bow"
+  ],
+  "🙇‍♂": [
+    "man-bowing",
+    "man bowing"
+  ],
+  "🙇‍♀": [
+    "woman-bowing",
+    "woman bowing"
+  ],
+  "🤦": [
+    "face_palm",
+    "face palm"
+  ],
+  "🤦‍♂": [
+    "man-facepalming",
+    "man facepalming"
+  ],
+  "🤦‍♀": [
+    "woman-facepalming",
+    "woman facepalming"
+  ],
+  "🤷": [
+    "shrug"
+  ],
+  "🤷‍♂": [
+    "man-shrugging",
+    "man shrugging"
+  ],
+  "🤷‍♀": [
+    "woman-shrugging",
+    "woman shrugging"
+  ],
+  "🧑‍⚕": [
+    "health_worker",
+    "health worker"
+  ],
+  "👨‍⚕": [
+    "male-doctor",
+    "male doctor"
+  ],
+  "👩‍⚕": [
+    "female-doctor",
+    "female doctor"
+  ],
+  "🧑‍🎓": [
+    "student"
+  ],
+  "👨‍🎓": [
+    "male-student",
+    "male student"
+  ],
+  "👩‍🎓": [
+    "female-student",
+    "female student"
+  ],
+  "🧑‍🏫": [
+    "teacher"
+  ],
+  "👨‍🏫": [
+    "male-teacher",
+    "male teacher"
+  ],
+  "👩‍🏫": [
+    "female-teacher",
+    "female teacher"
+  ],
+  "🧑‍⚖": [
+    "judge"
+  ],
+  "👨‍⚖": [
+    "male-judge",
+    "male judge"
+  ],
+  "👩‍⚖": [
+    "female-judge",
+    "female judge"
+  ],
+  "🧑‍🌾": [
+    "farmer"
+  ],
+  "👨‍🌾": [
+    "male-farmer",
+    "male farmer"
+  ],
+  "👩‍🌾": [
+    "female-farmer",
+    "female farmer"
+  ],
+  "🧑‍🍳": [
+    "cook"
+  ],
+  "👨‍🍳": [
+    "male-cook",
+    "male cook"
+  ],
+  "👩‍🍳": [
+    "female-cook",
+    "female cook"
+  ],
+  "🧑‍🔧": [
+    "mechanic"
+  ],
+  "👨‍🔧": [
+    "male-mechanic",
+    "male mechanic"
+  ],
+  "👩‍🔧": [
+    "female-mechanic",
+    "female mechanic"
+  ],
+  "🧑‍🏭": [
+    "factory_worker",
+    "factory worker"
+  ],
+  "👨‍🏭": [
+    "male-factory-worker",
+    "male factory worker"
+  ],
+  "👩‍🏭": [
+    "female-factory-worker",
+    "female factory worker"
+  ],
+  "🧑‍💼": [
+    "office_worker",
+    "office worker"
+  ],
+  "👨‍💼": [
+    "male-office-worker",
+    "male office worker"
+  ],
+  "👩‍💼": [
+    "female-office-worker",
+    "female office worker"
+  ],
+  "🧑‍🔬": [
+    "scientist"
+  ],
+  "👨‍🔬": [
+    "male-scientist",
+    "male scientist"
+  ],
+  "👩‍🔬": [
+    "female-scientist",
+    "female scientist"
+  ],
+  "🧑‍💻": [
+    "technologist"
+  ],
+  "👨‍💻": [
+    "male-technologist",
+    "male technologist"
+  ],
+  "👩‍💻": [
+    "female-technologist",
+    "female technologist"
+  ],
+  "🧑‍🎤": [
+    "singer"
+  ],
+  "👨‍🎤": [
+    "male-singer",
+    "male singer"
+  ],
+  "👩‍🎤": [
+    "female-singer",
+    "female singer"
+  ],
+  "🧑‍🎨": [
+    "artist"
+  ],
+  "👨‍🎨": [
+    "male-artist",
+    "male artist"
+  ],
+  "👩‍🎨": [
+    "female-artist",
+    "female artist"
+  ],
+  "🧑‍✈": [
+    "pilot"
+  ],
+  "👨‍✈": [
+    "male-pilot",
+    "male pilot"
+  ],
+  "👩‍✈": [
+    "female-pilot",
+    "female pilot"
+  ],
+  "🧑‍🚀": [
+    "astronaut"
+  ],
+  "👨‍🚀": [
+    "male-astronaut",
+    "male astronaut"
+  ],
+  "👩‍🚀": [
+    "female-astronaut",
+    "female astronaut"
+  ],
+  "🧑‍🚒": [
+    "firefighter"
+  ],
+  "👨‍🚒": [
+    "male-firefighter",
+    "male firefighter"
+  ],
+  "👩‍🚒": [
+    "female-firefighter",
+    "female firefighter"
+  ],
+  "👮": [
+    "cop"
+  ],
+  "👮‍♂": [
+    "male-police-officer",
+    "male police officer"
+  ],
+  "👮‍♀": [
+    "female-police-officer",
+    "female police officer"
+  ],
+  "🕵": [
+    "sleuth_or_spy",
+    "sleuth or spy"
+  ],
+  "🕵‍♂": [
+    "male-detective",
+    "male detective"
+  ],
+  "🕵‍♀": [
+    "female-detective",
+    "female detective"
+  ],
+  "💂": [
+    "guardsman"
+  ],
+  "💂‍♂": [
+    "male-guard",
+    "male guard"
+  ],
+  "💂‍♀": [
+    "female-guard",
+    "female guard"
+  ],
+  "🥷": [
+    "ninja"
+  ],
+  "👷": [
+    "construction_worker",
+    "construction worker"
+  ],
+  "👷‍♂": [
+    "male-construction-worker",
+    "male construction worker"
+  ],
+  "👷‍♀": [
+    "female-construction-worker",
+    "female construction worker"
+  ],
+  "🫅": [
+    "person_with_crown",
+    "person with crown"
+  ],
+  "🤴": [
+    "prince"
+  ],
+  "👸": [
+    "princess"
+  ],
+  "👳": [
+    "man_with_turban",
+    "man with turban"
+  ],
+  "👳‍♂": [
+    "man-wearing-turban",
+    "man wearing turban"
+  ],
+  "👳‍♀": [
+    "woman-wearing-turban",
+    "woman wearing turban"
+  ],
+  "👲": [
+    "man_with_gua_pi_mao",
+    "man with gua pi mao"
+  ],
+  "🧕": [
+    "person_with_headscarf",
+    "person with headscarf"
+  ],
+  "🤵": [
+    "person_in_tuxedo",
+    "person in tuxedo"
+  ],
+  "🤵‍♂": [
+    "man_in_tuxedo",
+    "man in tuxedo"
+  ],
+  "🤵‍♀": [
+    "woman_in_tuxedo",
+    "woman in tuxedo"
+  ],
+  "👰": [
+    "bride_with_veil",
+    "bride with veil"
+  ],
+  "👰‍♂": [
+    "man_with_veil",
+    "man with veil"
+  ],
+  "👰‍♀": [
+    "woman_with_veil",
+    "woman with veil"
+  ],
+  "🤰": [
+    "pregnant_woman",
+    "pregnant woman"
+  ],
+  "🫃": [
+    "pregnant_man",
+    "pregnant man"
+  ],
+  "🫄": [
+    "pregnant_person",
+    "pregnant person"
+  ],
+  "🤱": [
+    "breast-feeding",
+    "breast feeding"
+  ],
+  "👩‍🍼": [
+    "woman_feeding_baby",
+    "woman feeding baby"
+  ],
+  "👨‍🍼": [
+    "man_feeding_baby",
+    "man feeding baby"
+  ],
+  "🧑‍🍼": [
+    "person_feeding_baby",
+    "person feeding baby"
+  ],
+  "👼": [
+    "angel"
+  ],
+  "🎅": [
+    "santa"
+  ],
+  "🤶": [
+    "mrs_claus",
+    "mrs claus",
+    "mother_christmas",
+    "mother christmas"
+  ],
+  "🧑‍🎄": [
+    "mx_claus",
+    "mx claus"
+  ],
+  "🦸": [
+    "superhero"
+  ],
+  "🦸‍♂": [
+    "male_superhero",
+    "male superhero"
+  ],
+  "🦸‍♀": [
+    "female_superhero",
+    "female superhero"
+  ],
+  "🦹": [
+    "supervillain"
+  ],
+  "🦹‍♂": [
+    "male_supervillain",
+    "male supervillain"
+  ],
+  "🦹‍♀": [
+    "female_supervillain",
+    "female supervillain"
+  ],
+  "🧙": [
+    "mage"
+  ],
+  "🧙‍♂": [
+    "male_mage",
+    "male mage"
+  ],
+  "🧙‍♀": [
+    "female_mage",
+    "female mage"
+  ],
+  "🧚": [
+    "fairy"
+  ],
+  "🧚‍♂": [
+    "male_fairy",
+    "male fairy"
+  ],
+  "🧚‍♀": [
+    "female_fairy",
+    "female fairy"
+  ],
+  "🧛": [
+    "vampire"
+  ],
+  "🧛‍♂": [
+    "male_vampire",
+    "male vampire"
+  ],
+  "🧛‍♀": [
+    "female_vampire",
+    "female vampire"
+  ],
+  "🧜": [
+    "merperson"
+  ],
+  "🧜‍♂": [
+    "merman"
+  ],
+  "🧜‍♀": [
+    "mermaid"
+  ],
+  "🧝": [
+    "elf"
+  ],
+  "🧝‍♂": [
+    "male_elf",
+    "male elf"
+  ],
+  "🧝‍♀": [
+    "female_elf",
+    "female elf"
+  ],
+  "🧞": [
+    "genie"
+  ],
+  "🧞‍♂": [
+    "male_genie",
+    "male genie"
+  ],
+  "🧞‍♀": [
+    "female_genie",
+    "female genie"
+  ],
+  "🧟": [
+    "zombie"
+  ],
+  "🧟‍♂": [
+    "male_zombie",
+    "male zombie"
+  ],
+  "🧟‍♀": [
+    "female_zombie",
+    "female zombie"
+  ],
+  "🧌": [
+    "troll"
+  ],
+  "💆": [
+    "massage"
+  ],
+  "💆‍♂": [
+    "man-getting-massage",
+    "man getting massage"
+  ],
+  "💆‍♀": [
+    "woman-getting-massage",
+    "woman getting massage"
+  ],
+  "💇": [
+    "haircut"
+  ],
+  "💇‍♂": [
+    "man-getting-haircut",
+    "man getting haircut"
+  ],
+  "💇‍♀": [
+    "woman-getting-haircut",
+    "woman getting haircut"
+  ],
+  "🚶": [
+    "walking"
+  ],
+  "🚶‍♂": [
+    "man-walking",
+    "man walking"
+  ],
+  "🚶‍♀": [
+    "woman-walking",
+    "woman walking"
+  ],
+  "🚶‍➡": [
+    "person_walking_facing_right",
+    "person walking facing right"
+  ],
+  "🚶‍♀‍➡": [
+    "woman_walking_facing_right",
+    "woman walking facing right"
+  ],
+  "🚶‍♂‍➡": [
+    "man_walking_facing_right",
+    "man walking facing right"
+  ],
+  "🧍": [
+    "standing_person",
+    "standing person"
+  ],
+  "🧍‍♂": [
+    "man_standing",
+    "man standing"
+  ],
+  "🧍‍♀": [
+    "woman_standing",
+    "woman standing"
+  ],
+  "🧎": [
+    "kneeling_person",
+    "kneeling person"
+  ],
+  "🧎‍♂": [
+    "man_kneeling",
+    "man kneeling"
+  ],
+  "🧎‍♀": [
+    "woman_kneeling",
+    "woman kneeling"
+  ],
+  "🧎‍➡": [
+    "person_kneeling_facing_right",
+    "person kneeling facing right"
+  ],
+  "🧎‍♀‍➡": [
+    "woman_kneeling_facing_right",
+    "woman kneeling facing right"
+  ],
+  "🧎‍♂‍➡": [
+    "man_kneeling_facing_right",
+    "man kneeling facing right"
+  ],
+  "🧑‍🦯": [
+    "person_with_probing_cane",
+    "person with probing cane"
+  ],
+  "🧑‍🦯‍➡": [
+    "person_with_white_cane_facing_right",
+    "person with white cane facing right"
+  ],
+  "👨‍🦯": [
+    "man_with_probing_cane",
+    "man with probing cane"
+  ],
+  "👨‍🦯‍➡": [
+    "man_with_white_cane_facing_right",
+    "man with white cane facing right"
+  ],
+  "👩‍🦯": [
+    "woman_with_probing_cane",
+    "woman with probing cane"
+  ],
+  "👩‍🦯‍➡": [
+    "woman_with_white_cane_facing_right",
+    "woman with white cane facing right"
+  ],
+  "🧑‍🦼": [
+    "person_in_motorized_wheelchair",
+    "person in motorized wheelchair"
+  ],
+  "🧑‍🦼‍➡": [
+    "person_in_motorized_wheelchair_facing_right",
+    "person in motorized wheelchair facing right"
+  ],
+  "👨‍🦼": [
+    "man_in_motorized_wheelchair",
+    "man in motorized wheelchair"
+  ],
+  "👨‍🦼‍➡": [
+    "man_in_motorized_wheelchair_facing_right",
+    "man in motorized wheelchair facing right"
+  ],
+  "👩‍🦼": [
+    "woman_in_motorized_wheelchair",
+    "woman in motorized wheelchair"
+  ],
+  "👩‍🦼‍➡": [
+    "woman_in_motorized_wheelchair_facing_right",
+    "woman in motorized wheelchair facing right"
+  ],
+  "🧑‍🦽": [
+    "person_in_manual_wheelchair",
+    "person in manual wheelchair"
+  ],
+  "🧑‍🦽‍➡": [
+    "person_in_manual_wheelchair_facing_right",
+    "person in manual wheelchair facing right"
+  ],
+  "👨‍🦽": [
+    "man_in_manual_wheelchair",
+    "man in manual wheelchair"
+  ],
+  "👨‍🦽‍➡": [
+    "man_in_manual_wheelchair_facing_right",
+    "man in manual wheelchair facing right"
+  ],
+  "👩‍🦽": [
+    "woman_in_manual_wheelchair",
+    "woman in manual wheelchair"
+  ],
+  "👩‍🦽‍➡": [
+    "woman_in_manual_wheelchair_facing_right",
+    "woman in manual wheelchair facing right"
+  ],
+  "🏃": [
+    "runner",
+    "running"
+  ],
+  "🏃‍♂": [
+    "man-running",
+    "man running"
+  ],
+  "🏃‍♀": [
+    "woman-running",
+    "woman running"
+  ],
+  "🏃‍➡": [
+    "person_running_facing_right",
+    "person running facing right"
+  ],
+  "🏃‍♀‍➡": [
+    "woman_running_facing_right",
+    "woman running facing right"
+  ],
+  "🏃‍♂‍➡": [
+    "man_running_facing_right",
+    "man running facing right"
+  ],
+  "💃": [
+    "dancer"
+  ],
+  "🕺": [
+    "man_dancing",
+    "man dancing"
+  ],
+  "🕴": [
+    "man_in_business_suit_levitating",
+    "man in business suit levitating"
+  ],
+  "👯": [
+    "dancers"
+  ],
+  "👯‍♂": [
+    "men-with-bunny-ears-partying",
+    "men with bunny ears partying",
+    "man-with-bunny-ears-partying",
+    "man with bunny ears partying"
+  ],
+  "👯‍♀": [
+    "women-with-bunny-ears-partying",
+    "women with bunny ears partying",
+    "woman-with-bunny-ears-partying",
+    "woman with bunny ears partying"
+  ],
+  "🧖": [
+    "person_in_steamy_room",
+    "person in steamy room"
+  ],
+  "🧖‍♂": [
+    "man_in_steamy_room",
+    "man in steamy room"
+  ],
+  "🧖‍♀": [
+    "woman_in_steamy_room",
+    "woman in steamy room"
+  ],
+  "🧗": [
+    "person_climbing",
+    "person climbing"
+  ],
+  "🧗‍♂": [
+    "man_climbing",
+    "man climbing"
+  ],
+  "🧗‍♀": [
+    "woman_climbing",
+    "woman climbing"
+  ],
+  "🤺": [
+    "fencer"
+  ],
+  "🏇": [
+    "horse_racing",
+    "horse racing"
+  ],
+  "⛷": [
+    "skier"
+  ],
+  "🏂": [
+    "snowboarder"
+  ],
+  "🏌": [
+    "golfer"
+  ],
+  "🏌‍♂": [
+    "man-golfing",
+    "man golfing"
+  ],
+  "🏌‍♀": [
+    "woman-golfing",
+    "woman golfing"
+  ],
+  "🏄": [
+    "surfer"
+  ],
+  "🏄‍♂": [
+    "man-surfing",
+    "man surfing"
+  ],
+  "🏄‍♀": [
+    "woman-surfing",
+    "woman surfing"
+  ],
+  "🚣": [
+    "rowboat"
+  ],
+  "🚣‍♂": [
+    "man-rowing-boat",
+    "man rowing boat"
+  ],
+  "🚣‍♀": [
+    "woman-rowing-boat",
+    "woman rowing boat"
+  ],
+  "🏊": [
+    "swimmer"
+  ],
+  "🏊‍♂": [
+    "man-swimming",
+    "man swimming"
+  ],
+  "🏊‍♀": [
+    "woman-swimming",
+    "woman swimming"
+  ],
+  "⛹": [
+    "person_with_ball",
+    "person with ball"
+  ],
+  "⛹‍♂": [
+    "man-bouncing-ball",
+    "man bouncing ball"
+  ],
+  "⛹‍♀": [
+    "woman-bouncing-ball",
+    "woman bouncing ball"
+  ],
+  "🏋": [
+    "weight_lifter",
+    "weight lifter"
+  ],
+  "🏋‍♂": [
+    "man-lifting-weights",
+    "man lifting weights"
+  ],
+  "🏋‍♀": [
+    "woman-lifting-weights",
+    "woman lifting weights"
+  ],
+  "🚴": [
+    "bicyclist"
+  ],
+  "🚴‍♂": [
+    "man-biking",
+    "man biking"
+  ],
+  "🚴‍♀": [
+    "woman-biking",
+    "woman biking"
+  ],
+  "🚵": [
+    "mountain_bicyclist",
+    "mountain bicyclist"
+  ],
+  "🚵‍♂": [
+    "man-mountain-biking",
+    "man mountain biking"
+  ],
+  "🚵‍♀": [
+    "woman-mountain-biking",
+    "woman mountain biking"
+  ],
+  "🤸": [
+    "person_doing_cartwheel",
+    "person doing cartwheel"
+  ],
+  "🤸‍♂": [
+    "man-cartwheeling",
+    "man cartwheeling"
+  ],
+  "🤸‍♀": [
+    "woman-cartwheeling",
+    "woman cartwheeling"
+  ],
+  "🤼": [
+    "wrestlers"
+  ],
+  "🤼‍♂": [
+    "man-wrestling",
+    "man wrestling"
+  ],
+  "🤼‍♀": [
+    "woman-wrestling",
+    "woman wrestling"
+  ],
+  "🤽": [
+    "water_polo",
+    "water polo"
+  ],
+  "🤽‍♂": [
+    "man-playing-water-polo",
+    "man playing water polo"
+  ],
+  "🤽‍♀": [
+    "woman-playing-water-polo",
+    "woman playing water polo"
+  ],
+  "🤾": [
+    "handball"
+  ],
+  "🤾‍♂": [
+    "man-playing-handball",
+    "man playing handball"
+  ],
+  "🤾‍♀": [
+    "woman-playing-handball",
+    "woman playing handball"
+  ],
+  "🤹": [
+    "juggling"
+  ],
+  "🤹‍♂": [
+    "man-juggling",
+    "man juggling"
+  ],
+  "🤹‍♀": [
+    "woman-juggling",
+    "woman juggling"
+  ],
+  "🧘": [
+    "person_in_lotus_position",
+    "person in lotus position"
+  ],
+  "🧘‍♂": [
+    "man_in_lotus_position",
+    "man in lotus position"
+  ],
+  "🧘‍♀": [
+    "woman_in_lotus_position",
+    "woman in lotus position"
+  ],
+  "🛀": [
+    "bath"
+  ],
+  "🛌": [
+    "sleeping_accommodation",
+    "sleeping accommodation"
+  ],
+  "🧑‍🤝‍🧑": [
+    "people_holding_hands",
+    "people holding hands"
+  ],
+  "👭": [
+    "two_women_holding_hands",
+    "two women holding hands",
+    "women_holding_hands",
+    "women holding hands"
+  ],
+  "👫": [
+    "man_and_woman_holding_hands",
+    "man and woman holding hands",
+    "woman_and_man_holding_hands",
+    "woman and man holding hands",
+    "couple"
+  ],
+  "👬": [
+    "two_men_holding_hands",
+    "two men holding hands",
+    "men_holding_hands",
+    "men holding hands"
+  ],
+  "💏": [
+    "couplekiss"
+  ],
+  "👩‍❤‍💋‍👨": [
+    "woman-kiss-man",
+    "woman kiss man"
+  ],
+  "👨‍❤‍💋‍👨": [
+    "man-kiss-man",
+    "man kiss man"
+  ],
+  "👩‍❤‍💋‍👩": [
+    "woman-kiss-woman",
+    "woman kiss woman"
+  ],
+  "💑": [
+    "couple_with_heart",
+    "couple with heart"
+  ],
+  "👩‍❤‍👨": [
+    "woman-heart-man",
+    "woman heart man"
+  ],
+  "👨‍❤‍👨": [
+    "man-heart-man",
+    "man heart man"
+  ],
+  "👩‍❤‍👩": [
+    "woman-heart-woman",
+    "woman heart woman"
+  ],
+  "👨‍👩‍👦": [
+    "man-woman-boy",
+    "man woman boy"
+  ],
+  "👨‍👩‍👧": [
+    "man-woman-girl",
+    "man woman girl"
+  ],
+  "👨‍👩‍👧‍👦": [
+    "man-woman-girl-boy",
+    "man woman girl boy"
+  ],
+  "👨‍👩‍👦‍👦": [
+    "man-woman-boy-boy",
+    "man woman boy boy"
+  ],
+  "👨‍👩‍👧‍👧": [
+    "man-woman-girl-girl",
+    "man woman girl girl"
+  ],
+  "👨‍👨‍👦": [
+    "man-man-boy",
+    "man man boy"
+  ],
+  "👨‍👨‍👧": [
+    "man-man-girl",
+    "man man girl"
+  ],
+  "👨‍👨‍👧‍👦": [
+    "man-man-girl-boy",
+    "man man girl boy"
+  ],
+  "👨‍👨‍👦‍👦": [
+    "man-man-boy-boy",
+    "man man boy boy"
+  ],
+  "👨‍👨‍👧‍👧": [
+    "man-man-girl-girl",
+    "man man girl girl"
+  ],
+  "👩‍👩‍👦": [
+    "woman-woman-boy",
+    "woman woman boy"
+  ],
+  "👩‍👩‍👧": [
+    "woman-woman-girl",
+    "woman woman girl"
+  ],
+  "👩‍👩‍👧‍👦": [
+    "woman-woman-girl-boy",
+    "woman woman girl boy"
+  ],
+  "👩‍👩‍👦‍👦": [
+    "woman-woman-boy-boy",
+    "woman woman boy boy"
+  ],
+  "👩‍👩‍👧‍👧": [
+    "woman-woman-girl-girl",
+    "woman woman girl girl"
+  ],
+  "👨‍👦": [
+    "man-boy",
+    "man boy"
+  ],
+  "👨‍👦‍👦": [
+    "man-boy-boy",
+    "man boy boy"
+  ],
+  "👨‍👧": [
+    "man-girl",
+    "man girl"
+  ],
+  "👨‍👧‍👦": [
+    "man-girl-boy",
+    "man girl boy"
+  ],
+  "👨‍👧‍👧": [
+    "man-girl-girl",
+    "man girl girl"
+  ],
+  "👩‍👦": [
+    "woman-boy",
+    "woman boy"
+  ],
+  "👩‍👦‍👦": [
+    "woman-boy-boy",
+    "woman boy boy"
+  ],
+  "👩‍👧": [
+    "woman-girl",
+    "woman girl"
+  ],
+  "👩‍👧‍👦": [
+    "woman-girl-boy",
+    "woman girl boy"
+  ],
+  "👩‍👧‍👧": [
+    "woman-girl-girl",
+    "woman girl girl"
+  ],
+  "🗣": [
+    "speaking_head_in_silhouette",
+    "speaking head in silhouette"
+  ],
+  "👤": [
+    "bust_in_silhouette",
+    "bust in silhouette"
+  ],
+  "👥": [
+    "busts_in_silhouette",
+    "busts in silhouette"
+  ],
+  "🫂": [
+    "people_hugging",
+    "people hugging"
+  ],
+  "👪": [
+    "family"
+  ],
+  "🧑‍🧑‍🧒": [
+    "family_adult_adult_child",
+    "family adult adult child"
+  ],
+  "🧑‍🧑‍🧒‍🧒": [
+    "family_adult_adult_child_child",
+    "family adult adult child child"
+  ],
+  "🧑‍🧒": [
+    "family_adult_child",
+    "family adult child"
+  ],
+  "🧑‍🧒‍🧒": [
+    "family_adult_child_child",
+    "family adult child child"
+  ],
+  "👣": [
+    "footprints"
+  ],
+  "🫆": [
+    "fingerprint"
+  ],
+  "🐵": [
+    "monkey_face",
+    "monkey face"
+  ],
+  "🐒": [
+    "monkey"
+  ],
+  "🦍": [
+    "gorilla"
+  ],
+  "🦧": [
+    "orangutan"
+  ],
+  "🐶": [
+    "dog"
+  ],
+  "🐕": [
+    "dog2"
+  ],
+  "🦮": [
+    "guide_dog",
+    "guide dog"
+  ],
+  "🐕‍🦺": [
+    "service_dog",
+    "service dog"
+  ],
+  "🐩": [
+    "poodle"
+  ],
+  "🐺": [
+    "wolf"
+  ],
+  "🦊": [
+    "fox_face",
+    "fox face"
+  ],
+  "🦝": [
+    "raccoon"
+  ],
+  "🐱": [
+    "cat"
+  ],
+  "🐈": [
+    "cat2"
+  ],
+  "🐈‍⬛": [
+    "black_cat",
+    "black cat"
+  ],
+  "🦁": [
+    "lion_face",
+    "lion face"
+  ],
+  "🐯": [
+    "tiger"
+  ],
+  "🐅": [
+    "tiger2"
+  ],
+  "🐆": [
+    "leopard"
+  ],
+  "🐴": [
+    "horse"
+  ],
+  "🫎": [
+    "moose"
+  ],
+  "🫏": [
+    "donkey"
+  ],
+  "🐎": [
+    "racehorse"
+  ],
+  "🦄": [
+    "unicorn_face",
+    "unicorn face"
+  ],
+  "🦓": [
+    "zebra_face",
+    "zebra face"
+  ],
+  "🦌": [
+    "deer"
+  ],
+  "🦬": [
+    "bison"
+  ],
+  "🐮": [
+    "cow"
+  ],
+  "🐂": [
+    "ox"
+  ],
+  "🐃": [
+    "water_buffalo",
+    "water buffalo"
+  ],
+  "🐄": [
+    "cow2"
+  ],
+  "🐷": [
+    "pig"
+  ],
+  "🐖": [
+    "pig2"
+  ],
+  "🐗": [
+    "boar"
+  ],
+  "🐽": [
+    "pig_nose",
+    "pig nose"
+  ],
+  "🐏": [
+    "ram"
+  ],
+  "🐑": [
+    "sheep"
+  ],
+  "🐐": [
+    "goat"
+  ],
+  "🐪": [
+    "dromedary_camel",
+    "dromedary camel"
+  ],
+  "🐫": [
+    "camel"
+  ],
+  "🦙": [
+    "llama"
+  ],
+  "🦒": [
+    "giraffe_face",
+    "giraffe face"
+  ],
+  "🐘": [
+    "elephant"
+  ],
+  "🦣": [
+    "mammoth"
+  ],
+  "🦏": [
+    "rhinoceros"
+  ],
+  "🦛": [
+    "hippopotamus"
+  ],
+  "🐭": [
+    "mouse"
+  ],
+  "🐁": [
+    "mouse2"
+  ],
+  "🐀": [
+    "rat"
+  ],
+  "🐹": [
+    "hamster"
+  ],
+  "🐰": [
+    "rabbit"
+  ],
+  "🐇": [
+    "rabbit2"
+  ],
+  "🐿": [
+    "chipmunk"
+  ],
+  "🦫": [
+    "beaver"
+  ],
+  "🦔": [
+    "hedgehog"
+  ],
+  "🦇": [
+    "bat"
+  ],
+  "🐻": [
+    "bear"
+  ],
+  "🐻‍❄": [
+    "polar_bear",
+    "polar bear"
+  ],
+  "🐨": [
+    "koala"
+  ],
+  "🐼": [
+    "panda_face",
+    "panda face"
+  ],
+  "🦥": [
+    "sloth"
+  ],
+  "🦦": [
+    "otter"
+  ],
+  "🦨": [
+    "skunk"
+  ],
+  "🦘": [
+    "kangaroo"
+  ],
+  "🦡": [
+    "badger"
+  ],
+  "🐾": [
+    "feet",
+    "paw_prints",
+    "paw prints"
+  ],
+  "🦃": [
+    "turkey"
+  ],
+  "🐔": [
+    "chicken"
+  ],
+  "🐓": [
+    "rooster"
+  ],
+  "🐣": [
+    "hatching_chick",
+    "hatching chick"
+  ],
+  "🐤": [
+    "baby_chick",
+    "baby chick"
+  ],
+  "🐥": [
+    "hatched_chick",
+    "hatched chick"
+  ],
+  "🐦": [
+    "bird"
+  ],
+  "🐧": [
+    "penguin"
+  ],
+  "🕊": [
+    "dove_of_peace",
+    "dove of peace"
+  ],
+  "🦅": [
+    "eagle"
+  ],
+  "🦆": [
+    "duck"
+  ],
+  "🦢": [
+    "swan"
+  ],
+  "🦉": [
+    "owl"
+  ],
+  "🦤": [
+    "dodo"
+  ],
+  "🪶": [
+    "feather"
+  ],
+  "🦩": [
+    "flamingo"
+  ],
+  "🦚": [
+    "peacock"
+  ],
+  "🦜": [
+    "parrot"
+  ],
+  "🪽": [
+    "wing"
+  ],
+  "🐦‍⬛": [
+    "black_bird",
+    "black bird"
+  ],
+  "🪿": [
+    "goose"
+  ],
+  "🐦‍🔥": [
+    "phoenix"
+  ],
+  "🐸": [
+    "frog"
+  ],
+  "🐊": [
+    "crocodile"
+  ],
+  "🐢": [
+    "turtle"
+  ],
+  "🦎": [
+    "lizard"
+  ],
+  "🐍": [
+    "snake"
+  ],
+  "🐲": [
+    "dragon_face",
+    "dragon face"
+  ],
+  "🐉": [
+    "dragon"
+  ],
+  "🦕": [
+    "sauropod"
+  ],
+  "🦖": [
+    "t-rex",
+    "t rex"
+  ],
+  "🐳": [
+    "whale"
+  ],
+  "🐋": [
+    "whale2"
+  ],
+  "🐬": [
+    "dolphin",
+    "flipper"
+  ],
+  "🦭": [
+    "seal"
+  ],
+  "🐟": [
+    "fish"
+  ],
+  "🐠": [
+    "tropical_fish",
+    "tropical fish"
+  ],
+  "🐡": [
+    "blowfish"
+  ],
+  "🦈": [
+    "shark"
+  ],
+  "🐙": [
+    "octopus"
+  ],
+  "🐚": [
+    "shell"
+  ],
+  "🪸": [
+    "coral"
+  ],
+  "🪼": [
+    "jellyfish"
+  ],
+  "🦀": [
+    "crab"
+  ],
+  "🦞": [
+    "lobster"
+  ],
+  "🦐": [
+    "shrimp"
+  ],
+  "🦑": [
+    "squid"
+  ],
+  "🦪": [
+    "oyster"
+  ],
+  "🐌": [
+    "snail"
+  ],
+  "🦋": [
+    "butterfly"
+  ],
+  "🐛": [
+    "bug"
+  ],
+  "🐜": [
+    "ant"
+  ],
+  "🐝": [
+    "bee",
+    "honeybee"
+  ],
+  "🪲": [
+    "beetle"
+  ],
+  "🐞": [
+    "ladybug",
+    "lady_beetle",
+    "lady beetle"
+  ],
+  "🦗": [
+    "cricket"
+  ],
+  "🪳": [
+    "cockroach"
+  ],
+  "🕷": [
+    "spider"
+  ],
+  "🕸": [
+    "spider_web",
+    "spider web"
+  ],
+  "🦂": [
+    "scorpion"
+  ],
+  "🦟": [
+    "mosquito"
+  ],
+  "🪰": [
+    "fly"
+  ],
+  "🪱": [
+    "worm"
+  ],
+  "🦠": [
+    "microbe"
+  ],
+  "💐": [
+    "bouquet"
+  ],
+  "🌸": [
+    "cherry_blossom",
+    "cherry blossom"
+  ],
+  "💮": [
+    "white_flower",
+    "white flower"
+  ],
+  "🪷": [
+    "lotus"
+  ],
+  "🏵": [
+    "rosette"
+  ],
+  "🌹": [
+    "rose"
+  ],
+  "🥀": [
+    "wilted_flower",
+    "wilted flower"
+  ],
+  "🌺": [
+    "hibiscus"
+  ],
+  "🌻": [
+    "sunflower"
+  ],
+  "🌼": [
+    "blossom"
+  ],
+  "🌷": [
+    "tulip"
+  ],
+  "🪻": [
+    "hyacinth"
+  ],
+  "🌱": [
+    "seedling"
+  ],
+  "🪴": [
+    "potted_plant",
+    "potted plant"
+  ],
+  "🌲": [
+    "evergreen_tree",
+    "evergreen tree"
+  ],
+  "🌳": [
+    "deciduous_tree",
+    "deciduous tree"
+  ],
+  "🌴": [
+    "palm_tree",
+    "palm tree"
+  ],
+  "🌵": [
+    "cactus"
+  ],
+  "🌾": [
+    "ear_of_rice",
+    "ear of rice"
+  ],
+  "🌿": [
+    "herb"
+  ],
+  "☘": [
+    "shamrock"
+  ],
+  "🍀": [
+    "four_leaf_clover",
+    "four leaf clover"
+  ],
+  "🍁": [
+    "maple_leaf",
+    "maple leaf"
+  ],
+  "🍂": [
+    "fallen_leaf",
+    "fallen leaf"
+  ],
+  "🍃": [
+    "leaves"
+  ],
+  "🪹": [
+    "empty_nest",
+    "empty nest"
+  ],
+  "🪺": [
+    "nest_with_eggs",
+    "nest with eggs"
+  ],
+  "🍄": [
+    "mushroom"
+  ],
+  "🪾": [
+    "leafless_tree",
+    "leafless tree"
+  ],
+  "🍇": [
+    "grapes"
+  ],
+  "🍈": [
+    "melon"
+  ],
+  "🍉": [
+    "watermelon"
+  ],
+  "🍊": [
+    "tangerine"
+  ],
+  "🍋": [
+    "lemon"
+  ],
+  "🍋‍🟩": [
+    "lime"
+  ],
+  "🍌": [
+    "banana"
+  ],
+  "🍍": [
+    "pineapple"
+  ],
+  "🥭": [
+    "mango"
+  ],
+  "🍎": [
+    "apple"
+  ],
+  "🍏": [
+    "green_apple",
+    "green apple"
+  ],
+  "🍐": [
+    "pear"
+  ],
+  "🍑": [
+    "peach"
+  ],
+  "🍒": [
+    "cherries"
+  ],
+  "🍓": [
+    "strawberry"
+  ],
+  "🫐": [
+    "blueberries"
+  ],
+  "🥝": [
+    "kiwifruit"
+  ],
+  "🍅": [
+    "tomato"
+  ],
+  "🫒": [
+    "olive"
+  ],
+  "🥥": [
+    "coconut"
+  ],
+  "🥑": [
+    "avocado"
+  ],
+  "🍆": [
+    "eggplant"
+  ],
+  "🥔": [
+    "potato"
+  ],
+  "🥕": [
+    "carrot"
+  ],
+  "🌽": [
+    "corn"
+  ],
+  "🌶": [
+    "hot_pepper",
+    "hot pepper"
+  ],
+  "🫑": [
+    "bell_pepper",
+    "bell pepper"
+  ],
+  "🥒": [
+    "cucumber"
+  ],
+  "🥬": [
+    "leafy_green",
+    "leafy green"
+  ],
+  "🥦": [
+    "broccoli"
+  ],
+  "🧄": [
+    "garlic"
+  ],
+  "🧅": [
+    "onion"
+  ],
+  "🥜": [
+    "peanuts"
+  ],
+  "🫘": [
+    "beans"
+  ],
+  "🌰": [
+    "chestnut"
+  ],
+  "🫚": [
+    "ginger_root",
+    "ginger root"
+  ],
+  "🫛": [
+    "pea_pod",
+    "pea pod"
+  ],
+  "🍄‍🟫": [
+    "brown_mushroom",
+    "brown mushroom"
+  ],
+  "🫜": [
+    "root_vegetable",
+    "root vegetable"
+  ],
+  "🍞": [
+    "bread"
+  ],
+  "🥐": [
+    "croissant"
+  ],
+  "🥖": [
+    "baguette_bread",
+    "baguette bread"
+  ],
+  "🫓": [
+    "flatbread"
+  ],
+  "🥨": [
+    "pretzel"
+  ],
+  "🥯": [
+    "bagel"
+  ],
+  "🥞": [
+    "pancakes"
+  ],
+  "🧇": [
+    "waffle"
+  ],
+  "🧀": [
+    "cheese_wedge",
+    "cheese wedge"
+  ],
+  "🍖": [
+    "meat_on_bone",
+    "meat on bone"
+  ],
+  "🍗": [
+    "poultry_leg",
+    "poultry leg"
+  ],
+  "🥩": [
+    "cut_of_meat",
+    "cut of meat"
+  ],
+  "🥓": [
+    "bacon"
+  ],
+  "🍔": [
+    "hamburger"
+  ],
+  "🍟": [
+    "fries"
+  ],
+  "🍕": [
+    "pizza"
+  ],
+  "🌭": [
+    "hotdog"
+  ],
+  "🥪": [
+    "sandwich"
+  ],
+  "🌮": [
+    "taco"
+  ],
+  "🌯": [
+    "burrito"
+  ],
+  "🫔": [
+    "tamale"
+  ],
+  "🥙": [
+    "stuffed_flatbread",
+    "stuffed flatbread"
+  ],
+  "🧆": [
+    "falafel"
+  ],
+  "🥚": [
+    "egg"
+  ],
+  "🍳": [
+    "fried_egg",
+    "fried egg",
+    "cooking"
+  ],
+  "🥘": [
+    "shallow_pan_of_food",
+    "shallow pan of food"
+  ],
+  "🍲": [
+    "stew"
+  ],
+  "🫕": [
+    "fondue"
+  ],
+  "🥣": [
+    "bowl_with_spoon",
+    "bowl with spoon"
+  ],
+  "🥗": [
+    "green_salad",
+    "green salad"
+  ],
+  "🍿": [
+    "popcorn"
+  ],
+  "🧈": [
+    "butter"
+  ],
+  "🧂": [
+    "salt"
+  ],
+  "🥫": [
+    "canned_food",
+    "canned food"
+  ],
+  "🍱": [
+    "bento"
+  ],
+  "🍘": [
+    "rice_cracker",
+    "rice cracker"
+  ],
+  "🍙": [
+    "rice_ball",
+    "rice ball"
+  ],
+  "🍚": [
+    "rice"
+  ],
+  "🍛": [
+    "curry"
+  ],
+  "🍜": [
+    "ramen"
+  ],
+  "🍝": [
+    "spaghetti"
+  ],
+  "🍠": [
+    "sweet_potato",
+    "sweet potato"
+  ],
+  "🍢": [
+    "oden"
+  ],
+  "🍣": [
+    "sushi"
+  ],
+  "🍤": [
+    "fried_shrimp",
+    "fried shrimp"
+  ],
+  "🍥": [
+    "fish_cake",
+    "fish cake"
+  ],
+  "🥮": [
+    "moon_cake",
+    "moon cake"
+  ],
+  "🍡": [
+    "dango"
+  ],
+  "🥟": [
+    "dumpling"
+  ],
+  "🥠": [
+    "fortune_cookie",
+    "fortune cookie"
+  ],
+  "🥡": [
+    "takeout_box",
+    "takeout box"
+  ],
+  "🍦": [
+    "icecream"
+  ],
+  "🍧": [
+    "shaved_ice",
+    "shaved ice"
+  ],
+  "🍨": [
+    "ice_cream",
+    "ice cream"
+  ],
+  "🍩": [
+    "doughnut"
+  ],
+  "🍪": [
+    "cookie"
+  ],
+  "🎂": [
+    "birthday"
+  ],
+  "🍰": [
+    "cake"
+  ],
+  "🧁": [
+    "cupcake"
+  ],
+  "🥧": [
+    "pie"
+  ],
+  "🍫": [
+    "chocolate_bar",
+    "chocolate bar"
+  ],
+  "🍬": [
+    "candy"
+  ],
+  "🍭": [
+    "lollipop"
+  ],
+  "🍮": [
+    "custard"
+  ],
+  "🍯": [
+    "honey_pot",
+    "honey pot"
+  ],
+  "🍼": [
+    "baby_bottle",
+    "baby bottle"
+  ],
+  "🥛": [
+    "glass_of_milk",
+    "glass of milk"
+  ],
+  "☕": [
+    "coffee"
+  ],
+  "🫖": [
+    "teapot"
+  ],
+  "🍵": [
+    "tea"
+  ],
+  "🍶": [
+    "sake"
+  ],
+  "🍾": [
+    "champagne"
+  ],
+  "🍷": [
+    "wine_glass",
+    "wine glass"
+  ],
+  "🍸": [
+    "cocktail"
+  ],
+  "🍹": [
+    "tropical_drink",
+    "tropical drink"
+  ],
+  "🍺": [
+    "beer"
+  ],
+  "🍻": [
+    "beers"
+  ],
+  "🥂": [
+    "clinking_glasses",
+    "clinking glasses"
+  ],
+  "🥃": [
+    "tumbler_glass",
+    "tumbler glass"
+  ],
+  "🫗": [
+    "pouring_liquid",
+    "pouring liquid"
+  ],
+  "🥤": [
+    "cup_with_straw",
+    "cup with straw"
+  ],
+  "🧋": [
+    "bubble_tea",
+    "bubble tea"
+  ],
+  "🧃": [
+    "beverage_box",
+    "beverage box"
+  ],
+  "🧉": [
+    "mate_drink",
+    "mate drink"
+  ],
+  "🧊": [
+    "ice_cube",
+    "ice cube"
+  ],
+  "🥢": [
+    "chopsticks"
+  ],
+  "🍽": [
+    "knife_fork_plate",
+    "knife fork plate"
+  ],
+  "🍴": [
+    "fork_and_knife",
+    "fork and knife"
+  ],
+  "🥄": [
+    "spoon"
+  ],
+  "🔪": [
+    "hocho",
+    "knife"
+  ],
+  "🫙": [
+    "jar"
+  ],
+  "🏺": [
+    "amphora"
+  ],
+  "🌍": [
+    "earth_africa",
+    "earth africa"
+  ],
+  "🌎": [
+    "earth_americas",
+    "earth americas"
+  ],
+  "🌏": [
+    "earth_asia",
+    "earth asia"
+  ],
+  "🌐": [
+    "globe_with_meridians",
+    "globe with meridians"
+  ],
+  "🗺": [
+    "world_map",
+    "world map"
+  ],
+  "🗾": [
+    "japan"
+  ],
+  "🧭": [
+    "compass"
+  ],
+  "🏔": [
+    "snow_capped_mountain",
+    "snow capped mountain"
+  ],
+  "⛰": [
+    "mountain"
+  ],
+  "🌋": [
+    "volcano"
+  ],
+  "🗻": [
+    "mount_fuji",
+    "mount fuji"
+  ],
+  "🏕": [
+    "camping"
+  ],
+  "🏖": [
+    "beach_with_umbrella",
+    "beach with umbrella"
+  ],
+  "🏜": [
+    "desert"
+  ],
+  "🏝": [
+    "desert_island",
+    "desert island"
+  ],
+  "🏞": [
+    "national_park",
+    "national park"
+  ],
+  "🏟": [
+    "stadium"
+  ],
+  "🏛": [
+    "classical_building",
+    "classical building"
+  ],
+  "🏗": [
+    "building_construction",
+    "building construction"
+  ],
+  "🧱": [
+    "bricks"
+  ],
+  "🪨": [
+    "rock"
+  ],
+  "🪵": [
+    "wood"
+  ],
+  "🛖": [
+    "hut"
+  ],
+  "🏘": [
+    "house_buildings",
+    "house buildings"
+  ],
+  "🏚": [
+    "derelict_house_building",
+    "derelict house building"
+  ],
+  "🏠": [
+    "house"
+  ],
+  "🏡": [
+    "house_with_garden",
+    "house with garden"
+  ],
+  "🏢": [
+    "office"
+  ],
+  "🏣": [
+    "post_office",
+    "post office"
+  ],
+  "🏤": [
+    "european_post_office",
+    "european post office"
+  ],
+  "🏥": [
+    "hospital"
+  ],
+  "🏦": [
+    "bank"
+  ],
+  "🏨": [
+    "hotel"
+  ],
+  "🏩": [
+    "love_hotel",
+    "love hotel"
+  ],
+  "🏪": [
+    "convenience_store",
+    "convenience store"
+  ],
+  "🏫": [
+    "school"
+  ],
+  "🏬": [
+    "department_store",
+    "department store"
+  ],
+  "🏭": [
+    "factory"
+  ],
+  "🏯": [
+    "japanese_castle",
+    "japanese castle"
+  ],
+  "🏰": [
+    "european_castle",
+    "european castle"
+  ],
+  "💒": [
+    "wedding"
+  ],
+  "🗼": [
+    "tokyo_tower",
+    "tokyo tower"
+  ],
+  "🗽": [
+    "statue_of_liberty",
+    "statue of liberty"
+  ],
+  "⛪": [
+    "church"
+  ],
+  "🕌": [
+    "mosque"
+  ],
+  "🛕": [
+    "hindu_temple",
+    "hindu temple"
+  ],
+  "🕍": [
+    "synagogue"
+  ],
+  "⛩": [
+    "shinto_shrine",
+    "shinto shrine"
+  ],
+  "🕋": [
+    "kaaba"
+  ],
+  "⛲": [
+    "fountain"
+  ],
+  "⛺": [
+    "tent"
+  ],
+  "🌁": [
+    "foggy"
+  ],
+  "🌃": [
+    "night_with_stars",
+    "night with stars"
+  ],
+  "🏙": [
+    "cityscape"
+  ],
+  "🌄": [
+    "sunrise_over_mountains",
+    "sunrise over mountains"
+  ],
+  "🌅": [
+    "sunrise"
+  ],
+  "🌆": [
+    "city_sunset",
+    "city sunset"
+  ],
+  "🌇": [
+    "city_sunrise",
+    "city sunrise"
+  ],
+  "🌉": [
+    "bridge_at_night",
+    "bridge at night"
+  ],
+  "♨": [
+    "hotsprings"
+  ],
+  "🎠": [
+    "carousel_horse",
+    "carousel horse"
+  ],
+  "🛝": [
+    "playground_slide",
+    "playground slide"
+  ],
+  "🎡": [
+    "ferris_wheel",
+    "ferris wheel"
+  ],
+  "🎢": [
+    "roller_coaster",
+    "roller coaster"
+  ],
+  "💈": [
+    "barber"
+  ],
+  "🎪": [
+    "circus_tent",
+    "circus tent"
+  ],
+  "🚂": [
+    "steam_locomotive",
+    "steam locomotive"
+  ],
+  "🚃": [
+    "railway_car",
+    "railway car"
+  ],
+  "🚄": [
+    "bullettrain_side",
+    "bullettrain side"
+  ],
+  "🚅": [
+    "bullettrain_front",
+    "bullettrain front"
+  ],
+  "🚆": [
+    "train2"
+  ],
+  "🚇": [
+    "metro"
+  ],
+  "🚈": [
+    "light_rail",
+    "light rail"
+  ],
+  "🚉": [
+    "station"
+  ],
+  "🚊": [
+    "tram"
+  ],
+  "🚝": [
+    "monorail"
+  ],
+  "🚞": [
+    "mountain_railway",
+    "mountain railway"
+  ],
+  "🚋": [
+    "train"
+  ],
+  "🚌": [
+    "bus"
+  ],
+  "🚍": [
+    "oncoming_bus",
+    "oncoming bus"
+  ],
+  "🚎": [
+    "trolleybus"
+  ],
+  "🚐": [
+    "minibus"
+  ],
+  "🚑": [
+    "ambulance"
+  ],
+  "🚒": [
+    "fire_engine",
+    "fire engine"
+  ],
+  "🚓": [
+    "police_car",
+    "police car"
+  ],
+  "🚔": [
+    "oncoming_police_car",
+    "oncoming police car"
+  ],
+  "🚕": [
+    "taxi"
+  ],
+  "🚖": [
+    "oncoming_taxi",
+    "oncoming taxi"
+  ],
+  "🚗": [
+    "car",
+    "red_car",
+    "red car"
+  ],
+  "🚘": [
+    "oncoming_automobile",
+    "oncoming automobile"
+  ],
+  "🚙": [
+    "blue_car",
+    "blue car"
+  ],
+  "🛻": [
+    "pickup_truck",
+    "pickup truck"
+  ],
+  "🚚": [
+    "truck"
+  ],
+  "🚛": [
+    "articulated_lorry",
+    "articulated lorry"
+  ],
+  "🚜": [
+    "tractor"
+  ],
+  "🏎": [
+    "racing_car",
+    "racing car"
+  ],
+  "🏍": [
+    "racing_motorcycle",
+    "racing motorcycle"
+  ],
+  "🛵": [
+    "motor_scooter",
+    "motor scooter"
+  ],
+  "🦽": [
+    "manual_wheelchair",
+    "manual wheelchair"
+  ],
+  "🦼": [
+    "motorized_wheelchair",
+    "motorized wheelchair"
+  ],
+  "🛺": [
+    "auto_rickshaw",
+    "auto rickshaw"
+  ],
+  "🚲": [
+    "bike"
+  ],
+  "🛴": [
+    "scooter"
+  ],
+  "🛹": [
+    "skateboard"
+  ],
+  "🛼": [
+    "roller_skate",
+    "roller skate"
+  ],
+  "🚏": [
+    "busstop"
+  ],
+  "🛣": [
+    "motorway"
+  ],
+  "🛤": [
+    "railway_track",
+    "railway track"
+  ],
+  "🛢": [
+    "oil_drum",
+    "oil drum"
+  ],
+  "⛽": [
+    "fuelpump"
+  ],
+  "🛞": [
+    "wheel"
+  ],
+  "🚨": [
+    "rotating_light",
+    "rotating light"
+  ],
+  "🚥": [
+    "traffic_light",
+    "traffic light"
+  ],
+  "🚦": [
+    "vertical_traffic_light",
+    "vertical traffic light"
+  ],
+  "🛑": [
+    "octagonal_sign",
+    "octagonal sign"
+  ],
+  "🚧": [
+    "construction"
+  ],
+  "⚓": [
+    "anchor"
+  ],
+  "🛟": [
+    "ring_buoy",
+    "ring buoy"
+  ],
+  "⛵": [
+    "boat",
+    "sailboat"
+  ],
+  "🛶": [
+    "canoe"
+  ],
+  "🚤": [
+    "speedboat"
+  ],
+  "🛳": [
+    "passenger_ship",
+    "passenger ship"
+  ],
+  "⛴": [
+    "ferry"
+  ],
+  "🛥": [
+    "motor_boat",
+    "motor boat"
+  ],
+  "🚢": [
+    "ship"
+  ],
+  "✈": [
+    "airplane"
+  ],
+  "🛩": [
+    "small_airplane",
+    "small airplane"
+  ],
+  "🛫": [
+    "airplane_departure",
+    "airplane departure"
+  ],
+  "🛬": [
+    "airplane_arriving",
+    "airplane arriving"
+  ],
+  "🪂": [
+    "parachute"
+  ],
+  "💺": [
+    "seat"
+  ],
+  "🚁": [
+    "helicopter"
+  ],
+  "🚟": [
+    "suspension_railway",
+    "suspension railway"
+  ],
+  "🚠": [
+    "mountain_cableway",
+    "mountain cableway"
+  ],
+  "🚡": [
+    "aerial_tramway",
+    "aerial tramway"
+  ],
+  "🛰": [
+    "satellite"
+  ],
+  "🚀": [
+    "rocket"
+  ],
+  "🛸": [
+    "flying_saucer",
+    "flying saucer"
+  ],
+  "🛎": [
+    "bellhop_bell",
+    "bellhop bell"
+  ],
+  "🧳": [
+    "luggage"
+  ],
+  "⌛": [
+    "hourglass"
+  ],
+  "⏳": [
+    "hourglass_flowing_sand",
+    "hourglass flowing sand"
+  ],
+  "⌚": [
+    "watch"
+  ],
+  "⏰": [
+    "alarm_clock",
+    "alarm clock"
+  ],
+  "⏱": [
+    "stopwatch"
+  ],
+  "⏲": [
+    "timer_clock",
+    "timer clock"
+  ],
+  "🕰": [
+    "mantelpiece_clock",
+    "mantelpiece clock"
+  ],
+  "🕛": [
+    "clock12"
+  ],
+  "🕧": [
+    "clock1230"
+  ],
+  "🕐": [
+    "clock1"
+  ],
+  "🕜": [
+    "clock130"
+  ],
+  "🕑": [
+    "clock2"
+  ],
+  "🕝": [
+    "clock230"
+  ],
+  "🕒": [
+    "clock3"
+  ],
+  "🕞": [
+    "clock330"
+  ],
+  "🕓": [
+    "clock4"
+  ],
+  "🕟": [
+    "clock430"
+  ],
+  "🕔": [
+    "clock5"
+  ],
+  "🕠": [
+    "clock530"
+  ],
+  "🕕": [
+    "clock6"
+  ],
+  "🕡": [
+    "clock630"
+  ],
+  "🕖": [
+    "clock7"
+  ],
+  "🕢": [
+    "clock730"
+  ],
+  "🕗": [
+    "clock8"
+  ],
+  "🕣": [
+    "clock830"
+  ],
+  "🕘": [
+    "clock9"
+  ],
+  "🕤": [
+    "clock930"
+  ],
+  "🕙": [
+    "clock10"
+  ],
+  "🕥": [
+    "clock1030"
+  ],
+  "🕚": [
+    "clock11"
+  ],
+  "🕦": [
+    "clock1130"
+  ],
+  "🌑": [
+    "new_moon",
+    "new moon"
+  ],
+  "🌒": [
+    "waxing_crescent_moon",
+    "waxing crescent moon"
+  ],
+  "🌓": [
+    "first_quarter_moon",
+    "first quarter moon"
+  ],
+  "🌔": [
+    "moon",
+    "waxing_gibbous_moon",
+    "waxing gibbous moon"
+  ],
+  "🌕": [
+    "full_moon",
+    "full moon"
+  ],
+  "🌖": [
+    "waning_gibbous_moon",
+    "waning gibbous moon"
+  ],
+  "🌗": [
+    "last_quarter_moon",
+    "last quarter moon"
+  ],
+  "🌘": [
+    "waning_crescent_moon",
+    "waning crescent moon"
+  ],
+  "🌙": [
+    "crescent_moon",
+    "crescent moon"
+  ],
+  "🌚": [
+    "new_moon_with_face",
+    "new moon with face"
+  ],
+  "🌛": [
+    "first_quarter_moon_with_face",
+    "first quarter moon with face"
+  ],
+  "🌜": [
+    "last_quarter_moon_with_face",
+    "last quarter moon with face"
+  ],
+  "🌡": [
+    "thermometer"
+  ],
+  "☀": [
+    "sunny"
+  ],
+  "🌝": [
+    "full_moon_with_face",
+    "full moon with face"
+  ],
+  "🌞": [
+    "sun_with_face",
+    "sun with face"
+  ],
+  "🪐": [
+    "ringed_planet",
+    "ringed planet"
+  ],
+  "⭐": [
+    "star"
+  ],
+  "🌟": [
+    "star2"
+  ],
+  "🌠": [
+    "stars"
+  ],
+  "🌌": [
+    "milky_way",
+    "milky way"
+  ],
+  "☁": [
+    "cloud"
+  ],
+  "⛅": [
+    "partly_sunny",
+    "partly sunny"
+  ],
+  "⛈": [
+    "thunder_cloud_and_rain",
+    "thunder cloud and rain"
+  ],
+  "🌤": [
+    "mostly_sunny",
+    "mostly sunny",
+    "sun_small_cloud",
+    "sun small cloud"
+  ],
+  "🌥": [
+    "barely_sunny",
+    "barely sunny",
+    "sun_behind_cloud",
+    "sun behind cloud"
+  ],
+  "🌦": [
+    "partly_sunny_rain",
+    "partly sunny rain",
+    "sun_behind_rain_cloud",
+    "sun behind rain cloud"
+  ],
+  "🌧": [
+    "rain_cloud",
+    "rain cloud"
+  ],
+  "🌨": [
+    "snow_cloud",
+    "snow cloud"
+  ],
+  "🌩": [
+    "lightning",
+    "lightning_cloud",
+    "lightning cloud"
+  ],
+  "🌪": [
+    "tornado",
+    "tornado_cloud",
+    "tornado cloud"
+  ],
+  "🌫": [
+    "fog"
+  ],
+  "🌬": [
+    "wind_blowing_face",
+    "wind blowing face"
+  ],
+  "🌀": [
+    "cyclone"
+  ],
+  "🌈": [
+    "rainbow"
+  ],
+  "🌂": [
+    "closed_umbrella",
+    "closed umbrella"
+  ],
+  "☂": [
+    "umbrella"
+  ],
+  "☔": [
+    "umbrella_with_rain_drops",
+    "umbrella with rain drops"
+  ],
+  "⛱": [
+    "umbrella_on_ground",
+    "umbrella on ground"
+  ],
+  "⚡": [
+    "zap"
+  ],
+  "❄": [
+    "snowflake"
+  ],
+  "☃": [
+    "snowman"
+  ],
+  "⛄": [
+    "snowman_without_snow",
+    "snowman without snow"
+  ],
+  "☄": [
+    "comet"
+  ],
+  "🔥": [
+    "fire"
+  ],
+  "💧": [
+    "droplet"
+  ],
+  "🌊": [
+    "ocean"
+  ],
+  "🎃": [
+    "jack_o_lantern",
+    "jack o lantern"
+  ],
+  "🎄": [
+    "christmas_tree",
+    "christmas tree"
+  ],
+  "🎆": [
+    "fireworks"
+  ],
+  "🎇": [
+    "sparkler"
+  ],
+  "🧨": [
+    "firecracker"
+  ],
+  "✨": [
+    "sparkles"
+  ],
+  "🎈": [
+    "balloon"
+  ],
+  "🎉": [
+    "tada"
+  ],
+  "🎊": [
+    "confetti_ball",
+    "confetti ball"
+  ],
+  "🎋": [
+    "tanabata_tree",
+    "tanabata tree"
+  ],
+  "🎍": [
+    "bamboo"
+  ],
+  "🎎": [
+    "dolls"
+  ],
+  "🎏": [
+    "flags"
+  ],
+  "🎐": [
+    "wind_chime",
+    "wind chime"
+  ],
+  "🎑": [
+    "rice_scene",
+    "rice scene"
+  ],
+  "🧧": [
+    "red_envelope",
+    "red envelope"
+  ],
+  "🎀": [
+    "ribbon"
+  ],
+  "🎁": [
+    "gift"
+  ],
+  "🎗": [
+    "reminder_ribbon",
+    "reminder ribbon"
+  ],
+  "🎟": [
+    "admission_tickets",
+    "admission tickets"
+  ],
+  "🎫": [
+    "ticket"
+  ],
+  "🎖": [
+    "medal"
+  ],
+  "🏆": [
+    "trophy"
+  ],
+  "🏅": [
+    "sports_medal",
+    "sports medal"
+  ],
+  "🥇": [
+    "first_place_medal",
+    "first place medal"
+  ],
+  "🥈": [
+    "second_place_medal",
+    "second place medal"
+  ],
+  "🥉": [
+    "third_place_medal",
+    "third place medal"
+  ],
+  "⚽": [
+    "soccer"
+  ],
+  "⚾": [
+    "baseball"
+  ],
+  "🥎": [
+    "softball"
+  ],
+  "🏀": [
+    "basketball"
+  ],
+  "🏐": [
+    "volleyball"
+  ],
+  "🏈": [
+    "football"
+  ],
+  "🏉": [
+    "rugby_football",
+    "rugby football"
+  ],
+  "🎾": [
+    "tennis"
+  ],
+  "🥏": [
+    "flying_disc",
+    "flying disc"
+  ],
+  "🎳": [
+    "bowling"
+  ],
+  "🏏": [
+    "cricket_bat_and_ball",
+    "cricket bat and ball"
+  ],
+  "🏑": [
+    "field_hockey_stick_and_ball",
+    "field hockey stick and ball"
+  ],
+  "🏒": [
+    "ice_hockey_stick_and_puck",
+    "ice hockey stick and puck"
+  ],
+  "🥍": [
+    "lacrosse"
+  ],
+  "🏓": [
+    "table_tennis_paddle_and_ball",
+    "table tennis paddle and ball"
+  ],
+  "🏸": [
+    "badminton_racquet_and_shuttlecock",
+    "badminton racquet and shuttlecock"
+  ],
+  "🥊": [
+    "boxing_glove",
+    "boxing glove"
+  ],
+  "🥋": [
+    "martial_arts_uniform",
+    "martial arts uniform"
+  ],
+  "🥅": [
+    "goal_net",
+    "goal net"
+  ],
+  "⛳": [
+    "golf"
+  ],
+  "⛸": [
+    "ice_skate",
+    "ice skate"
+  ],
+  "🎣": [
+    "fishing_pole_and_fish",
+    "fishing pole and fish"
+  ],
+  "🤿": [
+    "diving_mask",
+    "diving mask"
+  ],
+  "🎽": [
+    "running_shirt_with_sash",
+    "running shirt with sash"
+  ],
+  "🎿": [
+    "ski"
+  ],
+  "🛷": [
+    "sled"
+  ],
+  "🥌": [
+    "curling_stone",
+    "curling stone"
+  ],
+  "🎯": [
+    "dart"
+  ],
+  "🪀": [
+    "yo-yo",
+    "yo yo"
+  ],
+  "🪁": [
+    "kite"
+  ],
+  "🔫": [
+    "gun"
+  ],
+  "🎱": [
+    "8ball"
+  ],
+  "🔮": [
+    "crystal_ball",
+    "crystal ball"
+  ],
+  "🪄": [
+    "magic_wand",
+    "magic wand"
+  ],
+  "🎮": [
+    "video_game",
+    "video game"
+  ],
+  "🕹": [
+    "joystick"
+  ],
+  "🎰": [
+    "slot_machine",
+    "slot machine"
+  ],
+  "🎲": [
+    "game_die",
+    "game die"
+  ],
+  "🧩": [
+    "jigsaw"
+  ],
+  "🧸": [
+    "teddy_bear",
+    "teddy bear"
+  ],
+  "🪅": [
+    "pinata"
+  ],
+  "🪩": [
+    "mirror_ball",
+    "mirror ball"
+  ],
+  "🪆": [
+    "nesting_dolls",
+    "nesting dolls"
+  ],
+  "♠": [
+    "spades"
+  ],
+  "♥": [
+    "hearts"
+  ],
+  "♦": [
+    "diamonds"
+  ],
+  "♣": [
+    "clubs"
+  ],
+  "♟": [
+    "chess_pawn",
+    "chess pawn"
+  ],
+  "🃏": [
+    "black_joker",
+    "black joker"
+  ],
+  "🀄": [
+    "mahjong"
+  ],
+  "🎴": [
+    "flower_playing_cards",
+    "flower playing cards"
+  ],
+  "🎭": [
+    "performing_arts",
+    "performing arts"
+  ],
+  "🖼": [
+    "frame_with_picture",
+    "frame with picture"
+  ],
+  "🎨": [
+    "art"
+  ],
+  "🧵": [
+    "thread"
+  ],
+  "🪡": [
+    "sewing_needle",
+    "sewing needle"
+  ],
+  "🧶": [
+    "yarn"
+  ],
+  "🪢": [
+    "knot"
+  ],
+  "👓": [
+    "eyeglasses"
+  ],
+  "🕶": [
+    "dark_sunglasses",
+    "dark sunglasses"
+  ],
+  "🥽": [
+    "goggles"
+  ],
+  "🥼": [
+    "lab_coat",
+    "lab coat"
+  ],
+  "🦺": [
+    "safety_vest",
+    "safety vest"
+  ],
+  "👔": [
+    "necktie"
+  ],
+  "👕": [
+    "shirt",
+    "tshirt"
+  ],
+  "👖": [
+    "jeans"
+  ],
+  "🧣": [
+    "scarf"
+  ],
+  "🧤": [
+    "gloves"
+  ],
+  "🧥": [
+    "coat"
+  ],
+  "🧦": [
+    "socks"
+  ],
+  "👗": [
+    "dress"
+  ],
+  "👘": [
+    "kimono"
+  ],
+  "🥻": [
+    "sari"
+  ],
+  "🩱": [
+    "one-piece_swimsuit",
+    "one piece swimsuit"
+  ],
+  "🩲": [
+    "briefs"
+  ],
+  "🩳": [
+    "shorts"
+  ],
+  "👙": [
+    "bikini"
+  ],
+  "👚": [
+    "womans_clothes",
+    "womans clothes"
+  ],
+  "🪭": [
+    "folding_hand_fan",
+    "folding hand fan"
+  ],
+  "👛": [
+    "purse"
+  ],
+  "👜": [
+    "handbag"
+  ],
+  "👝": [
+    "pouch"
+  ],
+  "🛍": [
+    "shopping_bags",
+    "shopping bags"
+  ],
+  "🎒": [
+    "school_satchel",
+    "school satchel"
+  ],
+  "🩴": [
+    "thong_sandal",
+    "thong sandal"
+  ],
+  "👞": [
+    "mans_shoe",
+    "mans shoe",
+    "shoe"
+  ],
+  "👟": [
+    "athletic_shoe",
+    "athletic shoe"
+  ],
+  "🥾": [
+    "hiking_boot",
+    "hiking boot"
+  ],
+  "🥿": [
+    "womans_flat_shoe",
+    "womans flat shoe"
+  ],
+  "👠": [
+    "high_heel",
+    "high heel"
+  ],
+  "👡": [
+    "sandal"
+  ],
+  "🩰": [
+    "ballet_shoes",
+    "ballet shoes"
+  ],
+  "👢": [
+    "boot"
+  ],
+  "🪮": [
+    "hair_pick",
+    "hair pick"
+  ],
+  "👑": [
+    "crown"
+  ],
+  "👒": [
+    "womans_hat",
+    "womans hat"
+  ],
+  "🎩": [
+    "tophat"
+  ],
+  "🎓": [
+    "mortar_board",
+    "mortar board"
+  ],
+  "🧢": [
+    "billed_cap",
+    "billed cap"
+  ],
+  "🪖": [
+    "military_helmet",
+    "military helmet"
+  ],
+  "⛑": [
+    "helmet_with_white_cross",
+    "helmet with white cross"
+  ],
+  "📿": [
+    "prayer_beads",
+    "prayer beads"
+  ],
+  "💄": [
+    "lipstick"
+  ],
+  "💍": [
+    "ring"
+  ],
+  "💎": [
+    "gem"
+  ],
+  "🔇": [
+    "mute"
+  ],
+  "🔈": [
+    "speaker"
+  ],
+  "🔉": [
+    "sound"
+  ],
+  "🔊": [
+    "loud_sound",
+    "loud sound"
+  ],
+  "📢": [
+    "loudspeaker"
+  ],
+  "📣": [
+    "mega"
+  ],
+  "📯": [
+    "postal_horn",
+    "postal horn"
+  ],
+  "🔔": [
+    "bell"
+  ],
+  "🔕": [
+    "no_bell",
+    "no bell"
+  ],
+  "🎼": [
+    "musical_score",
+    "musical score"
+  ],
+  "🎵": [
+    "musical_note",
+    "musical note"
+  ],
+  "🎶": [
+    "notes"
+  ],
+  "🎙": [
+    "studio_microphone",
+    "studio microphone"
+  ],
+  "🎚": [
+    "level_slider",
+    "level slider"
+  ],
+  "🎛": [
+    "control_knobs",
+    "control knobs"
+  ],
+  "🎤": [
+    "microphone"
+  ],
+  "🎧": [
+    "headphones"
+  ],
+  "📻": [
+    "radio"
+  ],
+  "🎷": [
+    "saxophone"
+  ],
+  "🎺": [
+    "trumpet"
+  ],
+  "🪗": [
+    "accordion"
+  ],
+  "🎸": [
+    "guitar"
+  ],
+  "🎹": [
+    "musical_keyboard",
+    "musical keyboard"
+  ],
+  "🎻": [
+    "violin"
+  ],
+  "🪕": [
+    "banjo"
+  ],
+  "🥁": [
+    "drum_with_drumsticks",
+    "drum with drumsticks"
+  ],
+  "🪘": [
+    "long_drum",
+    "long drum"
+  ],
+  "🪇": [
+    "maracas"
+  ],
+  "🪈": [
+    "flute"
+  ],
+  "🪉": [
+    "harp"
+  ],
+  "📱": [
+    "iphone"
+  ],
+  "📲": [
+    "calling"
+  ],
+  "☎": [
+    "phone",
+    "telephone"
+  ],
+  "📞": [
+    "telephone_receiver",
+    "telephone receiver"
+  ],
+  "📟": [
+    "pager"
+  ],
+  "📠": [
+    "fax"
+  ],
+  "🔋": [
+    "battery"
+  ],
+  "🪫": [
+    "low_battery",
+    "low battery"
+  ],
+  "🔌": [
+    "electric_plug",
+    "electric plug"
+  ],
+  "💻": [
+    "computer"
+  ],
+  "🖥": [
+    "desktop_computer",
+    "desktop computer"
+  ],
+  "🖨": [
+    "printer"
+  ],
+  "⌨": [
+    "keyboard"
+  ],
+  "🖱": [
+    "three_button_mouse",
+    "three button mouse"
+  ],
+  "🖲": [
+    "trackball"
+  ],
+  "💽": [
+    "minidisc"
+  ],
+  "💾": [
+    "floppy_disk",
+    "floppy disk"
+  ],
+  "💿": [
+    "cd"
+  ],
+  "📀": [
+    "dvd"
+  ],
+  "🧮": [
+    "abacus"
+  ],
+  "🎥": [
+    "movie_camera",
+    "movie camera"
+  ],
+  "🎞": [
+    "film_frames",
+    "film frames"
+  ],
+  "📽": [
+    "film_projector",
+    "film projector"
+  ],
+  "🎬": [
+    "clapper"
+  ],
+  "📺": [
+    "tv"
+  ],
+  "📷": [
+    "camera"
+  ],
+  "📸": [
+    "camera_with_flash",
+    "camera with flash"
+  ],
+  "📹": [
+    "video_camera",
+    "video camera"
+  ],
+  "📼": [
+    "vhs"
+  ],
+  "🔍": [
+    "mag"
+  ],
+  "🔎": [
+    "mag_right",
+    "mag right"
+  ],
+  "🕯": [
+    "candle"
+  ],
+  "💡": [
+    "bulb"
+  ],
+  "🔦": [
+    "flashlight"
+  ],
+  "🏮": [
+    "izakaya_lantern",
+    "izakaya lantern",
+    "lantern"
+  ],
+  "🪔": [
+    "diya_lamp",
+    "diya lamp"
+  ],
+  "📔": [
+    "notebook_with_decorative_cover",
+    "notebook with decorative cover"
+  ],
+  "📕": [
+    "closed_book",
+    "closed book"
+  ],
+  "📖": [
+    "book",
+    "open_book",
+    "open book"
+  ],
+  "📗": [
+    "green_book",
+    "green book"
+  ],
+  "📘": [
+    "blue_book",
+    "blue book"
+  ],
+  "📙": [
+    "orange_book",
+    "orange book"
+  ],
+  "📚": [
+    "books"
+  ],
+  "📓": [
+    "notebook"
+  ],
+  "📒": [
+    "ledger"
+  ],
+  "📃": [
+    "page_with_curl",
+    "page with curl"
+  ],
+  "📜": [
+    "scroll"
+  ],
+  "📄": [
+    "page_facing_up",
+    "page facing up"
+  ],
+  "📰": [
+    "newspaper"
+  ],
+  "🗞": [
+    "rolled_up_newspaper",
+    "rolled up newspaper"
+  ],
+  "📑": [
+    "bookmark_tabs",
+    "bookmark tabs"
+  ],
+  "🔖": [
+    "bookmark"
+  ],
+  "🏷": [
+    "label"
+  ],
+  "🪙": [
+    "coin"
+  ],
+  "💰": [
+    "moneybag"
+  ],
+  "💴": [
+    "yen"
+  ],
+  "💵": [
+    "dollar"
+  ],
+  "💶": [
+    "euro"
+  ],
+  "💷": [
+    "pound"
+  ],
+  "💸": [
+    "money_with_wings",
+    "money with wings"
+  ],
+  "💳": [
+    "credit_card",
+    "credit card"
+  ],
+  "🧾": [
+    "receipt"
+  ],
+  "💹": [
+    "chart"
+  ],
+  "✉": [
+    "email",
+    "envelope"
+  ],
+  "📧": [
+    "e-mail",
+    "e mail"
+  ],
+  "📨": [
+    "incoming_envelope",
+    "incoming envelope"
+  ],
+  "📩": [
+    "envelope_with_arrow",
+    "envelope with arrow"
+  ],
+  "📤": [
+    "outbox_tray",
+    "outbox tray"
+  ],
+  "📥": [
+    "inbox_tray",
+    "inbox tray"
+  ],
+  "📦": [
+    "package"
+  ],
+  "📫": [
+    "mailbox"
+  ],
+  "📪": [
+    "mailbox_closed",
+    "mailbox closed"
+  ],
+  "📬": [
+    "mailbox_with_mail",
+    "mailbox with mail"
+  ],
+  "📭": [
+    "mailbox_with_no_mail",
+    "mailbox with no mail"
+  ],
+  "📮": [
+    "postbox"
+  ],
+  "🗳": [
+    "ballot_box_with_ballot",
+    "ballot box with ballot"
+  ],
+  "✏": [
+    "pencil2"
+  ],
+  "✒": [
+    "black_nib",
+    "black nib"
+  ],
+  "🖋": [
+    "lower_left_fountain_pen",
+    "lower left fountain pen"
+  ],
+  "🖊": [
+    "lower_left_ballpoint_pen",
+    "lower left ballpoint pen"
+  ],
+  "🖌": [
+    "lower_left_paintbrush",
+    "lower left paintbrush"
+  ],
+  "🖍": [
+    "lower_left_crayon",
+    "lower left crayon"
+  ],
+  "📝": [
+    "memo",
+    "pencil"
+  ],
+  "💼": [
+    "briefcase"
+  ],
+  "📁": [
+    "file_folder",
+    "file folder"
+  ],
+  "📂": [
+    "open_file_folder",
+    "open file folder"
+  ],
+  "🗂": [
+    "card_index_dividers",
+    "card index dividers"
+  ],
+  "📅": [
+    "date"
+  ],
+  "📆": [
+    "calendar"
+  ],
+  "🗒": [
+    "spiral_note_pad",
+    "spiral note pad"
+  ],
+  "🗓": [
+    "spiral_calendar_pad",
+    "spiral calendar pad"
+  ],
+  "📇": [
+    "card_index",
+    "card index"
+  ],
+  "📈": [
+    "chart_with_upwards_trend",
+    "chart with upwards trend"
+  ],
+  "📉": [
+    "chart_with_downwards_trend",
+    "chart with downwards trend"
+  ],
+  "📊": [
+    "bar_chart",
+    "bar chart"
+  ],
+  "📋": [
+    "clipboard"
+  ],
+  "📌": [
+    "pushpin"
+  ],
+  "📍": [
+    "round_pushpin",
+    "round pushpin"
+  ],
+  "📎": [
+    "paperclip"
+  ],
+  "🖇": [
+    "linked_paperclips",
+    "linked paperclips"
+  ],
+  "📏": [
+    "straight_ruler",
+    "straight ruler"
+  ],
+  "📐": [
+    "triangular_ruler",
+    "triangular ruler"
+  ],
+  "✂": [
+    "scissors"
+  ],
+  "🗃": [
+    "card_file_box",
+    "card file box"
+  ],
+  "🗄": [
+    "file_cabinet",
+    "file cabinet"
+  ],
+  "🗑": [
+    "wastebasket"
+  ],
+  "🔒": [
+    "lock"
+  ],
+  "🔓": [
+    "unlock"
+  ],
+  "🔏": [
+    "lock_with_ink_pen",
+    "lock with ink pen"
+  ],
+  "🔐": [
+    "closed_lock_with_key",
+    "closed lock with key"
+  ],
+  "🔑": [
+    "key"
+  ],
+  "🗝": [
+    "old_key",
+    "old key"
+  ],
+  "🔨": [
+    "hammer"
+  ],
+  "🪓": [
+    "axe"
+  ],
+  "⛏": [
+    "pick"
+  ],
+  "⚒": [
+    "hammer_and_pick",
+    "hammer and pick"
+  ],
+  "🛠": [
+    "hammer_and_wrench",
+    "hammer and wrench"
+  ],
+  "🗡": [
+    "dagger_knife",
+    "dagger knife"
+  ],
+  "⚔": [
+    "crossed_swords",
+    "crossed swords"
+  ],
+  "💣": [
+    "bomb"
+  ],
+  "🪃": [
+    "boomerang"
+  ],
+  "🏹": [
+    "bow_and_arrow",
+    "bow and arrow"
+  ],
+  "🛡": [
+    "shield"
+  ],
+  "🪚": [
+    "carpentry_saw",
+    "carpentry saw"
+  ],
+  "🔧": [
+    "wrench"
+  ],
+  "🪛": [
+    "screwdriver"
+  ],
+  "🔩": [
+    "nut_and_bolt",
+    "nut and bolt"
+  ],
+  "⚙": [
+    "gear"
+  ],
+  "🗜": [
+    "compression"
+  ],
+  "⚖": [
+    "scales"
+  ],
+  "🦯": [
+    "probing_cane",
+    "probing cane"
+  ],
+  "🔗": [
+    "link"
+  ],
+  "⛓‍💥": [
+    "broken_chain",
+    "broken chain"
+  ],
+  "⛓": [
+    "chains"
+  ],
+  "🪝": [
+    "hook"
+  ],
+  "🧰": [
+    "toolbox"
+  ],
+  "🧲": [
+    "magnet"
+  ],
+  "🪜": [
+    "ladder"
+  ],
+  "🪏": [
+    "shovel"
+  ],
+  "⚗": [
+    "alembic"
+  ],
+  "🧪": [
+    "test_tube",
+    "test tube"
+  ],
+  "🧫": [
+    "petri_dish",
+    "petri dish"
+  ],
+  "🧬": [
+    "dna"
+  ],
+  "🔬": [
+    "microscope"
+  ],
+  "🔭": [
+    "telescope"
+  ],
+  "📡": [
+    "satellite_antenna",
+    "satellite antenna"
+  ],
+  "💉": [
+    "syringe"
+  ],
+  "🩸": [
+    "drop_of_blood",
+    "drop of blood"
+  ],
+  "💊": [
+    "pill"
+  ],
+  "🩹": [
+    "adhesive_bandage",
+    "adhesive bandage"
+  ],
+  "🩼": [
+    "crutch"
+  ],
+  "🩺": [
+    "stethoscope"
+  ],
+  "🩻": [
+    "x-ray",
+    "x ray"
+  ],
+  "🚪": [
+    "door"
+  ],
+  "🛗": [
+    "elevator"
+  ],
+  "🪞": [
+    "mirror"
+  ],
+  "🪟": [
+    "window"
+  ],
+  "🛏": [
+    "bed"
+  ],
+  "🛋": [
+    "couch_and_lamp",
+    "couch and lamp"
+  ],
+  "🪑": [
+    "chair"
+  ],
+  "🚽": [
+    "toilet"
+  ],
+  "🪠": [
+    "plunger"
+  ],
+  "🚿": [
+    "shower"
+  ],
+  "🛁": [
+    "bathtub"
+  ],
+  "🪤": [
+    "mouse_trap",
+    "mouse trap"
+  ],
+  "🪒": [
+    "razor"
+  ],
+  "🧴": [
+    "lotion_bottle",
+    "lotion bottle"
+  ],
+  "🧷": [
+    "safety_pin",
+    "safety pin"
+  ],
+  "🧹": [
+    "broom"
+  ],
+  "🧺": [
+    "basket"
+  ],
+  "🧻": [
+    "roll_of_paper",
+    "roll of paper"
+  ],
+  "🪣": [
+    "bucket"
+  ],
+  "🧼": [
+    "soap"
+  ],
+  "🫧": [
+    "bubbles"
+  ],
+  "🪥": [
+    "toothbrush"
+  ],
+  "🧽": [
+    "sponge"
+  ],
+  "🧯": [
+    "fire_extinguisher",
+    "fire extinguisher"
+  ],
+  "🛒": [
+    "shopping_trolley",
+    "shopping trolley"
+  ],
+  "🚬": [
+    "smoking"
+  ],
+  "⚰": [
+    "coffin"
+  ],
+  "🪦": [
+    "headstone"
+  ],
+  "⚱": [
+    "funeral_urn",
+    "funeral urn"
+  ],
+  "🧿": [
+    "nazar_amulet",
+    "nazar amulet"
+  ],
+  "🪬": [
+    "hamsa"
+  ],
+  "🗿": [
+    "moyai"
+  ],
+  "🪧": [
+    "placard"
+  ],
+  "🪪": [
+    "identification_card",
+    "identification card"
+  ],
+  "🏧": [
+    "atm"
+  ],
+  "🚮": [
+    "put_litter_in_its_place",
+    "put litter in its place"
+  ],
+  "🚰": [
+    "potable_water",
+    "potable water"
+  ],
+  "♿": [
+    "wheelchair"
+  ],
+  "🚹": [
+    "mens"
+  ],
+  "🚺": [
+    "womens"
+  ],
+  "🚻": [
+    "restroom"
+  ],
+  "🚼": [
+    "baby_symbol",
+    "baby symbol"
+  ],
+  "🚾": [
+    "wc"
+  ],
+  "🛂": [
+    "passport_control",
+    "passport control"
+  ],
+  "🛃": [
+    "customs"
+  ],
+  "🛄": [
+    "baggage_claim",
+    "baggage claim"
+  ],
+  "🛅": [
+    "left_luggage",
+    "left luggage"
+  ],
+  "⚠": [
+    "warning"
+  ],
+  "🚸": [
+    "children_crossing",
+    "children crossing"
+  ],
+  "⛔": [
+    "no_entry",
+    "no entry"
+  ],
+  "🚫": [
+    "no_entry_sign",
+    "no entry sign"
+  ],
+  "🚳": [
+    "no_bicycles",
+    "no bicycles"
+  ],
+  "🚭": [
+    "no_smoking",
+    "no smoking"
+  ],
+  "🚯": [
+    "do_not_litter",
+    "do not litter"
+  ],
+  "🚱": [
+    "non-potable_water",
+    "non potable water"
+  ],
+  "🚷": [
+    "no_pedestrians",
+    "no pedestrians"
+  ],
+  "📵": [
+    "no_mobile_phones",
+    "no mobile phones"
+  ],
+  "🔞": [
+    "underage"
+  ],
+  "☢": [
+    "radioactive_sign",
+    "radioactive sign"
+  ],
+  "☣": [
+    "biohazard_sign",
+    "biohazard sign"
+  ],
+  "⬆": [
+    "arrow_up",
+    "arrow up"
+  ],
+  "↗": [
+    "arrow_upper_right",
+    "arrow upper right"
+  ],
+  "➡": [
+    "arrow_right",
+    "arrow right"
+  ],
+  "↘": [
+    "arrow_lower_right",
+    "arrow lower right"
+  ],
+  "⬇": [
+    "arrow_down",
+    "arrow down"
+  ],
+  "↙": [
+    "arrow_lower_left",
+    "arrow lower left"
+  ],
+  "⬅": [
+    "arrow_left",
+    "arrow left"
+  ],
+  "↖": [
+    "arrow_upper_left",
+    "arrow upper left"
+  ],
+  "↕": [
+    "arrow_up_down",
+    "arrow up down"
+  ],
+  "↔": [
+    "left_right_arrow",
+    "left right arrow"
+  ],
+  "↩": [
+    "leftwards_arrow_with_hook",
+    "leftwards arrow with hook"
+  ],
+  "↪": [
+    "arrow_right_hook",
+    "arrow right hook"
+  ],
+  "⤴": [
+    "arrow_heading_up",
+    "arrow heading up"
+  ],
+  "⤵": [
+    "arrow_heading_down",
+    "arrow heading down"
+  ],
+  "🔃": [
+    "arrows_clockwise",
+    "arrows clockwise"
+  ],
+  "🔄": [
+    "arrows_counterclockwise",
+    "arrows counterclockwise"
+  ],
+  "🔙": [
+    "back"
+  ],
+  "🔚": [
+    "end"
+  ],
+  "🔛": [
+    "on"
+  ],
+  "🔜": [
+    "soon"
+  ],
+  "🔝": [
+    "top"
+  ],
+  "🛐": [
+    "place_of_worship",
+    "place of worship"
+  ],
+  "⚛": [
+    "atom_symbol",
+    "atom symbol"
+  ],
+  "🕉": [
+    "om_symbol",
+    "om symbol"
+  ],
+  "✡": [
+    "star_of_david",
+    "star of david"
+  ],
+  "☸": [
+    "wheel_of_dharma",
+    "wheel of dharma"
+  ],
+  "☯": [
+    "yin_yang",
+    "yin yang"
+  ],
+  "✝": [
+    "latin_cross",
+    "latin cross"
+  ],
+  "☦": [
+    "orthodox_cross",
+    "orthodox cross"
+  ],
+  "☪": [
+    "star_and_crescent",
+    "star and crescent"
+  ],
+  "☮": [
+    "peace_symbol",
+    "peace symbol"
+  ],
+  "🕎": [
+    "menorah_with_nine_branches",
+    "menorah with nine branches"
+  ],
+  "🔯": [
+    "six_pointed_star",
+    "six pointed star"
+  ],
+  "🪯": [
+    "khanda"
+  ],
+  "♈": [
+    "aries"
+  ],
+  "♉": [
+    "taurus"
+  ],
+  "♊": [
+    "gemini"
+  ],
+  "♋": [
+    "cancer"
+  ],
+  "♌": [
+    "leo"
+  ],
+  "♍": [
+    "virgo"
+  ],
+  "♎": [
+    "libra"
+  ],
+  "♏": [
+    "scorpius"
+  ],
+  "♐": [
+    "sagittarius"
+  ],
+  "♑": [
+    "capricorn"
+  ],
+  "♒": [
+    "aquarius"
+  ],
+  "♓": [
+    "pisces"
+  ],
+  "⛎": [
+    "ophiuchus"
+  ],
+  "🔀": [
+    "twisted_rightwards_arrows",
+    "twisted rightwards arrows"
+  ],
+  "🔁": [
+    "repeat"
+  ],
+  "🔂": [
+    "repeat_one",
+    "repeat one"
+  ],
+  "▶": [
+    "arrow_forward",
+    "arrow forward"
+  ],
+  "⏩": [
+    "fast_forward",
+    "fast forward"
+  ],
+  "⏭": [
+    "black_right_pointing_double_triangle_with_vertical_bar",
+    "black right pointing double triangle with vertical bar"
+  ],
+  "⏯": [
+    "black_right_pointing_triangle_with_double_vertical_bar",
+    "black right pointing triangle with double vertical bar"
+  ],
+  "◀": [
+    "arrow_backward",
+    "arrow backward"
+  ],
+  "⏪": [
+    "rewind"
+  ],
+  "⏮": [
+    "black_left_pointing_double_triangle_with_vertical_bar",
+    "black left pointing double triangle with vertical bar"
+  ],
+  "🔼": [
+    "arrow_up_small",
+    "arrow up small"
+  ],
+  "⏫": [
+    "arrow_double_up",
+    "arrow double up"
+  ],
+  "🔽": [
+    "arrow_down_small",
+    "arrow down small"
+  ],
+  "⏬": [
+    "arrow_double_down",
+    "arrow double down"
+  ],
+  "⏸": [
+    "double_vertical_bar",
+    "double vertical bar"
+  ],
+  "⏹": [
+    "black_square_for_stop",
+    "black square for stop"
+  ],
+  "⏺": [
+    "black_circle_for_record",
+    "black circle for record"
+  ],
+  "⏏": [
+    "eject"
+  ],
+  "🎦": [
+    "cinema"
+  ],
+  "🔅": [
+    "low_brightness",
+    "low brightness"
+  ],
+  "🔆": [
+    "high_brightness",
+    "high brightness"
+  ],
+  "📶": [
+    "signal_strength",
+    "signal strength"
+  ],
+  "🛜": [
+    "wireless"
+  ],
+  "📳": [
+    "vibration_mode",
+    "vibration mode"
+  ],
+  "📴": [
+    "mobile_phone_off",
+    "mobile phone off"
+  ],
+  "♀": [
+    "female_sign",
+    "female sign"
+  ],
+  "♂": [
+    "male_sign",
+    "male sign"
+  ],
+  "⚧": [
+    "transgender_symbol",
+    "transgender symbol"
+  ],
+  "✖": [
+    "heavy_multiplication_x",
+    "heavy multiplication x"
+  ],
+  "➕": [
+    "heavy_plus_sign",
+    "heavy plus sign"
+  ],
+  "➖": [
+    "heavy_minus_sign",
+    "heavy minus sign"
+  ],
+  "➗": [
+    "heavy_division_sign",
+    "heavy division sign"
+  ],
+  "🟰": [
+    "heavy_equals_sign",
+    "heavy equals sign"
+  ],
+  "♾": [
+    "infinity"
+  ],
+  "‼": [
+    "bangbang"
+  ],
+  "⁉": [
+    "interrobang"
+  ],
+  "❓": [
+    "question"
+  ],
+  "❔": [
+    "grey_question",
+    "grey question"
+  ],
+  "❕": [
+    "grey_exclamation",
+    "grey exclamation"
+  ],
+  "❗": [
+    "exclamation",
+    "heavy_exclamation_mark",
+    "heavy exclamation mark"
+  ],
+  "〰": [
+    "wavy_dash",
+    "wavy dash"
+  ],
+  "💱": [
+    "currency_exchange",
+    "currency exchange"
+  ],
+  "💲": [
+    "heavy_dollar_sign",
+    "heavy dollar sign"
+  ],
+  "⚕": [
+    "medical_symbol",
+    "medical symbol",
+    "staff_of_aesculapius",
+    "staff of aesculapius"
+  ],
+  "♻": [
+    "recycle"
+  ],
+  "⚜": [
+    "fleur_de_lis",
+    "fleur de lis"
+  ],
+  "🔱": [
+    "trident"
+  ],
+  "📛": [
+    "name_badge",
+    "name badge"
+  ],
+  "🔰": [
+    "beginner"
+  ],
+  "⭕": [
+    "o"
+  ],
+  "✅": [
+    "white_check_mark",
+    "white check mark"
+  ],
+  "☑": [
+    "ballot_box_with_check",
+    "ballot box with check"
+  ],
+  "✔": [
+    "heavy_check_mark",
+    "heavy check mark"
+  ],
+  "❌": [
+    "x"
+  ],
+  "❎": [
+    "negative_squared_cross_mark",
+    "negative squared cross mark"
+  ],
+  "➰": [
+    "curly_loop",
+    "curly loop"
+  ],
+  "➿": [
+    "loop"
+  ],
+  "〽": [
+    "part_alternation_mark",
+    "part alternation mark"
+  ],
+  "✳": [
+    "eight_spoked_asterisk",
+    "eight spoked asterisk"
+  ],
+  "✴": [
+    "eight_pointed_black_star",
+    "eight pointed black star"
+  ],
+  "❇": [
+    "sparkle"
+  ],
+  "©": [
+    "copyright"
+  ],
+  "®": [
+    "registered"
+  ],
+  "™": [
+    "tm"
+  ],
+  "🫟": [
+    "splatter"
+  ],
+  "#⃣": [
+    "hash"
+  ],
+  "*⃣": [
+    "keycap_star",
+    "keycap star"
+  ],
+  "0⃣": [
+    "zero"
+  ],
+  "1⃣": [
+    "one"
+  ],
+  "2⃣": [
+    "two"
+  ],
+  "3⃣": [
+    "three"
+  ],
+  "4⃣": [
+    "four"
+  ],
+  "5⃣": [
+    "five"
+  ],
+  "6⃣": [
+    "six"
+  ],
+  "7⃣": [
+    "seven"
+  ],
+  "8⃣": [
+    "eight"
+  ],
+  "9⃣": [
+    "nine"
+  ],
+  "🔟": [
+    "keycap_ten",
+    "keycap ten"
+  ],
+  "🔠": [
+    "capital_abcd",
+    "capital abcd"
+  ],
+  "🔡": [
+    "abcd"
+  ],
+  "🔢": [
+    "1234"
+  ],
+  "🔣": [
+    "symbols"
+  ],
+  "🔤": [
+    "abc"
+  ],
+  "🅰": [
+    "a"
+  ],
+  "🆎": [
+    "ab"
+  ],
+  "🅱": [
+    "b"
+  ],
+  "🆑": [
+    "cl"
+  ],
+  "🆒": [
+    "cool"
+  ],
+  "🆓": [
+    "free"
+  ],
+  "ℹ": [
+    "information_source",
+    "information source"
+  ],
+  "🆔": [
+    "id"
+  ],
+  "Ⓜ": [
+    "m"
+  ],
+  "🆕": [
+    "new"
+  ],
+  "🆖": [
+    "ng"
+  ],
+  "🅾": [
+    "o2"
+  ],
+  "🆗": [
+    "ok"
+  ],
+  "🅿": [
+    "parking"
+  ],
+  "🆘": [
+    "sos"
+  ],
+  "🆙": [
+    "up"
+  ],
+  "🆚": [
+    "vs"
+  ],
+  "🈁": [
+    "koko"
+  ],
+  "🈂": [
+    "sa"
+  ],
+  "🈷": [
+    "u6708"
+  ],
+  "🈶": [
+    "u6709"
+  ],
+  "🈯": [
+    "u6307"
+  ],
+  "🉐": [
+    "ideograph_advantage",
+    "ideograph advantage"
+  ],
+  "🈹": [
+    "u5272"
+  ],
+  "🈚": [
+    "u7121"
+  ],
+  "🈲": [
+    "u7981"
+  ],
+  "🉑": [
+    "accept"
+  ],
+  "🈸": [
+    "u7533"
+  ],
+  "🈴": [
+    "u5408"
+  ],
+  "🈳": [
+    "u7a7a"
+  ],
+  "㊗": [
+    "congratulations"
+  ],
+  "㊙": [
+    "secret"
+  ],
+  "🈺": [
+    "u55b6"
+  ],
+  "🈵": [
+    "u6e80"
+  ],
+  "🔴": [
+    "red_circle",
+    "red circle"
+  ],
+  "🟠": [
+    "large_orange_circle",
+    "large orange circle"
+  ],
+  "🟡": [
+    "large_yellow_circle",
+    "large yellow circle"
+  ],
+  "🟢": [
+    "large_green_circle",
+    "large green circle"
+  ],
+  "🔵": [
+    "large_blue_circle",
+    "large blue circle"
+  ],
+  "🟣": [
+    "large_purple_circle",
+    "large purple circle"
+  ],
+  "🟤": [
+    "large_brown_circle",
+    "large brown circle"
+  ],
+  "⚫": [
+    "black_circle",
+    "black circle"
+  ],
+  "⚪": [
+    "white_circle",
+    "white circle"
+  ],
+  "🟥": [
+    "large_red_square",
+    "large red square"
+  ],
+  "🟧": [
+    "large_orange_square",
+    "large orange square"
+  ],
+  "🟨": [
+    "large_yellow_square",
+    "large yellow square"
+  ],
+  "🟩": [
+    "large_green_square",
+    "large green square"
+  ],
+  "🟦": [
+    "large_blue_square",
+    "large blue square"
+  ],
+  "🟪": [
+    "large_purple_square",
+    "large purple square"
+  ],
+  "🟫": [
+    "large_brown_square",
+    "large brown square"
+  ],
+  "⬛": [
+    "black_large_square",
+    "black large square"
+  ],
+  "⬜": [
+    "white_large_square",
+    "white large square"
+  ],
+  "◼": [
+    "black_medium_square",
+    "black medium square"
+  ],
+  "◻": [
+    "white_medium_square",
+    "white medium square"
+  ],
+  "◾": [
+    "black_medium_small_square",
+    "black medium small square"
+  ],
+  "◽": [
+    "white_medium_small_square",
+    "white medium small square"
+  ],
+  "▪": [
+    "black_small_square",
+    "black small square"
+  ],
+  "▫": [
+    "white_small_square",
+    "white small square"
+  ],
+  "🔶": [
+    "large_orange_diamond",
+    "large orange diamond"
+  ],
+  "🔷": [
+    "large_blue_diamond",
+    "large blue diamond"
+  ],
+  "🔸": [
+    "small_orange_diamond",
+    "small orange diamond"
+  ],
+  "🔹": [
+    "small_blue_diamond",
+    "small blue diamond"
+  ],
+  "🔺": [
+    "small_red_triangle",
+    "small red triangle"
+  ],
+  "🔻": [
+    "small_red_triangle_down",
+    "small red triangle down"
+  ],
+  "💠": [
+    "diamond_shape_with_a_dot_inside",
+    "diamond shape with a dot inside"
+  ],
+  "🔘": [
+    "radio_button",
+    "radio button"
+  ],
+  "🔳": [
+    "white_square_button",
+    "white square button"
+  ],
+  "🔲": [
+    "black_square_button",
+    "black square button"
+  ],
+  "🏁": [
+    "checkered_flag",
+    "checkered flag"
+  ],
+  "🚩": [
+    "triangular_flag_on_post",
+    "triangular flag on post"
+  ],
+  "🎌": [
+    "crossed_flags",
+    "crossed flags"
+  ],
+  "🏴": [
+    "waving_black_flag",
+    "waving black flag"
+  ],
+  "🏳": [
+    "waving_white_flag",
+    "waving white flag"
+  ],
+  "🏳‍🌈": [
+    "rainbow-flag",
+    "rainbow flag"
+  ],
+  "🏳‍⚧": [
+    "transgender_flag",
+    "transgender flag"
+  ],
+  "🏴‍☠": [
+    "pirate_flag",
+    "pirate flag"
+  ],
+  "🇦🇨": [
+    "flag-ac",
+    "flag ac"
+  ],
+  "🇦🇩": [
+    "flag-ad",
+    "flag ad"
+  ],
+  "🇦🇪": [
+    "flag-ae",
+    "flag ae"
+  ],
+  "🇦🇫": [
+    "flag-af",
+    "flag af"
+  ],
+  "🇦🇬": [
+    "flag-ag",
+    "flag ag"
+  ],
+  "🇦🇮": [
+    "flag-ai",
+    "flag ai"
+  ],
+  "🇦🇱": [
+    "flag-al",
+    "flag al"
+  ],
+  "🇦🇲": [
+    "flag-am",
+    "flag am"
+  ],
+  "🇦🇴": [
+    "flag-ao",
+    "flag ao"
+  ],
+  "🇦🇶": [
+    "flag-aq",
+    "flag aq"
+  ],
+  "🇦🇷": [
+    "flag-ar",
+    "flag ar"
+  ],
+  "🇦🇸": [
+    "flag-as",
+    "flag as"
+  ],
+  "🇦🇹": [
+    "flag-at",
+    "flag at"
+  ],
+  "🇦🇺": [
+    "flag-au",
+    "flag au"
+  ],
+  "🇦🇼": [
+    "flag-aw",
+    "flag aw"
+  ],
+  "🇦🇽": [
+    "flag-ax",
+    "flag ax"
+  ],
+  "🇦🇿": [
+    "flag-az",
+    "flag az"
+  ],
+  "🇧🇦": [
+    "flag-ba",
+    "flag ba"
+  ],
+  "🇧🇧": [
+    "flag-bb",
+    "flag bb"
+  ],
+  "🇧🇩": [
+    "flag-bd",
+    "flag bd"
+  ],
+  "🇧🇪": [
+    "flag-be",
+    "flag be"
+  ],
+  "🇧🇫": [
+    "flag-bf",
+    "flag bf"
+  ],
+  "🇧🇬": [
+    "flag-bg",
+    "flag bg"
+  ],
+  "🇧🇭": [
+    "flag-bh",
+    "flag bh"
+  ],
+  "🇧🇮": [
+    "flag-bi",
+    "flag bi"
+  ],
+  "🇧🇯": [
+    "flag-bj",
+    "flag bj"
+  ],
+  "🇧🇱": [
+    "flag-bl",
+    "flag bl"
+  ],
+  "🇧🇲": [
+    "flag-bm",
+    "flag bm"
+  ],
+  "🇧🇳": [
+    "flag-bn",
+    "flag bn"
+  ],
+  "🇧🇴": [
+    "flag-bo",
+    "flag bo"
+  ],
+  "🇧🇶": [
+    "flag-bq",
+    "flag bq"
+  ],
+  "🇧🇷": [
+    "flag-br",
+    "flag br"
+  ],
+  "🇧🇸": [
+    "flag-bs",
+    "flag bs"
+  ],
+  "🇧🇹": [
+    "flag-bt",
+    "flag bt"
+  ],
+  "🇧🇻": [
+    "flag-bv",
+    "flag bv"
+  ],
+  "🇧🇼": [
+    "flag-bw",
+    "flag bw"
+  ],
+  "🇧🇾": [
+    "flag-by",
+    "flag by"
+  ],
+  "🇧🇿": [
+    "flag-bz",
+    "flag bz"
+  ],
+  "🇨🇦": [
+    "flag-ca",
+    "flag ca"
+  ],
+  "🇨🇨": [
+    "flag-cc",
+    "flag cc"
+  ],
+  "🇨🇩": [
+    "flag-cd",
+    "flag cd"
+  ],
+  "🇨🇫": [
+    "flag-cf",
+    "flag cf"
+  ],
+  "🇨🇬": [
+    "flag-cg",
+    "flag cg"
+  ],
+  "🇨🇭": [
+    "flag-ch",
+    "flag ch"
+  ],
+  "🇨🇮": [
+    "flag-ci",
+    "flag ci"
+  ],
+  "🇨🇰": [
+    "flag-ck",
+    "flag ck"
+  ],
+  "🇨🇱": [
+    "flag-cl",
+    "flag cl"
+  ],
+  "🇨🇲": [
+    "flag-cm",
+    "flag cm"
+  ],
+  "🇨🇳": [
+    "cn",
+    "flag-cn",
+    "flag cn"
+  ],
+  "🇨🇴": [
+    "flag-co",
+    "flag co"
+  ],
+  "🇨🇵": [
+    "flag-cp",
+    "flag cp"
+  ],
+  "🇨🇶": [
+    "flag-sark",
+    "flag sark"
+  ],
+  "🇨🇷": [
+    "flag-cr",
+    "flag cr"
+  ],
+  "🇨🇺": [
+    "flag-cu",
+    "flag cu"
+  ],
+  "🇨🇻": [
+    "flag-cv",
+    "flag cv"
+  ],
+  "🇨🇼": [
+    "flag-cw",
+    "flag cw"
+  ],
+  "🇨🇽": [
+    "flag-cx",
+    "flag cx"
+  ],
+  "🇨🇾": [
+    "flag-cy",
+    "flag cy"
+  ],
+  "🇨🇿": [
+    "flag-cz",
+    "flag cz"
+  ],
+  "🇩🇪": [
+    "de",
+    "flag-de",
+    "flag de"
+  ],
+  "🇩🇬": [
+    "flag-dg",
+    "flag dg"
+  ],
+  "🇩🇯": [
+    "flag-dj",
+    "flag dj"
+  ],
+  "🇩🇰": [
+    "flag-dk",
+    "flag dk"
+  ],
+  "🇩🇲": [
+    "flag-dm",
+    "flag dm"
+  ],
+  "🇩🇴": [
+    "flag-do",
+    "flag do"
+  ],
+  "🇩🇿": [
+    "flag-dz",
+    "flag dz"
+  ],
+  "🇪🇦": [
+    "flag-ea",
+    "flag ea"
+  ],
+  "🇪🇨": [
+    "flag-ec",
+    "flag ec"
+  ],
+  "🇪🇪": [
+    "flag-ee",
+    "flag ee"
+  ],
+  "🇪🇬": [
+    "flag-eg",
+    "flag eg"
+  ],
+  "🇪🇭": [
+    "flag-eh",
+    "flag eh"
+  ],
+  "🇪🇷": [
+    "flag-er",
+    "flag er"
+  ],
+  "🇪🇸": [
+    "es",
+    "flag-es",
+    "flag es"
+  ],
+  "🇪🇹": [
+    "flag-et",
+    "flag et"
+  ],
+  "🇪🇺": [
+    "flag-eu",
+    "flag eu"
+  ],
+  "🇫🇮": [
+    "flag-fi",
+    "flag fi"
+  ],
+  "🇫🇯": [
+    "flag-fj",
+    "flag fj"
+  ],
+  "🇫🇰": [
+    "flag-fk",
+    "flag fk"
+  ],
+  "🇫🇲": [
+    "flag-fm",
+    "flag fm"
+  ],
+  "🇫🇴": [
+    "flag-fo",
+    "flag fo"
+  ],
+  "🇫🇷": [
+    "fr",
+    "flag-fr",
+    "flag fr"
+  ],
+  "🇬🇦": [
+    "flag-ga",
+    "flag ga"
+  ],
+  "🇬🇧": [
+    "gb",
+    "uk",
+    "flag-gb",
+    "flag gb"
+  ],
+  "🇬🇩": [
+    "flag-gd",
+    "flag gd"
+  ],
+  "🇬🇪": [
+    "flag-ge",
+    "flag ge"
+  ],
+  "🇬🇫": [
+    "flag-gf",
+    "flag gf"
+  ],
+  "🇬🇬": [
+    "flag-gg",
+    "flag gg"
+  ],
+  "🇬🇭": [
+    "flag-gh",
+    "flag gh"
+  ],
+  "🇬🇮": [
+    "flag-gi",
+    "flag gi"
+  ],
+  "🇬🇱": [
+    "flag-gl",
+    "flag gl"
+  ],
+  "🇬🇲": [
+    "flag-gm",
+    "flag gm"
+  ],
+  "🇬🇳": [
+    "flag-gn",
+    "flag gn"
+  ],
+  "🇬🇵": [
+    "flag-gp",
+    "flag gp"
+  ],
+  "🇬🇶": [
+    "flag-gq",
+    "flag gq"
+  ],
+  "🇬🇷": [
+    "flag-gr",
+    "flag gr"
+  ],
+  "🇬🇸": [
+    "flag-gs",
+    "flag gs"
+  ],
+  "🇬🇹": [
+    "flag-gt",
+    "flag gt"
+  ],
+  "🇬🇺": [
+    "flag-gu",
+    "flag gu"
+  ],
+  "🇬🇼": [
+    "flag-gw",
+    "flag gw"
+  ],
+  "🇬🇾": [
+    "flag-gy",
+    "flag gy"
+  ],
+  "🇭🇰": [
+    "flag-hk",
+    "flag hk"
+  ],
+  "🇭🇲": [
+    "flag-hm",
+    "flag hm"
+  ],
+  "🇭🇳": [
+    "flag-hn",
+    "flag hn"
+  ],
+  "🇭🇷": [
+    "flag-hr",
+    "flag hr"
+  ],
+  "🇭🇹": [
+    "flag-ht",
+    "flag ht"
+  ],
+  "🇭🇺": [
+    "flag-hu",
+    "flag hu"
+  ],
+  "🇮🇨": [
+    "flag-ic",
+    "flag ic"
+  ],
+  "🇮🇩": [
+    "flag-id",
+    "flag id"
+  ],
+  "🇮🇪": [
+    "flag-ie",
+    "flag ie"
+  ],
+  "🇮🇱": [
+    "flag-il",
+    "flag il"
+  ],
+  "🇮🇲": [
+    "flag-im",
+    "flag im"
+  ],
+  "🇮🇳": [
+    "flag-in",
+    "flag in"
+  ],
+  "🇮🇴": [
+    "flag-io",
+    "flag io"
+  ],
+  "🇮🇶": [
+    "flag-iq",
+    "flag iq"
+  ],
+  "🇮🇷": [
+    "flag-ir",
+    "flag ir"
+  ],
+  "🇮🇸": [
+    "flag-is",
+    "flag is"
+  ],
+  "🇮🇹": [
+    "it",
+    "flag-it",
+    "flag it"
+  ],
+  "🇯🇪": [
+    "flag-je",
+    "flag je"
+  ],
+  "🇯🇲": [
+    "flag-jm",
+    "flag jm"
+  ],
+  "🇯🇴": [
+    "flag-jo",
+    "flag jo"
+  ],
+  "🇯🇵": [
+    "jp",
+    "flag-jp",
+    "flag jp"
+  ],
+  "🇰🇪": [
+    "flag-ke",
+    "flag ke"
+  ],
+  "🇰🇬": [
+    "flag-kg",
+    "flag kg"
+  ],
+  "🇰🇭": [
+    "flag-kh",
+    "flag kh"
+  ],
+  "🇰🇮": [
+    "flag-ki",
+    "flag ki"
+  ],
+  "🇰🇲": [
+    "flag-km",
+    "flag km"
+  ],
+  "🇰🇳": [
+    "flag-kn",
+    "flag kn"
+  ],
+  "🇰🇵": [
+    "flag-kp",
+    "flag kp"
+  ],
+  "🇰🇷": [
+    "kr",
+    "flag-kr",
+    "flag kr"
+  ],
+  "🇰🇼": [
+    "flag-kw",
+    "flag kw"
+  ],
+  "🇰🇾": [
+    "flag-ky",
+    "flag ky"
+  ],
+  "🇰🇿": [
+    "flag-kz",
+    "flag kz"
+  ],
+  "🇱🇦": [
+    "flag-la",
+    "flag la"
+  ],
+  "🇱🇧": [
+    "flag-lb",
+    "flag lb"
+  ],
+  "🇱🇨": [
+    "flag-lc",
+    "flag lc"
+  ],
+  "🇱🇮": [
+    "flag-li",
+    "flag li"
+  ],
+  "🇱🇰": [
+    "flag-lk",
+    "flag lk"
+  ],
+  "🇱🇷": [
+    "flag-lr",
+    "flag lr"
+  ],
+  "🇱🇸": [
+    "flag-ls",
+    "flag ls"
+  ],
+  "🇱🇹": [
+    "flag-lt",
+    "flag lt"
+  ],
+  "🇱🇺": [
+    "flag-lu",
+    "flag lu"
+  ],
+  "🇱🇻": [
+    "flag-lv",
+    "flag lv"
+  ],
+  "🇱🇾": [
+    "flag-ly",
+    "flag ly"
+  ],
+  "🇲🇦": [
+    "flag-ma",
+    "flag ma"
+  ],
+  "🇲🇨": [
+    "flag-mc",
+    "flag mc"
+  ],
+  "🇲🇩": [
+    "flag-md",
+    "flag md"
+  ],
+  "🇲🇪": [
+    "flag-me",
+    "flag me"
+  ],
+  "🇲🇫": [
+    "flag-mf",
+    "flag mf"
+  ],
+  "🇲🇬": [
+    "flag-mg",
+    "flag mg"
+  ],
+  "🇲🇭": [
+    "flag-mh",
+    "flag mh"
+  ],
+  "🇲🇰": [
+    "flag-mk",
+    "flag mk"
+  ],
+  "🇲🇱": [
+    "flag-ml",
+    "flag ml"
+  ],
+  "🇲🇲": [
+    "flag-mm",
+    "flag mm"
+  ],
+  "🇲🇳": [
+    "flag-mn",
+    "flag mn"
+  ],
+  "🇲🇴": [
+    "flag-mo",
+    "flag mo"
+  ],
+  "🇲🇵": [
+    "flag-mp",
+    "flag mp"
+  ],
+  "🇲🇶": [
+    "flag-mq",
+    "flag mq"
+  ],
+  "🇲🇷": [
+    "flag-mr",
+    "flag mr"
+  ],
+  "🇲🇸": [
+    "flag-ms",
+    "flag ms"
+  ],
+  "🇲🇹": [
+    "flag-mt",
+    "flag mt"
+  ],
+  "🇲🇺": [
+    "flag-mu",
+    "flag mu"
+  ],
+  "🇲🇻": [
+    "flag-mv",
+    "flag mv"
+  ],
+  "🇲🇼": [
+    "flag-mw",
+    "flag mw"
+  ],
+  "🇲🇽": [
+    "flag-mx",
+    "flag mx"
+  ],
+  "🇲🇾": [
+    "flag-my",
+    "flag my"
+  ],
+  "🇲🇿": [
+    "flag-mz",
+    "flag mz"
+  ],
+  "🇳🇦": [
+    "flag-na",
+    "flag na"
+  ],
+  "🇳🇨": [
+    "flag-nc",
+    "flag nc"
+  ],
+  "🇳🇪": [
+    "flag-ne",
+    "flag ne"
+  ],
+  "🇳🇫": [
+    "flag-nf",
+    "flag nf"
+  ],
+  "🇳🇬": [
+    "flag-ng",
+    "flag ng"
+  ],
+  "🇳🇮": [
+    "flag-ni",
+    "flag ni"
+  ],
+  "🇳🇱": [
+    "flag-nl",
+    "flag nl"
+  ],
+  "🇳🇴": [
+    "flag-no",
+    "flag no"
+  ],
+  "🇳🇵": [
+    "flag-np",
+    "flag np"
+  ],
+  "🇳🇷": [
+    "flag-nr",
+    "flag nr"
+  ],
+  "🇳🇺": [
+    "flag-nu",
+    "flag nu"
+  ],
+  "🇳🇿": [
+    "flag-nz",
+    "flag nz"
+  ],
+  "🇴🇲": [
+    "flag-om",
+    "flag om"
+  ],
+  "🇵🇦": [
+    "flag-pa",
+    "flag pa"
+  ],
+  "🇵🇪": [
+    "flag-pe",
+    "flag pe"
+  ],
+  "🇵🇫": [
+    "flag-pf",
+    "flag pf"
+  ],
+  "🇵🇬": [
+    "flag-pg",
+    "flag pg"
+  ],
+  "🇵🇭": [
+    "flag-ph",
+    "flag ph"
+  ],
+  "🇵🇰": [
+    "flag-pk",
+    "flag pk"
+  ],
+  "🇵🇱": [
+    "flag-pl",
+    "flag pl"
+  ],
+  "🇵🇲": [
+    "flag-pm",
+    "flag pm"
+  ],
+  "🇵🇳": [
+    "flag-pn",
+    "flag pn"
+  ],
+  "🇵🇷": [
+    "flag-pr",
+    "flag pr"
+  ],
+  "🇵🇸": [
+    "flag-ps",
+    "flag ps"
+  ],
+  "🇵🇹": [
+    "flag-pt",
+    "flag pt"
+  ],
+  "🇵🇼": [
+    "flag-pw",
+    "flag pw"
+  ],
+  "🇵🇾": [
+    "flag-py",
+    "flag py"
+  ],
+  "🇶🇦": [
+    "flag-qa",
+    "flag qa"
+  ],
+  "🇷🇪": [
+    "flag-re",
+    "flag re"
+  ],
+  "🇷🇴": [
+    "flag-ro",
+    "flag ro"
+  ],
+  "🇷🇸": [
+    "flag-rs",
+    "flag rs"
+  ],
+  "🇷🇺": [
+    "ru",
+    "flag-ru",
+    "flag ru"
+  ],
+  "🇷🇼": [
+    "flag-rw",
+    "flag rw"
+  ],
+  "🇸🇦": [
+    "flag-sa",
+    "flag sa"
+  ],
+  "🇸🇧": [
+    "flag-sb",
+    "flag sb"
+  ],
+  "🇸🇨": [
+    "flag-sc",
+    "flag sc"
+  ],
+  "🇸🇩": [
+    "flag-sd",
+    "flag sd"
+  ],
+  "🇸🇪": [
+    "flag-se",
+    "flag se"
+  ],
+  "🇸🇬": [
+    "flag-sg",
+    "flag sg"
+  ],
+  "🇸🇭": [
+    "flag-sh",
+    "flag sh"
+  ],
+  "🇸🇮": [
+    "flag-si",
+    "flag si"
+  ],
+  "🇸🇯": [
+    "flag-sj",
+    "flag sj"
+  ],
+  "🇸🇰": [
+    "flag-sk",
+    "flag sk"
+  ],
+  "🇸🇱": [
+    "flag-sl",
+    "flag sl"
+  ],
+  "🇸🇲": [
+    "flag-sm",
+    "flag sm"
+  ],
+  "🇸🇳": [
+    "flag-sn",
+    "flag sn"
+  ],
+  "🇸🇴": [
+    "flag-so",
+    "flag so"
+  ],
+  "🇸🇷": [
+    "flag-sr",
+    "flag sr"
+  ],
+  "🇸🇸": [
+    "flag-ss",
+    "flag ss"
+  ],
+  "🇸🇹": [
+    "flag-st",
+    "flag st"
+  ],
+  "🇸🇻": [
+    "flag-sv",
+    "flag sv"
+  ],
+  "🇸🇽": [
+    "flag-sx",
+    "flag sx"
+  ],
+  "🇸🇾": [
+    "flag-sy",
+    "flag sy"
+  ],
+  "🇸🇿": [
+    "flag-sz",
+    "flag sz"
+  ],
+  "🇹🇦": [
+    "flag-ta",
+    "flag ta"
+  ],
+  "🇹🇨": [
+    "flag-tc",
+    "flag tc"
+  ],
+  "🇹🇩": [
+    "flag-td",
+    "flag td"
+  ],
+  "🇹🇫": [
+    "flag-tf",
+    "flag tf"
+  ],
+  "🇹🇬": [
+    "flag-tg",
+    "flag tg"
+  ],
+  "🇹🇭": [
+    "flag-th",
+    "flag th"
+  ],
+  "🇹🇯": [
+    "flag-tj",
+    "flag tj"
+  ],
+  "🇹🇰": [
+    "flag-tk",
+    "flag tk"
+  ],
+  "🇹🇱": [
+    "flag-tl",
+    "flag tl"
+  ],
+  "🇹🇲": [
+    "flag-tm",
+    "flag tm"
+  ],
+  "🇹🇳": [
+    "flag-tn",
+    "flag tn"
+  ],
+  "🇹🇴": [
+    "flag-to",
+    "flag to"
+  ],
+  "🇹🇷": [
+    "flag-tr",
+    "flag tr"
+  ],
+  "🇹🇹": [
+    "flag-tt",
+    "flag tt"
+  ],
+  "🇹🇻": [
+    "flag-tv",
+    "flag tv"
+  ],
+  "🇹🇼": [
+    "flag-tw",
+    "flag tw"
+  ],
+  "🇹🇿": [
+    "flag-tz",
+    "flag tz"
+  ],
+  "🇺🇦": [
+    "flag-ua",
+    "flag ua"
+  ],
+  "🇺🇬": [
+    "flag-ug",
+    "flag ug"
+  ],
+  "🇺🇲": [
+    "flag-um",
+    "flag um"
+  ],
+  "🇺🇳": [
+    "flag-un",
+    "flag un"
+  ],
+  "🇺🇸": [
+    "us",
+    "flag-us",
+    "flag us"
+  ],
+  "🇺🇾": [
+    "flag-uy",
+    "flag uy"
+  ],
+  "🇺🇿": [
+    "flag-uz",
+    "flag uz"
+  ],
+  "🇻🇦": [
+    "flag-va",
+    "flag va"
+  ],
+  "🇻🇨": [
+    "flag-vc",
+    "flag vc"
+  ],
+  "🇻🇪": [
+    "flag-ve",
+    "flag ve"
+  ],
+  "🇻🇬": [
+    "flag-vg",
+    "flag vg"
+  ],
+  "🇻🇮": [
+    "flag-vi",
+    "flag vi"
+  ],
+  "🇻🇳": [
+    "flag-vn",
+    "flag vn"
+  ],
+  "🇻🇺": [
+    "flag-vu",
+    "flag vu"
+  ],
+  "🇼🇫": [
+    "flag-wf",
+    "flag wf"
+  ],
+  "🇼🇸": [
+    "flag-ws",
+    "flag ws"
+  ],
+  "🇽🇰": [
+    "flag-xk",
+    "flag xk"
+  ],
+  "🇾🇪": [
+    "flag-ye",
+    "flag ye"
+  ],
+  "🇾🇹": [
+    "flag-yt",
+    "flag yt"
+  ],
+  "🇿🇦": [
+    "flag-za",
+    "flag za"
+  ],
+  "🇿🇲": [
+    "flag-zm",
+    "flag zm"
+  ],
+  "🇿🇼": [
+    "flag-zw",
+    "flag zw"
+  ],
+  "🏴󠁧󠁢󠁥󠁮󠁧󠁿": [
+    "flag-england",
+    "flag england"
+  ],
+  "🏴󠁧󠁢󠁳󠁣󠁴󠁿": [
+    "flag-scotland",
+    "flag scotland"
+  ],
+  "🏴󠁧󠁢󠁷󠁬󠁳󠁿": [
+    "flag-wales",
+    "flag wales"
+  ]
+} as const;
