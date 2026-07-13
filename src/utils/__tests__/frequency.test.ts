@@ -360,4 +360,60 @@ describe("buildEmojiPickerFrequentSection", () => {
 
     expect(result?.items).toEqual([supplementalItem, nativeItem]);
   });
+
+  it("should support persisted usage rehydration before section building", () => {
+    const usageEntries = sanitizeEmojiPickerUsageEntries([
+      {
+        item: {
+          kind: "native",
+          id: " 😀 ",
+          emoji: " 😀 ",
+          label: " Grinning face ",
+        },
+        score: 2,
+        uses: 2,
+        lastUsedAt: 1_000,
+      },
+      {
+        item: {
+          kind: "supplemental",
+          id: " shipit ",
+          label: " Ship It ",
+          aliases: [" ship it "],
+        },
+        score: 3,
+        uses: 3,
+        lastUsedAt: 2_000,
+      },
+      {
+        item: {
+          kind: "supplemental",
+          id: "   ",
+        },
+        score: 99,
+        uses: 99,
+        lastUsedAt: 99_000,
+      },
+    ]);
+
+    const result = buildEmojiPickerFrequentSection(usageEntries, {
+      now: 2_000,
+    });
+
+    expect(result).toEqual({
+      id: "frequently-used",
+      label: "Frequently used",
+      position: "prepend",
+      searchable: false,
+      items: [
+        {
+          kind: "supplemental",
+          id: "shipit",
+          label: "Ship It",
+          aliases: ["ship it"],
+        },
+        nativeItem,
+      ],
+    });
+  });
 });
