@@ -22,6 +22,8 @@ The example below enriches native search with `@slithy/emoji-kit`, then passes t
 
 Generate a native term map ahead of time, then pass it to `Root` through `search.native.terms`.
 
+The source records can use whatever metadata shape your app or companion package prefers, including iamcal-style `shortcodes`. Frimousse itself only consumes the derived `search.native.terms` map.
+
 ```tsx
 import { EmojiPicker } from "@slithy/frimousse";
 import { buildNativeEmojiSearchTermMap } from "@slithy/emoji-kit";
@@ -56,6 +58,62 @@ const nativeSearchTerms = buildNativeEmojiSearchTermMap([
 </EmojiPicker.Root>;
 ```
 
+### Map shortcode-first custom emoji into supplemental items
+
+If your app treats shortcode as the canonical identity for custom emoji, use that shortcode as the supplemental `id`, then put alternate forms in `aliases`.
+
+```tsx
+import { createCustomSection, EmojiPicker } from "@slithy/frimousse";
+
+const customSection = createCustomSection(
+  [
+    {
+      id: "party_parrot",
+      label: "Party Parrot",
+      imageUrl: "https://example.com/emoji/party-parrot.gif",
+      aliases: [":party_parrot:", "party-parrot"],
+    },
+    {
+      id: "shipit",
+      label: "Ship It",
+      imageUrl: "https://example.com/emoji/shipit.png",
+      aliases: [":shipit:"],
+    },
+  ],
+  {
+    id: "custom",
+    label: "Custom emoji",
+  },
+);
+
+<EmojiPicker.Root
+  supplemental={{
+    sections: [customSection],
+    search: { mode: "unified", resultsLabel: "Results" },
+  }}
+>
+  <EmojiPicker.Search />
+  <EmojiPicker.Viewport>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+</EmojiPicker.Root>;
+```
+
+### Slack-style naming model
+
+Slack-style apps usually treat native and custom emoji differently:
+
+- native emoji use Unicode for rendering, but shortcode-like names for search and display
+- custom emoji use the shortcode-like name itself as the canonical identity
+
+In Frimousse, that maps to:
+
+- native shortcode metadata -> `search.native.terms`
+- custom emoji canonical name -> `id`
+- alternate typed forms -> `aliases`
+
+That keeps the picker contract generic while still fitting apps that persist and display shortcode-like names as their primary emoji vocabulary.
+
 ### Keep the picker dumb
 
 Frimousse only consumes the search data you pass in. It does not need to know how those terms were produced, where they came from, or which dataset policy your app uses.
@@ -64,5 +122,7 @@ Frimousse only consumes the search data you pass in. It does not need to know ho
 
 - Companion packages are optional. The base and extended picker APIs work without them.
 - `@slithy/emoji-kit` enriches native search data; it does not change the picker component surface.
+- Native iamcal-style shortcodes belong in `search.native.terms`, not in a picker-owned native emoji field.
+- For supplemental/custom emoji, canonical shortcode-like names belong in `id`; alternate forms belong in `aliases`.
 - If you already have your own emoji metadata pipeline, you can build the same `search.native.terms` shape yourself.
 </section>

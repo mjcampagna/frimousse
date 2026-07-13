@@ -28,24 +28,8 @@ function normalizeSearch(search: string) {
   return normalizeNativeSearchText(search);
 }
 
-function scoreTextMatch(
-  label: string,
-  terms: string[],
-  searchText: string,
-): number {
-  let score = 0;
-
-  if (label.toLowerCase().includes(searchText)) {
-    score += 10;
-  }
-
-  for (const term of terms) {
-    if (term.toLowerCase().replace(/[_-]/g, " ").includes(searchText)) {
-      score += 1;
-    }
-  }
-
-  return score;
+function matchesSearchTerm(value: string, searchText: string) {
+  return value.toLowerCase().replace(/[_-]/g, " ").includes(searchText);
 }
 
 function buildRows(
@@ -76,21 +60,59 @@ export function toNativeEmojiPickerItem(
   };
 }
 
-function getItemTerms(item: EmojiPickerItem): string[] {
-  if (item.kind === "native") {
-    return [item.id];
+function scoreNativeItemMatch(item: NativeEmojiPickerItem, searchText: string) {
+  let score = 0;
+
+  if (matchesSearchTerm(item.label, searchText)) {
+    score += 10;
   }
 
-  return [
-    ...(item.tags ?? []),
-    ...(item.keywords ?? []),
-    ...(item.aliases ?? []),
-    item.id,
-  ];
+  if (matchesSearchTerm(item.id, searchText)) {
+    score += 1;
+  }
+
+  return score;
+}
+
+function scoreSupplementalItemMatch(
+  item: Extract<EmojiPickerItem, { kind: "supplemental" }>,
+  searchText: string,
+) {
+  let score = 0;
+
+  if (matchesSearchTerm(item.label, searchText)) {
+    score += 10;
+  }
+
+  for (const alias of item.aliases ?? []) {
+    if (matchesSearchTerm(alias, searchText)) {
+      score += 6;
+    }
+  }
+
+  for (const keyword of item.keywords ?? []) {
+    if (matchesSearchTerm(keyword, searchText)) {
+      score += 3;
+    }
+  }
+
+  for (const tag of item.tags ?? []) {
+    if (matchesSearchTerm(tag, searchText)) {
+      score += 1;
+    }
+  }
+
+  if (matchesSearchTerm(item.id, searchText)) {
+    score += 1;
+  }
+
+  return score;
 }
 
 function scoreItemMatch(item: EmojiPickerItem, searchText: string): number {
-  return scoreTextMatch(item.label, getItemTerms(item), searchText);
+  return item.kind === "native"
+    ? scoreNativeItemMatch(item, searchText)
+    : scoreSupplementalItemMatch(item, searchText);
 }
 
 function filterSectionItems(items: EmojiPickerItem[], searchText: string) {

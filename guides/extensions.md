@@ -227,11 +227,14 @@ export function CustomEmojiPicker() {
 Notes:
 
 - `id` is required and should come from the consumer’s own stable identity model
+- if your product treats shortcode as the canonical custom-emoji identity, use that shortcode as `id`
 - `imageUrl` is presentation data, not fallback identity
-- `aliases`, `keywords`, and `tags` are optional search inputs for supplemental matching
+- `aliases`, `keywords`, and `tags` are optional search inputs for supplemental matching; alternate shortcode forms belong in `aliases`
 - `data` is opaque consumer payload that the picker preserves but does not read
 - `label` defaults to `id` if omitted
 - blank list entries and empty string metadata are normalized away
+
+This lines up well with Slack-style custom emoji models, where the custom emoji name is the durable identity users type, search, and persist.
 
 ## Rendering image-backed items
 

@@ -128,6 +128,39 @@ const opaqueDataSection: EmojiPickerSection = {
   ],
 };
 
+const weightedSearchSection: EmojiPickerSection = {
+  id: "weighted",
+  label: "Weighted",
+  items: [
+    {
+      kind: "supplemental",
+      id: "deploy-bot",
+      label: "Build Bot",
+      aliases: ["deploy helper"],
+      keywords: ["release automation"],
+      tags: ["ops"],
+    },
+    {
+      kind: "supplemental",
+      id: "ops-bot",
+      label: "Build Bot",
+      keywords: ["deploy helper"],
+      tags: ["ops"],
+    },
+    {
+      kind: "supplemental",
+      id: "ops-helper",
+      label: "Build Bot",
+      tags: ["deploy helper"],
+    },
+    {
+      kind: "supplemental",
+      id: "deploy-helper",
+      label: "Build Bot",
+    },
+  ],
+};
+
 describe("toNativeEmojiPickerItem", () => {
   it("should derive a stable item shape for native emojis", () => {
     expect(toNativeEmojiPickerItem(nativeEmojis[0]!, undefined)).toEqual({
@@ -266,6 +299,25 @@ describe("buildSupplementalSections", () => {
     expect(result.count).toBe(0);
     expect(result.categories).toEqual([]);
     expect(result.rows).toEqual([]);
+  });
+
+  it("should weight alias matches ahead of keyword, tag, and id fallback matches", () => {
+    const result = buildSupplementalSections(
+      [weightedSearchSection],
+      "deploy helper",
+      10,
+      0,
+      0,
+    );
+
+    const items = result.rows[0]?.emojis as EmojiPickerItem[] | undefined;
+
+    expect(items?.map((item) => item.id)).toEqual([
+      "deploy-bot",
+      "ops-bot",
+      "ops-helper",
+      "deploy-helper",
+    ]);
   });
 });
 

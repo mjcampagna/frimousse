@@ -432,6 +432,8 @@ Field semantics:
 - `tags`: broader search hints that also participate in supplemental search
 - `data`: opaque consumer payload carried through unchanged and not interpreted by the picker
 
+Built-in supplemental search treats `label` and `aliases` as name-like matches, then falls back to `keywords`, `tags`, and finally `id`.
+
 Return type:
 
 - `SupplementalItem`
