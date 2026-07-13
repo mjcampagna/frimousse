@@ -1,10 +1,10 @@
 import { useId, useMemo, useState } from "react";
 import {
   buildEmojiPickerFrequentSection,
-  createEmojiPickerCustomSection,
+  createCustomSection,
   EmojiPicker,
   recordEmojiPickerUsage,
-  type EmojiPickerItemSelection,
+  type ItemSelection,
   type EmojiPickerUsageEntry,
 } from "@slithy/frimousse";
 
@@ -25,7 +25,7 @@ const INITIAL_STATE: PickerState = {
 export function App() {
   const [picker, setPicker] = useState<PickerState>(INITIAL_STATE);
   const [selectedSelection, setSelectedSelection] =
-    useState<EmojiPickerItemSelection>({
+    useState<ItemSelection>({
       kind: "native",
       item: {
         kind: "native",
@@ -39,7 +39,7 @@ export function App() {
   const headingId = useId();
   const customSection = useMemo(
     () =>
-      createEmojiPickerCustomSection(
+      createCustomSection(
         [
           {
             id: "shipit",
@@ -236,7 +236,7 @@ export function App() {
                 },
               });
             }}
-            onSelectionChange={(selection) => {
+            onItemSelect={(selection) => {
               setSelectedSelection(selection);
               setUsageEntries((current) =>
                 recordEmojiPickerUsage(current, selection),

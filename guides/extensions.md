@@ -13,7 +13,7 @@ The goal of these extensions is to stay compatibility-conscious:
 The picker now exposes three related extension seams:
 
 - mixed sections via `supplemental.sections`
-- widened selection callbacks via `onSelectionChange`
+- widened selection callbacks via `onItemSelect`
 - helper utilities for frequent items and image-backed custom emoji
 
 The base concepts are:
@@ -80,7 +80,7 @@ Notes:
 Two selection APIs now coexist:
 
 - `onEmojiSelect` remains native-only
-- `onSelectionChange` includes both native and supplemental items
+- `onItemSelect` includes both native and supplemental items
 
 ```tsx
 import { EmojiPicker } from "@slithy/frimousse";
@@ -89,7 +89,7 @@ import { EmojiPicker } from "@slithy/frimousse";
   onEmojiSelect={({ emoji, label }) => {
     console.log("native only", emoji, label);
   }}
-  onSelectionChange={(selection) => {
+  onItemSelect={(selection) => {
     if (selection.kind === "native") {
       console.log("native", selection.item.emoji);
     } else {
@@ -107,7 +107,7 @@ import { EmojiPicker } from "@slithy/frimousse";
 The same distinction applies to the preview helpers:
 
 - `useActiveEmoji()` and `<EmojiPicker.ActiveEmoji />` remain native-only
-- `useActiveSelection()` and `<EmojiPicker.ActiveSelection />` expose the widened selection
+- `useActiveItem()` and `<EmojiPicker.ActiveItem />` expose the widened selection
 
 ## Frequent items
 
@@ -148,7 +148,7 @@ export function FrequentEmojiPicker() {
       supplemental={{
         sections: frequentSection ? [frequentSection] : [],
       }}
-      onSelectionChange={(selection) => {
+      onItemSelect={(selection) => {
         setUsageEntries((current) =>
           recordEmojiPickerUsage(current, selection),
         );
@@ -171,17 +171,17 @@ Custom emoji are image-backed supplemental items with a required stable `id`.
 
 The library provides:
 
-- `createEmojiPickerCustomEmoji`
-- `createEmojiPickerCustomSection`
-- `isEmojiPickerCustomEmoji`
+- `createCustomEmoji`
+- `createCustomSection`
+- `isCustomEmoji`
 
 ```tsx
 import {
-  createEmojiPickerCustomSection,
+  createCustomSection,
   EmojiPicker,
 } from "@slithy/frimousse";
 
-const customSection = createEmojiPickerCustomSection(
+const customSection = createCustomSection(
   [
     {
       id: "shipit",
@@ -278,7 +278,7 @@ The local playground demonstrates this combined setup:
 When choosing APIs:
 
 - use `supplemental.sections` to add categories
-- use `onSelectionChange` when you care about native and supplemental items together
+- use `onItemSelect` when you care about native and supplemental items together
 - use the frequency helpers when the consumer should own usage persistence
 - use the custom emoji helpers when you want stable, image-backed supplemental items
 

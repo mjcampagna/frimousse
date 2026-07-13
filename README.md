@@ -44,7 +44,7 @@ The intended published package identity for this fork is `@slithy/frimousse`.
 
 ## Installation
 
-Once published, install the fork with:
+Once published, install the package with:
 
 ```bash
 pnpm add @slithy/frimousse
