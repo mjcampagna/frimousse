@@ -40,10 +40,12 @@ Available parts:
 ```ts
 import {
   buildEmojiPickerFrequentSection,
+  buildNativeSearchTermsMap,
   createCustomEmoji,
   createCustomSection,
   createSupplementalItem,
   createSupplementalSection,
+  formatAsShortcode,
   getEmojiPickerUsageKey,
   isCustomEmoji,
   isNativeSelection,
@@ -55,6 +57,38 @@ import {
   useSkinTone,
 } from "@slithy/frimousse";
 ```
+
+## Native Search Helpers
+
+### `buildNativeSearchTermsMap(entries)`
+
+Builds a `search.native.terms` map from app-owned or companion-package metadata.
+
+```ts
+type NativeSearchTermSource = {
+  emoji: string;
+  shortcodes?: string[];
+  aliases?: string[];
+  terms?: string[];
+};
+```
+
+Notes:
+
+- combines `shortcodes`, `aliases`, and `terms`
+- trims empty strings and removes blank entries
+- deduplicates repeated values per emoji
+- returns the plain object shape expected by `search.native.terms`
+
+### `formatAsShortcode(value)`
+
+Formats a display label into a normalized shortcode-like token.
+
+Notes:
+
+- returns colon-wrapped values like `:party_parrot:`
+- useful when your app persists shortcode-first identifiers
+- intentionally small in scope; it does not provide a full shortcode dataset
 
 ## Components
 
@@ -344,6 +378,7 @@ Use `SupplementalConfig`, `Section`, `Item`, and `ItemSelection` as the consumer
 | --- | --- | --- | --- |
 | `mode` | `"grouped" \| "unified"` | `"grouped"` | Grouped mode preserves native category headings and matching supplemental section labels; unified mode merges everything into one results section. |
 | `resultsLabel` | `string` | - | Label used for unified result sections only. Ignored in grouped mode. |
+| `weights` | `SupplementalSearchWeights` | built-in relevance defaults | Overrides how strongly `label`, `aliases`, `keywords`, `tags`, and `id` contribute to supplemental match ranking. |
 
 ### Items, sections, and item selections
 
@@ -433,6 +468,22 @@ Field semantics:
 - `data`: opaque consumer payload carried through unchanged and not interpreted by the picker
 
 Built-in supplemental search treats `label` and `aliases` as name-like matches, then falls back to `keywords`, `tags`, and finally `id`.
+
+`SupplementalSearchWeights`:
+
+```ts
+type SupplementalSearchWeights = {
+  label?: number;
+  aliases?: number;
+  keywords?: number;
+  tags?: number;
+  id?: number;
+};
+```
+
+Use this only to tune supplemental item ranking. Native emoji ranking still comes from the native dataset plus `search.native.terms`.
+
+Set a weight to `0` when you want that field ignored entirely.
 
 Return type:
 

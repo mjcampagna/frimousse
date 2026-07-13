@@ -13,6 +13,7 @@ import type {
   ItemSelection as EmojiPickerSelectionItem,
   EmojiPickerSupplementalConfig,
   EmojiPickerSupplementalSearch,
+  EmojiPickerSupplementalSearchWeights,
   NativeEmojiPickerItem,
   SupplementalEmojiPickerItem,
 } from "./supplemental-types";
@@ -55,6 +56,7 @@ export type ItemSelection = Resolve<EmojiPickerSelectionItem>;
 export type Section = Resolve<EmojiPickerSection>;
 export type SupplementalConfig = Resolve<EmojiPickerSupplementalConfig>;
 export type SupplementalSearch = Resolve<EmojiPickerSupplementalSearch>;
+export type SupplementalSearchWeights = Resolve<EmojiPickerSupplementalSearchWeights>;
 export type SectionPosition = Resolve<EmojiPickerSectionPosition>;
 export type SearchConfig = Resolve<EmojiPickerSearchConfig>;
 

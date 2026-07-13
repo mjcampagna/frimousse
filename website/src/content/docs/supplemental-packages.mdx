@@ -14,7 +14,7 @@ Use them when you want one or more of these:
 - app-specific aliasing or shorthand for common emoji
 - separate ownership of metadata policy from picker rendering
 
-The example below enriches native search with `@slithy/emoji-kit`, then passes the resulting plain data into the picker.
+The example below builds a native term map, then passes the resulting plain data into the picker.
 
 <NativeSearchDemoIsland />
 
@@ -22,24 +22,26 @@ The example below enriches native search with `@slithy/emoji-kit`, then passes t
 
 Generate a native term map ahead of time, then pass it to `Root` through `search.native.terms`.
 
-The source records can use whatever metadata shape your app or companion package prefers, including iamcal-style `shortcodes`. Frimousse itself only consumes the derived `search.native.terms` map.
+The source records can use whatever metadata shape your app or companion package prefers. Frimousse itself only consumes the derived `search.native.terms` map.
+
+Frimousse exports `buildNativeSearchTermsMap` when you want to build that shape yourself. `@slithy/emoji-kit` can also produce the same `search.native.terms` shape when your app already has a broader emoji metadata layer.
 
 ```tsx
-import { EmojiPicker } from "@slithy/frimousse";
-import { buildNativeEmojiSearchTermMap } from "@slithy/emoji-kit";
+import { buildNativeSearchTermsMap, EmojiPicker } from "@slithy/frimousse";
 
-const nativeSearchTerms = buildNativeEmojiSearchTermMap([
+const nativeSearchTerms = buildNativeSearchTermsMap([
   {
     emoji: "👋",
-    shortcodes: ["good_bye", "ttyl", "see_you"],
+    terms: ["good bye", "see you"],
+    aliases: ["ttyl"],
   },
   {
     emoji: "🔗",
-    shortcodes: ["hyper_link", "url"],
+    terms: ["hyper link", "url"],
   },
   {
     emoji: "❤️",
-    shortcodes: ["red_heart"],
+    terms: ["red heart"],
     aliases: ["love"],
   },
 ]);

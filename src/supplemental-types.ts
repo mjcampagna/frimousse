@@ -28,9 +28,18 @@ export type EmojiPickerSection<TItem extends EmojiPickerItem = EmojiPickerItem> 
   searchable?: boolean;
 };
 
+export type EmojiPickerSupplementalSearchWeights = {
+  label?: number;
+  aliases?: number;
+  keywords?: number;
+  tags?: number;
+  id?: number;
+};
+
 export type EmojiPickerSupplementalSearch = {
   mode?: "grouped" | "unified";
   resultsLabel?: string;
+  weights?: EmojiPickerSupplementalSearchWeights;
 };
 
 export type EmojiPickerSupplementalConfig = {

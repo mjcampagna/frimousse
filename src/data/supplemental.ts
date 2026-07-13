@@ -9,6 +9,8 @@ import type {
   EmojiPickerItem,
   EmojiPickerSection,
   EmojiPickerSupplementalConfig,
+  EmojiPickerSupplementalSearch,
+  EmojiPickerSupplementalSearchWeights,
   NativeEmojiPickerItem,
 } from "../supplemental-types";
 import { chunk } from "../utils/chunk";
@@ -30,6 +32,23 @@ function normalizeSearch(search: string) {
 
 function matchesSearchTerm(value: string, searchText: string) {
   return value.toLowerCase().replace(/[_-]/g, " ").includes(searchText);
+}
+
+const DEFAULT_SUPPLEMENTAL_SEARCH_WEIGHTS = {
+  label: 10,
+  aliases: 6,
+  keywords: 3,
+  tags: 1,
+  id: 1,
+} satisfies Required<EmojiPickerSupplementalSearchWeights>;
+
+function resolveSupplementalSearchWeights(
+  weights: EmojiPickerSupplementalSearchWeights | undefined,
+) {
+  return {
+    ...DEFAULT_SUPPLEMENTAL_SEARCH_WEIGHTS,
+    ...weights,
+  };
 }
 
 function buildRows(
@@ -77,45 +96,55 @@ function scoreNativeItemMatch(item: NativeEmojiPickerItem, searchText: string) {
 function scoreSupplementalItemMatch(
   item: Extract<EmojiPickerItem, { kind: "supplemental" }>,
   searchText: string,
+  weights: EmojiPickerSupplementalSearchWeights | undefined,
 ) {
+  const resolvedWeights = resolveSupplementalSearchWeights(weights);
   let score = 0;
 
   if (matchesSearchTerm(item.label, searchText)) {
-    score += 10;
+    score += resolvedWeights.label;
   }
 
   for (const alias of item.aliases ?? []) {
     if (matchesSearchTerm(alias, searchText)) {
-      score += 6;
+      score += resolvedWeights.aliases;
     }
   }
 
   for (const keyword of item.keywords ?? []) {
     if (matchesSearchTerm(keyword, searchText)) {
-      score += 3;
+      score += resolvedWeights.keywords;
     }
   }
 
   for (const tag of item.tags ?? []) {
     if (matchesSearchTerm(tag, searchText)) {
-      score += 1;
+      score += resolvedWeights.tags;
     }
   }
 
   if (matchesSearchTerm(item.id, searchText)) {
-    score += 1;
+    score += resolvedWeights.id;
   }
 
   return score;
 }
 
-function scoreItemMatch(item: EmojiPickerItem, searchText: string): number {
+function scoreItemMatch(
+  item: EmojiPickerItem,
+  searchText: string,
+  searchConfig?: EmojiPickerSupplementalSearch,
+): number {
   return item.kind === "native"
     ? scoreNativeItemMatch(item, searchText)
-    : scoreSupplementalItemMatch(item, searchText);
+    : scoreSupplementalItemMatch(item, searchText, searchConfig?.weights);
 }
 
-function filterSectionItems(items: EmojiPickerItem[], searchText: string) {
+function filterSectionItems(
+  items: EmojiPickerItem[],
+  searchText: string,
+  searchConfig?: EmojiPickerSupplementalSearch,
+) {
   if (!searchText) {
     return items;
   }
@@ -124,7 +153,7 @@ function filterSectionItems(items: EmojiPickerItem[], searchText: string) {
 
   return items
     .filter((item) => {
-      const score = scoreItemMatch(item, searchText);
+      const score = scoreItemMatch(item, searchText, searchConfig);
 
       if (score > 0) {
         scores.set(`${item.kind}:${item.id}`, score);
@@ -146,6 +175,7 @@ export function buildSupplementalSections(
   columns: number,
   categoryIndexStart: number,
   startRowIndexStart: number,
+  searchConfig?: EmojiPickerSupplementalSearch,
 ): BuiltEmojiPickerRows {
   const searchText = normalizeSearch(search);
   const rows: EmojiPickerDataRow[] = [];
@@ -158,7 +188,7 @@ export function buildSupplementalSections(
     const items = searchText
       ? section.searchable === false
         ? []
-        : filterSectionItems(section.items, searchText)
+        : filterSectionItems(section.items, searchText, searchConfig)
       : section.items;
 
     if (items.length === 0) {
@@ -220,8 +250,12 @@ export function buildUnifiedSearchRows(
       continue;
     }
 
-    for (const item of filterSectionItems(section.items, searchText)) {
-      const score = scoreItemMatch(item, searchText);
+    for (const item of filterSectionItems(
+      section.items,
+      searchText,
+      supplemental.search,
+    )) {
+      const score = scoreItemMatch(item, searchText, supplemental.search);
 
       if (score > 0) {
         const key = `${item.kind}:${item.id}`;

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { buildNativeSearchTermsMap } from "../../native-search-terms";
 import type { EmojiDataEmoji } from "../../types";
 import type {
   EmojiPickerItem,
@@ -161,6 +162,27 @@ const weightedSearchSection: EmojiPickerSection = {
   ],
 };
 
+const shortcodeFirstSection: EmojiPickerSection = {
+  id: "custom-shortcodes",
+  label: "Custom",
+  items: [
+    {
+      kind: "supplemental",
+      id: "wave_party",
+      label: "Wave Party",
+      aliases: [":wave_party:", "wave-party"],
+      tags: ["celebrate"],
+    },
+    {
+      kind: "supplemental",
+      id: "wave_hello",
+      label: "Wave Hello",
+      aliases: [":wave_hello:"],
+      tags: ["greeting"],
+    },
+  ],
+};
+
 describe("toNativeEmojiPickerItem", () => {
   it("should derive a stable item shape for native emojis", () => {
     expect(toNativeEmojiPickerItem(nativeEmojis[0]!, undefined)).toEqual({
@@ -319,6 +341,32 @@ describe("buildSupplementalSections", () => {
       "deploy-helper",
     ]);
   });
+
+  it("should allow consumers to override supplemental search weights", () => {
+    const result = buildSupplementalSections(
+      [weightedSearchSection],
+      "deploy helper",
+      10,
+      0,
+      0,
+      {
+        weights: {
+          tags: 8,
+          aliases: 2,
+          keywords: 1,
+          id: 0,
+        },
+      },
+    );
+
+    const items = result.rows[0]?.emojis as EmojiPickerItem[] | undefined;
+
+    expect(items?.map((item) => item.id)).toEqual([
+      "ops-helper",
+      "deploy-bot",
+      "ops-bot",
+    ]);
+  });
 });
 
 describe("buildUnifiedSearchRows", () => {
@@ -442,5 +490,70 @@ describe("buildUnifiedSearchRows", () => {
     );
 
     expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual(["👋"]);
+  });
+
+  it("should support shortcode-first native and supplemental search in one unified result set", () => {
+    const nativeTerms = buildNativeSearchTermsMap([
+      {
+        emoji: "👋",
+        shortcodes: ["wave_party"],
+        aliases: [":wave_party:"],
+      },
+    ]);
+
+    const result = buildUnifiedSearchRows(
+      nativeEmojis,
+      {
+        sections: [shortcodeFirstSection],
+        search: {
+          mode: "unified",
+          resultsLabel: "Results",
+        },
+      },
+      "wave_party",
+      10,
+      undefined,
+      {
+        native: {
+          terms: nativeTerms,
+        },
+      },
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "wave_party",
+      "👋",
+    ]);
+    expect(result?.rows[0]?.emojis.map((item) => item.kind)).toEqual([
+      "supplemental",
+      "native",
+    ]);
+  });
+
+  it("should apply supplemental search weights in unified search ordering", () => {
+    const result = buildUnifiedSearchRows(
+      nativeEmojis,
+      {
+        sections: [weightedSearchSection],
+        search: {
+          mode: "unified",
+          weights: {
+            tags: 8,
+            aliases: 2,
+            keywords: 1,
+            id: 0,
+          },
+        },
+      },
+      "deploy helper",
+      10,
+      undefined,
+    );
+
+    expect(result?.rows[0]?.emojis.map((item) => item.id)).toEqual([
+      "ops-helper",
+      "deploy-bot",
+      "ops-bot",
+    ]);
   });
 });

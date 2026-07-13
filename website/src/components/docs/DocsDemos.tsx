@@ -7,7 +7,7 @@ import {
   type EmojiPickerUsageEntry,
   recordEmojiPickerUsage,
 } from "@slithy/frimousse";
-import { buildNativeEmojiSearchTermMap } from "@slithy/emoji-kit";
+import { buildNativeSearchTermsMap } from "../../../../src/native-search-terms";
 import {
   createDemoInitialFrequentEntries,
   demoCustomSection,
@@ -15,18 +15,19 @@ import {
 import { PickerLoadingSkeleton } from "../demo/PickerLoadingSkeleton";
 import { SelectionBurstLayer } from "../demo/SelectionBurstLayer";
 
-const nativeSearchTerms = buildNativeEmojiSearchTermMap([
+const nativeSearchTerms = buildNativeSearchTermsMap([
   {
     emoji: "👋",
-    shortcodes: ["good_bye", "ttyl", "see_you"],
+    terms: ["good bye", "see you"],
+    aliases: ["ttyl"],
   },
   {
     emoji: "🔗",
-    shortcodes: ["hyper_link", "url"],
+    terms: ["hyper link", "url"],
   },
   {
     emoji: "❤️",
-    shortcodes: ["red_heart"],
+    terms: ["red heart"],
     aliases: ["love"],
   },
 ]);

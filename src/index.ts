@@ -14,6 +14,8 @@ export {
   rankEmojiPickerUsage,
   recordEmojiPickerUsage,
 } from "./frequency";
+export { buildNativeSearchTermsMap } from "./native-search-terms";
+export { formatAsShortcode } from "./utils/format-as-shortcode";
 export { isNativeSelection, isSupplementalSelection } from "./utils/emoji-item";
 export { useActiveEmoji, useActiveItem, useSkinTone } from "./hooks";
 export type {
@@ -27,6 +29,9 @@ export type {
   SupplementalSection,
   SupplementalSectionOptions,
 } from "./supplemental-item-types";
+export type {
+  NativeSearchTermSource,
+} from "./native-search-terms";
 export type {
   EmojiPickerFrequentSection,
   EmojiPickerFrequentSectionOptions,
@@ -74,4 +79,5 @@ export type {
   SupplementalConfig,
   SupplementalItem,
   SupplementalSearch,
+  SupplementalSearchWeights,
 } from "./types";
