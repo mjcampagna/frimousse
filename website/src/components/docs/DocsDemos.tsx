@@ -57,31 +57,29 @@ const DocsSupplementalEmoji = memo(function DocsSupplementalEmoji({
   );
 });
 
-function DemoPickerFooter({
-  selection,
-}: {
-  selection: ItemSelection;
-}) {
+function DemoPickerFooter() {
   return (
     <EmojiPicker.ActiveItem>
       {({ item: activeItem }) => {
-        const displayedSelection = activeItem ?? selection;
+        if (!activeItem) {
+          return null;
+        }
 
-        return displayedSelection.kind === "native" ? (
+        return activeItem.kind === "native" ? (
           <>
-            <div className="picker-footer-emoji">{displayedSelection.item.emoji}</div>
-            <span className="picker-footer-label">{displayedSelection.item.label}</span>
+            <div className="picker-footer-emoji">{activeItem.item.emoji}</div>
+            <span className="picker-footer-label">{activeItem.item.label}</span>
           </>
         ) : (
           <>
             <img
               className="picker-footer-image"
-              src={displayedSelection.item.imageUrl}
-              alt={displayedSelection.item.label}
+              src={activeItem.item.imageUrl}
+              alt={activeItem.item.label}
               width="20"
               height="20"
             />
-            <span className="picker-footer-label">{displayedSelection.item.label}</span>
+            <span className="picker-footer-label">{activeItem.item.label}</span>
           </>
         );
       }}
@@ -183,7 +181,7 @@ export function ExtendedDemo() {
             />
           </EmojiPicker.Viewport>
           <div className="picker-footer">
-            <DemoPickerFooter selection={selection} />
+            <DemoPickerFooter />
           </div>
         </EmojiPicker.Root>
       </div>

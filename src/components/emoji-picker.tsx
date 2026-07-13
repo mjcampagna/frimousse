@@ -229,14 +229,10 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
         if (!event.isDefaultPrevented()) {
           setFocusedWithin(isSearch || isViewport);
 
-          if (!event.isDefaultPrevented()) {
-            setFocusedWithin(isSearch || isViewport);
-
-            if (isViewport) {
-              store.get().onActiveEmojiChange("keyboard", 0, 0);
-            } else if (isSearch && store.get().search === "") {
-              store.set({ interaction: "none" });
-            }
+          if (isViewport) {
+            store.get().onActiveEmojiChange("keyboard", 0, 0);
+          } else if (isSearch && store.get().search === "") {
+            store.set({ interaction: "none" });
           }
         }
       },
@@ -307,6 +303,14 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
 
           if (interaction !== "none") {
             if (data?.rows && data.rows.length > 0) {
+              rowIndex = Math.min(rowIndex, data.rows.length - 1);
+
+              const currentRow = data.rows[rowIndex];
+
+              if (currentRow && !currentRow.emojis[columnIndex]) {
+                columnIndex = currentRow.emojis.length - 1;
+              }
+
               switch (event.key) {
                 case "ArrowLeft": {
                   if (columnIndex === 0) {
@@ -327,12 +331,14 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
                 }
 
                 case "ArrowRight": {
-                  if (columnIndex === data.rows[rowIndex]!.emojis.length - 1) {
+                  const currentRow = data.rows[rowIndex];
+
+                  if (currentRow && columnIndex === currentRow.emojis.length - 1) {
                     const nextRowIndex = rowIndex + 1;
-                    const nextRow = data.rows[nextRowIndex];
+                    const nextRowAtSameColumn = data.rows[nextRowIndex];
 
                     // If last column, move to first column of next row (if available)
-                    if (nextRow) {
+                    if (nextRowAtSameColumn) {
                       rowIndex = nextRowIndex;
                       columnIndex = 0;
                     }

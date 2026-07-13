@@ -19,5 +19,10 @@ export function getStorage<T>(
 }
 
 export function setStorage<T>(storage: Storage, key: string, value: T) {
-  storage.setItem(key, JSON.stringify(value));
+  try {
+    storage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch {
+    return false;
+  }
 }

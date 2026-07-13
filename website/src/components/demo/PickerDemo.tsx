@@ -3,7 +3,6 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import {
@@ -51,39 +50,34 @@ const DemoSupplementalEmoji = memo(function DemoSupplementalEmoji({
   );
 });
 
-function DemoPickerFooter({
-  mode,
-  selection,
-}: {
-  mode: "selection" | "active";
-  selection: ItemSelection;
-}) {
+function DemoPickerFooter() {
   return (
     <EmojiPicker.ActiveItem>
       {({ item: activeSelection }) => {
-        const displayedSelection =
-          mode === "active" && activeSelection ? activeSelection : selection;
+        if (!activeSelection) {
+          return null;
+        }
 
-        return displayedSelection.kind === "native" ? (
+        return activeSelection.kind === "native" ? (
           <>
             <div className="picker-footer-emoji">
-              {displayedSelection.item.emoji}
+              {activeSelection.item.emoji}
             </div>
             <span className="picker-footer-label">
-              {displayedSelection.item.label}
+              {activeSelection.item.label}
             </span>
           </>
         ) : (
           <>
             <img
               className="picker-footer-image"
-              src={displayedSelection.item.imageUrl}
-              alt={displayedSelection.item.label}
+              src={activeSelection.item.imageUrl}
+              alt={activeSelection.item.label}
               width="20"
               height="20"
             />
             <span className="picker-footer-label">
-              {displayedSelection.item.label}
+              {activeSelection.item.label}
             </span>
           </>
         );
@@ -97,16 +91,10 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
 }: {
   onCelebrateSelection: (selection: ItemSelection) => void;
 }) {
-  const [selection, setSelection] =
-    useState<ItemSelection>(initialSelection);
   const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>(() =>
     createDemoInitialFrequentEntries(),
   );
   const [columns, setColumns] = useState(9);
-  const [footerMode, setFooterMode] = useState<"selection" | "active">(
-    "selection",
-  );
-  const viewportRef = useRef<HTMLDivElement>(null);
   const frequentSection = useMemo(
     () =>
       buildEmojiPickerFrequentSection(usageEntries, {
@@ -144,7 +132,6 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
       setColumns(9);
     };
 
-    viewportRef.current?.focus();
     updateColumns();
 
     window.addEventListener("resize", updateColumns);
@@ -157,8 +144,6 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
   const handleSelectionChange = useCallback(
     (nextSelection: ItemSelection) => {
       setUsageEntries((current) => recordEmojiPickerUsage(current, nextSelection));
-      setSelection(nextSelection);
-      setFooterMode("selection");
       onCelebrateSelection(nextSelection);
     },
     [onCelebrateSelection],
@@ -168,26 +153,6 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
     <div className="demo-grid">
       <EmojiPicker.Root
         columns={columns}
-        onKeyDownCapture={(event) => {
-          if (
-            event.key === "ArrowUp" ||
-            event.key === "ArrowDown" ||
-            event.key === "ArrowLeft" ||
-            event.key === "ArrowRight" ||
-            event.key === "Home" ||
-            event.key === "End" ||
-            event.key === "PageUp" ||
-            event.key === "PageDown"
-          ) {
-            setFooterMode("active");
-          }
-        }}
-        onPointerLeave={() => {
-          setFooterMode("selection");
-        }}
-        onPointerMove={() => {
-          setFooterMode("active");
-        }}
         sticky
         onItemSelect={handleSelectionChange}
         supplemental={supplemental}
@@ -197,7 +162,7 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
           <EmojiPicker.SkinToneSelector />
         </div>
 
-        <EmojiPicker.Viewport ref={viewportRef} tabIndex={0}>
+        <EmojiPicker.Viewport tabIndex={0}>
           <EmojiPicker.Loading>
             <PickerLoadingSkeleton columns={columns} />
           </EmojiPicker.Loading>
@@ -209,7 +174,7 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
           />
         </EmojiPicker.Viewport>
         <div className="picker-footer">
-          <DemoPickerFooter mode={footerMode} selection={selection} />
+          <DemoPickerFooter />
         </div>
       </EmojiPicker.Root>
     </div>

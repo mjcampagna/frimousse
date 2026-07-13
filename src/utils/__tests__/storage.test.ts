@@ -9,6 +9,25 @@ describe("setStorage", () => {
     setStorage(localStorage, key, value);
     expect(localStorage.getItem("key")).toEqual(JSON.stringify(value));
   });
+
+  it("should ignore storage write failures", () => {
+    const storage: Storage = {
+      length: 0,
+      clear() {},
+      getItem() {
+        return null;
+      },
+      key() {
+        return null;
+      },
+      removeItem() {},
+      setItem() {
+        throw new Error("Storage unavailable");
+      },
+    };
+
+    expect(setStorage(storage, "key", { value: 123 })).toBe(false);
+  });
 });
 
 describe("getStorage", () => {
