@@ -36,6 +36,7 @@ export type {
   EmojiPickerFrequentSection,
   EmojiPickerFrequentSectionOptions,
   EmojiPickerUsageEntry,
+  EmojiPickerUsageMode,
   EmojiPickerUsageOptions,
   EmojiPickerUsageSource,
 } from "./frequency-types";

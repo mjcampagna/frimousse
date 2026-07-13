@@ -583,6 +583,7 @@ type EmojiPickerUsageEntry = {
 };
 
 type EmojiPickerUsageOptions = {
+  mode?: "frecency" | "recent";
   halfLifeMs?: number;
   maxEntries?: number;
   now?: Date | number;
@@ -605,6 +606,15 @@ Returns a stable usage key in the form `${kind}:${id}`.
 
 Decays and sorts usage entries.
 
+Behavior:
+
+- uses `mode: "frecency"` by default
+- decays each entry's `score` using `halfLifeMs`
+- drops entries whose decayed score reaches `0`
+- sorts by decayed `score`, then `lastUsedAt`, then `uses`
+- defaults `halfLifeMs` to `30` days and `maxEntries` to `100`
+- in `recent` mode, sorts by `lastUsedAt`, then `uses`, then `score`
+
 Return type:
 
 - `EmojiPickerUsageEntry[]`
@@ -613,6 +623,15 @@ Return type:
 
 Adds or updates a usage entry and returns the re-ranked collection.
 
+Behavior:
+
+- resolves the stable key as `${kind}:${id}`
+- in `frecency` mode, decays any existing score before adding the new usage
+- increments `uses` by `1`
+- updates `lastUsedAt` to `now`
+- inserts a new entry with `score: 1` when the item has not been seen before
+- in `recent` mode, keeps the same stored `score` behavior but ranks by recency instead
+
 Return type:
 
 - `EmojiPickerUsageEntry[]`
@@ -620,6 +639,11 @@ Return type:
 ### `buildEmojiPickerFrequentSection(entries, options?)`
 
 Builds a frequent-items section from ranked usage.
+
+This uses the same frecency ranking as `rankEmojiPickerUsage`, then takes the top
+`limit` items and turns them into a supplemental section.
+
+Use `mode: "recent"` when you want a "Recently used" section instead.
 
 Return type:
 

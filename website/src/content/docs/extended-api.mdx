@@ -111,6 +111,18 @@ function MyEmojiPicker() {
 
 The library does not persist recent or frequent selections for you. Instead, record usage in your own state and turn it into a prepend section when you want it.
 
+The built-in helpers use a frecency model:
+
+- each selection adds `1` to the item's score
+- older scores decay over time before the next increment
+- ranking is by decayed score first, then `lastUsedAt`, then total `uses`
+- the default score half-life is `30` days
+
+That gives you "frequently used" behavior with a recency bias, without forcing storage or persistence policy into the picker.
+
+If you want a strict "Recently used" section instead, pass `mode: "recent"` to
+the frequency helpers.
+
 ```tsx
 import {
   buildEmojiPickerFrequentSection,

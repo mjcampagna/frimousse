@@ -40,6 +40,35 @@ function trimEntries(entries: EmojiPickerUsageEntry[], maxEntries: number) {
   return entries.slice(0, Math.max(0, maxEntries));
 }
 
+function sortUsageEntries(
+  entries: EmojiPickerUsageEntry[],
+  mode: "frecency" | "recent",
+) {
+  return entries.sort((a, b) => {
+    if (mode === "recent") {
+      if (b.lastUsedAt !== a.lastUsedAt) {
+        return b.lastUsedAt - a.lastUsedAt;
+      }
+
+      if (b.uses !== a.uses) {
+        return b.uses - a.uses;
+      }
+
+      return b.score - a.score;
+    }
+
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+
+    if (b.lastUsedAt !== a.lastUsedAt) {
+      return b.lastUsedAt - a.lastUsedAt;
+    }
+
+    return b.uses - a.uses;
+  });
+}
+
 export function getEmojiPickerUsageKey(source: EmojiPickerUsageSource) {
   const item = toItem(source);
 
@@ -50,28 +79,25 @@ export function rankEmojiPickerUsage(
   entries: readonly EmojiPickerUsageEntry[],
   options: EmojiPickerUsageOptions = {},
 ) {
+  const mode = options.mode ?? "frecency";
   const now = toTimestamp(options.now);
   const halfLifeMs = options.halfLifeMs ?? DEFAULT_HALF_LIFE_MS;
   const maxEntries = options.maxEntries ?? DEFAULT_MAX_ENTRIES;
 
   return trimEntries(
-    entries
-      .map((entry) => ({
-        ...entry,
-        score: decayScore(entry.score, entry.lastUsedAt, now, halfLifeMs),
-      }))
+    sortUsageEntries(
+      entries
+        .map((entry) => ({
+          ...entry,
+          score:
+            mode === "recent"
+              ? entry.score
+              : decayScore(entry.score, entry.lastUsedAt, now, halfLifeMs),
+        }))
       .filter((entry) => entry.score > 0)
-      .sort((a, b) => {
-        if (b.score !== a.score) {
-          return b.score - a.score;
-        }
-
-        if (b.lastUsedAt !== a.lastUsedAt) {
-          return b.lastUsedAt - a.lastUsedAt;
-        }
-
-        return b.uses - a.uses;
-      }),
+      ,
+      mode,
+    ),
     maxEntries,
   );
 }
@@ -81,6 +107,7 @@ export function recordEmojiPickerUsage(
   source: EmojiPickerUsageSource,
   options: EmojiPickerUsageOptions = {},
 ) {
+  const mode = options.mode ?? "frecency";
   const now = toTimestamp(options.now);
   const halfLifeMs = options.halfLifeMs ?? DEFAULT_HALF_LIFE_MS;
   const maxEntries = options.maxEntries ?? DEFAULT_MAX_ENTRIES;
@@ -91,7 +118,10 @@ export function recordEmojiPickerUsage(
       ? {
           ...entry,
           item,
-          score: decayScore(entry.score, entry.lastUsedAt, now, halfLifeMs) + 1,
+          score:
+            (mode === "recent"
+              ? entry.score
+              : decayScore(entry.score, entry.lastUsedAt, now, halfLifeMs)) + 1,
           uses: entry.uses + 1,
           lastUsedAt: now,
         }
@@ -109,6 +139,7 @@ export function recordEmojiPickerUsage(
   }
 
   return rankEmojiPickerUsage(nextEntries, {
+    mode,
     halfLifeMs,
     maxEntries,
     now,

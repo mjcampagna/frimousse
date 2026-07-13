@@ -15,7 +15,10 @@ export type EmojiPickerUsageEntry = {
   lastUsedAt: number;
 };
 
+export type EmojiPickerUsageMode = "frecency" | "recent";
+
 export type EmojiPickerUsageOptions = {
+  mode?: EmojiPickerUsageMode;
   halfLifeMs?: number;
   maxEntries?: number;
   now?: Date | number;

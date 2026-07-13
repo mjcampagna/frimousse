@@ -102,6 +102,27 @@ describe("recordEmojiPickerUsage", () => {
       },
     ]);
   });
+
+  it("should keep recent mode ordered by lastUsedAt rather than decayed score", () => {
+    const result = recordEmojiPickerUsage(
+      [
+        {
+          key: "supplemental:shipit",
+          item: supplementalItem,
+          score: 5,
+          uses: 5,
+          lastUsedAt: 10,
+        },
+      ],
+      nativeItem,
+      { now: 20, mode: "recent" },
+    );
+
+    expect(result.map((entry) => entry.key)).toEqual([
+      "native:😀",
+      "supplemental:shipit",
+    ]);
+  });
 });
 
 describe("rankEmojiPickerUsage", () => {
@@ -126,6 +147,36 @@ describe("rankEmojiPickerUsage", () => {
       {
         now: 1_000,
         halfLifeMs: 1_000,
+      },
+    );
+
+    expect(result.map((entry) => entry.key)).toEqual([
+      "supplemental:shipit",
+      "native:😀",
+    ]);
+  });
+
+  it("should order recent mode by lastUsedAt, then uses", () => {
+    const result = rankEmojiPickerUsage(
+      [
+        {
+          key: "native:😀",
+          item: nativeItem,
+          score: 20,
+          uses: 1,
+          lastUsedAt: 1_000,
+        },
+        {
+          key: "supplemental:shipit",
+          item: supplementalItem,
+          score: 1,
+          uses: 2,
+          lastUsedAt: 2_000,
+        },
+      ],
+      {
+        now: 10_000,
+        mode: "recent",
       },
     );
 
@@ -199,5 +250,32 @@ describe("buildEmojiPickerFrequentSection", () => {
       searchable: true,
       items: [nativeItem],
     });
+  });
+
+  it("should support recent mode for section building", () => {
+    const result = buildEmojiPickerFrequentSection(
+      [
+        {
+          key: "native:😀",
+          item: nativeItem,
+          score: 10,
+          uses: 10,
+          lastUsedAt: 1_000,
+        },
+        {
+          key: "supplemental:shipit",
+          item: supplementalItem,
+          score: 1,
+          uses: 1,
+          lastUsedAt: 2_000,
+        },
+      ],
+      {
+        mode: "recent",
+        now: 10_000,
+      },
+    );
+
+    expect(result?.items).toEqual([supplementalItem, nativeItem]);
   });
 });

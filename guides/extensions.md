@@ -121,6 +121,18 @@ The library provides:
 
 The consumer decides where usage data lives.
 
+The built-in ranking model is frecency, not raw counts:
+
+- every selection adds `1` to an item's score
+- older score decays over time before the next increment
+- entries are ordered by decayed score first, then recency, then total uses
+- the default score half-life is `30` days
+
+That makes the default helper behavior good for "Frequently used" sections without treating them as strict recents.
+
+If you want a strict "Recently used" section instead, pass `mode: "recent"` to
+the frequency helpers.
+
 ```tsx
 import { useMemo, useState } from "react";
 import {
