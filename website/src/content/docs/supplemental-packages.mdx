@@ -171,6 +171,17 @@ In Frimousse, that maps to:
 
 For custom emoji, use the shortcode-like name as the supplemental `id`, then put alternate forms in `aliases`.
 
+Search ranking stays opinionated by default:
+
+- exact shortcode-like matches beat broader related matches
+- native labels and enriched native terms are treated as name-like signals
+- supplemental `label`, `aliases`, and exact canonical `id` matches are treated as name-like signals too
+- tags and keywords remain weaker discovery signals
+
+That means a query like `heart` should prefer `:heart:` over a pile of merely related heart emoji, and a query like `good_job` should prefer the custom emoji whose canonical id is `good_job`.
+
+Only supplemental weighting is configurable today. Broader native or cross-source weighting controls are intentionally left out of the runtime API for now.
+
 <ShortcodeFirstDemoIsland />
 
 ```tsx

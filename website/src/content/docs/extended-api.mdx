@@ -62,6 +62,14 @@ Supplemental search defaults to grouped results. Set `mode: "unified"` to merge 
 
 In grouped mode, native matches stay under their native category headings and supplemental matches stay under the labels of the matching sections. Sections with no matches are omitted, and `resultsLabel` is ignored.
 
+Unified search uses a built-in ranking policy. Name-like matches rank ahead of broader discovery matches:
+
+- native labels and `search.native.terms` entries are primary name-like signals
+- supplemental `label`, `aliases`, and exact canonical `id` matches are primary name-like signals
+- tags and keywords are weaker secondary hints
+
+The package does not currently expose a general native or cross-source weighting API. If you need different native ranking behavior, change the metadata you feed into `search.native.terms` rather than expecting a runtime weighting surface.
+
 ```tsx
 <EmojiPicker.Root
   supplemental={{

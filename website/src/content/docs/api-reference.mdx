@@ -397,7 +397,7 @@ Use `SupplementalConfig`, `Section`, `Item`, and `ItemSelection` as the consumer
 | --- | --- | --- | --- |
 | `mode` | `"grouped" \| "unified"` | `"grouped"` | Grouped mode preserves native category headings and matching supplemental section labels; unified mode merges everything into one results section. |
 | `resultsLabel` | `string` | - | Label used for unified result sections only. Ignored in grouped mode. |
-| `weights` | `SupplementalSearchWeights` | built-in relevance defaults | Overrides how strongly `label`, `aliases`, `keywords`, `tags`, and `id` contribute to supplemental match ranking. |
+| `weights` | `SupplementalSearchWeights` | built-in relevance defaults | Overrides how strongly `label`, `aliases`, `keywords`, `tags`, and `id` contribute to supplemental match ranking. Applies to supplemental items only. |
 
 ### Items, sections, and item selections
 
@@ -488,7 +488,7 @@ Field semantics:
 - `tags`: broader search hints that also participate in supplemental search
 - `data`: opaque consumer payload carried through unchanged and not interpreted by the picker
 
-Built-in supplemental search treats `label` and `aliases` as name-like matches, then falls back to `keywords`, `tags`, and finally `id`.
+Built-in supplemental search treats `label` and `aliases` as name-like matches, keeps `keywords` and `tags` as weaker discovery signals, and treats an exact canonical `id` match as a first-class name-like hit in unified shortcode-first search.
 
 `SupplementalSearchWeights`:
 
@@ -502,7 +502,7 @@ type SupplementalSearchWeights = {
 };
 ```
 
-Use this only to tune supplemental item ranking. Native emoji ranking still comes from the native dataset plus `search.native.terms`.
+Use this only to tune supplemental item ranking. Native emoji ranking still comes from the native dataset plus `search.native.terms`, with an opinionated built-in ranking policy rather than a public weighting API.
 
 Set a weight to `0` when you want that field ignored entirely.
 
