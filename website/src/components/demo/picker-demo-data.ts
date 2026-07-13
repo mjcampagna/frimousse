@@ -1,5 +1,5 @@
 import {
-  createEmojiPickerCustomSection,
+  createCustomSection,
   type EmojiPickerItem,
   type EmojiPickerUsageEntry,
 } from "@slithy/frimousse";
@@ -70,7 +70,7 @@ export function createDemoInitialFrequentEntries(
   ];
 }
 
-export const demoCustomSection = createEmojiPickerCustomSection(
+export const demoCustomSection = createCustomSection(
   [
     { id: "angry", label: "Angry", imageUrl: "/emoji/angry.gif" },
     { id: "attitude", label: "Attitude", imageUrl: "/emoji/attitude.gif" },

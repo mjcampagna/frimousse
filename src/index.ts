@@ -1,8 +1,8 @@
 export * as EmojiPicker from "./components/emoji-picker";
 export {
-  createEmojiPickerCustomEmoji,
-  createEmojiPickerCustomSection,
-  isEmojiPickerCustomEmoji,
+  createCustomEmoji,
+  createCustomSection,
+  isCustomEmoji,
 } from "./custom-emoji";
 export {
   createSupplementalItem,
@@ -17,10 +17,10 @@ export {
 export { isNativeSelection, isSupplementalSelection } from "./utils/emoji-item";
 export { useActiveEmoji, useActiveItem, useSkinTone } from "./hooks";
 export type {
-  EmojiPickerCustomEmoji,
-  EmojiPickerCustomEmojiInput,
-  EmojiPickerCustomSection,
-  EmojiPickerCustomSectionOptions,
+  CustomEmoji,
+  CustomEmojiInput,
+  CustomSection,
+  CustomSectionOptions,
 } from "./custom-emoji-types";
 export type {
   SupplementalItemInput,

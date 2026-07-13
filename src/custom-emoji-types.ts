@@ -4,21 +4,21 @@ import type {
   SupplementalEmojiPickerItem,
 } from "./supplemental-types";
 
-export type EmojiPickerCustomEmoji = SupplementalEmojiPickerItem & {
+export type CustomEmoji = SupplementalEmojiPickerItem & {
   imageUrl: string;
 };
 
-export type EmojiPickerCustomEmojiInput = SupplementalItemInput & {
+export type CustomEmojiInput = SupplementalItemInput & {
   imageUrl: string;
 };
 
-export type EmojiPickerCustomSectionOptions = {
+export type CustomSectionOptions = {
   id: string;
   label?: string;
   position?: EmojiPickerSectionPosition;
   searchable?: boolean;
 };
 
-export type EmojiPickerCustomSection = SupplementalSection & {
-  items: EmojiPickerCustomEmoji[];
+export type CustomSection = SupplementalSection & {
+  items: CustomEmoji[];
 };

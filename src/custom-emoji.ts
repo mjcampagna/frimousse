@@ -4,21 +4,21 @@ import {
   createSupplementalSection,
 } from "./supplemental-item";
 import type {
-  EmojiPickerCustomEmoji,
-  EmojiPickerCustomEmojiInput,
-  EmojiPickerCustomSection,
-  EmojiPickerCustomSectionOptions,
+  CustomEmoji,
+  CustomEmojiInput,
+  CustomSection,
+  CustomSectionOptions,
 } from "./custom-emoji-types";
 
-export function isEmojiPickerCustomEmoji(
+export function isCustomEmoji(
   item: EmojiPickerItem,
-): item is EmojiPickerCustomEmoji {
+): item is CustomEmoji {
   return item.kind === "supplemental" && typeof item.imageUrl === "string";
 }
 
-export function createEmojiPickerCustomEmoji(
-  input: EmojiPickerCustomEmojiInput,
-): EmojiPickerCustomEmoji {
+export function createCustomEmoji(
+  input: CustomEmojiInput,
+): CustomEmoji {
   if (input.id.trim().length === 0) {
     throw new Error('Emoji picker custom emoji "id" must be non-empty.');
   }
@@ -27,12 +27,12 @@ export function createEmojiPickerCustomEmoji(
     throw new Error('Emoji picker custom emoji "imageUrl" must be non-empty.');
   }
 
-  return createSupplementalItem(input) as EmojiPickerCustomEmoji;
+  return createSupplementalItem(input) as CustomEmoji;
 }
 
-export function createEmojiPickerCustomSection(
-  items: readonly EmojiPickerCustomEmojiInput[],
-  options: EmojiPickerCustomSectionOptions,
-): EmojiPickerCustomSection {
-  return createSupplementalSection(items, options) as EmojiPickerCustomSection;
+export function createCustomSection(
+  items: readonly CustomEmojiInput[],
+  options: CustomSectionOptions,
+): CustomSection {
+  return createSupplementalSection(items, options) as CustomSection;
 }

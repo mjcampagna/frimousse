@@ -40,12 +40,12 @@ Available parts:
 ```ts
 import {
   buildEmojiPickerFrequentSection,
-  createEmojiPickerCustomEmoji,
-  createEmojiPickerCustomSection,
+  createCustomEmoji,
+  createCustomSection,
   createSupplementalItem,
   createSupplementalSection,
   getEmojiPickerUsageKey,
-  isEmojiPickerCustomEmoji,
+  isCustomEmoji,
   isNativeSelection,
   isSupplementalSelection,
   rankEmojiPickerUsage,
@@ -450,14 +450,14 @@ Return type:
 
 ## Custom Emoji Helpers
 
-### `createEmojiPickerCustomEmoji(input)`
+### `createCustomEmoji(input)`
 
 Creates a normalized image-backed supplemental item with required `id` and `imageUrl`.
 
 Input type:
 
 ```ts
-type EmojiPickerCustomEmojiInput = {
+type CustomEmojiInput = {
   id: string;
   label?: string;
   imageUrl: string;
@@ -470,21 +470,21 @@ type EmojiPickerCustomEmojiInput = {
 
 Return type:
 
-- `EmojiPickerCustomEmoji`
+- `CustomEmoji`
 
-### `createEmojiPickerCustomSection(items, options)`
+### `createCustomSection(items, options)`
 
 Creates a normalized section of image-backed custom emoji.
 
 Arguments:
 
-- `items: readonly EmojiPickerCustomEmojiInput[]`
-- `options: EmojiPickerCustomSectionOptions`
+- `items: readonly CustomEmojiInput[]`
+- `options: CustomSectionOptions`
 
-`EmojiPickerCustomSectionOptions`:
+`CustomSectionOptions`:
 
 ```ts
-type EmojiPickerCustomSectionOptions = {
+type CustomSectionOptions = {
   id: string;
   label?: string;
   position?: "prepend" | "append";
@@ -494,9 +494,9 @@ type EmojiPickerCustomSectionOptions = {
 
 Return type:
 
-- `EmojiPickerCustomSection`
+- `CustomSection`
 
-### `isEmojiPickerCustomEmoji(item)`
+### `isCustomEmoji(item)`
 
 Type guard for a supplemental item with a required `imageUrl`.
 
@@ -670,10 +670,6 @@ The implementation also uses internal measurement and sizing attributes. Treat t
 
 ### Custom emoji and sections
 
-- `EmojiPickerCustomEmoji`
-- `EmojiPickerCustomEmojiInput`
-- `EmojiPickerCustomSection`
-- `EmojiPickerCustomSectionOptions`
 - `SupplementalItemInput`
 - `SupplementalSection`
 - `SupplementalSectionOptions`

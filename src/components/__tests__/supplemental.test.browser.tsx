@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import * as EmojiPicker from "../emoji-picker";
 import {
   buildEmojiPickerFrequentSection,
-  createEmojiPickerCustomSection,
+  createCustomSection,
   recordEmojiPickerUsage,
   type EmojiPickerUsageEntry,
 } from "../../index";
@@ -126,7 +126,7 @@ function CustomEmojiPage() {
     limit: 3,
     searchable: false,
   });
-  const customSection = createEmojiPickerCustomSection(
+  const customSection = createCustomSection(
     [
       {
         id: "shipit",
@@ -184,7 +184,7 @@ function CustomEmojiPage() {
 }
 
 function DefaultCustomEmojiPage() {
-  const customSection = createEmojiPickerCustomSection(
+  const customSection = createCustomSection(
     [
       {
         id: "shipit",

@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
-  createEmojiPickerCustomEmoji,
-  createEmojiPickerCustomSection,
-  isEmojiPickerCustomEmoji,
+  createCustomEmoji,
+  createCustomSection,
+  isCustomEmoji,
 } from "../../custom-emoji";
 import type { EmojiPickerItem } from "../../supplemental-types";
 
-describe("createEmojiPickerCustomEmoji", () => {
+describe("createCustomEmoji", () => {
   it("should create a supplemental item with a required stable id", () => {
     expect(
-      createEmojiPickerCustomEmoji({
+      createCustomEmoji({
         id: "shipit",
         label: "Ship It",
         imageUrl: "https://example.com/shipit.png",
@@ -28,7 +28,7 @@ describe("createEmojiPickerCustomEmoji", () => {
 
   it("should normalize text fields and lists", () => {
     expect(
-      createEmojiPickerCustomEmoji({
+      createCustomEmoji({
         id: " shipit ",
         label: " Ship It ",
         imageUrl: " https://example.com/shipit.png ",
@@ -50,7 +50,7 @@ describe("createEmojiPickerCustomEmoji", () => {
 
   it("should default the label to the id when none is provided", () => {
     expect(
-      createEmojiPickerCustomEmoji({
+      createCustomEmoji({
         id: "party_parrot",
         imageUrl: "https://example.com/party-parrot.gif",
       }),
@@ -62,7 +62,7 @@ describe("createEmojiPickerCustomEmoji", () => {
 
   it("should require an id even when an imageUrl is present", () => {
     expect(() =>
-      createEmojiPickerCustomEmoji({
+      createCustomEmoji({
         id: " ",
         label: "Ship It",
         imageUrl: "https://example.com/shipit.png",
@@ -72,7 +72,7 @@ describe("createEmojiPickerCustomEmoji", () => {
 
   it("should require an imageUrl", () => {
     expect(() =>
-      createEmojiPickerCustomEmoji({
+      createCustomEmoji({
         id: "shipit",
         imageUrl: " ",
       }),
@@ -80,7 +80,7 @@ describe("createEmojiPickerCustomEmoji", () => {
   });
 });
 
-describe("isEmojiPickerCustomEmoji", () => {
+describe("isCustomEmoji", () => {
   it("should distinguish image-backed supplemental items from native items", () => {
     const nativeItem: EmojiPickerItem = {
       kind: "native",
@@ -88,20 +88,20 @@ describe("isEmojiPickerCustomEmoji", () => {
       emoji: "😀",
       label: "Grinning face",
     };
-    const customItem = createEmojiPickerCustomEmoji({
+    const customItem = createCustomEmoji({
       id: "shipit",
       imageUrl: "https://example.com/shipit.png",
     });
 
-    expect(isEmojiPickerCustomEmoji(nativeItem)).toBe(false);
-    expect(isEmojiPickerCustomEmoji(customItem)).toBe(true);
+    expect(isCustomEmoji(nativeItem)).toBe(false);
+    expect(isCustomEmoji(customItem)).toBe(true);
   });
 });
 
-describe("createEmojiPickerCustomSection", () => {
+describe("createCustomSection", () => {
   it("should build an appended custom section by default", () => {
     expect(
-      createEmojiPickerCustomSection(
+      createCustomSection(
         [
           {
             id: "shipit",
@@ -136,7 +136,7 @@ describe("createEmojiPickerCustomSection", () => {
 
   it("should honor section overrides", () => {
     expect(
-      createEmojiPickerCustomSection(
+      createCustomSection(
         [
           {
             id: "shipit",
