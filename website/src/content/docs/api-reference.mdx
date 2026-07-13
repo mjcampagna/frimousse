@@ -422,6 +422,16 @@ type SupplementalItemInput = {
 };
 ```
 
+Field semantics:
+
+- `id`: required stable identity owned by the consumer
+- `label`: display label; defaults to `id` when omitted
+- `imageUrl`: optional presentation data for image-backed rendering
+- `aliases`: alternate names that participate in supplemental search
+- `keywords`: search-oriented descriptors that participate in supplemental search
+- `tags`: broader search hints that also participate in supplemental search
+- `data`: opaque consumer payload carried through unchanged and not interpreted by the picker
+
 Return type:
 
 - `SupplementalItem`
@@ -469,6 +479,8 @@ type CustomEmojiInput = {
   data?: unknown;
 };
 ```
+
+`CustomEmojiInput` keeps the same metadata semantics as `SupplementalItemInput`, but requires `imageUrl`.
 
 Return type:
 

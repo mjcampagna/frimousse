@@ -25,6 +25,8 @@ describe("createSupplementalItem", () => {
   });
 
   it("should normalize optional image-backed metadata too", () => {
+    const payload = { source: "fixtures", score: 3 };
+
     expect(
       createSupplementalItem({
         id: " party_parrot ",
@@ -33,6 +35,7 @@ describe("createSupplementalItem", () => {
         tags: [" fun ", "", "fun"],
         keywords: [" mascot "],
         aliases: [" party ", "party"],
+        data: payload,
       }),
     ).toEqual({
       kind: "supplemental",
@@ -42,7 +45,7 @@ describe("createSupplementalItem", () => {
       tags: ["fun"],
       keywords: ["mascot"],
       aliases: ["party"],
-      data: undefined,
+      data: payload,
     });
   });
 

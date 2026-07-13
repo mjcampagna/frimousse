@@ -113,6 +113,21 @@ const mixedSearchSection: EmojiPickerSection = {
   ],
 };
 
+const opaqueDataSection: EmojiPickerSection = {
+  id: "opaque",
+  label: "Opaque",
+  items: [
+    {
+      kind: "supplemental",
+      id: "build-bot",
+      label: "Build Bot",
+      data: {
+        hiddenSearchTerm: "deploy-only",
+      },
+    },
+  ],
+};
+
 describe("toNativeEmojiPickerItem", () => {
   it("should derive a stable item shape for native emojis", () => {
     expect(toNativeEmojiPickerItem(nativeEmojis[0]!, undefined)).toEqual({
@@ -237,6 +252,20 @@ describe("buildSupplementalSections", () => {
       "native",
       "supplemental",
     ]);
+  });
+
+  it("should not treat opaque consumer data as searchable metadata", () => {
+    const result = buildSupplementalSections(
+      [opaqueDataSection],
+      "deploy-only",
+      10,
+      0,
+      0,
+    );
+
+    expect(result.count).toBe(0);
+    expect(result.categories).toEqual([]);
+    expect(result.rows).toEqual([]);
   });
 });
 

@@ -228,6 +228,8 @@ Notes:
 
 - `id` is required and should come from the consumer’s own stable identity model
 - `imageUrl` is presentation data, not fallback identity
+- `aliases`, `keywords`, and `tags` are optional search inputs for supplemental matching
+- `data` is opaque consumer payload that the picker preserves but does not read
 - `label` defaults to `id` if omitted
 - blank list entries and empty string metadata are normalized away
 

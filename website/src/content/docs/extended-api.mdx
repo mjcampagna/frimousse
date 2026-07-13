@@ -58,6 +58,8 @@ const supplementalSection = createSupplementalSection(
 
 Use `createCustomSection` when you specifically want image-backed custom emoji with required `imageUrl` values. Use `createSupplementalSection` when your section can mix plain supplemental items and image-backed ones.
 
+`aliases`, `keywords`, and `tags` participate in supplemental search. `imageUrl` is presentation data, and `data` is an opaque consumer payload that the picker carries through without interpreting.
+
 ### Unified search
 
 Supplemental search defaults to grouped results. Set `mode: "unified"` to merge native and supplemental matches into a single results surface.
