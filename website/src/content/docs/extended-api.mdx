@@ -67,6 +67,42 @@ Supplemental item fields have distinct roles:
 
 If your app treats shortcode as the canonical identity for custom emoji, use that shortcode-like name as `id` and put alternate forms in `aliases`. If you also want an explicit canonical display token on the item itself, set `shortcode`.
 
+Two common patterns:
+
+1. Shortcode-first custom emoji
+
+```ts
+{
+  id: "party_parrot",
+  label: "Party parrot",
+  shortcode: ":party_parrot:",
+  aliases: ["party-parrot", ":parrot_party:"],
+}
+```
+
+Use this when your app persists or exchanges shortcode-like names as the primary custom emoji identity.
+
+2. Plain image-backed supplemental items
+
+```ts
+{
+  id: "customer-success",
+  label: "Customer success",
+  imageUrl: "/emoji/customer-success.png",
+  keywords: ["support", "help"],
+  tags: ["team"],
+}
+```
+
+Use this when the item is picker content first, not part of a shortcode-oriented naming model.
+
+Try not to treat these fields as interchangeable:
+
+- do not use `label` as your stored identity
+- do not use `tags` as a substitute for canonical names
+- do not treat `aliases` as arbitrary metadata
+- do not put presentation-only concerns into `data` when a first-class field already exists
+
 ### Unified search
 
 Supplemental search defaults to grouped results. Set `mode: "unified"` to merge native and supplemental matches into a single results surface.

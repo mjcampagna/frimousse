@@ -544,6 +544,43 @@ Recommended mental model:
 - `shortcode` answers "which `:shortcode:` should I display for this item?"
 - `aliases`, `keywords`, and `tags` answer "how should this item be found?"
 
+Common patterns:
+
+1. Shortcode-first custom emoji
+
+```ts
+{
+  id: "shipit",
+  label: "Ship It",
+  shortcode: ":shipit:",
+  aliases: ["ship-it", ":ship_it:"],
+}
+```
+
+Use this when the shortcode-like name is the stable identity your app stores or exchanges.
+
+2. Plain supplemental item with search metadata
+
+```ts
+{
+  id: "design-review",
+  label: "Design review",
+  imageUrl: "/emoji/design-review.png",
+  keywords: ["review", "feedback"],
+  tags: ["team"],
+}
+```
+
+Use this when the item needs discoverability metadata but does not need a shortcode-oriented identity model.
+
+Avoid treating these fields as interchangeable:
+
+- `id` is for identity, not just display
+- `shortcode` is for canonical display text, not required identity
+- `aliases` are alternate names, not arbitrary payload
+- `keywords` and `tags` are for discovery, not canonical naming
+- `data` is the escape hatch only for metadata the picker should carry but not interpret
+
 Built-in supplemental search treats `label` and `aliases` as name-like matches, keeps `keywords` and `tags` as weaker discovery signals, and treats an exact canonical `id` match as a first-class name-like hit in unified shortcode-first search.
 
 `SupplementalSearchWeights`:
