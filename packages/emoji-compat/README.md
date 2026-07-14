@@ -25,14 +25,29 @@ import {
 } from "@slithy/emoji-compat";
 ```
 
+Build-time asset helpers are also available from the `assets` subpath:
+
+```ts
+import {
+  buildFallbackAssetManifest,
+  collectFallbackHexcodes,
+  downloadFallbackAssets,
+} from "@slithy/emoji-compat/assets";
+```
+
 Related exported types:
 
+- `CollectFallbackHexcodesOptions`
+- `DownloadFallbackAssetsOptions`
+- `DownloadFallbackAssetsResult`
 - `EmojiCompatRecord`
 - `EmojiCompatSkinRecord`
 - `EmojiCompatEntry`
 - `EmojiCompatMap`
 - `EmojiCompatOptions`
 - `EmojiFallbackUrlOptions`
+- `FallbackAssetKind`
+- `FallbackAssetRecord`
 
 ## Input Shape
 
@@ -84,6 +99,78 @@ const fallbackUrl = getFallbackUrl(compatMap, "🫩");
 Use that URL in your own rendering layer when you want an image fallback for
 emoji above the browser's native support floor.
 
+## Asset Preparation
+
+If you want to prepare a fallback asset set ahead of time, use the `assets`
+subpath to collect required hexcodes or build a manifest.
+
+```ts
+import {
+  buildFallbackAssetManifest,
+  collectFallbackHexcodes,
+  downloadFallbackAssets,
+} from "@slithy/emoji-compat/assets";
+
+const hexcodes = collectFallbackHexcodes(records, {
+  versionFloor: 15,
+});
+
+const manifest = buildFallbackAssetManifest(records, {
+  versionFloor: 15,
+});
+
+await downloadFallbackAssets(manifest, {
+  outDir: "public/emoji",
+});
+```
+
+This is intended for build-time scripts, not runtime rendering code.
+
+If you want to wire it into a Node build script directly:
+
+```ts
+import data from "emojibase-data/en/data.json";
+import {
+  buildFallbackAssetManifest,
+  downloadFallbackAssets,
+} from "@slithy/emoji-compat/assets";
+
+const manifest = buildFallbackAssetManifest(data, {
+  versionFloor: 15,
+});
+
+await downloadFallbackAssets(manifest, {
+  outDir: "public/emoji",
+});
+```
+
+### Asset Convention
+
+The package assumes a simple default convention:
+
+- asset filenames match lowercase emojibase `hexcode`
+- fallback URLs look like `/emoji/{hexcode}.svg`
+
+That matches the common `jdecked/twemoji` SVG naming convention directly.
+
+The downloader uses the same convention by default and fetches from:
+
+- `https://raw.githubusercontent.com/jdecked/twemoji/main/assets/svg`
+
+You can override the source URL, target filename, and overwrite behavior from
+your own build script.
+
+### Updating Assets
+
+Consumers may need to refresh their fallback asset set when:
+
+- `emojibase-data` is upgraded
+- their supported browser floor changes
+- upstream Twemoji coverage changes
+
+The package does not download or bundle assets automatically. Consumers remain
+in control of where assets live and how they are fetched.
+
 ## Normalization Contract
 
 - Keys are normalized with NFC.
@@ -98,7 +185,7 @@ turning the package into a rendering system.
 
 - No React components
 - No bundled emoji asset set
-- No opinionated Twemoji download workflow
+- No automatic asset download workflow
 - No picker-specific API shape
 - No shortcode or search enrichment logic
 

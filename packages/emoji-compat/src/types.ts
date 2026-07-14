@@ -29,3 +29,30 @@ export type EmojiFallbackUrlOptions = {
   basePath?: string;
   extension?: string;
 };
+
+export type CollectFallbackHexcodesOptions = {
+  versionFloor: number;
+  includeSkins?: boolean;
+};
+
+export type FallbackAssetKind = "base" | "skin";
+
+export type FallbackAssetRecord = {
+  emoji: string;
+  version: number;
+  hexcode: string;
+  kind: FallbackAssetKind;
+};
+
+export type DownloadFallbackAssetsOptions = {
+  outDir: string;
+  baseUrl?: string;
+  overwrite?: boolean;
+  filename?: (asset: FallbackAssetRecord) => string;
+};
+
+export type DownloadFallbackAssetsResult = {
+  requested: number;
+  downloaded: number;
+  skipped: number;
+};
