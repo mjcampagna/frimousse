@@ -189,6 +189,39 @@ Consumers may need to refresh their fallback asset set when:
 The package does not download or bundle assets automatically. Consumers remain
 in control of where assets live and how they are fetched.
 
+### Choosing A Version Floor
+
+`versionFloor` means "emoji at this version or below are expected to render
+natively in the environments my product supports."
+
+In practice, most consumers should choose that number from product policy, not
+from a one-off guess.
+
+Common approaches:
+
+- use a supported-browser baseline and map that policy to an emoji version floor
+- use a build-time app decision such as "we only need fallback assets above 15"
+- use runtime detection for rendering, but still use an explicit floor when
+  preparing assets ahead of time
+
+The important part is consistency:
+
+- `buildCompatMap(records, { supportedVersion })` should use the same support
+  assumption as your asset-generation workflow
+- if your app ships fallback SVGs only above version `15`, your compat map
+  should usually also treat `15` as the native support floor
+
+If your browser support policy changes, regenerate the fallback manifest and
+assets with the new floor.
+
+As a rule of thumb:
+
+- choose the lowest emoji version you can rely on across your supported browser
+  set
+- treat newer emoji versions as fallback-only until your baseline moves
+- prefer an explicit build-time floor for asset preparation, even if runtime
+  probing is also available
+
 ## Normalization Contract
 
 - Keys are normalized with NFC.
