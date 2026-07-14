@@ -35,6 +35,20 @@ Available parts:
 - `EmojiPicker.ActiveItem`
 - `EmojiPicker.SkinTone`
 
+### Preferred consumer-facing types
+
+If you are building on the additive API, start from these public aliases rather than the lower-level internal type names:
+
+- `Item`
+- `NativeItem`
+- `SupplementalItem`
+- `ItemSelection`
+- `Section`
+- `SupplementalConfig`
+- `SupplementalSearch`
+
+Those are the stable consumer-facing types used throughout the docs below.
+
 ### Named exports
 
 ```ts
@@ -377,6 +391,13 @@ Return type:
 - `[SkinTone, (skinTone: SkinTone) => void, SkinToneVariation[]]`
 
 ## Additive Supplemental API
+
+The additive contract is centered on a few concepts:
+
+- `SupplementalItem`: a consumer-owned non-native picker item
+- `Section`: a consumer-owned section that can contain native items, supplemental items, or both
+- `ItemSelection`: a discriminated selection union with `kind: "native"` or `kind: "supplemental"`
+- `SupplementalConfig`: the `EmojiPicker.Root` prop that wires additive sections and supplemental search behavior into the picker
 
 ### `supplemental` root prop
 
