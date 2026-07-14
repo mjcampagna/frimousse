@@ -163,7 +163,9 @@ The script also supports:
 - `--base-url` and `--overwrite` when downloading
 
 For a concrete checked-in example, see
-[`examples/fallback-manifest-v15.sample.json`](./examples/fallback-manifest-v15.sample.json).
+[`examples/fallback-manifest-v15.sample.json`](./examples/fallback-manifest-v15.sample.json)
+and
+[`examples/fallback-manifest-v15-no-skins.sample.json`](./examples/fallback-manifest-v15-no-skins.sample.json).
 
 ### Asset Convention
 

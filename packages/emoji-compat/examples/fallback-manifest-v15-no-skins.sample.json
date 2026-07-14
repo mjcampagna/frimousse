@@ -1,0 +1,74 @@
+[
+  {
+    "emoji": "🙂‍↔️",
+    "version": 15.1,
+    "hexcode": "1f642-200d-2194-fe0f",
+    "kind": "base"
+  },
+  {
+    "emoji": "🙂‍↕️",
+    "version": 15.1,
+    "hexcode": "1f642-200d-2195-fe0f",
+    "kind": "base"
+  },
+  {
+    "emoji": "🫩",
+    "version": 16,
+    "hexcode": "1fae9",
+    "kind": "base"
+  },
+  {
+    "emoji": "🫪",
+    "version": 17,
+    "hexcode": "1faea",
+    "kind": "base"
+  },
+  {
+    "emoji": "🫯",
+    "version": 17,
+    "hexcode": "1faef",
+    "kind": "base"
+  },
+  {
+    "emoji": "🫈",
+    "version": 17,
+    "hexcode": "1fac8",
+    "kind": "base"
+  },
+  {
+    "emoji": "🚶‍➡️",
+    "version": 15.1,
+    "hexcode": "1f6b6-200d-27a1-fe0f",
+    "kind": "base"
+  },
+  {
+    "emoji": "🚶‍♀️‍➡️",
+    "version": 15.1,
+    "hexcode": "1f6b6-200d-2640-fe0f-200d-27a1-fe0f",
+    "kind": "base"
+  },
+  {
+    "emoji": "🚶‍♂️‍➡️",
+    "version": 15.1,
+    "hexcode": "1f6b6-200d-2642-fe0f-200d-27a1-fe0f",
+    "kind": "base"
+  },
+  {
+    "emoji": "🧎‍➡️",
+    "version": 15.1,
+    "hexcode": "1f9ce-200d-27a1-fe0f",
+    "kind": "base"
+  },
+  {
+    "emoji": "🧎‍♀️‍➡️",
+    "version": 15.1,
+    "hexcode": "1f9ce-200d-2640-fe0f-200d-27a1-fe0f",
+    "kind": "base"
+  },
+  {
+    "emoji": "🧎‍♂️‍➡️",
+    "version": 15.1,
+    "hexcode": "1f9ce-200d-2642-fe0f-200d-27a1-fe0f",
+    "kind": "base"
+  }
+]
