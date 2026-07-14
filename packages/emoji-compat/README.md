@@ -162,6 +162,9 @@ The script also supports:
 - `--no-include-skins` to collect only base emoji assets
 - `--base-url` and `--overwrite` when downloading
 
+For a concrete checked-in example, see
+[`examples/fallback-manifest-v15.sample.json`](./examples/fallback-manifest-v15.sample.json).
+
 ### Asset Convention
 
 The package assumes a simple default convention:
