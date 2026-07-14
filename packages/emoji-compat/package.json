@@ -23,6 +23,7 @@
     "dist"
   ],
   "scripts": {
+    "assets:generate": "node ./scripts/generate-fallback-assets.mjs",
     "clean": "rm -rf dist",
     "build": "rm -rf dist && tsup",
     "dev": "tsup --watch",

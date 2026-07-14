@@ -144,6 +144,24 @@ await downloadFallbackAssets(manifest, {
 });
 ```
 
+Inside this repo, the package also includes a small example script that uses
+`emojibase-data` directly:
+
+```bash
+pnpm --filter @slithy/emoji-compat build
+pnpm --filter @slithy/emoji-compat assets:generate -- --version-floor 15 --manifest-out ./tmp/emoji-manifest.json
+```
+
+Add `--download --out ./public/emoji` when you want the script to fetch the
+matching Twemoji SVGs as well.
+
+The script also supports:
+
+- `--dry-run` to print a summary without writing or downloading assets
+- `--data ./path/to/data.json` to use a custom `EmojiCompatRecord[]` JSON dataset
+- `--no-include-skins` to collect only base emoji assets
+- `--base-url` and `--overwrite` when downloading
+
 ### Asset Convention
 
 The package assumes a simple default convention:
