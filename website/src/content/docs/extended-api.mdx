@@ -54,7 +54,18 @@ const supplementalSection = createSupplementalSection(
 
 Use `createCustomSection` when you specifically want image-backed custom emoji with required `imageUrl` values. Use `createSupplementalSection` when your section can mix plain supplemental items and image-backed ones.
 
-`aliases`, `keywords`, and `tags` participate in supplemental search. `imageUrl` is presentation data, and `data` is an opaque consumer payload that the picker carries through without interpreting. If your app treats shortcode as the canonical identity for custom emoji, use that shortcode as `id` and put alternate forms in `aliases`. If you also want a canonical display-oriented `:shortcode:` token on the item itself, set `shortcode`.
+Supplemental item fields have distinct roles:
+
+- `id`: stable consumer-owned identity
+- `label`: human-readable display name
+- `shortcode`: optional canonical display-oriented `:shortcode:` token
+- `aliases`: alternate typed forms or names
+- `keywords`: search-oriented descriptors
+- `tags`: broader discovery hints
+- `imageUrl`: presentation data
+- `data`: opaque consumer payload carried through unchanged
+
+If your app treats shortcode as the canonical identity for custom emoji, use that shortcode-like name as `id` and put alternate forms in `aliases`. If you also want an explicit canonical display token on the item itself, set `shortcode`.
 
 ### Unified search
 
@@ -87,6 +98,8 @@ The package does not currently expose a general native or cross-source weighting
 ### Item widening
 
 Use `onItemSelect`, `useActiveItem`, or `EmojiPicker.ActiveItem` when your UI needs to react to both native and supplemental items.
+
+Treat these as the preferred extensible surfaces for mixed-item pickers. The native-only surfaces remain available for compatibility and simpler native-only consumers.
 
 ```tsx
 import { EmojiPicker, type ItemSelection } from "@slithy/frimousse";

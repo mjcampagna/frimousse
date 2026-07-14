@@ -116,6 +116,7 @@ Notes:
 - supplemental items use `shortcode` when provided, otherwise fall back to `id`
 - supplemental `aliases` are included as alternate shortcode-like display forms
 - native items only return values when `nativeShortcodes` are provided by the consumer
+- use this for display-oriented shortcode output, not for defining item identity
 
 ### `getEmojiPrimaryShortcode(source, options?)`
 
@@ -316,6 +317,8 @@ Props:
 
 - `emoji?: Emoji`
 
+Prefer this when your UI is intentionally native-only.
+
 ### `EmojiPicker.ActiveItem`
 
 Render-prop component for the currently active item, including supplemental items.
@@ -329,6 +332,8 @@ Props:
 `EmojiPickerActiveItemRenderProps`:
 
 - `item?: ItemSelection`
+
+Prefer this for any picker that may include supplemental items now or later.
 
 ### `EmojiPicker.SkinTone`
 
@@ -365,6 +370,7 @@ Notes:
 
 - Native-only.
 - Returns the hovered item or the keyboard-active item.
+- Prefer `useActiveItem()` if your picker may include supplemental items.
 
 ### `useActiveItem()`
 
@@ -377,6 +383,11 @@ const activeItem = useActiveItem();
 Return type:
 
 - `ItemSelection | undefined`
+
+Notes:
+
+- Widened additive active-item surface.
+- Prefer this when your picker may include supplemental items now or later.
 
 ### `useSkinTone(emoji = "✋")`
 
@@ -508,6 +519,12 @@ Field semantics:
 - `keywords`: search-oriented descriptors that participate in supplemental search
 - `tags`: broader search hints that also participate in supplemental search
 - `data`: opaque consumer payload carried through unchanged and not interpreted by the picker
+
+Recommended mental model:
+
+- `id` answers "which item is this?"
+- `shortcode` answers "which `:shortcode:` should I display for this item?"
+- `aliases`, `keywords`, and `tags` answer "how should this item be found?"
 
 Built-in supplemental search treats `label` and `aliases` as name-like matches, keeps `keywords` and `tags` as weaker discovery signals, and treats an exact canonical `id` match as a first-class name-like hit in unified shortcode-first search.
 

@@ -37,6 +37,8 @@ Current fork additions include:
 - widened selection APIs
 - consumer-owned frequency helpers
 - image-backed custom emoji helpers
+- shortcode display helpers
+- native search enrichment and unified mixed-item search
 
 The upstream project remains the baseline reference for the original picker composition model. Repository-specific extensions are documented separately in [guides/extensions.md](./guides/extensions.md).
 
