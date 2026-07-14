@@ -1,0 +1,45 @@
+{
+  "name": "@slithy/emoji-compat",
+  "description": "Emoji compatibility utilities for support detection and fallback metadata.",
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "packageManager": "pnpm@11.7.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "rm -rf dist && tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
+  },
+  "keywords": [
+    "emoji",
+    "compatibility",
+    "fallback",
+    "twemoji",
+    "unicode"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjcampagna/frimousse.git"
+  }
+}

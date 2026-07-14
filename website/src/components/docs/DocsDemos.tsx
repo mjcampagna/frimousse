@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { buildNativeEmojiSearchTermMapFromEmojibase } from "@slithy/emoji-kit";
+import { buildNativeEmojiSearchTermMapFromEmojibase } from "@slithy/emoji-transforms";
 import {
   buildEmojiPickerFrequentSection,
   createCustomSection,

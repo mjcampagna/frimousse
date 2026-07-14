@@ -371,6 +371,7 @@ Notes:
 - Native-only.
 - Returns the hovered item or the keyboard-active item.
 - Prefer `useActiveItem()` if your picker may include supplemental items.
+- If you later add supplemental items, switch alongside `onItemSelect` and `EmojiPicker.ActiveItem`.
 
 ### `useActiveItem()`
 
@@ -388,6 +389,7 @@ Notes:
 
 - Widened additive active-item surface.
 - Prefer this when your picker may include supplemental items now or later.
+- Pair this with `onItemSelect` and `EmojiPicker.ActiveItem` for a consistent mixed-item surface.
 
 ### `useSkinTone(emoji = "✋")`
 
@@ -918,6 +920,7 @@ This section lists the types re-exported from the package entrypoint.
 
 ## Notes
 
+- If you later introduce supplemental items to a native-only picker, switch the three related surfaces together: `onEmojiSelect` -> `onItemSelect`, `useActiveEmoji` -> `useActiveItem`, and `EmojiPicker.ActiveEmoji` -> `EmojiPicker.ActiveItem`.
 - `useActiveEmoji` and `EmojiPicker.ActiveEmoji` remain native-only.
 - `useActiveItem` and `EmojiPicker.ActiveItem` include supplemental items.
 - `onEmojiSelect` remains native-only.

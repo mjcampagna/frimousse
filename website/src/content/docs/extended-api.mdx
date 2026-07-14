@@ -151,6 +151,12 @@ Use `onItemSelect`, `useActiveItem`, or `EmojiPicker.ActiveItem` when your UI ne
 
 Treat these as the preferred extensible surfaces for mixed-item pickers. The native-only surfaces remain available for compatibility and simpler native-only consumers.
 
+If you start with the native-only surfaces and later add supplemental items, switch the whole trio together:
+
+- `onEmojiSelect` -> `onItemSelect`
+- `useActiveEmoji` -> `useActiveItem`
+- `EmojiPicker.ActiveEmoji` -> `EmojiPicker.ActiveItem`
+
 ```tsx
 import { EmojiPicker, type ItemSelection } from "@slithy/frimousse";
 
@@ -267,5 +273,5 @@ rehydrating unknown persisted data safely.
 - `SupplementalEmoji` in `EmojiPicker.List` only needs to be customized if you want a different renderer for supplemental items.
 - `useActiveEmoji` and `EmojiPicker.ActiveEmoji` stay native-only.
 - `useActiveItem` and `EmojiPicker.ActiveItem` reflect supplemental items too.
-- Companion packages like `@slithy/emoji-kit` can enrich native search, but the Extended API itself does not depend on them.
+- Companion packages like `@slithy/emoji-transforms` can enrich native search, but the Extended API itself does not depend on them.
 </section>

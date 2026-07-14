@@ -7,7 +7,7 @@ import {
   buildNativeEmojiSearchTermMapFromAdapter,
   buildShortcodeMapFromPreset,
   getShortcodes,
-} from "@slithy/emoji-kit";
+} from "@slithy/emoji-transforms";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outputPath = path.resolve(

@@ -1,0 +1,44 @@
+{
+  "name": "@slithy/emoji-transforms",
+  "description": "Emoji metadata transforms for search enrichment and related tooling.",
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "packageManager": "pnpm@11.7.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "rm -rf dist && tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
+  },
+  "keywords": [
+    "emoji",
+    "shortcodes",
+    "search",
+    "metadata"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjcampagna/frimousse.git"
+  }
+}

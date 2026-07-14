@@ -23,7 +23,7 @@ The source records can use whatever metadata shape your app or companion package
 ```tsx
 import {
   buildNativeEmojiSearchTermMapFromEmojibase,
-} from "@slithy/emoji-kit";
+} from "@slithy/emoji-transforms";
 import { EmojiPicker } from "@slithy/frimousse";
 
 const emojiRecords = [
@@ -80,7 +80,7 @@ import iamcalShortcodes from "emojibase-data/en/shortcodes/iamcal.json";
 import {
   buildNativeEmojiSearchTermMapFromEmojibase,
   buildShortcodeMapFromPreset,
-} from "@slithy/emoji-kit";
+} from "@slithy/emoji-transforms";
 
 const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(emojiData, {
   includeTags: true,
@@ -133,7 +133,7 @@ The same production advice applies here: precompute the shortcode map during you
 ```tsx
 import emojiData from "emojibase-data/en/data.json";
 import iamcalShortcodes from "emojibase-data/en/shortcodes/iamcal.json";
-import { buildShortcodeMapFromPreset } from "@slithy/emoji-kit";
+import { buildShortcodeMapFromPreset } from "@slithy/emoji-transforms";
 import { EmojiPicker, getEmojiPrimaryShortcode } from "@slithy/frimousse";
 
 const nativeShortcodes = buildShortcodeMapFromPreset(
@@ -230,7 +230,7 @@ Frimousse only consumes the search data you pass in. It does not need to know ho
 ### Notes
 
 - Companion packages are optional. The base and extended picker APIs work without them.
-- `@slithy/emoji-kit` enriches native search data; it does not change the picker component surface.
+- `@slithy/emoji-transforms` enriches native search data; it does not change the picker component surface.
 - Native iamcal-style shortcodes belong in `search.native.terms`, not in a picker-owned native emoji field.
 - For supplemental/custom emoji, canonical shortcode-like names belong in `id`; alternate forms belong in `aliases`.
 - If you already have your own emoji metadata pipeline, you can build the same `search.native.terms` shape yourself.
