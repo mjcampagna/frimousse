@@ -73,6 +73,20 @@ Supplemental search defaults to grouped results. Set `mode: "unified"` to merge 
 
 In grouped mode, native matches stay under their native category headings and supplemental matches stay under the labels of the matching sections. Sections with no matches are omitted, and `resultsLabel` is ignored.
 
+Use grouped mode when you want search to preserve where items come from:
+
+- native matches stay grouped under native category headings
+- supplemental matches stay grouped under their section labels
+- the picker continues to communicate source and placement, not just relevance
+
+Use unified mode when you want search to act like one merged emoji vocabulary:
+
+- native and supplemental matches flatten into one results section
+- ranking becomes the primary organizing signal
+- `resultsLabel` names that merged results surface
+
+Section-level `searchable: false` applies in both modes. A non-searchable section still renders normally when search is empty, but it does not contribute matches once search is active.
+
 Unified search uses a built-in ranking policy. Name-like matches rank ahead of broader discovery matches:
 
 - native labels and `search.native.terms` entries are primary name-like signals

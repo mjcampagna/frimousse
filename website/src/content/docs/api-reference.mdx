@@ -431,6 +431,19 @@ Use `SupplementalConfig`, `Section`, `Item`, and `ItemSelection` as the consumer
 | `resultsLabel` | `string` | - | Label used for unified result sections only. Ignored in grouped mode. |
 | `weights` | `SupplementalSearchWeights` | built-in relevance defaults | Overrides how strongly `label`, `aliases`, `keywords`, `tags`, and `id` contribute to supplemental match ranking. Applies to supplemental items only. |
 
+Grouped-mode guarantees:
+
+- native matches stay under native category headings
+- matching supplemental sections keep their own labels
+- sections with no matches are omitted
+- `resultsLabel` is ignored
+
+Unified-mode guarantees:
+
+- native and supplemental matches merge into one results section
+- `resultsLabel` names that merged section
+- section labels no longer partition the rendered result set
+
 ### Items, sections, and item selections
 
 ```ts
@@ -478,6 +491,11 @@ type ItemSelection =
   | NativeItemSelection
   | SupplementalItemSelection;
 ```
+
+`searchable` behavior:
+
+- `true` or omitted: the section participates in search
+- `false`: the section still renders when search is empty, but contributes no matches once search is active
 
 ### Selection guards
 
