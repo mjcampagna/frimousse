@@ -1,11 +1,4 @@
-<h1>
-  <a href="https://github.com/mjcampagna/frimousse">
-    <img src=".github/assets/logo-light.svg" width="107" height="24" alt="Frimousse" align="center" />
-  </a>
-  <a href="https://github.com/mjcampagna/frimousse">
-    <img src=".github/assets/logo-dark.svg" width="107" height="24" alt="Frimousse" align="center" />
-  </a>
-</h1>
+# @slithy/frimousse
 
 [![tests](https://img.shields.io/github/actions/workflow/status/mjcampagna/frimousse/.github/workflows/tests.yml?label=tests&labelColor=651&color=fc0)](https://github.com/mjcampagna/frimousse/actions/workflows/tests.yml)
 [![license](https://img.shields.io/github/license/mjcampagna/frimousse?labelColor=651&color=fc0)](https://github.com/mjcampagna/frimousse/blob/main/LICENSE)
@@ -17,8 +10,6 @@ A lightweight, unstyled, and composable emoji picker for React.
 - 🔄 **Always up-to-date**: Latest emoji data is fetched when needed and cached locally
 - 🔣 **No � symbols**: Unsupported emojis are automatically hidden
 - ♿️ **Accessible**: Keyboard navigable and screen reader-friendly
-
- <img src=".github/assets/header.svg" alt="Various emoji pickers." />
 
 ## Fork purpose
 
@@ -46,16 +37,10 @@ The intended published package identity for this fork is `@slithy/frimousse`.
 
 ## Installation
 
-Once published, install the package with:
+Install the package with:
 
 ```bash
 pnpm add @slithy/frimousse
-```
-
-Until the scoped package is published, install directly from the repository:
-
-```bash
-pnpm add github:mjcampagna/frimousse
 ```
 
 To adopt the fork, consumers should only need to swap the import source:
@@ -63,8 +48,6 @@ To adopt the fork, consumers should only need to swap the import source:
 ```tsx
 import { EmojiPicker } from "@slithy/frimousse";
 ```
-
-The upstream hosted installer and examples are not the canonical distribution channel for this fork.
 
 ## Usage
 

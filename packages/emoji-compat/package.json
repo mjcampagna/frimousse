@@ -1,7 +1,7 @@
 {
   "name": "@slithy/emoji-compat",
   "description": "Emoji compatibility utilities for support detection and fallback metadata.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "sideEffects": false,
   "license": "MIT",
@@ -26,6 +26,7 @@
   },
   "files": [
     "dist",
+    "examples",
     "README.md",
     "LICENSE"
   ],

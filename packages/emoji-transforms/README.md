@@ -7,6 +7,12 @@ terms for emoji from consumer-owned metadata. It is designed to feed packages
 like `@slithy/frimousse`, without forcing picker-specific concerns into this
 package.
 
+## Installation
+
+```bash
+pnpm add @slithy/emoji-transforms
+```
+
 ## Shipped Surface
 
 ```ts

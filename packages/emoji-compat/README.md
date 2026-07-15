@@ -3,6 +3,12 @@
 Small emoji compatibility utilities for native-support detection and fallback
 metadata.
 
+## Installation
+
+```bash
+pnpm add @slithy/emoji-compat
+```
+
 This package is intentionally adjacent to picker and rendering code.
 
 - It can detect which emoji version the current browser supports.

@@ -1,5 +1,18 @@
 ## [Unreleased]
 
+## 0.4.0
+
+### Minor Changes
+
+- 0d33bb1: Prepare the first workspace release with the companion packages.
+
+  - `@slithy/frimousse` adds the fork's additive supplemental-item, search, and
+    shortcode support.
+  - `@slithy/emoji-compat` ships browser-support detection and fallback metadata
+    utilities.
+  - `@slithy/emoji-transforms` ships shortcode and search-term transform
+    utilities.
+
 ## [0.3.0] - 2025-07-15
 
 - Add `sticky` prop on `EmojiPicker.Root` to allow disabling sticky category headers, thanks @Earthsplit!
