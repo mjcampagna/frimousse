@@ -196,13 +196,26 @@ This remains the preferred compatibility compromise:
 
 Reopen only if real usage shows that the split is creating more friction than clarity.
 
+#### Controlled root search value
+
+Completed as an additive root-level search control surface.
+
+Current behavior:
+
+- `EmojiPicker.Root` accepts `searchValue`
+- `EmojiPicker.Root` accepts `onSearchValueChange`
+- consumers can drive picker search without rendering `EmojiPicker.Search`
+- `EmojiPicker.Search` remains the default compatibility-friendly path
+
+This addresses the strongest upstream-inspired additive gap from issue `#11`
+without reopening broader search-policy design.
+
 ### Park
 
 #### Upstream issue triage
 
 Recent upstream issue review suggests:
 
-- `#11` Allow building pickers without `EmojiPicker.Search` is the strongest additive candidate.
 - `#21` English search fallback when locale-specific data is active is worth keeping in the queue.
 - `#20` Helper to get the emoji label does not currently fit the picker-core boundary.
 - `#31` Expose the used emoji data still cuts against the current companion-package boundary.
@@ -213,6 +226,7 @@ Already effectively addressed in this fork:
 - `#5` Support custom emojis
 - `#6` Support custom emoji renderers
 - `#9` Include shortcodes in search
+- `#11` Allow building pickers without `EmojiPicker.Search`
 
 #### Native weighting controls
 
@@ -242,28 +256,6 @@ asset sourcing, rendering policy, and app-level fallback decisions should stay
 consumer-owned.
 
 ## Future Enhancement Tasks
-
-### Controlled root search value
-
-Potential upstream-inspired additive task based on issue `#11`.
-
-Desired outcome:
-
-- allow building pickers without rendering `EmojiPicker.Search`
-- support externally driven autocomplete or typeahead flows
-- preserve the existing internal search behavior when the new surface is unused
-
-Likely direction:
-
-- add a controlled search prop on `EmojiPicker.Root`
-- pair it with an additive change callback rather than widening unrelated internals
-- keep `EmojiPicker.Search` working as the default, compatibility-friendly path
-
-Why this fits:
-
-- additive
-- broadly useful
-- compatible with the current fork stance
 
 ### Broader search policy controls
 
