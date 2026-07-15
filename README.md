@@ -31,7 +31,7 @@ Current fork additions include:
 - shortcode display helpers
 - native search enrichment and unified mixed-item search
 
-The upstream project remains the baseline reference for the original picker composition model. Repository-specific extensions are documented separately in [guides/extensions.md](./guides/extensions.md).
+The upstream project remains the baseline reference for the original picker composition model. Live fork documentation is available at [frimousse.slithy.me](https://frimousse.slithy.me/), and repository-specific extension guidance is also included in [guides/extensions.md](./guides/extensions.md).
 
 The intended published package identity for this fork is `@slithy/frimousse`.
 
@@ -78,11 +78,17 @@ You might want to use it in a popover rather than on its own. Frimousse only pro
 
 The upstream documentation site remains useful for the baseline picker composition model, but it does not document the fork-specific extensions in this repository.
 
+Live docs for this fork:
+
+- [frimousse.slithy.me](https://frimousse.slithy.me/)
+- [frimousse.slithy.me/docs](https://frimousse.slithy.me/docs)
+- [frimousse.slithy.me/docs/api-reference](https://frimousse.slithy.me/docs/api-reference)
+
 Baseline upstream docs and examples:
 
 - [frimousse.liveblocks.io](https://frimousse.liveblocks.io)
 
-Additional repository-specific extension guidance for mixed sections, frequent items, custom emoji helpers, and widened selection APIs lives in [guides/extensions.md](./guides/extensions.md).
+Additional repository-specific extension guidance for mixed sections, frequent items, custom emoji helpers, and widened selection APIs also lives in [guides/extensions.md](./guides/extensions.md).
 
 ## Compatibility
 

@@ -13,6 +13,11 @@ package.
 pnpm add @slithy/emoji-transforms
 ```
 
+Full docs:
+
+- [frimousse.slithy.me/docs#companion-packages](https://frimousse.slithy.me/docs#companion-packages)
+- [frimousse.slithy.me/docs/api-reference#emoji-transforms-api](https://frimousse.slithy.me/docs/api-reference#emoji-transforms-api)
+
 ## Shipped Surface
 
 ```ts

@@ -9,6 +9,11 @@ metadata.
 pnpm add @slithy/emoji-compat
 ```
 
+Full docs:
+
+- [frimousse.slithy.me/docs#companion-packages](https://frimousse.slithy.me/docs#companion-packages)
+- [frimousse.slithy.me/docs/api-reference#emoji-compat-api](https://frimousse.slithy.me/docs/api-reference#emoji-compat-api)
+
 This package is intentionally adjacent to picker and rendering code.
 
 - It can detect which emoji version the current browser supports.
