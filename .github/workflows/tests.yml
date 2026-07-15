@@ -8,7 +8,7 @@ concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  lint:
+  verify-packages:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -25,11 +25,28 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Build package
-        run: pnpm turbo run frimousse#build
-      - name: Run linting
-        run: pnpm lint
-  test:
+      - name: Verify packages
+        run: pnpm release:check
+  verify-website:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout commit
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Verify website
+        run: pnpm verify:website
+  test-packages:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -48,8 +65,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Install Playwright’s browser
         run: pnpm exec playwright install chromium
-      - name: Run tests
-        run: pnpm turbo run test
+      - name: Run package tests
+        run: pnpm test:packages
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

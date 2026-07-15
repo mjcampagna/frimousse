@@ -22,6 +22,14 @@ import {
 import { PickerLoadingSkeleton } from "../demo/PickerLoadingSkeleton";
 import { SelectionBurstLayer } from "../demo/SelectionBurstLayer";
 
+function cloneSearchTermMap(
+  terms: Record<string, readonly string[]>,
+): Record<string, string[]> {
+  return Object.fromEntries(
+    Object.entries(terms).map(([emoji, values]) => [emoji, [...values]]),
+  );
+}
+
 const companionEmojiRecords = [
   {
     emoji: "👋",
@@ -47,6 +55,8 @@ const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(
   companionEmojiRecords,
   { includeTags: true },
 );
+
+const fullNativeSearchTermMap = cloneSearchTermMap(fullNativeSearchTerms);
 
 const shortcodeFirstCustomSection = createCustomSection(
   [
@@ -469,7 +479,7 @@ export function ShortcodeFirstDemo() {
           <EmojiPicker.Root
             columns={columns}
             onItemSelect={setSelection}
-            search={{ native: { terms: fullNativeSearchTerms } }}
+            search={{ native: { terms: fullNativeSearchTermMap } }}
             sticky
             supplemental={{
               sections: [shortcodeFirstCustomSection],
