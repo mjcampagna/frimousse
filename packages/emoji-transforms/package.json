@@ -1,7 +1,7 @@
 {
   "name": "@slithy/emoji-transforms",
   "description": "Emoji metadata transforms for search enrichment and related tooling.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "sideEffects": false,
   "license": "MIT",

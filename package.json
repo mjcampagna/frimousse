@@ -1,7 +1,7 @@
 {
   "name": "@slithy/frimousse",
   "description": "A lightweight, unstyled, and composable emoji picker for React.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "packageManager": "pnpm@11.7.0",
   "type": "module",
