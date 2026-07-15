@@ -1,8 +1,5 @@
 # @slithy/frimousse
 
-[![tests](https://img.shields.io/github/actions/workflow/status/mjcampagna/frimousse/.github/workflows/tests.yml?label=tests&labelColor=651&color=fc0)](https://github.com/mjcampagna/frimousse/actions/workflows/tests.yml)
-[![license](https://img.shields.io/github/license/mjcampagna/frimousse?labelColor=651&color=fc0)](https://github.com/mjcampagna/frimousse/blob/main/LICENSE)
-
 A lightweight, unstyled, and composable emoji picker for React.
 
 - ⚡️ **Lightweight and fast**: Dependency-free, tree-shakable, and virtualized with minimal re-renders

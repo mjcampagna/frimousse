@@ -198,6 +198,22 @@ Reopen only if real usage shows that the split is creating more friction than cl
 
 ### Park
 
+#### Upstream issue triage
+
+Recent upstream issue review suggests:
+
+- `#11` Allow building pickers without `EmojiPicker.Search` is the strongest additive candidate.
+- `#21` English search fallback when locale-specific data is active is worth keeping in the queue.
+- `#20` Helper to get the emoji label does not currently fit the picker-core boundary.
+- `#31` Expose the used emoji data still cuts against the current companion-package boundary.
+- `#7` Category icons feels like presentation chrome rather than picker-contract work.
+
+Already effectively addressed in this fork:
+
+- `#5` Support custom emojis
+- `#6` Support custom emoji renderers
+- `#9` Include shortcodes in search
+
 #### Native weighting controls
 
 Keep native ranking opinionated for now.
@@ -226,6 +242,28 @@ asset sourcing, rendering policy, and app-level fallback decisions should stay
 consumer-owned.
 
 ## Future Enhancement Tasks
+
+### Controlled root search value
+
+Potential upstream-inspired additive task based on issue `#11`.
+
+Desired outcome:
+
+- allow building pickers without rendering `EmojiPicker.Search`
+- support externally driven autocomplete or typeahead flows
+- preserve the existing internal search behavior when the new surface is unused
+
+Likely direction:
+
+- add a controlled search prop on `EmojiPicker.Root`
+- pair it with an additive change callback rather than widening unrelated internals
+- keep `EmojiPicker.Search` working as the default, compatibility-friendly path
+
+Why this fits:
+
+- additive
+- broadly useful
+- compatible with the current fork stance
 
 ### Broader search policy controls
 
