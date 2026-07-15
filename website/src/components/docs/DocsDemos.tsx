@@ -417,11 +417,9 @@ export function NativeShortcodeDemo() {
 
 export function ShortcodeFirstDemo() {
   const columns = useResponsiveColumns(7, 8, 9);
-  const [query, setQuery] = useState("say_nothing");
-  const [selection, setSelection] = useState<ItemSelection>({
-    kind: "supplemental",
-    item: shortcodeFirstCustomSection.items[1],
-  });
+  const [query, setQuery] = useState("");
+  const [selection, setSelection] =
+    useState<ItemSelection>(initialSelection);
   const examples = [
     { term: "wave", value: "wave", emoji: "👋" },
     { term: "red_heart", value: "red_heart", emoji: "❤️" },
@@ -484,7 +482,7 @@ export function ShortcodeFirstDemo() {
             <div className="picker-toolbar">
               <EmojiPicker.Search
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Try wave, red_heart, good_job, or say_nothing"
+                placeholder="Search emoji"
                 value={query}
               />
               <EmojiPicker.SkinToneSelector />

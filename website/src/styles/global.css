@@ -745,7 +745,17 @@ pre {
   flex: 1;
   font-size: var(--text-sm);
   height: 36px;
+  min-width: 0;
+  overflow: hidden;
   padding: 0 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.base-picker-search::placeholder {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .base-picker-viewport {
@@ -1175,7 +1185,17 @@ pre {
   flex: 1;
   font-size: var(--text-base);
   height: 36px;
+  min-width: 0;
+  overflow: hidden;
   padding: 0 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+[frimousse-search]::placeholder {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 [frimousse-skin-tone-selector] {

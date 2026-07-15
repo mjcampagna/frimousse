@@ -2,21 +2,31 @@
 
 ## Companion packages
 
-Companion packages can add search terms, metadata, or dataset tooling without changing the picker contract itself.
+Companion packages add search data, metadata, or fallback-image tooling without
+changing the picker contract itself.
 
-Use them when you want one or more of these:
+### `@slithy/emoji-transforms`
+
+Install the package when you want richer native search terms or native
+shortcode metadata.
+
+```bash
+pnpm add @slithy/emoji-transforms
+```
+
+Use it when you want one or more of these:
 
 - richer native search vocabulary than the built-in dataset provides
 - app-specific aliasing or shorthand for common emoji
 - separate ownership of metadata policy from picker rendering
 
-The examples below keep those jobs separate: one demo enriches native search, and the other shows native shortcode display.
+#### Enrich native search
 
-### Enrich native search
+Generate native search terms ahead of time, then pass them to `Root` through
+`search.native.terms`.
 
-Generate native search terms ahead of time, then pass them to `Root` through `search.native.terms`.
-
-The source records can use whatever metadata shape your app or companion package prefers. Frimousse only consumes the derived term map.
+The source records can use whatever metadata shape your app or companion
+package prefers. Frimousse only consumes the derived term map.
 
 <NativeSearchDemoIsland />
 
@@ -66,11 +76,15 @@ const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(
 </EmojiPicker.Root>;
 ```
 
-Frimousse also exports `buildNativeSearchTermsMap` when you want to build the same shape from your own records directly.
+Frimousse also exports `buildNativeSearchTermsMap` when you want to build the
+same shape from your own records directly.
 
-For production apps, prefer computing these maps ahead of time and shipping the final plain objects to the client. That keeps bundle size and runtime work lower than importing full emoji datasets in the browser.
+For production apps, prefer computing these maps ahead of time and shipping the
+final plain objects to the client. That keeps bundle size and runtime work
+lower than importing full emoji datasets in the browser.
 
-One simple pattern is to generate a checked-in artifact during a build or data-prep step:
+One simple pattern is to generate a checked-in artifact during a build or
+data-prep step:
 
 ```ts
 // scripts/generate-emoji-maps.ts
@@ -122,11 +136,18 @@ import { EmojiPicker, getEmojiPrimaryShortcode } from "@slithy/frimousse";
 </EmojiPicker.Root>;
 ```
 
-### Display native shortcodes
+#### Display native shortcodes
 
-Build a native shortcode map separately when your UI needs one canonical display token for selected native emoji.
+Build a native shortcode map separately when your UI needs one canonical
+display token for selected native emoji.
 
-The same production advice applies here: precompute the shortcode map during your build or data-prep step when possible, then pass the final map into your picker UI at runtime.
+This is the simpler companion case: you already have native emoji in the
+picker, and you only want a stable display token like `:wave:` or
+`:red_heart:` for the active item, footer, or surrounding UI.
+
+The same production advice applies here: precompute the shortcode map during
+your build or data-prep step when possible, then pass the final map into your
+picker UI at runtime.
 
 <NativeShortcodeDemoIsland />
 
@@ -155,11 +176,12 @@ const nativeShortcodes = buildShortcodeMapFromPreset(
 </EmojiPicker.Root>;
 ```
 
-### Shortcode-first apps
+#### Shortcode-first apps
 
 Slack-style apps usually treat native and custom emoji differently:
 
-- native emoji render by Unicode, but search and display often use shortcode-like names
+- native emoji render by Unicode, but search and display often use
+  shortcode-like names
 - custom emoji use the shortcode-like name itself as the canonical identity
 
 In Frimousse, that maps to:
@@ -169,18 +191,28 @@ In Frimousse, that maps to:
 - custom emoji canonical name -> `id`
 - alternate custom typed forms -> `aliases`
 
-For custom emoji, use the shortcode-like name as the supplemental `id`, then put alternate forms in `aliases`.
+For custom emoji, use the shortcode-like name as the supplemental `id`, then
+put alternate forms in `aliases`.
+
+This is the broader app-model case. The picker is not just displaying native
+shortcodes anymore; it is helping a mixed native/custom emoji vocabulary behave
+like one search system.
 
 Search ranking stays opinionated by default:
 
 - exact shortcode-like matches beat broader related matches
 - native labels and enriched native terms are treated as name-like signals
-- supplemental `label`, `aliases`, and exact canonical `id` matches are treated as name-like signals too
+- supplemental `label`, `aliases`, and exact canonical `id` matches are
+  treated as name-like signals too
 - tags and keywords remain weaker discovery signals
 
-That means a query like `heart` should prefer `:heart:` over a pile of merely related heart emoji, and a query like `good_job` should prefer the custom emoji whose canonical id is `good_job`.
+That means a query like `heart` should prefer `:heart:` over a pile of merely
+related heart emoji, and a query like `good_job` should prefer the custom emoji
+whose canonical id is `good_job`.
 
-Only supplemental weighting is configurable today. Broader native or cross-source weighting controls are intentionally left out of the runtime API for now.
+Only supplemental weighting is configurable today. Broader native or
+cross-source weighting controls are intentionally left out of the runtime API
+for now.
 
 <ShortcodeFirstDemoIsland />
 
@@ -221,17 +253,94 @@ const customSection = createCustomSection(
 </EmojiPicker.Root>;
 ```
 
-That keeps the picker contract generic while still fitting apps that persist and display shortcode-like names as their primary emoji vocabulary.
+`@slithy/emoji-transforms` keeps the picker dumb. Frimousse only consumes the
+search data you pass in. It does not need to know how those terms were
+produced, where they came from, or which dataset policy your app uses.
 
-### Keep the picker dumb
+### `@slithy/emoji-compat`
 
-Frimousse only consumes the search data you pass in. It does not need to know how those terms were produced, where they came from, or which dataset policy your app uses.
+Install the package when you want to detect native emoji support or serve
+fallback images for emoji above your supported browser floor.
+
+```bash
+pnpm add @slithy/emoji-compat
+```
+
+Use it when you want one or more of these:
+
+- browser support probing for native emoji rendering
+- a compat map that marks which emoji need fallback images
+- hexcode-based fallback URL resolution for self-hosted or CDN emoji assets
+- build-time manifest generation for Twemoji-style asset preparation
+
+#### Build a compat map
+
+`@slithy/emoji-compat` consumes emojibase-like records and returns plain data
+keyed by native emoji strings.
+
+```ts
+import {
+  buildCompatMap,
+  getFallbackUrl,
+} from "@slithy/emoji-compat";
+
+const compatMap = buildCompatMap(records, {
+  supportedVersion: 15,
+});
+
+const fallbackUrl = getFallbackUrl(compatMap, "🫩");
+// "/emoji/1fae9.svg"
+```
+
+If you do not want to hard-code a support floor at runtime, `buildCompatMap`
+can also detect the highest supported emoji version from the current browser.
+
+#### Prepare fallback assets ahead of time
+
+Use the `assets` subpath when you want a build-time manifest of the emoji
+assets you need above a chosen version floor.
+
+```ts
+import {
+  buildFallbackAssetManifest,
+  downloadFallbackAssets,
+} from "@slithy/emoji-compat/assets";
+
+const manifest = buildFallbackAssetManifest(records, {
+  versionFloor: 15,
+});
+
+await downloadFallbackAssets(manifest, {
+  outDir: "public/emoji",
+});
+```
+
+For repo readers, the package includes checked-in sample outputs for both the
+full manifest and the base-only `--no-include-skins` variant.
+
+#### Keep fallback policy separate from rendering
+
+`@slithy/emoji-compat` does not render anything itself. It helps you answer:
+
+- does this browser support this emoji natively?
+- if not, what asset URL should I use?
+- which fallback assets should I prepare ahead of time?
+
+Your app still owns the rendering layer, image component policy, and asset
+hosting layout.
 
 ### Notes
 
-- Companion packages are optional. The base and extended picker APIs work without them.
-- `@slithy/emoji-transforms` enriches native search data; it does not change the picker component surface.
-- Native iamcal-style shortcodes belong in `search.native.terms`, not in a picker-owned native emoji field.
-- For supplemental/custom emoji, canonical shortcode-like names belong in `id`; alternate forms belong in `aliases`.
-- If you already have your own emoji metadata pipeline, you can build the same `search.native.terms` shape yourself.
+- Companion packages are optional. The base and extended picker APIs work
+  without them.
+- `@slithy/emoji-transforms` enriches native search and shortcode metadata. It
+  does not change the picker component surface.
+- `@slithy/emoji-compat` handles support detection and fallback metadata. It
+  does not render emoji or own asset hosting.
+- Native iamcal-style shortcodes belong in `search.native.terms`, not in a
+  picker-owned native emoji field.
+- For supplemental/custom emoji, canonical shortcode-like names belong in `id`;
+  alternate forms belong in `aliases`.
+- If you already have your own emoji metadata pipeline, you can build the same
+  `search.native.terms` shape and compat-map input shape yourself.
 </section>
