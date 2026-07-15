@@ -153,4 +153,20 @@ pnpm test:coverage
 
 ### Releases
 
-Releases are triggered from [a GitHub action](.github/workflows/release.yml) via [release-it](https://github.com/release-it/release-it), and continuous releases are automatically triggered for every commit in PRs via [pkg.pr.new](https://github.com/stackblitz-labs/pkg.pr.new).
+Releases are managed manually with [Changesets](https://github.com/changesets/changesets).
+
+Typical release flow:
+
+```bash
+pnpm changeset
+pnpm changeset version
+pnpm release:check
+npm_config_userconfig=~/.npmrc pnpm changeset publish
+```
+
+If publish fails with `ENEEDAUTH`, make sure the command is running in a shell
+that can read your `~/.npmrc`, or keep the `npm_config_userconfig=~/.npmrc`
+prefix shown above.
+
+Continuous preview releases are still automatically triggered for every commit
+in PRs via [pkg.pr.new](https://github.com/stackblitz-labs/pkg.pr.new).

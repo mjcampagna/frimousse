@@ -20,7 +20,7 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Build package
-        run: pnpm build
+      - name: Build packages
+        run: pnpm build:packages
       - name: Release package on pkg.pr.new
         run: pnpm dlx pkg-pr-new publish --compact --comment=off
