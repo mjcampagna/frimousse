@@ -31,40 +31,48 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
 
       <div class="docs-summary">
-        <article>
+        <a class="docs-summary-card" href="#installation">
           <h2>Installation</h2>
           <p>Install the package, then update imports in existing Frimousse usage.</p>
-        </article>
-        <article>
+        </a>
+        <a class="docs-summary-card" href="#base-api">
           <h2>Base API</h2>
           <p>Core picker parts, grouped search, and native-only helpers.</p>
-        </article>
-        <article>
+        </a>
+        <a class="docs-summary-card" href="#extended-api">
           <h2>Extended API</h2>
           <p>Supplemental items, unified search, and consumer-owned frequent rows.</p>
-        </article>
-        <article>
+        </a>
+        <a class="docs-summary-card" href="#companion-packages">
           <h2>Companion packages</h2>
           <p>Companion packages that extend search and metadata without changing the picker contract.</p>
-        </article>
-        <article>
+        </a>
+        <a class="docs-summary-card" href="/docs/api-reference">
           <h2>API Reference</h2>
-          <p><a href="/docs/api-reference">Components, props, hooks, helpers, and exported types.</a></p>
-        </article>
+          <p>Components, props, hooks, helpers, and exported types.</p>
+        </a>
       </div>
     </section>
 
-    <SetupSection />
-    <BaseApiSection components={{ BaseApiDemoIsland }} />
+    <div id="installation" class="docs-section-anchor">
+      <SetupSection />
+    </div>
+    <div id="base-api" class="docs-section-anchor">
+      <BaseApiSection components={{ BaseApiDemoIsland }} />
+    </div>
     <hr class="docs-section-divider" />
-    <ExtendedApiSection components={{ ExtendedApiDemoIsland }} />
+    <div id="extended-api" class="docs-section-anchor">
+      <ExtendedApiSection components={{ ExtendedApiDemoIsland }} />
+    </div>
     <hr class="docs-section-divider" />
-    <SupplementalPackagesSection
-      components={{
-        NativeSearchDemoIsland,
-        NativeShortcodeDemoIsland,
-        ShortcodeFirstDemoIsland,
-      }}
-    />
+    <div id="companion-packages" class="docs-section-anchor">
+      <SupplementalPackagesSection
+        components={{
+          NativeSearchDemoIsland,
+          NativeShortcodeDemoIsland,
+          ShortcodeFirstDemoIsland,
+        }}
+      />
+    </div>
   </main>
 </BaseLayout>

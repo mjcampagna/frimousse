@@ -5,7 +5,10 @@
 Companion packages add search data, metadata, or fallback-image tooling without
 changing the picker contract itself.
 
-### `@slithy/emoji-transforms`
+- [`@slithy/emoji-transforms`](#emoji-transforms): search enrichment and shortcode metadata
+- [`@slithy/emoji-compat`](#emoji-compat): support detection and fallback metadata
+
+<h3 id="emoji-transforms"><code>@slithy/emoji-transforms</code></h3>
 
 Install the package when you want richer native search terms or native
 shortcode metadata.
@@ -257,7 +260,7 @@ const customSection = createCustomSection(
 search data you pass in. It does not need to know how those terms were
 produced, where they came from, or which dataset policy your app uses.
 
-### `@slithy/emoji-compat`
+<h3 id="emoji-compat"><code>@slithy/emoji-compat</code></h3>
 
 Install the package when you want to detect native emoji support or serve
 fallback images for emoji above your supported browser floor.

@@ -422,7 +422,7 @@ pre {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
-.docs-summary article,
+.docs-summary-card,
 .docs-demo-card {
   background: var(--bg-elevated);
   border: 1px solid var(--line);
@@ -431,18 +431,34 @@ pre {
 }
 
 .docs-demo-card,
-.docs-summary article,
+.docs-summary-card,
 .hero-callout,
 .feature-strip article,
 .demo-card {
   box-shadow: var(--shadow);
 }
 
-.docs-summary article {
+.docs-summary-card {
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 18px;
+  text-decoration: none;
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease,
+    transform 120ms ease;
+}
+
+.docs-summary-card:hover {
+  background: var(--bg-accent);
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+.docs-summary-card:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
 }
 
 .docs-summary h2 {
@@ -458,6 +474,10 @@ pre {
 .docs-demos {
   display: grid;
   gap: 28px;
+}
+
+.docs-section-anchor {
+  scroll-margin-top: 96px;
 }
 
 .docs-demo {
