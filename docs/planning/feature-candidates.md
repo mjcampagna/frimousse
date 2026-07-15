@@ -100,6 +100,17 @@ This is a separate concern from the picker component itself.
 
 These remain consumer-specific infrastructure concerns.
 
+### Last-mile fallback rendering policy
+
+The ecosystem now covers support detection and fallback metadata through the
+`@slithy/emoji-compat` companion package.
+
+Consumers still own the final rendering decision:
+
+- when to swap native glyphs for image fallbacks
+- how fallback assets are hosted and loaded
+- what component or UI layer renders the fallback
+
 ## Open Design Questions
 
 ### Search scoring extensions
@@ -214,9 +225,8 @@ without reopening broader search-policy design.
 
 #### Upstream issue triage
 
-Recent upstream issue review suggests:
+Still open from recent upstream issue review:
 
-- `#21` English search fallback when locale-specific data is active is worth keeping in the queue.
 - `#20` Helper to get the emoji label does not currently fit the picker-core boundary.
 - `#31` Expose the used emoji data still cuts against the current companion-package boundary.
 - `#7` Category icons feels like presentation chrome rather than picker-contract work.
@@ -247,14 +257,6 @@ Still an adjacent consumer concern rather than picker-core work.
 
 If this is revisited later, the likely seam is a companion package or a
 picker-independent utility surface rather than new picker-core UI behavior.
-
-#### Emoji fallback-image rendering
-
-Still an adjacent display-system concern rather than picker-core work.
-
-Support detection and fallback metadata can live in companion tooling, but
-asset sourcing, rendering policy, and app-level fallback decisions should stay
-consumer-owned.
 
 ## Future Enhancement Tasks
 

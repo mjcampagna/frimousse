@@ -300,6 +300,29 @@ export function MyEmojiPicker() {
         </p>
       </section>
 
+      <section class="faq-question">
+        <h2>What if a user's device does not support newer emoji yet?</h2>
+        <p>
+          That is what <a href="/docs/api-reference#emoji-compat-api"><code>@slithy/emoji-compat</code></a>{" "}
+          is for. It gives you a ready-made path for detecting support gaps,
+          resolving fallback metadata, and preparing the fallback assets needed
+          for newer emoji on unsupported devices. See{" "}
+          <a href="/docs/api-reference#emoji-compat-api"><code>@slithy/emoji-compat</code></a>{" "}
+          in the API reference.
+        </p>
+        <p>
+          This is not really a picker concern. It addresses the broader product
+          case where one user sends or stores an emoji that another user's
+          device cannot natively display.
+        </p>
+        <p>
+          The package does not force a rendering layer on you, but it does cover
+          the reusable mechanics so you do not have to invent them yourself.
+          Your app still decides when to swap in an image, where those assets
+          live, and what UI layer renders them.
+        </p>
+      </section>
+
       <section id="companion-packages" class="faq-question">
         <h2>What are the companion packages for?</h2>
         <p>
