@@ -99,12 +99,51 @@ const fallbackUrl = getFallbackUrl(compatMap, "🫩");
 Use that URL in your own rendering layer when you want an image fallback for
 emoji above the browser's native support floor.
 
+One common pattern is to build the compat map once, then let a small
+app-owned component choose between native rendering and an image fallback:
+
+```tsx
+import {
+  buildCompatMap,
+  getFallbackUrl,
+} from "@slithy/emoji-compat";
+
+const compatMap = buildCompatMap(records, {
+  supportedVersion: 15,
+});
+
+function EmojiWithFallback({
+  emoji,
+  label,
+}: {
+  emoji: string;
+  label: string;
+}) {
+  const fallbackUrl = getFallbackUrl(compatMap, emoji, {
+    basePath: "/emoji",
+  });
+
+  if (!fallbackUrl) {
+    return <span aria-label={label}>{emoji}</span>;
+  }
+
+  return <img src={fallbackUrl} alt={label} width="20" height="20" />;
+}
+```
+
+That keeps rendering policy in your app while `@slithy/emoji-compat` handles
+the support decision and asset lookup.
+
 ## Asset Preparation
 
-If you want to prepare a fallback asset set ahead of time, use the `assets`
-subpath to collect required hexcodes or build a manifest.
+For production apps, prepare fallback assets and any generated compat map
+artifacts ahead of time, then import the final artifacts at runtime.
+
+Use the `assets` subpath when you want a build-time fallback asset manifest
+for the emoji assets you need above a chosen `versionFloor`.
 
 ```ts
+// scripts/generate-emoji-fallbacks.ts
 import {
   buildFallbackAssetManifest,
   collectFallbackHexcodes,
@@ -115,11 +154,11 @@ const hexcodes = collectFallbackHexcodes(records, {
   versionFloor: 15,
 });
 
-const manifest = buildFallbackAssetManifest(records, {
+const fallbackAssetManifest = buildFallbackAssetManifest(records, {
   versionFloor: 15,
 });
 
-await downloadFallbackAssets(manifest, {
+await downloadFallbackAssets(fallbackAssetManifest, {
   outDir: "public/emoji",
 });
 ```
@@ -135,17 +174,63 @@ import {
   downloadFallbackAssets,
 } from "@slithy/emoji-compat/assets";
 
-const manifest = buildFallbackAssetManifest(data, {
+const fallbackAssetManifest = buildFallbackAssetManifest(data, {
   versionFloor: 15,
 });
 
-await downloadFallbackAssets(manifest, {
+await downloadFallbackAssets(fallbackAssetManifest, {
   outDir: "public/emoji",
 });
 ```
 
+Run that script as a normal Node build step:
+
+```bash
+tsx scripts/generate-emoji-fallbacks.ts
+```
+
+Use that generated compat map in your component at runtime:
+
+```ts
+// src/generated/emoji-compat-map.ts
+import type { EmojiCompatMap } from "@slithy/emoji-compat";
+
+export const compatMap: EmojiCompatMap = {
+  "🫩": {
+    emoji: "🫩",
+    version: 16,
+    hexcode: "1fae9",
+    supported: false,
+    needsFallback: true,
+  },
+};
+```
+
+```tsx
+import { getFallbackUrl } from "@slithy/emoji-compat";
+import { compatMap } from "./generated/emoji-compat-map";
+
+function EmojiWithFallback({
+  emoji,
+  label,
+}: {
+  emoji: string;
+  label: string;
+}) {
+  const fallbackUrl = getFallbackUrl(compatMap, emoji, {
+    basePath: "/emoji",
+  });
+
+  return fallbackUrl ? (
+    <img src={fallbackUrl} alt={label} width="20" height="20" />
+  ) : (
+    <span aria-label={label}>{emoji}</span>
+  );
+}
+```
+
 Inside this repo, the package also includes a small example script that uses
-`emojibase-data` directly:
+`emojibase-data` directly to generate a fallback asset manifest:
 
 ```bash
 pnpm --filter @slithy/emoji-compat build
@@ -162,7 +247,7 @@ The script also supports:
 - `--no-include-skins` to collect only base emoji assets
 - `--base-url` and `--overwrite` when downloading
 
-For a concrete checked-in example, see
+For concrete checked-in fallback asset manifest samples, see
 [`examples/fallback-manifest-v15.sample.json`](./examples/fallback-manifest-v15.sample.json)
 and
 [`examples/fallback-manifest-v15-no-skins.sample.json`](./examples/fallback-manifest-v15-no-skins.sample.json).

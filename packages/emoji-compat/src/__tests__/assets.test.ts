@@ -188,6 +188,7 @@ describe("downloadFallbackAssets", () => {
       kind: "skin",
     },
   ];
+  const firstManifestAsset = manifest[0]!;
 
   it("downloads every requested asset with the default filename convention", async () => {
     const outDir = await createTempDir();
@@ -234,7 +235,7 @@ describe("downloadFallbackAssets", () => {
     vi.stubGlobal("fetch", fetchMock);
 
     await expect(
-      downloadFallbackAssets([manifest[0]], {
+      downloadFallbackAssets([firstManifestAsset], {
         outDir,
       }),
     ).resolves.toEqual({
@@ -261,7 +262,7 @@ describe("downloadFallbackAssets", () => {
     vi.stubGlobal("fetch", fetchMock);
 
     await expect(
-      downloadFallbackAssets([manifest[0]], {
+      downloadFallbackAssets([firstManifestAsset], {
         outDir,
         overwrite: true,
         filename(asset) {
@@ -286,7 +287,7 @@ describe("downloadFallbackAssets", () => {
     vi.stubGlobal("fetch", fetchMock);
 
     await expect(
-      downloadFallbackAssets([manifest[0]], {
+      downloadFallbackAssets([firstManifestAsset], {
         outDir,
         baseUrl: "https://cdn.example.com/twemoji",
       }),
