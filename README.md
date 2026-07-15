@@ -120,7 +120,7 @@ The emoji data is based on [Emojibase](https://emojibase.dev/).
 
 All contributions are welcome! If you find a bug or have a feature request, feel free to create an [issue](https://github.com/mjcampagna/frimousse/issues) or a [PR](https://github.com/mjcampagna/frimousse/pulls).
 
-The project is setup as a monorepo with the `frimousse` package at the root, a package-development playground in `playground`, a static website in `website`, and companion packages in `packages/*`.
+The project is setup as a monorepo with the `frimousse` package at the root, a static website in `website`, and companion packages in `packages/*`.
 
 ### Development
 
@@ -130,15 +130,6 @@ Install dependencies and start development builds from the root.
 pnpm install
 pnpm dev
 ```
-
-The playground can be used as a local development sandbox for the package via [Turborepo](https://turbo.build/repo).
-
-```bash
-pnpm dev:playground
-```
-
-This starts the playground app. Open the local Vite URL shown in the terminal, typically `http://localhost:5173`.
-The playground resolves `@slithy/frimousse` from the local source tree during development, so library changes should reflect without running a separate package watcher.
 
 The static website can be developed separately.
 

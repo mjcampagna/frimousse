@@ -31,11 +31,9 @@
   ],
   "scripts": {
     "dev": "tsup --watch",
-    "dev:playground": "turbo run dev --filter=playground",
     "dev:website": "turbo run dev --filter=website",
     "build": "tsup --minify",
     "build:packages": "pnpm build && pnpm --filter @slithy/emoji-compat build && pnpm --filter @slithy/emoji-transforms build",
-    "build:playground": "turbo run build --filter=playground",
     "build:website": "turbo run build --filter=website",
     "test": "vitest run --silent",
     "test:packages": "pnpm test && pnpm --filter @slithy/emoji-compat test && pnpm --filter @slithy/emoji-transforms test",
