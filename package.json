@@ -9,6 +9,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.cts",
   "exports": {
