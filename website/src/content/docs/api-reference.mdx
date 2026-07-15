@@ -925,3 +925,283 @@ This section lists the types re-exported from the package entrypoint.
 - `useActiveItem` and `EmojiPicker.ActiveItem` include supplemental items.
 - `onEmojiSelect` remains native-only.
 - `onItemSelect` is the widened additive callback for both native and supplemental items.
+
+## Companion Package API Reference
+
+The sections below cover optional companion packages. They are documented here
+for convenience, but they are separate installs and separate entry points.
+
+### `@slithy/emoji-transforms`
+
+Install:
+
+```bash
+pnpm add @slithy/emoji-transforms
+```
+
+Purpose:
+
+- transforms consumer-owned emoji metadata into plain data structures for
+  shortcode lookup and native search enrichment
+
+Boundary:
+
+- this package does not render anything
+- this package does not bundle shortcode datasets
+- this package does not expose picker-specific UI contracts
+
+Entry point:
+
+```ts
+import {
+  adaptNativeEmojiSearchEntries,
+  adaptEmojibaseNativeEmojiSearchEntries,
+  buildNativeEmojiSearchTermMap,
+  buildNativeEmojiSearchTermMapFromAdapter,
+  buildNativeEmojiSearchTermMapFromEmojibase,
+  buildShortcodeMap,
+  buildShortcodeMapFromAdapter,
+  buildShortcodeMapFromEmojibase,
+  buildShortcodeMapFromPreset,
+  getNativeEmojiSearchTerms,
+  getPrimaryShortcode,
+  getShortcodes,
+  normalizeNativeEmojiSearchKey,
+} from "@slithy/emoji-transforms";
+```
+
+#### Search term and shortcode builders
+
+### `buildNativeEmojiSearchTermMap(entries)`
+
+Builds a plain `Record<string, string[]>` keyed by normalized base emoji.
+
+Input shape:
+
+```ts
+type NativeEmojiShortcodeEntry = {
+  emoji: string;
+  shortcodes?: readonly string[];
+  aliases?: readonly string[];
+};
+```
+
+Notes:
+
+- combines `shortcodes` and `aliases`
+- trims, lowercases, and deduplicates values
+- adds spaced variants for separator-based terms
+- returns the plain shape expected by `@slithy/frimousse` `search.native.terms`
+
+### `buildShortcodeMap(entries)`
+
+Builds a shortcode-only `Record<string, string[]>` keyed by normalized base
+emoji.
+
+Notes:
+
+- stays shortcode-only
+- does not widen into label or tag aliases
+- useful when your app wants a canonical native shortcode display map
+
+### `buildNativeEmojiSearchTermMapFromAdapter(entries, adapter)`
+
+Combines an adapter step with native-search map construction.
+
+### `buildShortcodeMapFromAdapter(entries, adapter)`
+
+Combines an adapter step with shortcode-map construction.
+
+### `adaptNativeEmojiSearchEntries(entries, adapter)`
+
+Maps arbitrary source records into the package's neutral
+`NativeEmojiShortcodeEntry` format.
+
+### `adaptEmojibaseNativeEmojiSearchEntries(entries, options?)`
+
+Adapts a common Emojibase-like record shape into the package's neutral entry
+format.
+
+### `buildNativeEmojiSearchTermMapFromEmojibase(entries, options?)`
+
+Builds a native-search term map directly from Emojibase-like records.
+
+Notes:
+
+- shortcode data is included by default
+- `label` and `tags` are opt-in through `options`
+
+### `buildShortcodeMapFromEmojibase(entries)`
+
+Builds a shortcode-only map directly from Emojibase-like records.
+
+### `buildShortcodeMapFromPreset(entries, preset)`
+
+Joins Emojibase records with a hexcode-keyed shortcode preset such as
+`emojibase-data/en/shortcodes/iamcal.json`.
+
+Use this when your app treats a preset like `iamcal` as the source of truth for
+native shortcode names.
+
+#### Lookup helpers
+
+### `getNativeEmojiSearchTerms(termMap, emoji)`
+
+Performs normalized lookup against a native-search term map.
+
+### `getShortcodes(shortcodeMap, emoji)`
+
+Performs normalized lookup against a native shortcode map.
+
+### `getPrimaryShortcode(shortcodeMap, emoji)`
+
+Returns the first normalized shortcode for that emoji.
+
+### `normalizeNativeEmojiSearchKey(emoji)`
+
+Exposes the base-key normalization used by the package.
+
+Normalization behavior:
+
+- removes variation selectors
+- removes skin-tone modifiers
+- normalizes to a base-emoji lookup key
+
+#### Exported types
+
+- `NativeEmojiShortcodeEntry`
+- `NativeEmojiSearchAdapter<TEntry>`
+- `EmojibaseNativeEmojiRecord`
+- `EmojibaseNativeEmojiSkinRecord`
+- `EmojibaseNativeEmojiSearchOptions`
+- `EmojibaseShortcodePreset`
+- `NativeEmojiSearchTermMap`
+- `NativeEmojiShortcodeMap`
+
+### `@slithy/emoji-compat`
+
+Install:
+
+```bash
+pnpm add @slithy/emoji-compat
+```
+
+Purpose:
+
+- detects native emoji support and builds fallback metadata for apps that need
+  image fallbacks for newer emoji
+
+Boundary:
+
+- this package does not render anything
+- this package does not bundle Twemoji assets
+- this package does not choose your app's fallback policy
+
+Entry point:
+
+```ts
+import {
+  buildCompatMap,
+  detectSupportedVersion,
+  getCompatEntry,
+  getFallbackUrl,
+  isEmojiSupported,
+  normalizeEmojiCompatKey,
+} from "@slithy/emoji-compat";
+```
+
+Build-time asset helpers:
+
+```ts
+import {
+  buildFallbackAssetManifest,
+  collectFallbackHexcodes,
+  downloadFallbackAssets,
+} from "@slithy/emoji-compat/assets";
+```
+
+#### Runtime helpers
+
+### `buildCompatMap(records, options?)`
+
+Builds fallback metadata keyed by native emoji strings.
+
+Input shape:
+
+```ts
+type EmojiCompatRecord = {
+  emoji: string;
+  version: number;
+  hexcode?: string;
+  skins?: readonly {
+    emoji: string;
+    hexcode?: string;
+  }[];
+};
+```
+
+Notes:
+
+- if `supportedVersion` is provided, that version is treated as the native
+  support floor
+- if omitted, the package detects support at runtime with its built-in probe
+
+### `detectSupportedVersion(records, options?)`
+
+Determines the highest emoji version supported by the current browser across
+the provided records.
+
+### `isEmojiSupported(emoji)`
+
+Low-level native-support probe for one emoji glyph.
+
+### `getCompatEntry(compatMap, emoji)`
+
+Looks up one compat entry by normalized emoji key.
+
+### `getFallbackUrl(compatMap, emoji, options?)`
+
+Returns a fallback asset URL when the emoji needs image fallback rendering.
+
+Default convention:
+
+- `/emoji/{hexcode}.svg`
+
+### `normalizeEmojiCompatKey(emoji)`
+
+Exposes the normalization used for compat-map storage and lookup.
+
+#### Build-time asset helpers
+
+### `buildFallbackAssetManifest(records, options)`
+
+Builds a stable manifest of fallback assets needed above a chosen
+`versionFloor`.
+
+### `collectFallbackHexcodes(records, options)`
+
+Returns just the normalized lowercase hexcodes from that manifest.
+
+### `downloadFallbackAssets(manifest, options)`
+
+Downloads matching fallback assets for a manifest.
+
+Notes:
+
+- intended for build-time scripts
+- defaults to the `jdecked/twemoji` SVG source
+- does not run automatically at install or runtime
+
+#### Exported types
+
+- `CollectFallbackHexcodesOptions`
+- `DownloadFallbackAssetsOptions`
+- `DownloadFallbackAssetsResult`
+- `EmojiCompatRecord`
+- `EmojiCompatSkinRecord`
+- `EmojiCompatEntry`
+- `EmojiCompatMap`
+- `EmojiCompatOptions`
+- `EmojiFallbackUrlOptions`
+- `FallbackAssetKind`
+- `FallbackAssetRecord`
