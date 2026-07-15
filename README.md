@@ -87,6 +87,39 @@ Baseline upstream docs and examples:
 
 Additional repository-specific extension guidance for mixed sections, frequent items, custom emoji helpers, and widened selection APIs also lives in [guides/extensions.md](./guides/extensions.md).
 
+## Self-hosting emoji data
+
+The picker can work without the public Emojibase CDN if you host the required
+JSON files yourself and point `emojibaseUrl` at that hosted path.
+
+This package includes a small staging CLI for that:
+
+```bash
+pnpm exec frimousse-stage-emojibase-data --out ./public/emojibase-data
+```
+
+That copies the default `en/data.json` and `en/messages.json` files into a
+public-ready directory. For more than one locale:
+
+```bash
+pnpm exec frimousse-stage-emojibase-data \
+  --out ./public/emojibase-data \
+  --locales en,fr,ja
+```
+
+Then point the picker at that path:
+
+```tsx
+<EmojiPicker.Root emojibaseUrl="/emojibase-data">
+  <EmojiPicker.Search />
+  <EmojiPicker.Viewport>
+    <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+    <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+</EmojiPicker.Root>
+```
+
 ## Compatibility
 
 - React 18 and 19

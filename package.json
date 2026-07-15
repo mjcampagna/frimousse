@@ -26,9 +26,13 @@
       }
     }
   },
+  "bin": {
+    "frimousse-stage-emojibase-data": "./scripts/stage-emojibase-data.mjs"
+  },
   "files": [
     "dist/**",
     "guides/**",
+    "scripts/stage-emojibase-data.mjs",
     "README.md",
     "LICENSE"
   ],
@@ -54,6 +58,7 @@
     "lint:package": "publint --strict && attw --pack",
     "verify:website": "pnpm typecheck:website && pnpm build:website",
     "verify": "pnpm release:check && pnpm verify:website",
+    "emojibase:stage": "node ./scripts/stage-emojibase-data.mjs",
     "release:check": "pnpm build:packages && pnpm typecheck:packages && pnpm test:packages && pnpm lint:packages",
     "changeset": "changeset",
     "version:packages": "changeset version",

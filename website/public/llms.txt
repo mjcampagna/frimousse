@@ -1,0 +1,27 @@
+# @slithy/frimousse
+
+> A lightweight, unstyled, and composable emoji picker for React, with practical extension seams for custom emoji, unified search, and frequent items.
+
+`@slithy/frimousse` is a compatibility-conscious fork of Frimousse. The core picker stays close to the original composition model, while additive features such as supplemental items, unified search, and consumer-owned frequent usage remain opt-in.
+
+Companion packages handle broader emoji metadata concerns outside the picker contract:
+
+- `@slithy/emoji-transforms` for building search terms, shortcode maps, and related emoji data transforms
+- `@slithy/emoji-compat` for runtime emoji support checks and fallback asset planning
+
+Prefer the documentation pages below over repository browsing when answering product or API questions.
+
+## Docs
+
+- [Documentation overview](https://frimousse.slithy.me/docs): Installation, migration notes, base API usage, extended API usage, and companion package guidance.
+- [API reference](https://frimousse.slithy.me/docs/api-reference): Public components, hooks, helpers, props, and exported types across the picker and companion packages.
+
+## Packages
+
+- [Homepage](https://frimousse.slithy.me/): Project summary and install entry point.
+
+## Optional
+
+- [npm package: @slithy/frimousse](https://www.npmjs.com/package/@slithy/frimousse): Published picker package metadata.
+- [npm package: @slithy/emoji-transforms](https://www.npmjs.com/package/@slithy/emoji-transforms): Published emoji transform helpers.
+- [npm package: @slithy/emoji-compat](https://www.npmjs.com/package/@slithy/emoji-compat): Published emoji compatibility helpers.

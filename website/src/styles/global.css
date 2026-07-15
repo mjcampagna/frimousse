@@ -403,6 +403,12 @@ pre {
   margin-bottom: 28px;
 }
 
+.faq-hero {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
 .docs-hero-copy {
   display: flex;
   flex-direction: column;
@@ -417,6 +423,12 @@ pre {
 }
 
 .docs-summary {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.faq-index {
   display: grid;
   gap: 14px;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -644,6 +656,30 @@ pre {
   margin: 20px 0;
 }
 
+.docs-markdown-section pre {
+  background: var(--bg-accent);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  margin: 20px 0;
+  overflow-x: auto;
+  padding: 14px 16px;
+}
+
+.docs-markdown-section pre code {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  display: block;
+  font-size: inherit;
+  min-width: 100%;
+  padding: 0;
+  white-space: pre;
+}
+
 .docs-demo-copy {
   display: flex;
   flex-direction: column;
@@ -735,6 +771,18 @@ pre {
 
 :root[data-theme="dark"] .docs-markdown-section .astro-code span {
   color: var(--shiki-dark);
+}
+
+.faq-section {
+  max-width: 76ch;
+}
+
+.faq-question + .faq-question {
+  margin-top: 40px;
+}
+
+.faq-question h2 {
+  scroll-margin-top: 96px;
 }
 
 .base-picker {
@@ -1094,6 +1142,11 @@ pre {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   }
 
+  .faq-hero {
+    align-items: start;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+
   .feature-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1150,6 +1203,10 @@ pre {
 
 @media (max-width: 900px) {
   .docs-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .faq-index {
     grid-template-columns: 1fr;
   }
 }

@@ -132,7 +132,11 @@ Returns the first normalized shortcode-like display token for an item or widened
 
 Useful for footer or preview UIs that want one canonical `:shortcode:` string.
 
+<div id="components-overview"></div>
+
 ## Components
+
+<div id="emoji-picker-root"></div>
 
 ### `EmojiPicker.Root`
 
@@ -148,7 +152,7 @@ Props:
 | `skinTone` | `SkinTone` | `"none"` | Initial skin tone. |
 | `columns` | `number` | `9` | Number of visible list columns. |
 | `emojiVersion` | `number` | browser-supported latest | Restricts visible emoji by Emoji version. |
-| `emojibaseUrl` | `string` | `"https://cdn.jsdelivr.net/npm/emojibase-data"` | Base URL used to fetch Emojibase JSON datasets. |
+| `emojibaseUrl` | `string` | `"https://cdn.jsdelivr.net/npm/emojibase-data"` | Base URL used to fetch Emojibase JSON datasets. Point this at your own hosted `emojibase-data` files when you want a self-hosted or offline-capable setup. |
 | `sticky` | `boolean` | `true` | Makes category headers sticky. |
 | `supplemental` | `SupplementalConfig` | - | Adds consumer-owned sections and supplemental search behavior. |
 | `search` | `EmojiPickerSearchConfig` | - | Adds native search enrichment data. |
@@ -168,6 +172,42 @@ CSS variables:
 
 - `--frimousse-emoji-font`
 - `--frimousse-viewport-width`
+
+<div id="emojibase-url-self-hosting"></div>
+
+#### Self-hosting with `emojibaseUrl`
+
+`@slithy/frimousse` does not bundle the native emoji dataset into the package.
+By default it fetches `emojibase-data` JSON at runtime, but you can stage and
+host those files yourself.
+
+Use the included staging helper:
+
+```bash
+pnpm exec frimousse-stage-emojibase-data --out ./public/emojibase-data
+```
+
+For multiple locales:
+
+```bash
+pnpm exec frimousse-stage-emojibase-data --out ./public/emojibase-data --locales en,fr,ja
+```
+
+Then point `emojibaseUrl` at that hosted path:
+
+```tsx
+<EmojiPicker.Root locale="en" emojibaseUrl="/emojibase-data">
+  <EmojiPicker.Search />
+  <EmojiPicker.Viewport>
+    <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+    <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+</EmojiPicker.Root>
+```
+
+With that setup, the picker no longer depends on the public CDN. If your app
+can serve those files offline, the picker can work offline too.
 - `--frimousse-viewport-height`
 - `--frimousse-row-height`
 - `--frimousse-category-header-height`
@@ -520,6 +560,8 @@ isSupplementalSelection(selection)
 
 Use these to narrow `ItemSelection` unions safely.
 
+<div id="supplemental-item-helpers"></div>
+
 ## Supplemental Item Helpers
 
 ### `createSupplementalItem(input)`
@@ -641,6 +683,8 @@ Return type:
 
 - `SupplementalSection`
 
+<div id="custom-emoji-helpers"></div>
+
 ## Custom Emoji Helpers
 
 ### `createCustomEmoji(input)`
@@ -694,6 +738,8 @@ Return type:
 ### `isCustomEmoji(item)`
 
 Type guard for a supplemental item with a required `imageUrl`.
+
+<div id="frequency-helpers"></div>
 
 ## Frequency Helpers
 

@@ -227,6 +227,7 @@ Already effectively addressed in this fork:
 - `#6` Support custom emoji renderers
 - `#9` Include shortcodes in search
 - `#11` Allow building pickers without `EmojiPicker.Search`
+- `#21` English search fallback when locale-specific data is active
 
 #### Native weighting controls
 

@@ -1,0 +1,344 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="FAQ — @slithy/frimousse"
+  description="Frequently asked questions about @slithy/frimousse, its runtime emoji data model, extension seams, and companion packages."
+>
+  <main class="docs-page-shell">
+    <SiteHeader />
+
+    <section class="faq-hero">
+      <div class="docs-hero-copy">
+        <p class="eyebrow">FAQ</p>
+        <h1>Practical answers for common frimousse questions.</h1>
+        <p class="lede">
+          The short version: <code>@slithy/frimousse</code>{" "}keeps the base picker lean and
+          composable, adds useful extension seams, and leaves broader emoji
+          metadata policy to companion packages.
+        </p>
+      </div>
+
+      <div class="faq-index" aria-label="FAQ sections">
+        <a class="docs-summary-card" href="#fork">
+          <h2>Fork</h2>
+          <p>Why use this fork instead of upstream Frimousse.</p>
+        </a>
+        <a class="docs-summary-card" href="#runtime-data">
+          <h2>Runtime data</h2>
+          <p>What the runtime fetch means, and how self-hosting fits.</p>
+        </a>
+        <a class="docs-summary-card" href="#custom-emoji">
+          <h2>Custom emoji</h2>
+          <p>How supplemental items, shortcodes, and mixed sections work.</p>
+        </a>
+        <a class="docs-summary-card" href="#companion-packages">
+          <h2>Companions</h2>
+          <p>What `emoji-transforms` and `emoji-compat` are responsible for.</p>
+        </a>
+      </div>
+    </section>
+
+    <article class="docs-markdown-section faq-section">
+      <section class="faq-question">
+        <h2>Why this fork exists</h2>
+        <p>
+          Frimousse is a great base picker. <code>@slithy/frimousse</code>{" "}exists because I
+          wanted to keep that lightweight, composable core while filling in some
+          real-world extension seams that production apps tend to need, gaps
+          that I ran into when I was trying to replace the abandoned{" "}
+          <code>emoji-mart</code>{" "}library with Frimousse.
+        </p>
+        <p>
+          For me, that meant mixed native and custom emoji sections, richer
+          search behavior, consumer-owned frequent items, and clearer paths for
+          self-hosting emoji data and fallback rendering.
+        </p>
+        <p>
+          The result is still a headless picker, not a batteries-included
+          widget. This FAQ covers the practical tradeoffs: what changed, what
+          stayed the same, what remains consumer-owned, and when this picker is
+          or is not the right fit.
+        </p>
+      </section>
+
+      <section class="faq-question">
+        <h2>At a glance</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th><code>@slithy/frimousse</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Picker style</td>
+              <td>Headless, composable React picker</td>
+            </tr>
+            <tr>
+              <td>Native emoji data</td>
+              <td>Runtime fetch by default, self-hostable with <code>emojibaseUrl</code></td>
+            </tr>
+            <tr>
+              <td>Offline support</td>
+              <td>Yes, when you stage and self-host the needed Emojibase files</td>
+            </tr>
+            <tr>
+              <td>Custom emoji</td>
+              <td>Yes, via supplemental and custom emoji helpers</td>
+            </tr>
+            <tr>
+              <td>Frequent or recent items</td>
+              <td>Consumer-owned persistence, helper-supported ranking and section building</td>
+            </tr>
+            <tr>
+              <td>Native search enrichment</td>
+              <td>Via <code>@slithy/emoji-transforms</code></td>
+            </tr>
+            <tr>
+              <td>Fallback image policy</td>
+              <td>Via <code>@slithy/emoji-compat</code></td>
+            </tr>
+            <tr>
+              <td>Best fit</td>
+              <td>Apps that want control over styling, data delivery, and emoji policy</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="fork" class="faq-question">
+        <h2>Why use <code>@slithy/frimousse</code> instead of upstream Frimousse?</h2>
+        <p>
+          Use the fork when you want to stay close to the original composition
+          model, but you also need practical extension seams that upstream does
+          not provide. See the{" "}
+          <a href="/docs/api-reference#emoji-picker-root"><code>EmojiPicker.Root</code> API</a>
+          for the additive root-level surfaces.
+        </p>
+        <p>Today that mainly means:</p>
+        <ul>
+          <li>consumer-defined mixed sections</li>
+          <li>image-backed custom emoji helpers</li>
+          <li>unified search across native and supplemental items</li>
+          <li>widened selection surfaces for mixed pickers</li>
+          <li>consumer-owned frequent and recent item helpers</li>
+        </ul>
+        <p>
+          If you only need the baseline native-only picker and want the original
+          package, upstream Frimousse remains a reasonable choice.
+        </p>
+      </section>
+
+      <section class="faq-question">
+        <h2>What is the main difference in practice?</h2>
+        <p>
+          The main difference is that this fork keeps Frimousse's base
+          composition model, but extends it for production use cases that need
+          to mix native and custom emoji, enrich search, and own more of the
+          surrounding emoji policy. See{" "}
+          <a href="/docs/api-reference#emoji-picker-root"><code>EmojiPicker.Root</code></a>,{" "}
+          <a href="/docs/api-reference#supplemental-item-helpers">
+            supplemental item helpers
+          </a>,{" "}
+          and{" "}
+          <a href="/docs/api-reference#emoji-transforms-api">
+            <code>@slithy/emoji-transforms</code>
+          </a>.
+        </p>
+        <p>
+          In other words, the picker is still intentionally lean, but it is no
+          longer limited to a native-only story.
+        </p>
+      </section>
+
+      <section class="faq-question">
+        <h2>Do I need Tailwind?</h2>
+        <p>
+          No. <code>@slithy/frimousse</code>{" "}is headless and unstyled. You can style it
+          with Tailwind, plain CSS, CSS-in-JS, or a design-system layer of your
+          own. The relevant surfaces are the picker
+          {" "}<a href="/docs/api-reference#components-overview">components</a>{" "}
+          and their built-in attributes and CSS variables.
+        </p>
+      </section>
+
+      <section class="faq-question">
+        <h2>Can I use it in a popover?</h2>
+        <p>
+          Yes. The package only provides the picker itself, not a trigger or
+          popover primitive. In practice, that means you wrap the{" "}
+          <a href="/docs/api-reference#emoji-picker-root">picker root</a>{" "}
+          in whatever popover, dialog, or floating-ui primitive your app
+          already uses.
+        </p>
+      </section>
+
+      <section id="runtime-data" class="faq-question">
+        <h2>How does native emoji data delivery work?</h2>
+        <p>
+          <code>@slithy/frimousse</code>{" "}does not bundle the native emoji dataset into the
+          package. By default it fetches Emojibase JSON at runtime, which keeps
+          the picker lean and lets your app decide how that data should be
+          delivered.
+        </p>
+        <p>
+          In practice, that means two things: the default setup uses the public
+          Emojibase CDN, and offline support comes from hosting those same files
+          yourself. The API reference covers that under{" "}
+          <a href="/docs/api-reference#emojibase-url-self-hosting">
+            self-hosting with <code>emojibaseUrl</code>
+          </a>.
+        </p>
+        <p>
+          That is a deliberate tradeoff. Instead of baking one data-delivery
+          policy into the package, the picker exposes a simple contract and lets
+          the consumer decide how strict, private, or self-contained the final
+          app needs to be.
+        </p>
+      </section>
+
+      <section class="faq-question">
+        <h2>Can it work offline?</h2>
+        <p>
+          Yes. If you host the needed Emojibase files yourself and point{" "}
+          <code>EmojiPicker.Root</code>{" "}at them, the picker no longer depends on the public
+          CDN. See{" "}
+          <a href="/docs/api-reference#emojibase-url-self-hosting">
+            <code>emojibaseUrl</code>
+          </a>{" "}
+          for the picker-side contract.
+        </p>
+        <p>
+          That is also the setup to use when you want tighter control over
+          availability, privacy, CSP, or release timing.
+        </p>
+        <p>Typical setup:</p>
+        <ol>
+          <li>Run <code>pnpm exec frimousse-stage-emojibase-data --out ./public/emojibase-data</code>.</li>
+          <li>Serve the locale files your picker needs, such as <code>data.json</code> and <code>messages.json</code>.</li>
+          <li>Point <code>EmojiPicker.Root</code> at that hosted directory with <code>emojibaseUrl</code>.</li>
+        </ol>
+        <pre><code>pnpm exec frimousse-stage-emojibase-data --out ./public/emojibase-data</code></pre>
+        <pre><code>{`import { EmojiPicker } from "@slithy/frimousse";
+
+export function MyEmojiPicker() {
+  return (
+    <EmojiPicker.Root
+      locale="en"
+      emojibaseUrl="/emojibase-data"
+    >
+      <EmojiPicker.Search />
+      <EmojiPicker.Viewport>
+        <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+        <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+        <EmojiPicker.List />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}`}</code></pre>
+        <p>
+          With that setup, the picker no longer depends on the public CDN. If
+          your app can serve those files offline, the picker can work offline
+          too.
+        </p>
+      </section>
+
+      <section id="custom-emoji" class="faq-question">
+        <h2>Does this fork support custom emoji?</h2>
+        <p>
+          Yes. The fork adds supplemental-item helpers that let you mix native
+          emoji and image-backed custom emoji in one picker. The relevant API
+          surfaces are documented under{" "}
+          <a href="/docs/api-reference#supplemental-item-helpers">
+            supplemental item helpers
+          </a>{" "}
+          and{" "}
+          <a href="/docs/api-reference#custom-emoji-helpers">
+            custom emoji helpers
+          </a>.
+        </p>
+        <p>
+          The core model is intentionally simple: native emoji remain dataset
+          owned, while your app owns custom emoji identity, image URLs, search
+          aliases, and persistence policy.
+        </p>
+      </section>
+
+      <section class="faq-question">
+        <h2>How do frequent or recent items work?</h2>
+        <p>
+          The library does not persist them for you. Instead, it gives you small
+          helpers for recording usage, sanitizing stored entries, ranking them,
+          and building a prepend section from the result. See the{" "}
+          <a href="/docs/api-reference#frequency-helpers">frequency helpers</a>{" "}
+          in the API reference.
+        </p>
+        <p>
+          That keeps storage and product policy in your app, while still
+          covering the repetitive mechanics.
+        </p>
+      </section>
+
+      <section class="faq-question">
+        <h2>Can native emoji search use shortcodes or fallback terms?</h2>
+        <p>
+          Yes, but that metadata is companion-owned rather than bundled into the
+          picker. Use <code>@slithy/emoji-transforms</code>{" "}to build native search-term
+          maps or shortcode maps from Emojibase-style data, then pass the result
+          into the picker. See{" "}
+          <a href="/docs/api-reference#emoji-transforms-api">
+            <code>@slithy/emoji-transforms</code>
+          </a>.
+        </p>
+        <p>
+          That keeps the picker contract small while still supporting
+          shortcode-first or locale-fallback applications.
+        </p>
+      </section>
+
+      <section id="companion-packages" class="faq-question">
+        <h2>What are the companion packages for?</h2>
+        <p>
+          <a href="/docs/api-reference#emoji-transforms-api">
+            <code>@slithy/emoji-transforms</code>
+          </a>{" "}
+          handles data shaping for search and shortcode metadata.
+        </p>
+        <p>
+          <a href="/docs/api-reference#emoji-compat-api">
+            <code>@slithy/emoji-compat</code>
+          </a>{" "}
+          handles runtime support checks and fallback asset planning.
+        </p>
+        <p>
+          The picker itself stays focused on rendering, interaction, and
+          composition. Broader emoji metadata policy lives outside the picker on
+          purpose.
+        </p>
+      </section>
+
+      <section class="faq-question">
+        <h2>When should I choose something else?</h2>
+        <p>
+          Choose something else if you want a more opinionated, batteries-included
+          picker with more UI already decided for you.
+        </p>
+        <p>
+          <code>@slithy/frimousse</code>{" "}is a better fit when you want a headless picker,
+          control over styling, additive extension seams, and explicit ownership
+          over data delivery, custom emoji, search metadata, and fallback
+          policy.
+        </p>
+        <p>
+          It can work offline too, but that path is still consumer-owned: you
+          stage the Emojibase files you need and host them where your app can
+          serve them.
+        </p>
+      </section>
+    </article>
+  </main>
+</BaseLayout>
