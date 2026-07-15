@@ -5,6 +5,7 @@ export {
 } from "./adapters";
 export {
   adaptEmojibaseNativeEmojiSearchEntries,
+  buildFallbackTermsFromEmojibase,
   buildNativeEmojiSearchTermMapFromEmojibase,
   buildShortcodeMapFromEmojibase,
   buildShortcodeMapFromPreset,
@@ -12,6 +13,7 @@ export {
 export {
   buildNativeEmojiSearchTermMap,
   getNativeEmojiSearchTerms,
+  mergeNativeEmojiSearchTermMaps,
   normalizeNativeEmojiSearchKey,
 } from "./native-search-terms";
 export {
@@ -20,6 +22,7 @@ export {
   getShortcodes,
 } from "./native-shortcodes";
 export type {
+  EmojibaseLocaleFallbackSearchOptions,
   EmojibaseNativeEmojiRecord,
   EmojibaseNativeEmojiSkinRecord,
   EmojibaseNativeEmojiSearchOptions,

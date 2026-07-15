@@ -36,3 +36,7 @@ export interface EmojibaseNativeEmojiSearchOptions {
   includeLabel?: boolean;
   includeTags?: boolean;
 }
+
+export interface EmojibaseLocaleFallbackSearchOptions {
+  includeTags?: boolean;
+}

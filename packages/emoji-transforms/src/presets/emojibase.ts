@@ -4,6 +4,7 @@ import {
 } from "../adapters";
 import { buildShortcodeMap } from "../native-shortcodes";
 import type {
+  EmojibaseLocaleFallbackSearchOptions,
   EmojibaseNativeEmojiRecord,
   EmojibaseNativeEmojiSearchOptions,
   EmojibaseShortcodePreset,
@@ -31,6 +32,16 @@ export function buildNativeEmojiSearchTermMapFromEmojibase(
     getEmoji: (entry) => entry.emoji,
     getShortcodes: (entry) => entry.shortcodes,
     getAliases: (entry) => getAliases(entry, options),
+  });
+}
+
+export function buildFallbackTermsFromEmojibase(
+  entries: Iterable<EmojibaseNativeEmojiRecord>,
+  options: EmojibaseLocaleFallbackSearchOptions = {},
+): NativeEmojiSearchTermMap {
+  return buildNativeEmojiSearchTermMapFromEmojibase(entries, {
+    includeLabel: true,
+    includeTags: options.includeTags,
   });
 }
 

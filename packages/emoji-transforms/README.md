@@ -24,9 +24,11 @@ Full docs:
 import {
   adaptNativeEmojiSearchEntries,
   adaptEmojibaseNativeEmojiSearchEntries,
+  buildFallbackTermsFromEmojibase,
   buildNativeEmojiSearchTermMap,
   buildNativeEmojiSearchTermMapFromAdapter,
   buildNativeEmojiSearchTermMapFromEmojibase,
+  mergeNativeEmojiSearchTermMaps,
   buildShortcodeMap,
   buildShortcodeMapFromAdapter,
   buildShortcodeMapFromEmojibase,
@@ -50,8 +52,12 @@ import {
   with shortcode-map construction.
 - `adaptEmojibaseNativeEmojiSearchEntries(entries, options?)` adapts a common
   `emojibase`-like record shape.
+- `buildFallbackTermsFromEmojibase(entries, options?)` builds a
+  locale-fallback-friendly term map from a secondary Emojibase dataset.
 - `buildNativeEmojiSearchTermMapFromEmojibase(entries, options?)` builds a
   term map directly from those records.
+- `mergeNativeEmojiSearchTermMaps(...maps)` combines multiple plain native
+  search-term maps into one normalized result.
 - `buildShortcodeMapFromEmojibase(entries)` builds a shortcode-only map
   directly from those records.
 - `buildShortcodeMapFromPreset(entries, preset)` joins Emojibase records with a
@@ -70,6 +76,7 @@ Related exported types:
 - `EmojibaseNativeEmojiRecord`
 - `EmojibaseNativeEmojiSkinRecord`
 - `EmojibaseNativeEmojiSearchOptions`
+- `EmojibaseLocaleFallbackSearchOptions`
 - `EmojibaseShortcodePreset`
 - `NativeEmojiSearchTermMap`
 - `NativeEmojiShortcodeMap`
@@ -135,6 +142,78 @@ const termMap = buildNativeEmojiSearchTermMapFromEmojibase(records, {
 By default, the Emojibase preset only contributes `shortcodes`. `label` and
 `tags` are opt-in so the package does not silently widen search behavior.
 
+Locale-fallback example:
+
+```ts
+import englishData from "emojibase-data/en/data.json";
+import {
+  buildFallbackTermsFromEmojibase,
+  mergeNativeEmojiSearchTermMaps,
+} from "@slithy/emoji-transforms";
+
+const englishFallbackTerms =
+  buildFallbackTermsFromEmojibase(englishData);
+
+const termMap = mergeNativeEmojiSearchTermMaps(
+  consumerOwnedTerms,
+  englishFallbackTerms,
+);
+```
+
+Use this when your picker renders in one locale but should still match common
+English search terms.
+
+Build-time script example:
+
+```ts
+// scripts/build-fr-search-terms.ts
+import { writeFile } from "node:fs/promises";
+import englishData from "emojibase-data/en/data.json";
+import frenchData from "emojibase-data/fr/data.json";
+import {
+  buildFallbackTermsFromEmojibase,
+  buildNativeEmojiSearchTermMapFromEmojibase,
+  mergeNativeEmojiSearchTermMaps,
+} from "@slithy/emoji-transforms";
+
+const frenchTerms = buildNativeEmojiSearchTermMapFromEmojibase(frenchData, {
+  includeLabel: true,
+});
+
+const englishFallbackTerms = buildFallbackTermsFromEmojibase(englishData);
+
+const searchTerms = mergeNativeEmojiSearchTermMaps(
+  frenchTerms,
+  englishFallbackTerms,
+);
+
+await writeFile(
+  new URL("../src/generated/fr-search-terms.json", import.meta.url),
+  `${JSON.stringify(searchTerms, null, 2)}\n`,
+);
+```
+
+Run that script during your build step, then import the generated artifact into
+your picker setup:
+
+```bash
+pnpm tsx scripts/build-fr-search-terms.ts
+```
+
+That writes `src/generated/fr-search-terms.json`. Use that generated file in
+the picker config for the matching locale:
+
+```ts
+import frSearchTerms from "./generated/fr-search-terms.json";
+
+<EmojiPicker.Root
+  locale="fr"
+  search={{ native: { terms: frSearchTerms } }}
+>
+  {/* ... */}
+</EmojiPicker.Root>;
+```
+
 Shortcode-map example:
 
 ```ts
@@ -163,6 +242,8 @@ const shortcodeMap = buildShortcodeMapFromPreset(emojiData, iamcalShortcodes);
 - Separator-based terms like `white_check_mark` also get a spaced variant like
   `white check mark`.
 - Shortcode maps stay shortcode-only and do not widen into label/tag aliases.
+- Locale-fallback Emojibase maps include `label` by default and keep `tags`
+  opt-in.
 
 This keeps lookup predictable while still returning a plain data structure that
 any consumer can own and pass around.

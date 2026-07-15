@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildNativeEmojiSearchTermMap,
   getNativeEmojiSearchTerms,
+  mergeNativeEmojiSearchTermMaps,
   normalizeNativeEmojiSearchKey,
 } from "../index";
 
@@ -108,6 +109,24 @@ describe("buildNativeEmojiSearchTermMap", () => {
 
     expect(termMap).toEqual({
       "✅": ["white_check_mark", "white check mark"],
+    });
+  });
+
+  it("merges and deduplicates multiple term maps", () => {
+    const merged = mergeNativeEmojiSearchTermMaps(
+      {
+        "❤️": ["red_heart", "red heart"],
+        "👍": ["+1"],
+      },
+      {
+        "❤": ["red heart", "love"],
+        "👍🏽": ["thumbsup"],
+      },
+    );
+
+    expect(merged).toEqual({
+      "❤": ["red_heart", "red heart", "love"],
+      "👍": ["+1", "thumbsup"],
     });
   });
 });

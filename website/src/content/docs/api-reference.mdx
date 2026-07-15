@@ -14,6 +14,14 @@ It covers:
 - styling hooks
 - exported types
 
+## Packages
+
+- [`@slithy/frimousse`](#frimousse-api)
+- [`@slithy/emoji-transforms`](#emoji-transforms-api)
+- [`@slithy/emoji-compat`](#emoji-compat-api)
+
+<div id="frimousse-api"></div>
+
 ## Entry Points
 
 ### Namespace export
@@ -962,9 +970,11 @@ Entry point:
 import {
   adaptNativeEmojiSearchEntries,
   adaptEmojibaseNativeEmojiSearchEntries,
+  buildFallbackTermsFromEmojibase,
   buildNativeEmojiSearchTermMap,
   buildNativeEmojiSearchTermMapFromAdapter,
   buildNativeEmojiSearchTermMapFromEmojibase,
+  mergeNativeEmojiSearchTermMaps,
   buildShortcodeMap,
   buildShortcodeMapFromAdapter,
   buildShortcodeMapFromEmojibase,
@@ -1028,6 +1038,64 @@ Maps arbitrary source records into the package's neutral
 Adapts a common Emojibase-like record shape into the package's neutral entry
 format.
 
+### `buildFallbackTermsFromEmojibase(entries, options?)`
+
+Builds a native-search term map from a secondary Emojibase locale dataset for
+fallback search use cases.
+
+Notes:
+
+- includes `label`-based fallback terms by default
+- keeps `tags` opt-in through `options`
+- useful when a picker renders in one locale but should still match English
+  search terms
+
+Build-time example:
+
+```ts
+// scripts/build-fr-search-terms.ts
+import { writeFile } from "node:fs/promises";
+import englishData from "emojibase-data/en/data.json";
+import frenchData from "emojibase-data/fr/data.json";
+import {
+  buildFallbackTermsFromEmojibase,
+  buildNativeEmojiSearchTermMapFromEmojibase,
+  mergeNativeEmojiSearchTermMaps,
+} from "@slithy/emoji-transforms";
+
+const searchTerms = mergeNativeEmojiSearchTermMaps(
+  buildNativeEmojiSearchTermMapFromEmojibase(frenchData, {
+    includeLabel: true,
+  }),
+  buildFallbackTermsFromEmojibase(englishData),
+);
+
+await writeFile(
+  new URL("../src/generated/fr-search-terms.json", import.meta.url),
+  `${JSON.stringify(searchTerms, null, 2)}\n`,
+);
+```
+
+Run example:
+
+```bash
+pnpm tsx scripts/build-fr-search-terms.ts
+```
+
+That writes `src/generated/fr-search-terms.json`, which you can then pass to
+the picker:
+
+```ts
+import frSearchTerms from "./generated/fr-search-terms.json";
+
+<EmojiPicker.Root
+  locale="fr"
+  search={{ native: { terms: frSearchTerms } }}
+>
+  {/* ... */}
+</EmojiPicker.Root>;
+```
+
 ### `buildNativeEmojiSearchTermMapFromEmojibase(entries, options?)`
 
 Builds a native-search term map directly from Emojibase-like records.
@@ -1036,6 +1104,16 @@ Notes:
 
 - shortcode data is included by default
 - `label` and `tags` are opt-in through `options`
+
+### `mergeNativeEmojiSearchTermMaps(...maps)`
+
+Combines multiple plain native-search term maps into one normalized result.
+
+Notes:
+
+- normalizes keys to the base emoji form
+- deduplicates terms across maps
+- useful for layering locale-fallback terms onto existing consumer-owned maps
 
 ### `buildShortcodeMapFromEmojibase(entries)`
 
@@ -1080,6 +1158,7 @@ Normalization behavior:
 - `EmojibaseNativeEmojiRecord`
 - `EmojibaseNativeEmojiSkinRecord`
 - `EmojibaseNativeEmojiSearchOptions`
+- `EmojibaseLocaleFallbackSearchOptions`
 - `EmojibaseShortcodePreset`
 - `NativeEmojiSearchTermMap`
 - `NativeEmojiShortcodeMap`

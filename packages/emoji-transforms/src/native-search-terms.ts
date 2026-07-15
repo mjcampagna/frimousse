@@ -45,6 +45,38 @@ export function buildNativeEmojiSearchTermMap(
   );
 }
 
+export function mergeNativeEmojiSearchTermMaps(
+  ...maps: readonly NativeEmojiSearchTermMap[]
+): NativeEmojiSearchTermMap {
+  const termsByEmoji = new Map<string, Set<string>>();
+
+  for (const map of maps) {
+    for (const [emoji, candidates] of Object.entries(map)) {
+      const key = normalizeNativeEmojiSearchKey(emoji);
+
+      if (!key) {
+        continue;
+      }
+
+      const terms = termsByEmoji.get(key) ?? new Set<string>();
+
+      for (const candidate of candidates) {
+        for (const term of expandShortcodeTerms(candidate)) {
+          terms.add(term);
+        }
+      }
+
+      if (terms.size > 0) {
+        termsByEmoji.set(key, terms);
+      }
+    }
+  }
+
+  return Object.fromEntries(
+    Array.from(termsByEmoji, ([emoji, terms]) => [emoji, Array.from(terms)]),
+  );
+}
+
 export function getNativeEmojiSearchTerms(
   termMap: NativeEmojiSearchTermMap,
   emoji: string,

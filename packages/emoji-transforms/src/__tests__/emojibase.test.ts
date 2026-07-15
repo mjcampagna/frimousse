@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   adaptEmojibaseNativeEmojiSearchEntries,
+  buildFallbackTermsFromEmojibase,
   buildNativeEmojiSearchTermMapFromEmojibase,
   buildShortcodeMapFromEmojibase,
   buildShortcodeMapFromPreset,
@@ -88,6 +89,43 @@ describe("buildNativeEmojiSearchTermMapFromEmojibase", () => {
         "check mark button",
         "done",
       ],
+    });
+  });
+});
+
+describe("buildFallbackTermsFromEmojibase", () => {
+  it("includes label-based fallback terms by default", () => {
+    expect(
+      buildFallbackTermsFromEmojibase([
+        {
+          emoji: "👋",
+          label: "waving hand",
+          shortcodes: ["wave"],
+          tags: ["goodbye"],
+        },
+      ]),
+    ).toEqual({
+      "👋": ["wave", "waving hand"],
+    });
+  });
+
+  it("can opt into fallback tags explicitly", () => {
+    expect(
+      buildFallbackTermsFromEmojibase(
+        [
+          {
+            emoji: "👋",
+            label: "waving hand",
+            shortcodes: ["wave"],
+            tags: ["goodbye"],
+          },
+        ],
+        {
+          includeTags: true,
+        },
+      ),
+    ).toEqual({
+      "👋": ["wave", "waving hand", "goodbye"],
     });
   });
 });
