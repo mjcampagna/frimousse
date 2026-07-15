@@ -271,6 +271,22 @@ export interface EmojiPickerRootProps extends ComponentProps<"div"> {
    * any specific metadata package or shortcode vocabulary.
    */
   search?: EmojiPickerSearchConfig;
+
+  /**
+   * Controls the picker search value at the root level.
+   *
+   * This is additive and allows consumers to drive search without rendering
+   * `EmojiPicker.Search`.
+   */
+  searchValue?: string;
+
+  /**
+   * Called whenever the picker search value changes.
+   *
+   * This is additive and useful when search is driven from a consumer-owned
+   * input outside `EmojiPicker.Search`.
+   */
+  onSearchValueChange?: (search: string) => void;
 }
 
 export type EmojiPickerViewportProps = ComponentProps<"div">;

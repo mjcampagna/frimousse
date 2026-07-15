@@ -47,6 +47,7 @@ export type EmojiPickerStore = {
   skinTone: SkinTone;
   onEmojiSelect: NonNullable<EmojiPickerRootProps["onEmojiSelect"]>;
   onItemSelect: NonNullable<EmojiPickerRootProps["onItemSelect"]>;
+  onSearchValueChange: NonNullable<EmojiPickerRootProps["onSearchValueChange"]>;
 
   data: EmojiPickerData | null | undefined;
   search: string;
@@ -73,7 +74,7 @@ export type EmojiPickerStore = {
   selectItem: (item: EmojiPickerItem) => void;
 
   onDataChange: (data: EmojiPickerData) => void;
-  onSearchChange: (search: string) => void;
+  onSearchChange: (search: string, notify?: boolean) => void;
   onActiveEmojiChange: (
     interaction: Exclude<Interaction, "none">,
     activeColumnIndex: number,
@@ -89,6 +90,7 @@ export type EmojiPickerStore = {
 export function createEmojiPickerStore(
   onEmojiSelect: NonNullable<EmojiPickerRootProps["onEmojiSelect"]>,
   onItemSelect: NonNullable<EmojiPickerRootProps["onItemSelect"]>,
+  onSearchValueChange: NonNullable<EmojiPickerRootProps["onSearchValueChange"]>,
   initialLocale: Locale,
   initialColumns: number,
   initialSticky: boolean,
@@ -103,6 +105,7 @@ export function createEmojiPickerStore(
     skinTone: initialSkinTone,
     onEmojiSelect,
     onItemSelect,
+    onSearchValueChange,
 
     data: null,
     search: "",
@@ -247,7 +250,7 @@ export function createEmojiPickerStore(
             nextActivePosition.activeRowIndex !== previousState.activeRowIndex),
       });
     },
-    onSearchChange: (search: string) => {
+    onSearchChange: (search: string, notify = true) => {
       set({
         search,
         interaction: search ? "keyboard" : "none",
@@ -255,6 +258,10 @@ export function createEmojiPickerStore(
         activeRowIndex: search ? 0 : get().activeRowIndex,
         suppressPointerEnter: false,
       });
+
+      if (notify) {
+        get().onSearchValueChange(search);
+      }
     },
     onActiveEmojiChange: (
       interaction: Exclude<Interaction, "none">,

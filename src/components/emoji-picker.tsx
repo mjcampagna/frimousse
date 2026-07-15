@@ -162,10 +162,12 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
       skinTone = "none",
       onEmojiSelect = noop,
       onItemSelect = noop,
+      onSearchValueChange = noop,
       emojiVersion,
       emojibaseUrl,
       supplemental,
       search: searchConfig,
+      searchValue,
       onFocusCapture,
       onBlurCapture,
       children,
@@ -177,10 +179,12 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
   ) => {
     const stableOnEmojiSelect = useStableCallback(onEmojiSelect);
     const stableOnItemSelect = useStableCallback(onItemSelect);
+    const stableOnSearchValueChange = useStableCallback(onSearchValueChange);
     const store = useCreateStore(() =>
       createEmojiPickerStore(
         stableOnEmojiSelect,
         stableOnItemSelect,
+        stableOnSearchValueChange,
         validateLocale(locale),
         columns,
         sticky,
@@ -211,6 +215,16 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
     useLayoutEffect(() => {
       store.set({ skinTone: validateSkinTone(skinTone) });
     }, [skinTone]);
+
+    useLayoutEffect(() => {
+      store.set({ onSearchValueChange: stableOnSearchValueChange });
+    }, [stableOnSearchValueChange]);
+
+    useLayoutEffect(() => {
+      if (typeof searchValue === "string") {
+        store.get().onSearchChange(searchValue, false);
+      }
+    }, [searchValue]);
 
     const handleFocusCapture = useCallback(
       (event: ReactFocusEvent<HTMLDivElement>) => {
@@ -544,6 +558,7 @@ const EmojiPickerRoot = forwardRef<HTMLDivElement, EmojiPickerRootProps>(
 const EmojiPickerSearch = forwardRef<HTMLInputElement, EmojiPickerSearchProps>(
   ({ value, defaultValue, onChange, ...props }, forwardedRef) => {
     const store = useEmojiPickerStore();
+    const search = useSelectorKey(store, "search");
     const ref = useRef<HTMLInputElement>(null!);
     const callbackRef = useCallback((element: HTMLInputElement | null) => {
       if (element) {
@@ -581,7 +596,7 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, EmojiPickerSearchProps>(
     // Handle controlled value changes
     useLayoutEffect(() => {
       if (typeof value === "string") {
-        store.get().onSearchChange(value);
+        store.get().onSearchChange(value, false);
       }
     }, [value]);
 
@@ -609,10 +624,9 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, EmojiPickerSearchProps>(
         spellCheck={false}
         type="search"
         {...props}
-        defaultValue={defaultValue}
         onChange={handleChange}
         ref={callbackRef}
-        value={value}
+        value={typeof value === "string" ? value : search}
       />
     );
   },

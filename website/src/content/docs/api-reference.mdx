@@ -144,6 +144,8 @@ Props:
 | `sticky` | `boolean` | `true` | Makes category headers sticky. |
 | `supplemental` | `SupplementalConfig` | - | Adds consumer-owned sections and supplemental search behavior. |
 | `search` | `EmojiPickerSearchConfig` | - | Adds native search enrichment data. |
+| `searchValue` | `string` | - | Controls the picker search value at the root level, including use cases that do not render `EmojiPicker.Search`. |
+| `onSearchValueChange` | `(search: string) => void` | - | Called whenever the picker search value changes. Useful with an external input or autocomplete field. |
 
 Built-in element props:
 
@@ -170,6 +172,8 @@ Notes:
 
 - Can be used as an uncontrolled input.
 - Can also be controlled with `value` and `onChange`.
+- Is optional when `EmojiPicker.Root` is using `searchValue` and `onSearchValueChange`.
+- Prefer one control surface at a time: either control `EmojiPicker.Search` directly, or drive search from `EmojiPicker.Root`.
 
 Built-in element props:
 

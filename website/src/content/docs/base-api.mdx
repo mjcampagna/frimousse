@@ -108,11 +108,50 @@ The parts are intentionally unstyled. Apply layout and visual styling in your ow
 
 The picker only provides the emoji UI. If you want a menu, dialog, or popover around it, compose it with your existing overlay components.
 
+### Driving search from outside the picker
+
+`EmojiPicker.Search` is optional.
+
+If your app already has its own input, autocomplete field, or command bar, control search from `EmojiPicker.Root` instead and omit `EmojiPicker.Search` entirely.
+
+```tsx
+import { useState } from "react";
+import { EmojiPicker } from "@slithy/frimousse";
+
+export function MyEmojiPicker() {
+  const [search, setSearch] = useState("");
+
+  return (
+    <>
+      <input
+        onChange={(event) => setSearch(event.target.value)}
+        placeholder="Search emoji"
+        type="text"
+        value={search}
+      />
+
+      <EmojiPicker.Root
+        onSearchValueChange={setSearch}
+        searchValue={search}
+      >
+        <EmojiPicker.Viewport>
+          <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+          <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+          <EmojiPicker.List />
+        </EmojiPicker.Viewport>
+      </EmojiPicker.Root>
+    </>
+  );
+}
+```
+
 ### Behavior notes
 
 `Root` manages locale, skin tone, keyboard navigation, active state, and selection callbacks for the picker tree. Use `Root`, `Search`, `Viewport`, `List`, `Loading`, and `Empty` for the baseline composition.
 
 Search filters the native dataset and keeps matching emoji grouped under their category headings. Use `onEmojiSelect` for native emoji selection. `SkinToneSelector`, `SkinTone`, `ActiveEmoji`, `useSkinTone`, and `useActiveEmoji` work with native emoji only.
+
+If you need consumer-owned search UI, use `searchValue` and `onSearchValueChange` on `Root`. If you control `EmojiPicker.Search` directly with `value`, do not also try to drive it independently from a separate root-level search source.
 
 `List` is virtualized, so custom row and category-header components should keep consistent dimensions for accurate scrolling and sticky headers.
 </section>

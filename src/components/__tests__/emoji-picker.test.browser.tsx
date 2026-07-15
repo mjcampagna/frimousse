@@ -28,6 +28,9 @@ function DefaultPage({
   searchDefaultValue,
   searchValue,
   searchOnChange,
+  rootSearchValue,
+  rootOnSearchValueChange,
+  includeSearch = true,
   rootChildren,
   emptyChildren = <div data-testid="empty">No emojis found</div>,
   sticky = true,
@@ -42,6 +45,9 @@ function DefaultPage({
   searchDefaultValue?: EmojiPickerSearchProps["defaultValue"];
   searchOnChange?: EmojiPickerSearchProps["onChange"];
   searchValue?: EmojiPickerSearchProps["value"];
+  rootSearchValue?: EmojiPickerRootProps["searchValue"];
+  rootOnSearchValueChange?: EmojiPickerRootProps["onSearchValueChange"];
+  includeSearch?: boolean;
   rootChildren?: EmojiPickerRootProps["children"];
   emptyChildren?: EmojiPickerEmptyProps["children"];
   sticky?: EmojiPickerRootProps["sticky"];
@@ -61,15 +67,19 @@ function DefaultPage({
           emojiVersion={emojiVersion}
           locale={locale}
           onEmojiSelect={setSelectedEmoji}
+          onSearchValueChange={rootOnSearchValueChange}
+          searchValue={rootSearchValue}
           skinTone={skinTone}
           sticky={sticky}
         >
-          <EmojiPicker.Search
-            data-testid="search"
-            defaultValue={searchDefaultValue}
-            onChange={searchOnChange}
-            value={searchValue}
-          />
+          {includeSearch ? (
+            <EmojiPicker.Search
+              data-testid="search"
+              defaultValue={searchDefaultValue}
+              onChange={searchOnChange}
+              value={searchValue}
+            />
+          ) : null}
           <EmojiPicker.Loading data-testid="loading">
             Loading…
           </EmojiPicker.Loading>
@@ -589,6 +599,60 @@ describe("EmojiPicker.Search", () => {
     await expect.element(page.getByTestId("search")).toHaveValue("123456789");
     await expect.element(page.getByTestId("empty")).toBeInTheDocument();
   });
+
+  it("should support a root-controlled search value", async () => {
+    function Page() {
+      const [search, setSearch] = useState("");
+
+      return (
+        <DefaultPage
+          rootOnSearchValueChange={setSearch}
+          rootSearchValue={search}
+        />
+      );
+    }
+
+    page.render(<Page />);
+
+    await expect.element(page.getByTestId("search")).toHaveValue("");
+
+    await page.getByTestId("search").fill("cat");
+    await expect.element(page.getByTestId("search")).toHaveValue("cat");
+    await expect.element(page.getByText("🐈")).toBeInTheDocument();
+
+    await page.getByTestId("search").fill("123456789");
+    await expect.element(page.getByTestId("search")).toHaveValue("123456789");
+    await expect.element(page.getByTestId("empty")).toBeInTheDocument();
+  });
+
+  it("should support root-controlled search without rendering EmojiPicker.Search", async () => {
+    function Page() {
+      const [search, setSearch] = useState("");
+
+      return (
+        <DefaultPage
+          includeSearch={false}
+          rootOnSearchValueChange={setSearch}
+          rootSearchValue={search}
+          rootChildren={
+            <input
+              data-testid="controlled-search"
+              onChange={(event) => setSearch(event.target.value)}
+              type="text"
+            />
+          }
+        />
+      );
+    }
+
+    page.render(<Page />);
+
+    await page.getByTestId("controlled-search").fill("cat");
+    await expect.element(page.getByText("🐈")).toBeInTheDocument();
+
+    await page.getByTestId("controlled-search").fill("123456789");
+    await expect.element(page.getByTestId("empty")).toBeInTheDocument();
+  });
 });
 
 describe("EmojiPicker.Viewport", () => {
@@ -869,6 +933,7 @@ describe("EmojiPicker.SkinToneSelector", () => {
 describe("EmojiPicker.Loading", () => {
   it("should render when loading emojis", async () => {
     const store = createEmojiPickerStore(
+      () => {},
       () => {},
       () => {},
       "en",

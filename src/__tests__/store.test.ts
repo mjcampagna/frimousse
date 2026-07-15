@@ -8,6 +8,7 @@ describe("createEmojiPickerStore", () => {
     const store = createEmojiPickerStore(
       onEmojiSelect,
       onItemSelect,
+      vi.fn(),
       "en",
       9,
       true,
@@ -42,6 +43,7 @@ describe("createEmojiPickerStore", () => {
     const store = createEmojiPickerStore(
       onEmojiSelect,
       onItemSelect,
+      vi.fn(),
       "en",
       9,
       true,
