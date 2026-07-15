@@ -12,6 +12,24 @@ This package is intentionally adjacent to picker and rendering code.
 
 It does not render anything itself, bundle Twemoji assets, or require a picker.
 
+## Boundary
+
+`@slithy/emoji-compat` owns the reusable mechanics:
+
+- browser support probing
+- supported-version detection
+- compat-map generation from emojibase-like records
+- fallback URL resolution from compat data
+- fallback asset manifest generation
+
+Your app owns the product-specific policy:
+
+- which browsers or platforms define your support baseline
+- which `supportedVersion` or `versionFloor` you choose from that policy
+- where generated compat maps and fallback asset manifests live
+- how fallback assets are hosted or copied into your app
+- how your rendering component chooses between native text and image fallback
+
 ## Shipped Surface
 
 ```ts
