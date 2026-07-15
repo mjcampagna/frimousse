@@ -64,7 +64,7 @@ To adopt the fork, consumers should only need to swap the import source:
 import { EmojiPicker } from "@slithy/frimousse";
 ```
 
-The upstream hosted installer and site examples are not the canonical distribution channel for this fork.
+The upstream hosted installer and examples are not the canonical distribution channel for this fork.
 
 ## Usage
 
@@ -120,7 +120,7 @@ The emoji data is based on [Emojibase](https://emojibase.dev/).
 
 All contributions are welcome! If you find a bug or have a feature request, feel free to create an [issue](https://github.com/mjcampagna/frimousse/issues) or a [PR](https://github.com/mjcampagna/frimousse/pulls).
 
-The project is setup as a monorepo with the `frimousse` package at the root, a package-development playground in `playground`, a new static website in `website`, and the inherited site still available in `site` during migration.
+The project is setup as a monorepo with the `frimousse` package at the root, a package-development playground in `playground`, a static website in `website`, and companion packages in `packages/*`.
 
 ### Development
 
@@ -140,16 +140,10 @@ pnpm dev:playground
 This starts the playground app. Open the local Vite URL shown in the terminal, typically `http://localhost:5173`.
 The playground resolves `@slithy/frimousse` from the local source tree during development, so library changes should reflect without running a separate package watcher.
 
-The new static website can be developed separately.
+The static website can be developed separately.
 
 ```bash
 pnpm dev:website
-```
-
-The inherited site is still available when needed during migration.
-
-```bash
-pnpm dev:site
 ```
 
 ### Tests

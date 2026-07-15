@@ -9,6 +9,8 @@
   "publishConfig": {
     "access": "public"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -20,19 +22,23 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "assets:generate": "node ./scripts/generate-fallback-assets.mjs",
     "clean": "rm -rf dist",
     "build": "rm -rf dist && tsup",
     "dev": "tsup --watch",
+    "lint:package": "publint --strict",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
     "@types/node": "^24.3.1",
+    "publint": "^0.3.9",
     "tsup": "^8.4.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"
@@ -46,6 +52,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mjcampagna/frimousse.git"
-  }
+    "url": "git+https://github.com/mjcampagna/frimousse.git",
+    "directory": "packages/emoji-compat"
+  },
+  "bugs": {
+    "url": "https://github.com/mjcampagna/frimousse/issues"
+  },
+  "homepage": "https://github.com/mjcampagna/frimousse/tree/main/packages/emoji-compat"
 }
