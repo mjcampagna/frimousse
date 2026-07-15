@@ -4,7 +4,7 @@ A lightweight, unstyled, and composable emoji picker for React.
 
 - ⚡️ **Lightweight and fast**: Dependency-free, tree-shakable, and virtualized with minimal re-renders
 - 🎨 **Unstyled and composable**: Bring your own styles and compose parts as you want
-- 🔄 **Always up-to-date**: Latest emoji data is fetched when needed and cached locally
+- 🗂️ **Consumer-owned emoji data delivery**: Fetch Emojibase data at runtime by default, or self-host the same files when you want tighter control
 - 🔣 **No � symbols**: Unsupported emojis are automatically hidden
 - ♿️ **Accessible**: Keyboard navigable and screen reader-friendly
 
@@ -25,6 +25,7 @@ Current fork additions include:
 - widened selection APIs
 - consumer-owned frequency helpers
 - image-backed custom emoji helpers
+- root-controlled search
 - shortcode display helpers
 - native search enrichment and unified mixed-item search
 
@@ -80,6 +81,7 @@ Live docs for this fork:
 - [frimousse.slithy.me](https://frimousse.slithy.me/)
 - [frimousse.slithy.me/docs](https://frimousse.slithy.me/docs)
 - [frimousse.slithy.me/docs/api-reference](https://frimousse.slithy.me/docs/api-reference)
+- [frimousse.slithy.me/faq](https://frimousse.slithy.me/faq)
 
 Baseline upstream docs and examples:
 

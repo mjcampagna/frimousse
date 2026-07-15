@@ -29,10 +29,14 @@ Use one repo-level GitHub Release per publish batch, attached to the main
 `@slithy/frimousse@...` tag for that batch.
 
 The release body should list every package version included in the publish.
+Keep the GitHub Release title short and conventional, such as `v0.4.1`.
 
 Example:
 
 ```md
+Title:
+v0.4.1
+
 Published packages:
 - `@slithy/frimousse@0.4.1`
 - `@slithy/emoji-transforms@0.1.1`
@@ -52,6 +56,7 @@ Highlights:
 Initial workspace release:
 
 - tag: `@slithy/frimousse@0.4.0`
+- title: `v0.4.0`
 - included packages:
   - `@slithy/frimousse@0.4.0`
   - `@slithy/emoji-transforms@0.1.0`
