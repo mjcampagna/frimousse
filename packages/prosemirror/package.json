@@ -1,0 +1,79 @@
+{
+  "name": "@slithy/prosemirror",
+  "description": "A focused React harness for ProseMirror with small, composable editor primitives.",
+  "version": "0.1.0",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "packageManager": "pnpm@11.7.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "rm -rf dist && tsup",
+    "build:playground": "vite build --config vite.playground.config.ts",
+    "dev": "tsup --watch",
+    "dev:playground": "vite --config vite.playground.config.ts",
+    "lint:package": "publint --strict",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "prosemirror-model": "^1.25.3",
+    "prosemirror-schema-basic": "^1.2.4",
+    "prosemirror-state": "^1.4.4",
+    "prosemirror-view": "^1.41.3"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^5.0.4",
+    "publint": "^0.3.9",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "^6.0.3",
+    "vite": "^7.0.7",
+    "vitest": "^4.1.10"
+  },
+  "keywords": [
+    "prosemirror",
+    "editor",
+    "rich-text",
+    "scaffold",
+    "react"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjcampagna/frimousse.git",
+    "directory": "packages/prosemirror"
+  },
+  "bugs": {
+    "url": "https://github.com/mjcampagna/frimousse/issues"
+  },
+  "homepage": "https://frimousse.slithy.me/"
+}

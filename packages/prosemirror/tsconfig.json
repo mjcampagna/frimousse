@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["dom", "es2022"],
+    "module": "es2022",
+    "moduleResolution": "Bundler",
+    "ignoreDeprecations": "6.0",
+    "types": ["node", "react", "vitest/globals"],
+    "noEmit": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "jsx": "react-jsx",
+    "rootDir": "."
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "playground/**/*.ts",
+    "playground/**/*.tsx",
+    "test/**/*.ts"
+  ],
+  "exclude": ["dist", "node_modules"]
+}
