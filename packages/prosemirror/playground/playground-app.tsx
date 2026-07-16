@@ -1,16 +1,23 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { EditorView } from "prosemirror-view";
 
 import {
   ProsemirrorEditor,
+  type EditorCursorSnapshot,
   type ProsemirrorEditorHandle,
+  useEditorCursorPosition,
+  useEditorInstance,
   useEditorState,
   useEditorView,
 } from "../src";
 
 function EditorInspector() {
+  const cursorPosition = useEditorCursorPosition();
+  const instance = useEditorInstance();
   const state = useEditorState();
   const view = useEditorView();
+  const [cursorSnapshot, setCursorSnapshot] =
+    useState<EditorCursorSnapshot | null>(null);
 
   return (
     <section className="playground-panel">
@@ -32,6 +39,14 @@ function EditorInspector() {
         >
           Focus editor
         </button>
+        <button
+          onClick={() => {
+            setCursorSnapshot(instance.createCursorSnapshot());
+          }}
+          type="button"
+        >
+          Snapshot cursor
+        </button>
       </div>
       <dl className="playground-metadata">
         <div>
@@ -45,12 +60,37 @@ function EditorInspector() {
           </dd>
         </div>
         <div>
+          <dt>Live cursor</dt>
+          <dd>
+            head {cursorPosition.head}, anchor {cursorPosition.anchor}
+            {cursorPosition.coords
+              ? ` at ${Math.round(cursorPosition.coords.left)}, ${Math.round(cursorPosition.coords.top)}`
+              : " (coords unavailable)"}
+          </dd>
+        </div>
+        <div>
+          <dt>Frozen snapshot</dt>
+          <dd>
+            {cursorSnapshot
+              ? `head ${cursorSnapshot.head}, anchor ${cursorSnapshot.anchor}${
+                  cursorSnapshot.coords
+                    ? ` at ${Math.round(cursorSnapshot.coords.left)}, ${Math.round(cursorSnapshot.coords.top)}`
+                    : " (coords unavailable)"
+                }`
+              : "No snapshot captured yet."}
+          </dd>
+        </div>
+        <div>
           <dt>Document JSON</dt>
           <dd>
             <pre>{JSON.stringify(state.doc.toJSON(), null, 2)}</pre>
           </dd>
         </div>
       </dl>
+      <p className="playground-note">
+        Capture a snapshot, keep typing, and compare the frozen anchor to the
+        live cursor position.
+      </p>
     </section>
   );
 }

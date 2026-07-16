@@ -5,6 +5,7 @@ import {
   render,
   screen,
 } from "@testing-library/react";
+import { useState } from "react";
 import { history } from "prosemirror-history";
 import { EditorState, Plugin } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
@@ -12,7 +13,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { defaultSchema } from "../core/default-schema";
 import { ProsemirrorEditor } from "./prosemirror-editor";
-import { useEditorState, useEditorView } from "./editor-context";
+import {
+  useEditorCursorPosition,
+  useEditorInstance,
+  useEditorState,
+  useEditorView,
+} from "./editor-context";
 
 afterEach(() => {
   cleanup();
@@ -191,5 +197,54 @@ describe("ProsemirrorEditor", () => {
     unmount();
 
     expect(destroySpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("tracks cursor position and allows freezing a cursor snapshot", () => {
+    function CursorProbe() {
+      const cursorPosition = useEditorCursorPosition();
+      const instance = useEditorInstance();
+      const view = useEditorView();
+      const [snapshotHead, setSnapshotHead] = useState<string>("none");
+
+      return (
+        <div>
+          <span data-testid="cursor-head">{String(cursorPosition.head)}</span>
+          <span data-testid="snapshot-head">{snapshotHead}</span>
+          <button
+            onClick={() => {
+              setSnapshotHead(String(instance.createCursorSnapshot().head));
+            }}
+            type="button"
+          >
+            Snapshot cursor
+          </button>
+          <button
+            onClick={() => {
+              view.dispatch(view.state.tr.insertText("typing"));
+            }}
+            type="button"
+          >
+            Type more
+          </button>
+        </div>
+      );
+    }
+
+    render(
+      <ProsemirrorEditor>
+        <CursorProbe />
+      </ProsemirrorEditor>,
+    );
+
+    const initialHead = screen.getByTestId("cursor-head").textContent;
+
+    fireEvent.click(screen.getByRole("button", { name: "Snapshot cursor" }));
+
+    expect(screen.getByTestId("snapshot-head").textContent).toBe(initialHead);
+
+    fireEvent.click(screen.getByRole("button", { name: "Type more" }));
+
+    expect(screen.getByTestId("cursor-head").textContent).not.toBe(initialHead);
+    expect(screen.getByTestId("snapshot-head").textContent).toBe(initialHead);
   });
 });

@@ -70,4 +70,33 @@ describe("createEditorInstance", () => {
 
     instance.destroy();
   });
+
+  it("tracks cursor position and snapshots it independently", () => {
+    const mount = document.createElement("div");
+    const instance = createEditorInstance({ mount });
+    const coordsAtPos = vi
+      .spyOn(instance.view, "coordsAtPos")
+      .mockReturnValue({ bottom: 40, left: 10, right: 10, top: 20 });
+
+    const initialCursorPosition = instance.getCursorPosition();
+    const snapshot = instance.createCursorSnapshot();
+
+    instance.dispatchTransaction(
+      instance.view.state.tr.insertText("cursor tracking"),
+    );
+
+    const nextCursorPosition = instance.getCursorPosition();
+
+    expect(initialCursorPosition.head).toBe(snapshot.head);
+    expect(snapshot.coords).toEqual({
+      bottom: 40,
+      left: 10,
+      right: 10,
+      top: 20,
+    });
+    expect(nextCursorPosition.head).not.toBe(snapshot.head);
+
+    coordsAtPos.mockRestore();
+    instance.destroy();
+  });
 });

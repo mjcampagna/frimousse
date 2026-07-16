@@ -3,7 +3,10 @@ import { useSyncExternalStore } from "react";
 import type { EditorState } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 
-import type { EditorInstance } from "../core/create-editor-instance";
+import type {
+  EditorCursorPosition,
+  EditorInstance,
+} from "../core/create-editor-instance";
 
 export const EditorContext = createContext<EditorInstance | null>(null);
 
@@ -30,5 +33,15 @@ export function useEditorState(): EditorState {
     instance.subscribe,
     instance.getState,
     instance.getState,
+  );
+}
+
+export function useEditorCursorPosition(): EditorCursorPosition {
+  const instance = useEditorInstance();
+
+  return useSyncExternalStore(
+    instance.subscribeCursorPosition,
+    instance.getCursorPosition,
+    instance.getCursorPosition,
   );
 }

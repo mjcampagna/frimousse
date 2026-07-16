@@ -1,5 +1,9 @@
 export {
   createEditorInstance,
+  type EditorCursorCoords,
+  type EditorCursorPosition,
+  type EditorCursorPositionListener,
+  type EditorCursorSnapshot,
   type CreateEditorInstanceOptions,
   type EditorInstance,
   type EditorStateListener,
@@ -7,6 +11,7 @@ export {
 export { defaultSchema } from "./core/default-schema";
 export {
   EditorContext,
+  useEditorCursorPosition,
   useEditorInstance,
   useEditorState,
   useEditorView,

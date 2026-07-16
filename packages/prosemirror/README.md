@@ -33,6 +33,7 @@ import {
   ProsemirrorEditor,
   createEditorInstance,
   defaultSchema,
+  useEditorCursorPosition,
   useEditorState,
   useEditorView,
 } from "@slithy/prosemirror";
@@ -41,6 +42,8 @@ import {
 - `createEditorInstance()` creates a minimal ProseMirror instance with a small
   subscription surface.
 - `ProsemirrorEditor` mounts that instance from React.
+- `useEditorCursorPosition()` tracks the current selection head and caret
+  coordinates.
 - `useEditorView()` and `useEditorState()` expose the mounted editor to
   descendant React components.
 - `defaultSchema` re-exports a safe default starting schema from
@@ -57,6 +60,9 @@ import {
   creation.
 - `editorProps` provides an additive passthrough for `DirectEditorProps` such as
   `editable`, `nodeViews`, or DOM event handlers.
+- `createCursorSnapshot()` freezes the current cursor position and coordinates,
+  which is useful for anchoring floating UI like typeaheads or mention menus
+  while the user keeps typing.
 
 ## Development
 
