@@ -3,6 +3,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -19,6 +20,12 @@ import {
 } from "./picker-demo-data";
 import { PickerLoadingSkeleton } from "./PickerLoadingSkeleton";
 import { SelectionBurstLayer } from "./SelectionBurstLayer";
+
+type DemoSectionLink = {
+  id: string;
+  label: string;
+  top: number;
+};
 
 const initialSelection: ItemSelection = {
   kind: "native",
@@ -49,6 +56,93 @@ const DemoSupplementalEmoji = memo(function DemoSupplementalEmoji({
     </button>
   );
 });
+
+function slugifySectionLabel(label: string) {
+  return label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function collectDemoSections(root: HTMLDivElement): DemoSectionLink[] {
+  return Array.from(root.querySelectorAll("[frimousse-category]"))
+    .map((category, index) => {
+      if (!(category instanceof HTMLElement)) {
+        return null;
+      }
+
+      if (!category.style.top) {
+        return null;
+      }
+
+      const header = category.querySelector("[frimousse-category-header]");
+
+      if (!(header instanceof HTMLElement)) {
+        return null;
+      }
+
+      const label = header.textContent?.trim();
+
+      if (!label) {
+        return null;
+      }
+
+      return {
+        id: `${slugifySectionLabel(label)}-${index}`,
+        label,
+        top: category.offsetTop,
+      };
+    })
+    .filter((section): section is DemoSectionLink => section !== null);
+}
+
+function DemoSectionRail({
+  activeSectionId,
+  onSelectSection,
+  sections,
+}: {
+  activeSectionId: string | null;
+  onSelectSection: (section: DemoSectionLink) => void;
+  sections: DemoSectionLink[];
+}) {
+  if (sections.length < 2) {
+    return null;
+  }
+
+  return (
+    <nav
+      aria-label="Emoji picker sections"
+      className="demo-section-rail"
+    >
+      <ol className="demo-section-rail-list">
+        {sections.map((section) => {
+          const isActive = section.id === activeSectionId;
+          const isAdditive =
+            section.label === "Frequently used" || section.label === "Custom emoji";
+
+          return (
+            <li className="demo-section-rail-item" key={section.id}>
+              <button
+                aria-current={isActive ? "true" : undefined}
+                data-additive={isAdditive ? "" : undefined}
+                className="demo-section-rail-button"
+                data-active={isActive ? "" : undefined}
+                onClick={() => onSelectSection(section)}
+                type="button"
+              >
+                <span className="demo-section-rail-dot" aria-hidden="true" />
+                <span className="demo-section-rail-text">{section.label}</span>
+                {isAdditive ? (
+                  <span className="demo-section-rail-badge">Custom</span>
+                ) : null}
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
 
 function DemoPickerFooter() {
   return (
@@ -95,6 +189,9 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
     createDemoInitialFrequentEntries(),
   );
   const [columns, setColumns] = useState(9);
+  const [sections, setSections] = useState<DemoSectionLink[]>([]);
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const frequentSection = useMemo(
     () =>
       buildEmojiPickerFrequentSection(usageEntries, {
@@ -141,6 +238,70 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
     };
   }, []);
 
+  useEffect(() => {
+    const root = rootRef.current;
+
+    if (!root) {
+      return;
+    }
+
+    const viewport = root.querySelector("[frimousse-viewport]");
+    const list = root.querySelector("[frimousse-list]");
+
+    if (!(viewport instanceof HTMLDivElement) || !(list instanceof HTMLDivElement)) {
+      return;
+    }
+
+    let frame = 0;
+
+    const syncSections = () => {
+      const nextSections = collectDemoSections(root);
+      const maxScrollTop = Math.max(
+        viewport.scrollHeight - viewport.clientHeight,
+        0,
+      );
+      const isAtBottom = maxScrollTop - viewport.scrollTop <= 2;
+      const activeTop = viewport.scrollTop + 12;
+      const activeSection = isAtBottom
+        ? nextSections.at(-1) ?? null
+        : (nextSections.findLast((section) => section.top <= activeTop) ??
+            nextSections[0] ??
+            null);
+
+      setSections(nextSections);
+      setActiveSectionId(activeSection?.id ?? null);
+    };
+
+    const scheduleSync = () => {
+      cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(syncSections);
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      scheduleSync();
+    });
+    const mutationObserver = new MutationObserver(() => {
+      scheduleSync();
+    });
+
+    scheduleSync();
+    viewport.addEventListener("scroll", scheduleSync, { passive: true });
+    resizeObserver.observe(viewport);
+    resizeObserver.observe(list);
+    mutationObserver.observe(list, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      viewport.removeEventListener("scroll", scheduleSync);
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
+  }, [columns, supplemental]);
+
   const handleSelectionChange = useCallback(
     (nextSelection: ItemSelection) => {
       setUsageEntries((current) => recordEmojiPickerUsage(current, nextSelection));
@@ -149,10 +310,24 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
     [onCelebrateSelection],
   );
 
+  const handleSelectSection = useCallback((section: DemoSectionLink) => {
+    const viewport = rootRef.current?.querySelector("[frimousse-viewport]");
+
+    if (!(viewport instanceof HTMLDivElement)) {
+      return;
+    }
+
+    viewport.scrollTo({
+      top: section.top,
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
-    <div className="demo-grid">
+    <div className="demo-grid demo-grid-with-rail">
       <EmojiPicker.Root
         columns={columns}
+        ref={rootRef}
         sticky
         onItemSelect={handleSelectionChange}
         supplemental={supplemental}
@@ -177,6 +352,11 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
           <DemoPickerFooter />
         </div>
       </EmojiPicker.Root>
+      <DemoSectionRail
+        activeSectionId={activeSectionId}
+        onSelectSection={handleSelectSection}
+        sections={sections}
+      />
     </div>
   );
 });

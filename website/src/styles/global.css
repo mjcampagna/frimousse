@@ -1037,6 +1037,102 @@ pre {
   grid-template-columns: 1fr;
 }
 
+.demo-grid-with-rail {
+  justify-items: stretch;
+}
+
+.demo-section-rail {
+  align-self: start;
+  display: none;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .demo-section-rail {
+    display: flex;
+  }
+}
+
+.demo-section-rail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.demo-section-rail-item {
+  margin: 0;
+}
+
+.demo-section-rail-button {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  padding: 0;
+  text-align: left;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease,
+    transform 120ms ease;
+  width: 100%;
+}
+
+.demo-section-rail-button:hover,
+.demo-section-rail-button[data-active] {
+  color: var(--text);
+}
+
+.demo-section-rail-button[data-active] {
+  transform: translateX(1px);
+}
+
+.demo-section-rail-dot {
+  background: color-mix(in srgb, var(--text-soft) 44%, transparent);
+  border-radius: 999px;
+  display: block;
+  height: 8px;
+  transition:
+    background-color 120ms ease,
+    transform 120ms ease;
+  width: 8px;
+}
+
+.demo-section-rail-button[data-active] .demo-section-rail-dot {
+  background: color-mix(in srgb, #f97316 78%, var(--text) 22%);
+  transform: scale(1.15);
+}
+
+.demo-section-rail-text {
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-medium);
+  min-width: 0;
+}
+
+.demo-section-rail-button[data-additive] .demo-section-rail-text {
+  font-weight: var(--font-weight-semibold);
+}
+
+.demo-section-rail-badge {
+  background: transparent;
+  border-radius: 999px;
+  color: #c2410c;
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  padding: 2px 0;
+}
+
 .demo-picker-wrap {
   position: relative;
 }
@@ -1153,6 +1249,17 @@ pre {
 
   .demo-card {
     padding: 20px;
+  }
+
+  .demo-grid-with-rail {
+    align-items: center;
+    gap: 16px;
+    grid-template-columns: auto minmax(156px, 188px);
+    justify-content: center;
+  }
+
+  .demo-section-rail {
+    align-self: center;
   }
 }
 
