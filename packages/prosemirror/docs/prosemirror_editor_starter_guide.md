@@ -487,6 +487,23 @@ The package should establish its own correctness contract around schema behavior
 
 The first step is deciding which guarantees belong to the package itself and which belong to downstream integrations.
 
+### Antagonistic Testing
+
+The package should explicitly embrace antagonistic testing rather than relying mostly on happy-path coverage.
+
+That means deliberately testing:
+
+- parent rerenders with unstable object and callback identities
+- state preservation across lifecycle churn
+- cleanup and teardown correctness
+- conflicting configuration inputs
+- plugin interaction edge cases
+- malformed or surprising content flows
+- update paths that risk unnecessary rerendering or editor recreation
+- performance-sensitive behavior under non-ideal conditions
+
+The package should assume that consumers will use it imperfectly, compose it in surprising ways, and push it into edge cases. The tests should reflect that reality.
+
 ### Bolstering Beyond Parity
 
 The rebuild is an opportunity to establish coverage that the Remirror editor likely lacks. Every new plugin and node view should be tested as it is written, not after.
@@ -505,6 +522,7 @@ The rebuild is an opportunity to establish coverage that the Remirror editor lik
 - Paste handlers: clipboard content X → document state Y
 - Mention suggesters: trigger character → correct suggestions shown; select → correct node inserted
 - Serializer/parser: each node type and mark round-trips correctly
+- Antagonistic cases: invalid inputs, conflicting plugin behavior, and lifecycle stress scenarios should be tested deliberately, not treated as outliers
 
 **Integration tests:**
 
@@ -533,6 +551,17 @@ The rebuild is an opportunity to establish coverage that the Remirror editor lik
 ### Regression Prevention
 
 Tests must run in CI on every PR that touches the package. A broken serialization round-trip, a failing behavior contract, or a performance regression blocks merge.
+
+### Maintainability Constraint
+
+Testing and implementation should both reinforce the same rule: the package must remain human-readable and human-maintainable.
+
+In practice, that means:
+
+- tests should make failure modes understandable instead of obscuring them behind clever helpers
+- abstractions should stay small enough that their behavior can be traced without deep indirection
+- package growth should prefer explicit seams over magical orchestration
+- "works, but is hard to reason about" should be treated as a real design problem
 
 ## Rebuild Risks
 

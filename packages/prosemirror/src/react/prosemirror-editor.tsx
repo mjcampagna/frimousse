@@ -4,6 +4,7 @@ import {
   forwardRef,
   useImperativeHandle,
   useLayoutEffect,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -25,9 +26,10 @@ export type ProsemirrorEditorProps = PropsWithChildren<{
     view: EditorView;
     state: EditorState;
   }) => void;
+  editorProps?: Omit<DirectEditorProps, "dispatchTransaction" | "state">;
+  initialState?: EditorState;
   plugins?: readonly Plugin[];
   schema?: Schema;
-  state?: EditorState;
   style?: CSSProperties;
 }>;
 
@@ -45,15 +47,57 @@ export const ProsemirrorEditor = forwardRef<
     children,
     className,
     dispatchTransaction,
+    editorProps,
+    initialState,
     plugins,
     schema,
-    state,
     style,
   },
   ref,
 ) {
   const mountRef = useRef<HTMLDivElement | null>(null);
+  const dispatchTransactionRef = useRef(dispatchTransaction);
+  const initialStateRef = useRef(initialState);
+  const pluginsRef = useRef(plugins);
+  const schemaRef = useRef(schema);
   const [instance, setInstance] = useState<EditorInstance | null>(null);
+
+  dispatchTransactionRef.current = dispatchTransaction;
+
+  useEffect(() => {
+    if (initialStateRef.current !== initialState && initialState !== undefined) {
+      console.warn(
+        "ProsemirrorEditor ignores `initialState` changes after mount. Recreate the component to replace the editor state.",
+      );
+    }
+  }, [initialState]);
+
+  useEffect(() => {
+    if (pluginsRef.current !== plugins && plugins !== undefined) {
+      console.warn(
+        "ProsemirrorEditor ignores `plugins` changes after mount. Recreate the component to replace the plugin set.",
+      );
+    }
+  }, [plugins]);
+
+  useEffect(() => {
+    if (schemaRef.current !== schema && schema !== undefined) {
+      console.warn(
+        "ProsemirrorEditor ignores `schema` changes after mount. Recreate the component to replace the schema.",
+      );
+    }
+  }, [schema]);
+
+  useEffect(() => {
+    if (
+      initialState !== undefined &&
+      (plugins !== undefined || schema !== undefined)
+    ) {
+      console.warn(
+        "ProsemirrorEditor received `initialState` together with `plugins` or `schema`. When `initialState` is provided, it defines the editor state and create-time schema/plugin inputs are ignored.",
+      );
+    }
+  }, [initialState, plugins, schema]);
 
   useImperativeHandle(
     ref,
@@ -74,10 +118,13 @@ export const ProsemirrorEditor = forwardRef<
     const nextInstance = createEditorInstance({
       mount,
       attributes,
-      dispatchTransaction,
+      dispatchTransaction(args) {
+        dispatchTransactionRef.current?.(args);
+      },
+      editorProps,
+      initialState,
       plugins,
       schema,
-      state,
     });
 
     setInstance(nextInstance);
@@ -88,7 +135,14 @@ export const ProsemirrorEditor = forwardRef<
       );
       nextInstance.destroy();
     };
-  }, [attributes, dispatchTransaction, plugins, schema, state]);
+  }, []);
+
+  useLayoutEffect(() => {
+    instance?.view.setProps({
+      ...editorProps,
+      attributes: attributes ?? editorProps?.attributes,
+    });
+  }, [attributes, editorProps, instance]);
 
   return (
     <EditorContext.Provider value={instance}>

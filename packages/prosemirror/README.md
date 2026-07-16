@@ -46,6 +46,18 @@ import {
 - `defaultSchema` re-exports a safe default starting schema from
   `prosemirror-schema-basic`.
 
+## Lifecycle Notes
+
+- `initialState`, `schema`, and `plugins` are treated as create-time inputs.
+- `dispatchTransaction` is hot-swapped without recreating the editor view.
+- If you need to replace the schema, plugin set, or initial state, recreate the
+  `ProsemirrorEditor` component intentionally.
+- If `initialState` is provided, it is the source of truth for the created
+  editor state; top-level `schema` and `plugins` inputs are ignored for state
+  creation.
+- `editorProps` provides an additive passthrough for `DirectEditorProps` such as
+  `editable`, `nodeViews`, or DOM event handlers.
+
 ## Development
 
 - Source: `src/`

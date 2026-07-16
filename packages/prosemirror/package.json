@@ -22,7 +22,6 @@
   },
   "files": [
     "dist",
-    "docs",
     "README.md",
     "LICENSE"
   ],
@@ -37,13 +36,10 @@
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "dependencies": {
-    "prosemirror-model": "^1.25.3",
-    "prosemirror-schema-basic": "^1.2.4",
-    "prosemirror-state": "^1.4.4",
-    "prosemirror-view": "^1.41.3"
-  },
   "peerDependencies": {
+    "prosemirror-model": "^1.25.3",
+    "prosemirror-state": "^1.4.4",
+    "prosemirror-view": "^1.41.3",
     "react": "^18 || ^19"
   },
   "devDependencies": {
@@ -53,6 +49,11 @@
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^5.0.4",
     "publint": "^0.3.9",
+    "prosemirror-history": "^1.4.1",
+    "prosemirror-model": "^1.25.3",
+    "prosemirror-schema-basic": "^1.2.4",
+    "prosemirror-state": "^1.4.4",
+    "prosemirror-view": "^1.41.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsup": "^8.4.0",

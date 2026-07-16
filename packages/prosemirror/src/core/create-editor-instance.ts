@@ -9,14 +9,15 @@ export type EditorStateListener = (state: EditorState) => void;
 export type CreateEditorInstanceOptions = {
   mount: HTMLElement;
   attributes?: DirectEditorProps["attributes"];
+  editorProps?: Omit<DirectEditorProps, "dispatchTransaction" | "state">;
   dispatchTransaction?: (args: {
     transaction: Transaction;
     view: EditorView;
     state: EditorState;
   }) => void;
+  initialState?: EditorState;
   plugins?: readonly Plugin[];
   schema?: Schema;
-  state?: EditorState;
 };
 
 export type EditorInstance = {
@@ -27,9 +28,18 @@ export type EditorInstance = {
   view: EditorView;
 };
 
+function buildEditorViewProps(
+  options: CreateEditorInstanceOptions,
+): Omit<DirectEditorProps, "dispatchTransaction" | "state"> {
+  return {
+    ...options.editorProps,
+    attributes: options.attributes ?? options.editorProps?.attributes,
+  };
+}
+
 function createInitialState(options: CreateEditorInstanceOptions): EditorState {
-  if (options.state) {
-    return options.state;
+  if (options.initialState) {
+    return options.initialState;
   }
 
   return EditorState.create({
@@ -50,8 +60,8 @@ export function createEditorInstance(
   };
 
   const view = new EditorView(options.mount, {
+    ...buildEditorViewProps(options),
     state: createInitialState(options),
-    attributes: options.attributes,
     dispatchTransaction(transaction) {
       const nextState = view.state.apply(transaction);
       view.updateState(nextState);
@@ -71,14 +81,7 @@ export function createEditorInstance(
       view.destroy();
     },
     dispatchTransaction(transaction) {
-      const nextState = view.state.apply(transaction);
-      view.updateState(nextState);
-      options.dispatchTransaction?.({
-        transaction,
-        view,
-        state: nextState,
-      });
-      notify(nextState);
+      view.dispatch(transaction);
     },
     getState() {
       return view.state;

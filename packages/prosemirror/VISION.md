@@ -32,10 +32,55 @@ That means:
 
 - **ProseMirror stays visible.** Consumers should still be able to reason about `EditorState`, `Transaction`, plugins, schema nodes, and view behavior without fighting the package.
 - **React is a first-class constraint.** The package should treat React integration as part of the design center, not as an afterthought layered on top.
+- **Composition over monoliths.** The package should favor composable building blocks, in the spirit of Frimousse, rather than one giant editor surface that tries to do everything at once.
+- **Human-readable and human-maintainable code is mandatory.** The package should stay legible to ordinary engineers. Abstractions should be named plainly, responsibilities should be easy to trace, and behavior should not disappear behind cleverness.
 - **Abstractions must earn their keep.** If a helper does not make real editor work simpler, clearer, or safer, it should not exist.
 - **Real usage beats speculative design.** The API should grow from repeated needs, not from trying to predict every future editor.
 - **Consumer-agnostic does not mean feature-maximal.** Reusability should come from small, explicit primitives, not from pretending every product has the same needs.
 - **Additive change over reinvention.** New capabilities should usually arrive as new modules or optional helpers, not by reshaping the entire package around each new use case.
+
+## Composition Model
+
+The package should try to use a composition model similar in spirit to Frimousse wherever that remains sane in a ProseMirror-heavy codebase.
+
+That likely means:
+
+- composing editor capabilities from small primitives
+- keeping schema, plugins, commands, serialization, and React wiring as separable concerns
+- letting consumers assemble an editor from parts rather than forcing one preset
+- using tighter orchestration only where ProseMirror or React lifecycle complexity genuinely requires it
+
+This should not become composition for its own sake. ProseMirror already brings enough complexity on its own. The goal is not maximal modularity. The goal is a package surface that stays understandable, flexible, and pleasant to work with.
+
+## Readability Rule
+
+The package should actively resist becoming obtuse.
+
+That means:
+
+- prefer plain functions and explicit data flow over hidden magic
+- keep modules small enough that a human can actually reason about them
+- favor names that describe behavior directly
+- avoid abstractions that save a few lines at the cost of making control flow harder to follow
+- treat "could another engineer maintain this without archaeology?" as a real acceptance criterion
+
+If a design is technically elegant but makes the package harder to understand, it is probably the wrong design.
+
+## Testing Rule
+
+Testing should default to antagonistic testing, not just happy-path confirmation.
+
+That means the package should deliberately test for:
+
+- hostile or unstable parent rerenders
+- lifecycle edge cases and cleanup behavior
+- state preservation under stress
+- invalid or conflicting configuration
+- plugin and schema interaction hazards
+- performance-sensitive update paths
+- failure modes that could make the editor unreliable, slow, or unsafe
+
+The goal is not test volume for its own sake. The goal is to make the package trustworthy under real-world pressure, not merely correct in ideal demos.
 
 ## Likely First Responsibilities
 
