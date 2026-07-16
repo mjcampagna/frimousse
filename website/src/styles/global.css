@@ -1492,6 +1492,53 @@ pre {
   background: var(--active);
 }
 
+.picker-native-emoji {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  display: flex;
+  height: var(--emoji-size);
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  transition:
+    background-color 120ms ease,
+    transform 120ms ease;
+  width: var(--emoji-size);
+}
+
+.picker-native-emoji::before {
+  align-items: center;
+  content: var(--emoji);
+  display: none;
+  filter: blur(12px) saturate(1.9);
+  font-size: calc(var(--emoji-size) * 0.9);
+  inset: 0;
+  justify-content: center;
+  opacity: 0.95;
+  position: absolute;
+  transform: scale(1.55);
+}
+
+.picker-native-emoji-glyph {
+  display: block;
+  font-size: var(--text-lg);
+  position: relative;
+  z-index: 1;
+}
+
+.picker-native-emoji[data-active],
+.picker-native-emoji:hover {
+  background: rgb(245 245 245 / 0.78);
+}
+
+.picker-native-emoji[data-active]::before,
+.picker-native-emoji:hover::before {
+  display: flex;
+}
+
 .picker-custom-emoji {
   align-items: center;
   background: transparent;
@@ -1592,6 +1639,8 @@ pre {
 
 :root[data-theme="light"] [frimousse-emoji][data-active],
 :root[data-theme="light"] [frimousse-emoji]:hover,
+:root[data-theme="light"] .picker-native-emoji[data-active],
+:root[data-theme="light"] .picker-native-emoji:hover,
 :root[data-theme="light"] .picker-custom-emoji[data-active],
 :root[data-theme="light"] .picker-custom-emoji:hover {
   background: #f5f5f5;
@@ -1610,6 +1659,8 @@ pre {
 
 :root[data-theme="dark"] [frimousse-emoji][data-active],
 :root[data-theme="dark"] [frimousse-emoji]:hover,
+:root[data-theme="dark"] .picker-native-emoji[data-active],
+:root[data-theme="dark"] .picker-native-emoji:hover,
 :root[data-theme="dark"] .picker-custom-emoji[data-active],
 :root[data-theme="dark"] .picker-custom-emoji:hover {
   background: #262626;

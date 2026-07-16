@@ -18,6 +18,7 @@ import {
   createDemoInitialFrequentEntries,
   demoCustomSection,
 } from "./picker-demo-data";
+import { DemoNativeEmoji } from "./DemoNativeEmoji";
 import { PickerLoadingSkeleton } from "./PickerLoadingSkeleton";
 import { SelectionBurstLayer } from "./SelectionBurstLayer";
 
@@ -344,6 +345,7 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
           <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
           <EmojiPicker.List
             components={{
+              Emoji: DemoNativeEmoji,
               SupplementalEmoji: DemoSupplementalEmoji,
             }}
           />

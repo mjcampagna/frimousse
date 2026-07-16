@@ -104,6 +104,110 @@ The parts are intentionally unstyled. Apply layout and visual styling in your ow
 
 <BaseApiDemoIsland />
 
+### Active-state styling patterns
+
+Frimousse exposes stable styling hooks on rows and emoji buttons, so you can create richer active states without changing picker behavior.
+
+#### Alternating accent backgrounds
+
+Use row parity plus button position to rotate accent colors across the grid when an item is active. This produces the kind of "colorful button" effect seen in some emoji pickers while still styling only consumer-owned CSS.
+
+```css
+[frimousse-row]:nth-child(odd) [frimousse-emoji][data-active]:nth-child(3n + 1) {
+  background: #fee2e2;
+}
+
+[frimousse-row]:nth-child(odd) [frimousse-emoji][data-active]:nth-child(3n + 2) {
+  background: #dcfce7;
+}
+
+[frimousse-row]:nth-child(odd) [frimousse-emoji][data-active]:nth-child(3n + 3) {
+  background: #dbeafe;
+}
+
+[frimousse-row]:nth-child(even) [frimousse-emoji][data-active]:nth-child(3n + 1) {
+  background: #dbeafe;
+}
+
+[frimousse-row]:nth-child(even) [frimousse-emoji][data-active]:nth-child(3n + 2) {
+  background: #fee2e2;
+}
+
+[frimousse-row]:nth-child(even) [frimousse-emoji][data-active]:nth-child(3n + 3) {
+  background: #dcfce7;
+}
+```
+
+#### Soft emoji glow
+
+You can also create a color-wash effect by rendering a blurred duplicate behind the active emoji in a custom `Emoji` component. This keeps the picker logic unchanged and moves the visual treatment into consumer-owned markup and CSS.
+
+```tsx
+import type { CSSProperties } from "react";
+import { EmojiPicker } from "@slithy/frimousse";
+
+export function MyEmojiPicker() {
+  return (
+    <EmojiPicker.Root>
+      <EmojiPicker.Viewport>
+        <EmojiPicker.List
+          components={{
+            Emoji: ({ emoji, ...props }) => (
+              <button
+                className="emoji-button"
+                style={
+                  {
+                    "--emoji": `"${emoji.emoji}"`,
+                  } as CSSProperties
+                }
+                {...props}
+              >
+                {emoji.emoji}
+              </button>
+            ),
+          }}
+        />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+```
+
+```css
+.emoji-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  display: flex;
+  font-size: 18px;
+  height: 32px;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  width: 32px;
+}
+
+.emoji-button::before {
+  align-items: center;
+  content: var(--emoji);
+  display: none;
+  filter: blur(12px) saturate(1.8);
+  font-size: 2.5em;
+  inset: 0;
+  justify-content: center;
+  position: absolute;
+}
+
+.emoji-button[data-active] {
+  background: rgb(245 245 245 / 0.8);
+}
+
+.emoji-button[data-active]::before {
+  display: flex;
+}
+```
+
 ### Using it in a popover
 
 The picker only provides the emoji UI. If you want a menu, dialog, or popover around it, compose it with your existing overlay components.
