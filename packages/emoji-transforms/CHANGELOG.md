@@ -1,5 +1,11 @@
 # @slithy/emoji-transforms
 
+## 0.1.2
+
+### Patch Changes
+
+- Add native label map helpers for building and querying localized emoji label metadata from app-owned or Emojibase-style records.
+
 ## 0.1.1
 
 ### Patch Changes
