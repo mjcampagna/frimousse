@@ -2,16 +2,16 @@
 
 ## Companion packages
 
-Companion packages add search data, metadata, or fallback-image tooling without
+Companion packages add search data, label metadata, shortcode metadata, or fallback-image tooling without
 changing the picker contract itself.
 
-- [`@slithy/emoji-transforms`](#emoji-transforms): search enrichment and shortcode metadata
+- [`@slithy/emoji-transforms`](#emoji-transforms): search enrichment plus native label and shortcode metadata
 - [`@slithy/emoji-compat`](#emoji-compat): support detection and fallback metadata
 
 <h3 id="emoji-transforms"><code>@slithy/emoji-transforms</code></h3>
 
-Install the package when you want richer native search terms or native
-shortcode metadata.
+Install the package when you want richer native search terms, native labels, or
+native shortcode metadata.
 
 ```bash
 pnpm add @slithy/emoji-transforms
@@ -20,6 +20,7 @@ pnpm add @slithy/emoji-transforms
 Use it when you want one or more of these:
 
 - richer native search vocabulary than the built-in dataset provides
+- localized native emoji labels without keeping full locale datasets around in app state
 - app-specific aliasing or shorthand for common emoji
 - separate ownership of metadata policy from picker rendering
 
@@ -138,6 +139,25 @@ import { EmojiPicker, getEmojiPrimaryShortcode } from "@slithy/frimousse";
   </EmojiPicker.ActiveItem>
 </EmojiPicker.Root>;
 ```
+
+#### Build native label maps
+
+Build a native label map when your app stores only the emoji itself but still
+needs a localized display label later, such as for reactions, summaries, or
+tooltips outside the picker.
+
+```tsx
+import emojiData from "emojibase-data/nl/data.json";
+import { buildLabelMapFromEmojibase, getLabel } from "@slithy/emoji-transforms";
+
+const nativeLabels = buildLabelMapFromEmojibase(emojiData);
+
+getLabel(nativeLabels, "👍🏽");
+```
+
+The same production advice applies here: prefer generating and shipping the
+final plain object your app needs instead of importing the full locale dataset
+in the browser.
 
 #### Display native shortcodes
 

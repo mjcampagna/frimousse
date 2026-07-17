@@ -1,10 +1,12 @@
 import {
+  buildLabelMapFromAdapter,
   adaptNativeEmojiSearchEntries,
   buildNativeEmojiSearchTermMapFromAdapter,
 } from "../adapters";
 import { buildShortcodeMap } from "../native-shortcodes";
 import type {
   EmojibaseLocaleFallbackSearchOptions,
+  NativeEmojiLabelMap,
   EmojibaseNativeEmojiRecord,
   EmojibaseNativeEmojiSearchOptions,
   EmojibaseShortcodePreset,
@@ -42,6 +44,15 @@ export function buildFallbackTermsFromEmojibase(
   return buildNativeEmojiSearchTermMapFromEmojibase(entries, {
     includeLabel: true,
     includeTags: options.includeTags,
+  });
+}
+
+export function buildLabelMapFromEmojibase(
+  entries: Iterable<EmojibaseNativeEmojiRecord>,
+): NativeEmojiLabelMap {
+  return buildLabelMapFromAdapter(entries, {
+    getEmoji: (entry) => entry.emoji,
+    getLabel: (entry) => entry.label,
   });
 }
 

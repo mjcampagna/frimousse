@@ -1,5 +1,6 @@
 export type NativeEmojiSearchTermMap = Record<string, string[]>;
 export type NativeEmojiShortcodeMap = Record<string, string[]>;
+export type NativeEmojiLabelMap = Record<string, string>;
 
 export interface NativeEmojiShortcodeEntry {
   emoji: string;
@@ -7,10 +8,20 @@ export interface NativeEmojiShortcodeEntry {
   aliases?: readonly string[];
 }
 
+export interface NativeEmojiLabelEntry {
+  emoji: string;
+  label: string;
+}
+
 export interface NativeEmojiSearchAdapter<TEntry> {
   getEmoji(entry: TEntry): string | null | undefined;
   getShortcodes?(entry: TEntry): Iterable<string> | null | undefined;
   getAliases?(entry: TEntry): Iterable<string> | null | undefined;
+}
+
+export interface NativeEmojiLabelAdapter<TEntry> {
+  getEmoji(entry: TEntry): string | null | undefined;
+  getLabel(entry: TEntry): string | null | undefined;
 }
 
 export interface EmojibaseNativeEmojiRecord {

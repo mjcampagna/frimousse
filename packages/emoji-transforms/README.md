@@ -1,9 +1,9 @@
 # @slithy/emoji-transforms
 
-Small emoji metadata utilities for search enrichment and related tooling.
+Small emoji metadata utilities for search enrichment, label lookup, and related tooling.
 
 The first shipped surface is intentionally narrow: build extra native search
-terms for emoji from consumer-owned metadata. It is designed to feed packages
+terms, labels, and shortcodes for emoji from consumer-owned metadata. It is designed to feed packages
 like `@slithy/frimousse`, without forcing picker-specific concerns into this
 package.
 
@@ -25,6 +25,9 @@ import {
   adaptNativeEmojiSearchEntries,
   adaptEmojibaseNativeEmojiSearchEntries,
   buildFallbackTermsFromEmojibase,
+  buildLabelMap,
+  buildLabelMapFromAdapter,
+  buildLabelMapFromEmojibase,
   buildNativeEmojiSearchTermMap,
   buildNativeEmojiSearchTermMapFromAdapter,
   buildNativeEmojiSearchTermMapFromEmojibase,
@@ -33,6 +36,7 @@ import {
   buildShortcodeMapFromAdapter,
   buildShortcodeMapFromEmojibase,
   buildShortcodeMapFromPreset,
+  getLabel,
   getPrimaryShortcode,
   getShortcodes,
   getNativeEmojiSearchTerms,
@@ -40,6 +44,8 @@ import {
 } from "@slithy/emoji-transforms";
 ```
 
+- `buildLabelMap(entries)` builds a label-only `Record<string, string>` keyed
+  by base emoji.
 - `buildNativeEmojiSearchTermMap(entries)` builds a plain
   `Record<string, string[]>`.
 - `buildShortcodeMap(entries)` builds a shortcode-only
@@ -48,12 +54,16 @@ import {
   records into the package's neutral entry format.
 - `buildNativeEmojiSearchTermMapFromAdapter(entries, adapter)` combines the
   adapter step with map construction.
+- `buildLabelMapFromAdapter(entries, adapter)` combines the adapter step with
+  label-map construction.
 - `buildShortcodeMapFromAdapter(entries, adapter)` combines the adapter step
   with shortcode-map construction.
 - `adaptEmojibaseNativeEmojiSearchEntries(entries, options?)` adapts a common
   `emojibase`-like record shape.
 - `buildFallbackTermsFromEmojibase(entries, options?)` builds a
   locale-fallback-friendly term map from a secondary Emojibase dataset.
+- `buildLabelMapFromEmojibase(entries)` builds a plain label map directly from
+  those records.
 - `buildNativeEmojiSearchTermMapFromEmojibase(entries, options?)` builds a
   term map directly from those records.
 - `mergeNativeEmojiSearchTermMaps(...maps)` combines multiple plain native
@@ -63,6 +73,7 @@ import {
 - `buildShortcodeMapFromPreset(entries, preset)` joins Emojibase records with a
   hexcode-keyed shortcode preset such as `emojibase-data/en/shortcodes/iamcal.json`.
 - `getNativeEmojiSearchTerms(termMap, emoji)` performs normalized lookup.
+- `getLabel(labelMap, emoji)` performs normalized label lookup.
 - `getShortcodes(shortcodeMap, emoji)` performs normalized shortcode lookup.
 - `getPrimaryShortcode(shortcodeMap, emoji)` returns the first normalized
   shortcode for that emoji.
@@ -71,6 +82,8 @@ import {
 
 Related exported types:
 
+- `NativeEmojiLabelEntry`
+- `NativeEmojiLabelAdapter<TEntry>`
 - `NativeEmojiShortcodeEntry`
 - `NativeEmojiSearchAdapter<TEntry>`
 - `EmojibaseNativeEmojiRecord`
@@ -78,12 +91,18 @@ Related exported types:
 - `EmojibaseNativeEmojiSearchOptions`
 - `EmojibaseLocaleFallbackSearchOptions`
 - `EmojibaseShortcodePreset`
+- `NativeEmojiLabelMap`
 - `NativeEmojiSearchTermMap`
 - `NativeEmojiShortcodeMap`
 
 ## Input Shape
 
 ```ts
+type NativeEmojiLabelEntry = {
+  emoji: string;
+  label: string;
+};
+
 type NativeEmojiShortcodeEntry = {
   emoji: string;
   shortcodes?: readonly string[];
@@ -108,6 +127,24 @@ const termMap = buildNativeEmojiSearchTermMap([
 ]);
 ```
 
+Label-map example:
+
+```ts
+const labelMap = buildLabelMap([
+  {
+    emoji: "❤️",
+    label: "Red heart",
+  },
+  {
+    emoji: "👍",
+    label: "Thumbs up",
+  },
+]);
+
+getLabel(labelMap, "👍🏽");
+// "Thumbs up"
+```
+
 Adapter example:
 
 ```ts
@@ -115,6 +152,15 @@ const termMap = buildNativeEmojiSearchTermMapFromAdapter(sourceRecords, {
   getEmoji: (record) => record.emoji,
   getShortcodes: (record) => record.shortcodes,
   getAliases: (record) => record.aliases,
+});
+```
+
+If you want label lookup instead, use the label adapter helper:
+
+```ts
+const labelMap = buildLabelMapFromAdapter(sourceRecords, {
+  getEmoji: (record) => record.emoji,
+  getLabel: (record) => record.label,
 });
 ```
 
@@ -223,6 +269,15 @@ getPrimaryShortcode(shortcodeMap, "❤️");
 // "red_heart"
 ```
 
+Label-map example from Emojibase:
+
+```ts
+const labelMap = buildLabelMapFromEmojibase(records);
+
+getLabel(labelMap, "❤️");
+// "Red heart"
+```
+
 Joining full Emojibase data with a shortcode preset:
 
 ```ts
@@ -239,9 +294,11 @@ const shortcodeMap = buildShortcodeMapFromPreset(emojiData, iamcalShortcodes);
 - Variation selectors are removed for storage and lookup.
 - Skin-tone modifiers are removed for storage and lookup.
 - Shortcodes and aliases are trimmed, lowercased, and deduplicated.
+- Labels are trimmed and keyed by normalized base emoji.
 - Separator-based terms like `white_check_mark` also get a spaced variant like
   `white check mark`.
 - Shortcode maps stay shortcode-only and do not widen into label/tag aliases.
+- Label maps stay label-only and do not widen into shortcodes or tag aliases.
 - Locale-fallback Emojibase maps include `label` by default and keep `tags`
   opt-in.
 

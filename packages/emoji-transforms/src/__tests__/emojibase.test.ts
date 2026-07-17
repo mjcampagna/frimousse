@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   adaptEmojibaseNativeEmojiSearchEntries,
   buildFallbackTermsFromEmojibase,
+  buildLabelMapFromEmojibase,
   buildNativeEmojiSearchTermMapFromEmojibase,
   buildShortcodeMapFromEmojibase,
   buildShortcodeMapFromPreset,
@@ -127,6 +128,33 @@ describe("buildFallbackTermsFromEmojibase", () => {
     ).toEqual({
       "👋": ["wave", "waving hand", "goodbye"],
     });
+  });
+});
+
+describe("buildLabelMapFromEmojibase", () => {
+  it("builds a label map from emojibase-like records", () => {
+    expect(
+      buildLabelMapFromEmojibase([
+        {
+          emoji: "👋",
+          label: "Waving hand",
+          shortcodes: ["wave"],
+        },
+      ]),
+    ).toEqual({
+      "👋": "Waving hand",
+    });
+  });
+
+  it("skips records without labels", () => {
+    expect(
+      buildLabelMapFromEmojibase([
+        {
+          emoji: "👋",
+          shortcodes: ["wave"],
+        },
+      ]),
+    ).toEqual({});
   });
 });
 

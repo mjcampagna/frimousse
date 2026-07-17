@@ -1017,6 +1017,9 @@ import {
   adaptNativeEmojiSearchEntries,
   adaptEmojibaseNativeEmojiSearchEntries,
   buildFallbackTermsFromEmojibase,
+  buildLabelMap,
+  buildLabelMapFromAdapter,
+  buildLabelMapFromEmojibase,
   buildNativeEmojiSearchTermMap,
   buildNativeEmojiSearchTermMapFromAdapter,
   buildNativeEmojiSearchTermMapFromEmojibase,
@@ -1025,6 +1028,7 @@ import {
   buildShortcodeMapFromAdapter,
   buildShortcodeMapFromEmojibase,
   buildShortcodeMapFromPreset,
+  getLabel,
   getNativeEmojiSearchTerms,
   getPrimaryShortcode,
   getShortcodes,
@@ -1032,7 +1036,27 @@ import {
 } from "@slithy/emoji-transforms";
 ```
 
-#### Search term and shortcode builders
+#### Search term, label, and shortcode builders
+
+### `buildLabelMap(entries)`
+
+Builds a plain `Record<string, string>` keyed by normalized base emoji.
+
+Input shape:
+
+```ts
+type NativeEmojiLabelEntry = {
+  emoji: string;
+  label: string;
+};
+```
+
+Notes:
+
+- trims label values
+- normalizes keys to the base emoji form
+- keeps the first non-empty label for each normalized emoji key
+- useful when your app wants localized native emoji labels without keeping raw datasets in memory
 
 ### `buildNativeEmojiSearchTermMap(entries)`
 
@@ -1069,6 +1093,10 @@ Notes:
 ### `buildNativeEmojiSearchTermMapFromAdapter(entries, adapter)`
 
 Combines an adapter step with native-search map construction.
+
+### `buildLabelMapFromAdapter(entries, adapter)`
+
+Combines an adapter step with label-map construction.
 
 ### `buildShortcodeMapFromAdapter(entries, adapter)`
 
@@ -1151,6 +1179,13 @@ Notes:
 - shortcode data is included by default
 - `label` and `tags` are opt-in through `options`
 
+### `buildLabelMapFromEmojibase(entries)`
+
+Builds a label-only map directly from Emojibase-like records.
+
+Use this when your app wants localized emoji labels such as `"❤️" -> "Red heart"`
+without storing the full locale dataset at runtime.
+
 ### `mergeNativeEmojiSearchTermMaps(...maps)`
 
 Combines multiple plain native-search term maps into one normalized result.
@@ -1179,6 +1214,10 @@ native shortcode names.
 
 Performs normalized lookup against a native-search term map.
 
+### `getLabel(labelMap, emoji)`
+
+Performs normalized lookup against a native label map.
+
 ### `getShortcodes(shortcodeMap, emoji)`
 
 Performs normalized lookup against a native shortcode map.
@@ -1200,12 +1239,15 @@ Normalization behavior:
 #### Exported types
 
 - `NativeEmojiShortcodeEntry`
+- `NativeEmojiLabelEntry`
 - `NativeEmojiSearchAdapter<TEntry>`
+- `NativeEmojiLabelAdapter<TEntry>`
 - `EmojibaseNativeEmojiRecord`
 - `EmojibaseNativeEmojiSkinRecord`
 - `EmojibaseNativeEmojiSearchOptions`
 - `EmojibaseLocaleFallbackSearchOptions`
 - `EmojibaseShortcodePreset`
+- `NativeEmojiLabelMap`
 - `NativeEmojiSearchTermMap`
 - `NativeEmojiShortcodeMap`
 

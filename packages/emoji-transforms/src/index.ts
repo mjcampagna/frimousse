@@ -1,15 +1,19 @@
 export {
+  adaptNativeEmojiLabelEntries,
   adaptNativeEmojiSearchEntries,
+  buildLabelMapFromAdapter,
   buildNativeEmojiSearchTermMapFromAdapter,
   buildShortcodeMapFromAdapter,
 } from "./adapters";
 export {
   adaptEmojibaseNativeEmojiSearchEntries,
   buildFallbackTermsFromEmojibase,
+  buildLabelMapFromEmojibase,
   buildNativeEmojiSearchTermMapFromEmojibase,
   buildShortcodeMapFromEmojibase,
   buildShortcodeMapFromPreset,
 } from "./presets/emojibase";
+export { buildLabelMap, getLabel } from "./native-labels";
 export {
   buildNativeEmojiSearchTermMap,
   getNativeEmojiSearchTerms,
@@ -23,6 +27,9 @@ export {
 } from "./native-shortcodes";
 export type {
   EmojibaseLocaleFallbackSearchOptions,
+  NativeEmojiLabelAdapter,
+  NativeEmojiLabelEntry,
+  NativeEmojiLabelMap,
   EmojibaseNativeEmojiRecord,
   EmojibaseNativeEmojiSkinRecord,
   EmojibaseNativeEmojiSearchOptions,
