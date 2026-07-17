@@ -28,6 +28,7 @@ import {
   buildLabelMap,
   buildLabelMapFromAdapter,
   buildLabelMapFromEmojibase,
+  mergeNativeEmojiLabelMaps,
   buildNativeEmojiSearchTermMap,
   buildNativeEmojiSearchTermMapFromAdapter,
   buildNativeEmojiSearchTermMapFromEmojibase,
@@ -64,6 +65,8 @@ import {
   locale-fallback-friendly term map from a secondary Emojibase dataset.
 - `buildLabelMapFromEmojibase(entries)` builds a plain label map directly from
   those records.
+- `mergeNativeEmojiLabelMaps(...maps)` combines multiple plain label maps with
+  first-map-wins precedence.
 - `buildNativeEmojiSearchTermMapFromEmojibase(entries, options?)` builds a
   term map directly from those records.
 - `mergeNativeEmojiSearchTermMaps(...maps)` combines multiple plain native
@@ -278,6 +281,19 @@ getLabel(labelMap, "❤️");
 // "Red heart"
 ```
 
+Multi-locale label example:
+
+```ts
+const labels = mergeNativeEmojiLabelMaps(
+  buildLabelMapFromEmojibase(frenchData),
+  buildLabelMapFromEmojibase(englishData),
+  buildLabelMapFromEmojibase(japaneseData),
+);
+
+getLabel(labels, "❤️");
+// first available label wins based on map order
+```
+
 Joining full Emojibase data with a shortcode preset:
 
 ```ts
@@ -299,6 +315,7 @@ const shortcodeMap = buildShortcodeMapFromPreset(emojiData, iamcalShortcodes);
   `white check mark`.
 - Shortcode maps stay shortcode-only and do not widen into label/tag aliases.
 - Label maps stay label-only and do not widen into shortcodes or tag aliases.
+- Merged label maps use first-map-wins precedence after emoji-key normalization.
 - Locale-fallback Emojibase maps include `label` by default and keep `tags`
   opt-in.
 

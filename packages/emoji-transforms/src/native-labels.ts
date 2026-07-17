@@ -23,6 +23,27 @@ export function buildLabelMap(
   return Object.fromEntries(labelsByEmoji);
 }
 
+export function mergeNativeEmojiLabelMaps(
+  ...maps: readonly NativeEmojiLabelMap[]
+): NativeEmojiLabelMap {
+  const labelsByEmoji = new Map<string, string>();
+
+  for (const map of maps) {
+    for (const [emoji, candidate] of Object.entries(map)) {
+      const key = normalizeNativeEmojiSearchKey(emoji);
+      const label = normalizeLabel(candidate);
+
+      if (!key || !label || labelsByEmoji.has(key)) {
+        continue;
+      }
+
+      labelsByEmoji.set(key, label);
+    }
+  }
+
+  return Object.fromEntries(labelsByEmoji);
+}
+
 export function getLabel(
   labelMap: NativeEmojiLabelMap,
   emoji: string,

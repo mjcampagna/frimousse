@@ -148,7 +148,11 @@ tooltips outside the picker.
 
 ```tsx
 import emojiData from "emojibase-data/nl/data.json";
-import { buildLabelMapFromEmojibase, getLabel } from "@slithy/emoji-transforms";
+import {
+  buildLabelMapFromEmojibase,
+  getLabel,
+  mergeNativeEmojiLabelMaps,
+} from "@slithy/emoji-transforms";
 
 const nativeLabels = buildLabelMapFromEmojibase(emojiData);
 
@@ -158,6 +162,18 @@ getLabel(nativeLabels, "👍🏽");
 The same production advice applies here: prefer generating and shipping the
 final plain object your app needs instead of importing the full locale dataset
 in the browser.
+
+If your app supports multiple languages, merge those maps in precedence order:
+
+```ts
+const labels = mergeNativeEmojiLabelMaps(
+  buildLabelMapFromEmojibase(frenchData),
+  buildLabelMapFromEmojibase(englishData),
+  buildLabelMapFromEmojibase(japaneseData),
+);
+```
+
+Earlier maps win, so pass your preferred locale first and fallbacks after it.
 
 #### Display native shortcodes
 

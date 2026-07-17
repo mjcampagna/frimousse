@@ -1020,6 +1020,7 @@ import {
   buildLabelMap,
   buildLabelMapFromAdapter,
   buildLabelMapFromEmojibase,
+  mergeNativeEmojiLabelMaps,
   buildNativeEmojiSearchTermMap,
   buildNativeEmojiSearchTermMapFromAdapter,
   buildNativeEmojiSearchTermMapFromEmojibase,
@@ -1185,6 +1186,16 @@ Builds a label-only map directly from Emojibase-like records.
 
 Use this when your app wants localized emoji labels such as `"❤️" -> "Red heart"`
 without storing the full locale dataset at runtime.
+
+### `mergeNativeEmojiLabelMaps(...maps)`
+
+Combines multiple plain native label maps into one normalized result.
+
+Notes:
+
+- normalizes keys to the base emoji form
+- first non-empty label wins based on argument order
+- useful for multilanguage fallback chains such as `fr -> en -> ja`
 
 ### `mergeNativeEmojiSearchTermMaps(...maps)`
 

@@ -3,6 +3,16 @@
 This repository uses Changesets for versioning and npm publishing, but GitHub
 Releases are still created manually.
 
+## Guardrails
+
+- `@slithy/prosemirror` is intentionally ignored by Changesets in
+  [.changeset/config.json](/Users/mjcampagna/Code/frimousse/.changeset/config.json:1).
+- That package should not be included in routine publish batches from this
+  workspace.
+- If we intentionally decide to release it in the future, remove it from the
+  Changesets `ignore` list as part of that launch work instead of publishing it
+  incidentally.
+
 ## Publish flow
 
 1. Add or update Changesets for every publishable package change.

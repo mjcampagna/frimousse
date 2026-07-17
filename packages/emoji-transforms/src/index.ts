@@ -13,7 +13,11 @@ export {
   buildShortcodeMapFromEmojibase,
   buildShortcodeMapFromPreset,
 } from "./presets/emojibase";
-export { buildLabelMap, getLabel } from "./native-labels";
+export {
+  buildLabelMap,
+  getLabel,
+  mergeNativeEmojiLabelMaps,
+} from "./native-labels";
 export {
   buildNativeEmojiSearchTermMap,
   getNativeEmojiSearchTerms,
