@@ -133,19 +133,207 @@ emoji surface.
 <DocsSection id="reactions-ui">
 ## Reactions UI
 
-A common pattern is to store only the emoji itself in your persistence layer, then resolve labels and optional shortcode display forms from app-owned metadata at render time.
+Reaction UIs usually want a small stored shape and richer display metadata at render time.
+The simplest case is native-only reactions. A fuller app may also need custom emoji and native
+fallback images for platforms that do not support newer emoji.
+
+### Native-only reactions
+
+If your reaction bar only deals with native emoji, store the emoji string itself and resolve the
+rest from app-owned maps at render time.
 
 ```tsx
+import {
+  getLabel,
+  getPrimaryShortcode,
+} from "@slithy/emoji-transforms";
+import {
+  nativeLabels,
+  nativeShortcodes,
+} from "./generated/reaction-metadata";
+
+type StoredNativeReaction = {
+  emoji: string;
+  count: number;
+  reacted: boolean;
+};
+
+function NativeReactionButton({
+  reaction,
+}: {
+  reaction: StoredNativeReaction;
+}) {
+  const label = getLabel(nativeLabels, reaction.emoji) ?? reaction.emoji;
+  const shortcode = getPrimaryShortcode(nativeShortcodes, reaction.emoji);
+
+  return (
+    <button
+      aria-label={label}
+      data-reacted={reaction.reacted || undefined}
+      title={shortcode ? `:${shortcode}:` : label}
+      type="button"
+    >
+      <span>{reaction.emoji}</span>
+      <span>{reaction.count}</span>
+    </button>
+  );
+}
+```
+
+### Mixed reactions with compat fallback
+
+Mixed reaction UIs usually need two rendering paths: custom emoji render through their app-owned
+`imageUrl`, while native emoji render from the emoji character itself plus any app-owned label or
+shortcode metadata.
+
+If some viewers may be on platforms that do not support newer native emoji yet, [`@slithy/emoji-compat`](/docs/companion-packages#emoji-compat)
+supplies the fallback metadata for that native branch. Prebuild it alongside your native labels
+and shortcodes, then let the renderer decide whether a native emoji should display as text or as a
+fallback image. This usually matters when one user reacts from a newer OS or device and another
+user opens the same UI on an older platform.
+
+In practice, the reaction component needs to do two different things:
+
+- if the reaction is custom, render the app-owned `imageUrl`
+- if the reaction is native, check the compat map and either render the emoji as text or swap to a fallback image
+
+```ts
+// scripts/generate-reaction-assets.ts
+import fs from "node:fs/promises";
 import emojiData from "emojibase-data/en/data.json";
+import iamcalShortcodes from "emojibase-data/en/shortcodes/iamcal.json";
 import {
   buildLabelMapFromEmojibase,
-  getLabel,
+  buildShortcodeMapFromPreset,
 } from "@slithy/emoji-transforms";
+import { buildCompatMap } from "@slithy/emoji-compat";
 
 const nativeLabels = buildLabelMapFromEmojibase(emojiData);
+const nativeShortcodes = buildShortcodeMapFromPreset(
+  emojiData,
+  iamcalShortcodes,
+);
+const compatMap = buildCompatMap(emojiData, {
+  supportedVersion: 15,
+});
 
-const label = getLabel(nativeLabels, "🔥");
+await fs.writeFile(
+  "./src/generated/reaction-metadata.ts",
+  [
+    "export const nativeLabels = " +
+      JSON.stringify(nativeLabels, null, 2),
+    "export const nativeShortcodes = " +
+      JSON.stringify(nativeShortcodes, null, 2),
+    "export const compatMap = " +
+      JSON.stringify(compatMap, null, 2),
+  ].join("\n\n"),
+);
 ```
+
+```bash
+pnpm exec tsx scripts/generate-reaction-assets.ts
+```
+
+Prepare the fallback image assets in a separate build step so the URLs returned by `getFallbackUrl(...)`
+actually point at files your app serves:
+
+```ts
+// scripts/generate-reaction-fallback-assets.ts
+import emojiData from "emojibase-data/en/data.json";
+import {
+  buildFallbackAssetManifest,
+  downloadFallbackAssets,
+} from "@slithy/emoji-compat/assets";
+
+const fallbackAssetManifest = buildFallbackAssetManifest(emojiData, {
+  versionFloor: 15,
+});
+
+await downloadFallbackAssets(fallbackAssetManifest, {
+  outDir: "public/emoji/fallback",
+});
+```
+
+```bash
+pnpm exec tsx scripts/generate-reaction-fallback-assets.ts
+```
+
+```tsx
+import {
+  getLabel,
+  getPrimaryShortcode,
+} from "@slithy/emoji-transforms";
+import { getFallbackUrl } from "@slithy/emoji-compat";
+import {
+  compatMap,
+  nativeLabels,
+  nativeShortcodes,
+} from "./generated/reaction-metadata";
+
+type StoredReaction =
+  | {
+      kind: "native";
+      emoji: string;
+      count: number;
+      reacted: boolean;
+    }
+  | {
+      kind: "custom";
+      id: string;
+      label: string;
+      imageUrl: string;
+      count: number;
+      reacted: boolean;
+    };
+
+function ReactionButton({ reaction }: { reaction: StoredReaction }) {
+  if (reaction.kind === "custom") {
+    return (
+      <button
+        aria-label={reaction.label}
+        data-reacted={reaction.reacted || undefined}
+        title={reaction.label}
+        type="button"
+      >
+        <img alt="" src={reaction.imageUrl} width="20" height="20" />
+        <span>{reaction.count}</span>
+      </button>
+    );
+  }
+
+  // Native emoji may need a compat-driven fallback image on older platforms.
+  const label = getLabel(nativeLabels, reaction.emoji) ?? reaction.emoji;
+  const shortcode = getPrimaryShortcode(nativeShortcodes, reaction.emoji);
+  const fallbackUrl = getFallbackUrl(compatMap, reaction.emoji, {
+    basePath: "/emoji/fallback",
+    extension: "svg",
+  });
+
+  return (
+    <button
+      aria-label={label}
+      data-reacted={reaction.reacted || undefined}
+      title={shortcode ? `:${shortcode}:` : label}
+      type="button"
+    >
+      {fallbackUrl ? (
+        <img alt="" src={fallbackUrl} width="20" height="20" />
+      ) : (
+        <span>{reaction.emoji}</span>
+      )}
+      <span>{reaction.count}</span>
+    </button>
+  );
+}
+```
+
+If reactions come from the picker, use `onItemSelect` as the boundary where you convert the
+selected item into your app's stored reaction shape.
+
+This follows the same build-time pattern as [Search & Metadata](/docs/search-metadata): generate
+the native maps once, then import the final plain objects anywhere your reaction UI needs them.
+Use [@slithy/emoji-compat](/docs/companion-packages#emoji-compat) when your reaction UI also
+needs a native fallback-image path for unsupported emoji.
 </DocsSection>
 
 <DocsSection id="multilingual-apps">
