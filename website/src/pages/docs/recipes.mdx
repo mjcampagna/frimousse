@@ -11,7 +11,7 @@ toc:
   - href: "#multilingual-apps"
     label: Multilingual apps
   - href: "#self-hosted-emojibase"
-    label: Self-hosted Emojibase
+    label: Self-hosted or Offline-capable Emojibase
 ---
 
 import DocsSection from "../../components/docs/DocsSection.astro";
@@ -552,12 +552,31 @@ artifact for every user. Build once per locale, then compose per user.
 </DocsSection>
 
 <DocsSection id="self-hosted-emojibase">
-## Self-hosted Emojibase
+## Self-hosted or Offline-capable Emojibase
 
-The picker can work without the public Emojibase CDN if you host the required JSON files yourself and point `emojibaseUrl` at that hosted path.
+The picker fetches native emoji data at runtime by default. If you do not want to depend on the
+public Emojibase CDN, stage the required locale files into your own app and point `emojibaseUrl`
+at that hosted path.
 
 ```bash
 pnpm exec frimousse-stage-emojibase-data --out ./public/emojibase-data
+```
+
+That stages the required `data.json` and `messages.json` files for `en`. For multiple locales:
+
+```bash
+pnpm exec frimousse-stage-emojibase-data \
+  --out ./public/emojibase-data \
+  --locales en,fr,ja,zh-hant
+```
+
+If you need to refresh files that already exist:
+
+```bash
+pnpm exec frimousse-stage-emojibase-data \
+  --out ./public/emojibase-data \
+  --locales en,fr,ja,zh-hant \
+  --overwrite
 ```
 
 ```tsx
@@ -570,4 +589,11 @@ pnpm exec frimousse-stage-emojibase-data --out ./public/emojibase-data
   </EmojiPicker.Viewport>
 </EmojiPicker.Root>
 ```
+
+With that setup, the picker loads `/emojibase-data/{locale}/data.json` and
+`/emojibase-data/{locale}/messages.json` from your app instead of from the public CDN.
+
+This is a good fit when you want tighter control over uptime, caching, or deployment environments,
+or when the app needs to work in restricted or offline-capable environments where the public CDN is
+not a good dependency.
 </DocsSection>
