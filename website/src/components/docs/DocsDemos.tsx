@@ -1,5 +1,8 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { buildNativeEmojiSearchTermMapFromEmojibase } from "@slithy/emoji-transforms";
+import {
+  buildNativeEmojiSearchTermMapFromEmojibase,
+  mergeNativeEmojiSearchTermMaps,
+} from "@slithy/emoji-transforms";
 import {
   buildEmojiPickerFrequentSection,
   createCustomSection,
@@ -53,7 +56,18 @@ const companionEmojiRecords = [
 
 const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(
   companionEmojiRecords,
-  { includeTags: true },
+  {
+    includeLabel: true,
+    includeTags: true,
+  },
+);
+
+const nativeSearchTermsWithCustomAliases = mergeNativeEmojiSearchTermMaps(
+  nativeSearchTerms,
+  {
+    "👋": ["catch you later"],
+    "❤️": ["favorite"],
+  },
 );
 
 const fullNativeSearchTermMap = cloneSearchTermMap(fullNativeSearchTerms);
@@ -299,7 +313,7 @@ export function NativeSearchDemo() {
   const examples = [
     { term: "good_bye", value: "good_bye", emoji: "👋" },
     { term: "hyper link", value: "hyper link", emoji: "🔗" },
-    { term: "red heart", value: "red heart", emoji: "❤️" },
+    { term: "favorite", value: "favorite", emoji: "❤️" },
   ] as const;
 
   return (
@@ -328,13 +342,13 @@ export function NativeSearchDemo() {
             <EmojiPicker.Root
               columns={columns}
               onItemSelect={setSelection}
-              search={{ native: { terms: nativeSearchTerms } }}
+              search={{ native: { terms: nativeSearchTermsWithCustomAliases } }}
               sticky
             >
             <div className="picker-toolbar">
               <EmojiPicker.Search
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Try good_bye, hyper link, or red heart"
+                placeholder="Try good_bye, hyper link, or favorite"
                 value={query}
               />
               <EmojiPicker.SkinToneSelector />

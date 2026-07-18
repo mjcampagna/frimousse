@@ -208,20 +208,35 @@ The sections below apply this same pattern to different kinds of metadata. What 
 <DocsSection id="native-search-enrichment">
 ## Native search enrichment
 
-Generate native search terms ahead of time, then pass them to `Root` through `search.native.terms`.
+Use native search enrichment when the default native dataset search is not enough for your app.
 
-<NativeSearchDemoIsland />
+`search.native.terms` adds app-owned vocabulary to the picker's built-in native search. This is the right place for richer aliases, domain-specific language, localized synonyms, or shortcode-style terms that should match native emoji.
+
+Following the build-time pattern above, generate the final plain-object map ahead of time, then pass that artifact to `EmojiPicker.Root`.
 
 ```tsx
+import emojiData from "emojibase-data/en/data.json";
 import {
   buildNativeEmojiSearchTermMapFromEmojibase,
+  mergeNativeEmojiSearchTermMaps,
 } from "@slithy/emoji-transforms";
-import { EmojiPicker } from "@slithy/frimousse";
 
-const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(
-  emojiRecords,
-  { includeTags: true },
+const generatedNativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(
+  emojiData,
+  { includeLabel: true, includeTags: true },
 );
+
+const nativeSearchTerms = mergeNativeEmojiSearchTermMaps(
+  generatedNativeSearchTerms,
+  {
+    "👋": ["catch you later"],
+    "❤️": ["favorite"],
+  },
+);
+```
+
+```tsx
+import { EmojiPicker } from "@slithy/frimousse";
 
 <EmojiPicker.Root
   search={{
@@ -236,6 +251,20 @@ const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(
   </EmojiPicker.Viewport>
 </EmojiPicker.Root>;
 ```
+
+The generated map looks like this:
+
+```ts
+{
+  "👋": ["good_bye", "waving hand", "see you", "wave", "catch you later"],
+  "🔗": ["hyper link", "url"],
+  "❤️": ["red heart", "love", "favorite"],
+}
+```
+
+<NativeSearchDemoIsland />
+
+This enriches the default native search rather than replacing it. The picker still matches its built-in native metadata, and `search.native.terms` adds the extra terms your app wants to support. In this example, shortcode-like terms such as `"good_bye"` come from shortcode data, label-like terms such as `"waving hand"` or `"red heart"` come from `includeLabel: true`, broader discovery terms such as `"see you"` or `"love"` come from `includeTags: true`, and custom app-owned terms such as `"catch you later"` or `"favorite"` are layered in afterward.
 </DocsSection>
 
 <DocsSection id="shortcode-search">
