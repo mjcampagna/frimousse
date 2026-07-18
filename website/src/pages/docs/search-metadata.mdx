@@ -8,6 +8,8 @@ toc:
     label: Grouped vs. Unified search
   - href: "#runtime-vs-prebuilt-data"
     label: Runtime vs. Pre-built data
+  - href: "#build-time-generation-pattern"
+    label: Build-time generation pattern
   - href: "#native-search-enrichment"
     label: Native search enrichment
   - href: "#shortcode-search"
@@ -64,6 +66,68 @@ The metadata maps on this page are usually a better fit for pre-built app-owned 
 - simple prototypes or internal tools
 - quick experiments with one locale
 
+### Runtime example: workspace emoji
+
+Workspace-specific custom emoji is a good runtime input because it is dynamic, tenant-specific, and naturally fetched per session.
+
+```tsx
+import { useEffect, useState } from "react";
+import {
+  EmojiPicker,
+  createSupplementalSection,
+  type EmojiPickerSection,
+} from "@slithy/frimousse";
+
+type WorkspaceEmojiResponse = {
+  items: Array<{
+    id: string;
+    label: string;
+    imageUrl: string;
+    aliases?: string[];
+  }>;
+};
+
+export function WorkspaceEmojiPicker() {
+  const [sections, setSections] = useState<EmojiPickerSection[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadWorkspaceEmoji() {
+      const response = await fetch("/api/workspaces/acme/emoji");
+      const data = (await response.json()) as WorkspaceEmojiResponse;
+
+      if (cancelled) {
+        return;
+      }
+
+      setSections([
+        createSupplementalSection(data.items, {
+          id: "workspace-emoji",
+          label: "Workspace emoji",
+          position: "append",
+          searchable: true,
+        }),
+      ]);
+    }
+
+    loadWorkspaceEmoji();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return (
+    <EmojiPicker.Root supplemental={{ sections }}>
+      ...
+    </EmojiPicker.Root>
+  );
+}
+```
+
+This is a strong runtime case because the section is consumer-owned, changes over time, and is specific to the current workspace or session. Unlike search-term maps or label maps, this data is not just a static metadata transform.
+
 ### Better as pre-built artifacts
 
 - native search term maps
@@ -77,6 +141,68 @@ Pre-building keeps search policy, localization policy, and metadata ownership in
 It also improves the performance profile for production apps: pre-built maps reduce client-side parsing and transformation work, keep browser bundles smaller, and avoid recomputing the same metadata on every load. Runtime transforms are usually acceptable when the datasets are small or the app is lightly used, but they become a less attractive default once you care about startup cost, bundle control, or repeated locale-specific processing.
 
 Runtime transforms are still reasonable for prototypes, internal tools, or tightly controlled environments. For production apps, prefer generating the final search, label, shortcode, and fallback maps ahead of time and passing those results into the picker.
+</DocsSection>
+
+<DocsSection id="build-time-generation-pattern">
+## Build-time generation pattern
+
+Once you decide a map should be pre-built, the usual pattern is:
+
+1. read the source emoji dataset during your app build or data-prep step
+2. generate the plain-object maps your app needs
+3. write those artifacts into a generated file your client code can import
+
+```ts
+// scripts/generate-emoji-maps.ts
+import fs from "node:fs/promises";
+import emojiData from "emojibase-data/en/data.json";
+import iamcalShortcodes from "emojibase-data/en/shortcodes/iamcal.json";
+import {
+  buildLabelMapFromEmojibase,
+  buildNativeEmojiSearchTermMapFromEmojibase,
+  buildShortcodeMapFromPreset,
+} from "@slithy/emoji-transforms";
+
+const nativeSearchTerms = buildNativeEmojiSearchTermMapFromEmojibase(
+  emojiData,
+  { includeTags: true },
+);
+
+const nativeLabels = buildLabelMapFromEmojibase(emojiData);
+
+const nativeShortcodes = buildShortcodeMapFromPreset(
+  emojiData,
+  iamcalShortcodes,
+);
+
+await fs.writeFile(
+  "./src/generated/emoji-maps.ts",
+  [
+    "export const nativeSearchTerms = " +
+      JSON.stringify(nativeSearchTerms, null, 2),
+    "export const nativeLabels = " +
+      JSON.stringify(nativeLabels, null, 2),
+    "export const nativeShortcodes = " +
+      JSON.stringify(nativeShortcodes, null, 2),
+  ].join("\n\n"),
+);
+```
+
+```bash
+pnpm exec tsx scripts/generate-emoji-maps.ts
+```
+
+Then import only the generated artifacts in app code:
+
+```ts
+import {
+  nativeLabels,
+  nativeSearchTerms,
+  nativeShortcodes,
+} from "./generated/emoji-maps";
+```
+
+The sections below apply this same pattern to different kinds of metadata. What changes is the map you generate, not the overall build-step workflow.
 </DocsSection>
 
 <DocsSection id="native-search-enrichment">
