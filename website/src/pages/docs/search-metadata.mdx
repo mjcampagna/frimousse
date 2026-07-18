@@ -24,6 +24,10 @@ import DocsSection from "../../components/docs/DocsSection.astro";
 import NativeSearchDemoIsland from "../../components/docs/NativeSearchDemoIsland.astro";
 import NativeShortcodeDemoIsland from "../../components/docs/NativeShortcodeDemoIsland.astro";
 
+<DocsSection>
+Most of this page assumes app-owned generated artifacts built with <a href="/docs/companion-packages#emoji-transforms"><code>@slithy/emoji-transforms</code></a>, then passed into the picker as plain maps.
+</DocsSection>
+
 <DocsSection id="grouped-unified-search">
 ## Grouped vs. Unified search
 
@@ -319,6 +323,8 @@ Use a preset-driven shortcode map when your app treats a vocabulary such as `iam
 
 If your picker renders in a non-English locale but should still match common English queries, merge the active locale terms with fallback terms from an English dataset.
 
+Use the build-time generation pattern above when you want to materialize these merged fallback terms as an app-owned artifact.
+
 ```tsx
 import englishData from "emojibase-data/en/data.json";
 import frenchData from "emojibase-data/fr/data.json";
@@ -358,6 +364,8 @@ This is a good fit when the picker should primarily reflect one locale but still
 ## Multilanguage maps
 
 Build plain label maps per locale, then merge them in precedence order.
+
+Use the build-time generation pattern above when you want to write these merged locale maps into generated files for app code to import directly.
 
 ```tsx
 import englishData from "emojibase-data/en/data.json";

@@ -17,6 +17,7 @@ import {
 } from "@slithy/frimousse";
 import {
   createDemoInitialFrequentEntries,
+  demoCustomEmoji,
   demoCustomSection,
 } from "../demo/picker-demo-data";
 import {
@@ -76,20 +77,15 @@ const shortcodeSearchTerms = cloneSearchTermMap(fullNativeShortcodes);
 const fullNativeSearchTermMap = cloneSearchTermMap(fullNativeSearchTerms);
 
 const shortcodeFirstCustomSection = createCustomSection(
-  [
-    {
-      id: "good_job",
-      label: "Good job",
-      imageUrl: "/emoji/good_job.gif",
-      aliases: [":good_job:", "good-job"],
-    },
-    {
-      id: "say_nothing",
-      label: "Say nothing",
-      imageUrl: "/emoji/say_nothing.gif",
-      aliases: [":say_nothing:", "say-nothing"],
-    },
-  ],
+  demoCustomEmoji.map((emoji) => {
+    const shortcodeId = emoji.id.replaceAll("-", "_");
+
+    return {
+      ...emoji,
+      id: shortcodeId,
+      aliases: emoji.id === shortcodeId ? undefined : [emoji.id, `:${shortcodeId}:`],
+    };
+  }),
   {
     id: "custom",
     label: "Custom emoji",

@@ -20,19 +20,114 @@ import ShortcodeFirstDemoIsland from "../../components/docs/ShortcodeFirstDemoIs
 <DocsSection id="shortcode-first">
 ## Shortcode-first apps
 
-Slack-style apps usually treat native and custom emoji differently:
+Shortcode-first apps usually want one typed vocabulary across native and custom emoji.
+Users search for `wave`, `red_heart`, or `good_job`, and expect the picker to do the
+right thing regardless of where that item comes from.
 
-- native emoji render by Unicode, but search and display often use shortcode-like names
-- custom emoji use the shortcode-like name itself as the canonical identity
+That breaks down into two parts:
 
-In Frimousse, that maps to:
+- native emoji need app-owned shortcode aliases in `search.native.terms`, plus an optional
+  shortcode map for display outside the list
+- custom emoji should use the shortcode-like name as the canonical `id`, with any alternate
+  typed forms in `aliases`
 
-- native search aliases through `search.native.terms`
-- native display shortcode through `getEmojiPrimaryShortcode`
-- custom emoji canonical name in `id`
-- alternate custom typed forms in `aliases`
+Use unified search so native aliases and custom emoji names are ranked together in one result set.
 
 <ShortcodeFirstDemoIsland />
+
+The example below is abbreviated. This page's demo uses a larger generated native term map and a fuller custom emoji section, but the wiring is the same.
+
+```ts
+// scripts/generate-shortcode-first-data.ts
+import fs from "node:fs/promises";
+import emojiData from "emojibase-data/en/data.json";
+import iamcalShortcodes from "emojibase-data/en/shortcodes/iamcal.json";
+import {
+  buildShortcodeMapFromPreset,
+  mergeNativeEmojiSearchTermMaps,
+} from "@slithy/emoji-transforms";
+
+const nativeShortcodes = buildShortcodeMapFromPreset(
+  emojiData,
+  iamcalShortcodes,
+);
+
+const nativeSearchTerms = mergeNativeEmojiSearchTermMaps(
+  nativeShortcodes,
+  {
+    "❤️": ["heart", "love"],
+  },
+);
+
+await fs.writeFile(
+  "./src/generated/shortcode-first-data.ts",
+  [
+    "export const nativeShortcodes = " +
+      JSON.stringify(nativeShortcodes, null, 2),
+    "export const nativeSearchTerms = " +
+      JSON.stringify(nativeSearchTerms, null, 2),
+  ].join("\n\n"),
+);
+```
+
+```bash
+pnpm exec tsx scripts/generate-shortcode-first-data.ts
+```
+
+```tsx
+import {
+  createCustomSection,
+  EmojiPicker,
+  getEmojiPrimaryShortcode,
+} from "@slithy/frimousse";
+import {
+  nativeSearchTerms,
+  nativeShortcodes,
+} from "./generated/shortcode-first-data";
+
+const customSection = createCustomSection(
+  [
+    {
+      id: "good_job",
+      label: "Good job",
+      imageUrl: "/emoji/good_job.gif",
+      aliases: ["good-job", ":good_job:"],
+    },
+    {
+      id: "say_nothing",
+      label: "Say nothing",
+      imageUrl: "/emoji/say_nothing.gif",
+      aliases: ["say-nothing", ":say_nothing:"],
+    },
+    // ...more custom emoji data
+  ],
+  {
+    id: "custom",
+    label: "Custom emoji",
+  },
+);
+
+<EmojiPicker.Root
+  search={{ native: { terms: nativeSearchTerms } }}
+  supplemental={{
+    sections: [customSection],
+    search: { mode: "unified", resultsLabel: "Results" },
+  }}
+>
+  <EmojiPicker.Search />
+  <EmojiPicker.Viewport>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+</EmojiPicker.Root>;
+
+getEmojiPrimaryShortcode("❤️", { nativeShortcodes });
+// "red_heart"
+```
+
+Generate the native maps ahead of time, then pass the final plain objects into the picker.
+The search and metadata setup on the [Search & Metadata](/docs/search-metadata) page is the
+same underlying pattern; this recipe just applies it to a Slack-style mixed native and custom
+emoji surface.
 </DocsSection>
 
 <DocsSection id="reactions-ui">
