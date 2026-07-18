@@ -17,58 +17,85 @@ import DocsSection from "../../components/docs/DocsSection.astro";
 <DocsSection id="overview">
 ## Overview
 
-Companion packages add metadata transforms or fallback-image tooling without changing the picker contract itself.
+Companion packages add app-owned metadata or compatibility tooling around the picker without
+changing the picker contract itself.
 
-- `@slithy/emoji-transforms` for search, labels, and shortcodes
-- `@slithy/emoji-compat` for support detection and fallback assets
-
-Use the base and extended picker APIs on their own when you only need the picker surface. Add companion packages when your app needs broader emoji metadata or compatibility policy.
+Use the base and extended picker APIs on their own when you only need the picker surface. Add a
+companion package when your app needs broader emoji metadata, build-time artifacts, or native
+compatibility policy outside the picker itself.
 </DocsSection>
 
 <DocsSection id="emoji-transforms">
 ## `@slithy/emoji-transforms`
 
-Install this package when you want richer native search terms, native labels, or native shortcode metadata.
+Install this package when your app needs richer native search terms, native labels, or native
+shortcode metadata.
 
 ```bash
 pnpm add @slithy/emoji-transforms
 ```
 
-Use it when you want one or more of these:
+Reach for it when:
 
 - richer native search vocabulary than the built-in dataset provides
 - localized native emoji labels without keeping full locale datasets in app state
 - app-specific shortcode or alias policy
 - build-time metadata artifacts owned by your app
 
-This package does not change the picker component surface. It transforms emoji datasets into plain maps that your app can pass into the picker or use elsewhere.
+This package does not change the picker component surface. It transforms emoji datasets into plain
+maps that your app can pass into the picker or use elsewhere.
+
+It does not:
+
+- fetch or host emoji assets
+- render anything itself
+- decide compatibility policy for older platforms
+
+Go next:
+
+- [Search & Metadata](/docs/search-metadata) for grouped vs. unified search, enrichment, fallback search, and multilanguage maps
+- [Recipes](/docs/recipes) for shortcode-first apps, reactions UI, and multilingual app patterns
+- [API Reference](/docs/api-reference#emoji-transforms-api) for the full exported surface
 </DocsSection>
 
 <DocsSection id="emoji-compat">
 ## `@slithy/emoji-compat`
 
-Install this package when you want to detect native emoji support or serve fallback images for emoji above your supported browser floor.
+Install this package when your app needs to detect native emoji support, prepare fallback assets,
+or resolve fallback image URLs for emoji above your supported browser floor.
 
 ```bash
 pnpm add @slithy/emoji-compat
 ```
 
-Use it when you want one or more of these:
+Reach for it when:
 
 - browser support probing for native emoji rendering
 - a compat map that marks which emoji need fallback images
 - hexcode-based fallback URL resolution for self-hosted or CDN emoji assets
 - build-time fallback asset manifest generation
 
-This package does not render anything itself. It helps your app decide when native glyphs are enough and when an asset fallback is needed.
+This package does not render anything itself. It helps your app decide when native glyphs are
+enough and when an asset fallback is needed.
+
+It does not:
+
+- know anything about custom emoji
+- change the picker component surface
+- bundle or host fallback assets for you
+
+Go next:
+
+- [Recipes](/docs/recipes#reactions-ui) for a reaction UI example that branches between custom emoji images and native compat fallback
+- [API Reference](/docs/api-reference#emoji-compat-api) for the compat APIs and asset helpers
 </DocsSection>
 
 <DocsSection>
 ## Notes
 
 - Companion packages are optional. The picker APIs work without them.
-- `@slithy/emoji-transforms` does not change the picker component surface.
-- `@slithy/emoji-compat` does not render emoji or own asset hosting.
-- Use the [Search & Metadata](/docs/search-metadata) page for workflow-oriented examples.
-- Use the [Recipes](/docs/recipes) page for end-to-end integration patterns.
+- Use `@slithy/emoji-transforms` when your app needs more metadata.
+- Use `@slithy/emoji-compat` when your app needs a native fallback decision.
+- See the [Search & Metadata](/docs/search-metadata) page for workflow-oriented examples.
+- See the [Recipes](/docs/recipes) page for end-to-end integration patterns.
 </DocsSection>
