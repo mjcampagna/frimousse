@@ -1,6 +1,4 @@
-# Frimousse API Reference
-
-This file is the package-level API reference for `@slithy/frimousse`.
+This page is the package-level API reference for `@slithy/frimousse`.
 
 It covers:
 
@@ -13,12 +11,6 @@ It covers:
 - search configuration
 - styling hooks
 - exported types
-
-## Packages
-
-- [`@slithy/frimousse`](#frimousse-api)
-- [`@slithy/emoji-transforms`](#emoji-transforms-api)
-- [`@slithy/emoji-compat`](#emoji-compat-api)
 
 <div id="frimousse-api"></div>
 
@@ -172,6 +164,9 @@ CSS variables:
 
 - `--frimousse-emoji-font`
 - `--frimousse-viewport-width`
+- `--frimousse-viewport-height`
+- `--frimousse-row-height`
+- `--frimousse-category-header-height`
 
 <div id="emojibase-url-self-hosting"></div>
 
@@ -208,9 +203,6 @@ Then point `emojibaseUrl` at that hosted path:
 
 With that setup, the picker no longer depends on the public CDN. If your app
 can serve those files offline, the picker can work offline too.
-- `--frimousse-viewport-height`
-- `--frimousse-row-height`
-- `--frimousse-category-header-height`
 
 ### `EmojiPicker.Search`
 
