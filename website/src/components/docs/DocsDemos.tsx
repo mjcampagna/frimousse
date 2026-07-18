@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import {
   buildNativeEmojiSearchTermMapFromEmojibase,
+  buildShortcodeMapFromPreset,
   mergeNativeEmojiSearchTermMaps,
 } from "@slithy/emoji-transforms";
 import {
@@ -69,6 +70,8 @@ const nativeSearchTermsWithCustomAliases = mergeNativeEmojiSearchTermMaps(
     "❤️": ["favorite"],
   },
 );
+
+const shortcodeSearchTerms = cloneSearchTermMap(fullNativeShortcodes);
 
 const fullNativeSearchTermMap = cloneSearchTermMap(fullNativeSearchTerms);
 
@@ -409,7 +412,8 @@ export function NativeShortcodeDemo() {
           <EmojiPicker.Root
             columns={columns}
             onItemSelect={setSelection}
-            search={{ native: { terms: nativeSearchTerms } }}
+            supplemental={{ search: { mode: "unified", resultsLabel: "Results" } }}
+            search={{ native: { terms: shortcodeSearchTerms } }}
             sticky
           >
             <div className="picker-toolbar">

@@ -270,18 +270,48 @@ This enriches the default native search rather than replacing it. The picker sti
 <DocsSection id="shortcode-search">
 ## Shortcode search
 
-Shortcode-style aliases can participate in native search through `search.native.terms`. Build the term map from Emojibase-style records or from a preset such as `iamcal`.
+Use shortcode search when your app has a preferred native shortcode vocabulary and wants those terms to participate in native emoji search.
+
+Following the build-time pattern above, generate the shortcode map from your preferred preset, then pass that map into `search.native.terms`.
 
 <NativeShortcodeDemoIsland />
 
 ```tsx
 import emojiData from "emojibase-data/en/data.json";
-import { buildNativeEmojiSearchTermMapFromEmojibase } from "@slithy/emoji-transforms";
+import iamcalShortcodes from "emojibase-data/en/shortcodes/iamcal.json";
+import { buildShortcodeMapFromPreset } from "@slithy/emoji-transforms";
 
-const searchTerms = buildNativeEmojiSearchTermMapFromEmojibase(emojiData);
+const nativeSearchTerms = buildShortcodeMapFromPreset(
+  emojiData,
+  iamcalShortcodes,
+);
 ```
 
-Use a preset-driven shortcode map when your app has a preferred shortcode vocabulary for display or persistence.
+```tsx
+import { EmojiPicker } from "@slithy/frimousse";
+
+<EmojiPicker.Root
+  search={{
+    native: {
+      terms: nativeSearchTerms,
+    },
+  }}
+>
+  ...
+</EmojiPicker.Root>;
+```
+
+The generated map looks like this:
+
+```ts
+{
+  "👋": ["wave", "good_bye"],
+  "🔗": ["link"],
+  "❤️": ["red_heart"],
+}
+```
+
+Use a preset-driven shortcode map when your app treats a vocabulary such as `iamcal` as the source of truth for native shortcode search, display, or persistence.
 </DocsSection>
 
 <DocsSection id="english-fallback">
@@ -298,21 +328,41 @@ import {
   mergeNativeEmojiSearchTermMaps,
 } from "@slithy/emoji-transforms";
 
-const searchTerms = mergeNativeEmojiSearchTermMaps(
+const nativeSearchTerms = mergeNativeEmojiSearchTermMaps(
   buildNativeEmojiSearchTermMapFromEmojibase(frenchData, {
     includeLabel: true,
   }),
   buildFallbackTermsFromEmojibase(englishData),
 );
 ```
+
+```tsx
+import { EmojiPicker } from "@slithy/frimousse";
+
+<EmojiPicker.Root
+  locale="fr"
+  search={{
+    native: {
+      terms: nativeSearchTerms,
+    },
+  }}
+>
+  ...
+</EmojiPicker.Root>;
+```
+
+This is a good fit when the picker should primarily reflect one locale but still recognize common English queries. The active locale terms stay first, and the English map broadens recall without changing the picker's locale.
 </DocsSection>
 
 <DocsSection id="multilanguage-maps">
 ## Multilanguage maps
 
-Build plain label maps or search-term maps per locale, then merge them in precedence order.
+Build plain label maps per locale, then merge them in precedence order.
 
 ```tsx
+import englishData from "emojibase-data/en/data.json";
+import simplifiedChineseData from "emojibase-data/zh/data.json";
+import traditionalChineseData from "emojibase-data/zh-hant/data.json";
 import {
   buildLabelMapFromEmojibase,
   getLabel,
@@ -320,13 +370,15 @@ import {
 } from "@slithy/emoji-transforms";
 
 const labels = mergeNativeEmojiLabelMaps(
-  buildLabelMapFromEmojibase(frenchData),
+  buildLabelMapFromEmojibase(traditionalChineseData),
+  buildLabelMapFromEmojibase(simplifiedChineseData),
   buildLabelMapFromEmojibase(englishData),
-  buildLabelMapFromEmojibase(japaneseData),
 );
 
 getLabel(labels, "❤️");
 ```
 
 Earlier maps win, so pass your preferred locale first and fallbacks after it.
+
+Use the same merge pattern for search-term maps when your app needs multilingual search precedence, but keep label and search artifacts separate so each map stays scoped to one job.
 </DocsSection>
