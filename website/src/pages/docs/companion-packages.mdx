@@ -1,0 +1,74 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Companion Packages — @slithy/frimousse
+description: Metadata transforms and fallback-image tooling that compose with @slithy/frimousse without bloating picker-core.
+heading: Companion Packages
+toc:
+  - href: "#overview"
+    label: Overview
+  - href: "#emoji-transforms"
+    label: "@slithy/emoji-transforms"
+  - href: "#emoji-compat"
+    label: "@slithy/emoji-compat"
+---
+
+import DocsSection from "../../components/docs/DocsSection.astro";
+
+<DocsSection id="overview">
+## Overview
+
+Companion packages add metadata transforms or fallback-image tooling without changing the picker contract itself.
+
+- `@slithy/emoji-transforms` for search, labels, and shortcodes
+- `@slithy/emoji-compat` for support detection and fallback assets
+
+Use the base and extended picker APIs on their own when you only need the picker surface. Add companion packages when your app needs broader emoji metadata or compatibility policy.
+</DocsSection>
+
+<DocsSection id="emoji-transforms">
+## `@slithy/emoji-transforms`
+
+Install this package when you want richer native search terms, native labels, or native shortcode metadata.
+
+```bash
+pnpm add @slithy/emoji-transforms
+```
+
+Use it when you want one or more of these:
+
+- richer native search vocabulary than the built-in dataset provides
+- localized native emoji labels without keeping full locale datasets in app state
+- app-specific shortcode or alias policy
+- build-time metadata artifacts owned by your app
+
+This package does not change the picker component surface. It transforms emoji datasets into plain maps that your app can pass into the picker or use elsewhere.
+</DocsSection>
+
+<DocsSection id="emoji-compat">
+## `@slithy/emoji-compat`
+
+Install this package when you want to detect native emoji support or serve fallback images for emoji above your supported browser floor.
+
+```bash
+pnpm add @slithy/emoji-compat
+```
+
+Use it when you want one or more of these:
+
+- browser support probing for native emoji rendering
+- a compat map that marks which emoji need fallback images
+- hexcode-based fallback URL resolution for self-hosted or CDN emoji assets
+- build-time fallback asset manifest generation
+
+This package does not render anything itself. It helps your app decide when native glyphs are enough and when an asset fallback is needed.
+</DocsSection>
+
+<DocsSection>
+## Notes
+
+- Companion packages are optional. The picker APIs work without them.
+- `@slithy/emoji-transforms` does not change the picker component surface.
+- `@slithy/emoji-compat` does not render emoji or own asset hosting.
+- Use the [Search & Metadata](/docs/search-metadata) page for workflow-oriented examples.
+- Use the [Recipes](/docs/recipes) page for end-to-end integration patterns.
+</DocsSection>

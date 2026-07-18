@@ -1,0 +1,105 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "./BaseLayout.astro";
+import { DOCS_NAV } from "../components/docs/navigation";
+
+type TocItem = {
+  href: string;
+  label: string;
+};
+
+type Props = {
+  title?: string;
+  description?: string;
+  heading?: string;
+  toc?: readonly TocItem[];
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    heading?: string;
+    toc?: readonly TocItem[];
+  };
+};
+
+const { frontmatter } = Astro.props;
+
+const title = Astro.props.title ?? frontmatter?.title ?? "";
+const description = Astro.props.description ?? frontmatter?.description;
+const heading = Astro.props.heading ?? frontmatter?.heading ?? "";
+const toc = Astro.props.toc ?? frontmatter?.toc ?? [];
+
+const pathname = Astro.url.pathname;
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="docs-page-shell docs-shell">
+    <SiteHeader />
+
+    <section class="docs-shell-grid">
+      <aside class="docs-sidebar" aria-label="Documentation navigation">
+        <div class="docs-sidebar-card">
+          <p class="docs-sidebar-kicker">Docs</p>
+          {
+            DOCS_NAV.map((group) => (
+              <section class="docs-sidebar-group">
+                <h2>{group.label}</h2>
+                <ul>
+                  {group.items.map((item) => {
+                    const isActive =
+                      pathname === item.href ||
+                      (item.href !== "/docs" && pathname.startsWith(`${item.href}/`));
+
+                    return (
+                      <li>
+                        <a
+                          class:list={[
+                            "docs-sidebar-link",
+                            isActive && "is-active",
+                          ]}
+                          href={item.href}
+                          aria-current={isActive ? "page" : undefined}
+                        >
+                          <span>{item.label}</span>
+                          {item.description && (
+                            <small>{item.description}</small>
+                          )}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ))
+          }
+        </div>
+      </aside>
+
+      <div class="docs-main">
+        <section class="docs-page-intro">
+          <div class="docs-hero-copy">
+            <h1>{heading}</h1>
+          </div>
+        </section>
+
+        <div class="docs-main-body">
+          <slot />
+        </div>
+      </div>
+
+      <aside class="docs-toc" aria-label="On this page">
+        {toc.length > 0 && (
+          <div class="docs-toc-card">
+            <p class="docs-toc-title">On this page</p>
+            <ul>
+              {toc.map((item) => (
+                <li>
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </aside>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,91 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Recipes — @slithy/frimousse
+description: End-to-end recipes for shortcode-first pickers, reactions UI, multilingual apps, and self-hosted Emojibase data.
+heading: Recipes
+toc:
+  - href: "#shortcode-first"
+    label: Shortcode-first apps
+  - href: "#reactions-ui"
+    label: Reactions UI
+  - href: "#multilingual-apps"
+    label: Multilingual apps
+  - href: "#self-hosted-emojibase"
+    label: Self-hosted Emojibase
+---
+
+import DocsSection from "../../components/docs/DocsSection.astro";
+import ShortcodeFirstDemoIsland from "../../components/docs/ShortcodeFirstDemoIsland.astro";
+
+<DocsSection id="shortcode-first">
+## Shortcode-first apps
+
+Slack-style apps usually treat native and custom emoji differently:
+
+- native emoji render by Unicode, but search and display often use shortcode-like names
+- custom emoji use the shortcode-like name itself as the canonical identity
+
+In Frimousse, that maps to:
+
+- native search aliases through `search.native.terms`
+- native display shortcode through `getEmojiPrimaryShortcode`
+- custom emoji canonical name in `id`
+- alternate custom typed forms in `aliases`
+
+<ShortcodeFirstDemoIsland />
+</DocsSection>
+
+<DocsSection id="reactions-ui">
+## Reactions UI
+
+A common pattern is to store only the emoji itself in your persistence layer, then resolve labels and optional shortcode display forms from app-owned metadata at render time.
+
+```tsx
+import emojiData from "emojibase-data/en/data.json";
+import {
+  buildLabelMapFromEmojibase,
+  getLabel,
+} from "@slithy/emoji-transforms";
+
+const nativeLabels = buildLabelMapFromEmojibase(emojiData);
+
+const label = getLabel(nativeLabels, "🔥");
+```
+</DocsSection>
+
+<DocsSection id="multilingual-apps">
+## Multilingual apps
+
+Build per-locale search-term or label maps, then merge them in the order your app wants to search or display them.
+
+```tsx
+const labels = mergeNativeEmojiLabelMaps(
+  buildLabelMapFromEmojibase(frenchData),
+  buildLabelMapFromEmojibase(englishData),
+  buildLabelMapFromEmojibase(japaneseData),
+);
+```
+
+For search, combine locale-specific terms with English fallback terms when you want cross-language discoverability.
+</DocsSection>
+
+<DocsSection id="self-hosted-emojibase">
+## Self-hosted Emojibase
+
+The picker can work without the public Emojibase CDN if you host the required JSON files yourself and point `emojibaseUrl` at that hosted path.
+
+```bash
+pnpm exec frimousse-stage-emojibase-data --out ./public/emojibase-data
+```
+
+```tsx
+<EmojiPicker.Root locale="en" emojibaseUrl="/emojibase-data">
+  <EmojiPicker.Search />
+  <EmojiPicker.Viewport>
+    <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+    <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+</EmojiPicker.Root>
+```
+</DocsSection>

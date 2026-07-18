@@ -183,8 +183,10 @@ function DemoPickerFooter() {
 
 const DemoPickerPanel = memo(function DemoPickerPanel({
   onCelebrateSelection,
+  showFooter = true,
 }: {
   onCelebrateSelection: (selection: ItemSelection) => void;
+  showFooter?: boolean;
 }) {
   const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>(() =>
     createDemoInitialFrequentEntries(),
@@ -350,9 +352,11 @@ const DemoPickerPanel = memo(function DemoPickerPanel({
             }}
           />
         </EmojiPicker.Viewport>
-        <div className="picker-footer">
-          <DemoPickerFooter />
-        </div>
+        {showFooter ? (
+          <div className="picker-footer">
+            <DemoPickerFooter />
+          </div>
+        ) : null}
       </EmojiPicker.Root>
       <DemoSectionRail
         activeSectionId={activeSectionId}
@@ -378,7 +382,33 @@ export function PickerDemo() {
     <section className="demo-section">
       <div className="demo-card">
         <SelectionBurstLayer selection={burstSelection} />
-        <DemoPickerPanel onCelebrateSelection={handleCelebrateSelection} />
+        <DemoPickerPanel
+          onCelebrateSelection={handleCelebrateSelection}
+        />
+      </div>
+    </section>
+  );
+}
+
+export function PickerDemoWithoutFooter() {
+  const [burstSelection, setBurstSelection] =
+    useState<ItemSelection>(initialSelection);
+
+  const handleCelebrateSelection = useCallback(
+    (selection: ItemSelection) => {
+      setBurstSelection(selection);
+    },
+    [],
+  );
+
+  return (
+    <section className="demo-section">
+      <div className="demo-card">
+        <SelectionBurstLayer selection={burstSelection} />
+        <DemoPickerPanel
+          onCelebrateSelection={handleCelebrateSelection}
+          showFooter={false}
+        />
       </div>
     </section>
   );

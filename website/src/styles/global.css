@@ -154,6 +154,127 @@ pre {
   width: min(1120px, calc(100vw - 32px));
 }
 
+.docs-shell {
+  width: min(1380px, calc(100vw - 32px));
+}
+
+.docs-shell-grid {
+  align-items: start;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+}
+
+.docs-sidebar,
+.docs-toc {
+  display: none;
+}
+
+.docs-sidebar-card,
+.docs-toc-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.docs-sidebar-card {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+  position: sticky;
+  top: 18px;
+}
+
+.docs-sidebar-kicker,
+.docs-toc-title {
+  color: var(--text-soft);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.docs-sidebar-group {
+  display: grid;
+  gap: 8px;
+}
+
+.docs-sidebar-group h2 {
+  font-size: var(--text-sm);
+}
+
+.docs-sidebar-group ul,
+.docs-toc-card ul {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+}
+
+.docs-sidebar-link {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  display: grid;
+  gap: 4px;
+  padding: 11px 12px;
+  text-decoration: none;
+}
+
+.docs-sidebar-link span,
+.docs-toc-card a {
+  color: var(--text);
+}
+
+.docs-sidebar-link small {
+  color: var(--text-muted);
+  line-height: var(--leading-snug);
+}
+
+.docs-sidebar-link:hover,
+.docs-sidebar-link.is-active {
+  background: var(--bg-accent);
+  border-color: var(--line);
+}
+
+.docs-sidebar-link.is-active span {
+  font-weight: var(--font-weight-semibold);
+}
+
+.docs-main {
+  min-width: 0;
+}
+
+.docs-main-body {
+  display: grid;
+  gap: 40px;
+}
+
+.docs-page-intro {
+  margin-bottom: 28px;
+}
+
+.docs-page-intro .docs-hero-copy {
+  max-width: 72ch;
+}
+
+.docs-toc-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  position: sticky;
+  top: 18px;
+}
+
+.docs-toc-card a {
+  color: var(--text-muted);
+  line-height: var(--leading-snug);
+  text-decoration: none;
+}
+
+.docs-toc-card a:hover {
+  color: var(--text);
+}
+
 .prose-card {
   background: var(--bg-elevated);
   border: 1px solid var(--line);
@@ -503,6 +624,14 @@ pre {
 
 .docs-markdown-section + .docs-markdown-section,
 .docs-markdown-section + .docs-demos {
+  margin-top: 56px;
+}
+
+.docs-markdown-section + .docs-full-demo {
+  margin-top: 0;
+}
+
+.docs-full-demo + .docs-markdown-section {
   margin-top: 56px;
 }
 
@@ -1052,6 +1181,22 @@ pre {
 @media (min-width: 640px) {
   .demo-section-rail {
     display: flex;
+  }
+}
+
+@media (min-width: 960px) {
+  .docs-sidebar {
+    display: block;
+  }
+}
+
+@media (min-width: 1240px) {
+  .docs-shell-grid {
+    grid-template-columns: minmax(0, 240px) minmax(0, 1fr) minmax(0, 220px);
+  }
+
+  .docs-toc {
+    display: block;
   }
 }
 

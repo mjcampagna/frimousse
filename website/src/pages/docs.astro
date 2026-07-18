@@ -1,79 +1,142 @@
 ---
-import BaseApiSection from "../content/docs/base-api.mdx";
-import ExtendedApiSection from "../content/docs/extended-api.mdx";
-import SetupSection from "../content/docs/installation.mdx";
-import BaseApiDemoIsland from "../components/docs/BaseApiDemoIsland.astro";
-import ExtendedApiDemoIsland from "../components/docs/ExtendedApiDemoIsland.astro";
-import NativeSearchDemoIsland from "../components/docs/NativeSearchDemoIsland.astro";
-import NativeShortcodeDemoIsland from "../components/docs/NativeShortcodeDemoIsland.astro";
-import ShortcodeFirstDemoIsland from "../components/docs/ShortcodeFirstDemoIsland.astro";
-import SupplementalPackagesSection from "../content/docs/supplemental-packages.mdx";
-import SiteHeader from "../components/SiteHeader.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import DocsLayout from "../layouts/DocsLayout.astro";
 ---
 
-<BaseLayout
+<DocsLayout
   title="Documentation — @slithy/frimousse"
   description="Documentation and demos for @slithy/frimousse, including its additive extension seams and companion packages."
+  heading="@slithy/frimousse"
+  toc={[
+    { href: "#fork-overview", label: "Fork overview" },
+    { href: "#at-a-glance", label: "At a glance" },
+    { href: "#package-boundaries", label: "Package boundaries" },
+    { href: "#where-next", label: "Where next" },
+  ]}
 >
-  <main class="docs-page-shell">
-    <SiteHeader />
+  <section class="docs-markdown-section">
+    <p>
+      <code>@slithy/frimousse</code> is a compatibility-conscious fork of the
+      open-source <a href="https://frimousse.liveblocks.io/">Frimousse</a>{" "}
+      emoji picker, extending the base picker with additive seams for
+      mixed-item workflows, richer search, consumer-owned frequent items, and
+      companion metadata tooling.
+    </p>
+  </section>
 
-    <section class="docs-hero">
-      <div class="docs-hero-copy">
-        <p class="eyebrow">Documentation</p>
-        <h1>Frimousse emoji picker, extended.</h1>
-        <p class="lede">
-          A lightweight, unstyled, and composable emoji picker for React, with
-          practical extension seams for custom emoji, unified search, and
-          frequent items. Broader emoji metadata policy lives in companion
-          packages.
-        </p>
-      </div>
+  <section id="fork-overview" class="docs-markdown-section">
+    <h2>Fork overview</h2>
+    <p>
+      Frimousse is a strong base picker. This fork exists to keep that
+      lightweight, composable core while filling in the extension seams that
+      production apps often need.
+    </p>
+    <p>
+      In practice, that mainly means mixed native and custom emoji sections,
+      richer search behavior, consumer-owned frequent items, and clearer paths
+      for self-hosted emoji data and fallback rendering.
+    </p>
+    <p>
+      The result is still a headless picker, not a batteries-included widget.
+      The rest of the docs explain what the fork adds directly, what remains
+      consumer-owned, and which optional companion packages handle broader emoji
+      metadata policy.
+    </p>
+  </section>
 
-      <div class="docs-summary">
-        <a class="docs-summary-card" href="#installation">
-          <h2>Installation</h2>
-          <p>Install the package, then update imports in existing Frimousse usage.</p>
-        </a>
-        <a class="docs-summary-card" href="#base-api">
-          <h2>Base API</h2>
-          <p>Core picker parts, grouped search, and native-only helpers.</p>
-        </a>
-        <a class="docs-summary-card" href="#extended-api">
-          <h2>Extended API</h2>
-          <p>Supplemental items, unified search, and consumer-owned frequent rows.</p>
-        </a>
-        <a class="docs-summary-card" href="#companion-packages">
-          <h2>Companion packages</h2>
-          <p>Companion packages that extend search and metadata without changing the picker contract.</p>
-        </a>
-        <a class="docs-summary-card" href="/docs/api-reference">
-          <h2>API Reference</h2>
-          <p>Components, props, hooks, helpers, and exported types.</p>
-        </a>
-      </div>
-    </section>
+  <section id="at-a-glance" class="docs-markdown-section">
+    <h2>At a glance</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Topic</th>
+          <th><code>@slithy/frimousse</code></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Picker style</td>
+          <td>Headless, composable React picker</td>
+        </tr>
+        <tr>
+          <td>Native emoji data</td>
+          <td>Runtime fetch by default, self-hostable with <code>emojibaseUrl</code></td>
+        </tr>
+        <tr>
+          <td>Offline support</td>
+          <td>Yes, when you stage and self-host the needed Emojibase files</td>
+        </tr>
+        <tr>
+          <td>Custom emoji</td>
+          <td>Yes, via supplemental and custom emoji helpers</td>
+        </tr>
+        <tr>
+          <td>Frequent or recent items</td>
+          <td>Consumer-owned persistence, helper-supported ranking and section building</td>
+        </tr>
+        <tr>
+          <td>Native search enrichment</td>
+          <td>Via <code>@slithy/emoji-transforms</code></td>
+        </tr>
+        <tr>
+          <td>Fallback image policy</td>
+          <td>Via <code>@slithy/emoji-compat</code></td>
+        </tr>
+        <tr>
+          <td>Best fit</td>
+          <td>Apps that want control over styling, data delivery, and emoji policy</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-    <div id="installation" class="docs-section-anchor">
-      <SetupSection />
+  <section id="package-boundaries" class="docs-markdown-section">
+    <h2>Package boundaries</h2>
+    <h3><code>@slithy/frimousse</code></h3>
+    <p>
+      Owns the picker UI, picker behavior, additive picker extension seams, and
+      selection/search/render behavior that is intrinsic to the picker.
+    </p>
+    <h3><code>@slithy/emoji-transforms</code></h3>
+    <p>
+      Owns metadata transforms such as native search terms, labels, shortcodes,
+      and locale-aware metadata maps. Use it to prebuild app-owned data
+      artifacts from Emojibase-style datasets instead of pushing that policy
+      into the picker runtime.
+    </p>
+    <h3><code>@slithy/emoji-compat</code></h3>
+    <p>
+      Owns native support detection and fallback-image metadata. It does not
+      render emoji or choose your app’s fallback policy.
+    </p>
+  </section>
+
+  <section id="where-next" class="docs-markdown-section">
+    <h2>Where next</h2>
+    <div class="docs-summary">
+      <a class="docs-summary-card" href="/docs/getting-started">
+        <h3>Getting Started</h3>
+        <p>Installation, migration, first picker composition, and styling basics.</p>
+      </a>
+      <a class="docs-summary-card" href="/docs/customization">
+        <h3>Customization</h3>
+        <p>Rendering, overlays, external search input, active-state styling, and mixed-item UI.</p>
+      </a>
+      <a class="docs-summary-card" href="/docs/search-metadata">
+        <h3>Search &amp; Metadata</h3>
+        <p>Grouped and unified search, shortcode search, and locale-aware metadata workflows.</p>
+      </a>
+      <a class="docs-summary-card" href="/docs/companion-packages">
+        <h3>Companion Packages</h3>
+        <p>Package boundaries, installation, and composition guidance.</p>
+      </a>
+      <a class="docs-summary-card" href="/docs/recipes">
+        <h3>Recipes</h3>
+        <p>Shortcode-first apps, reactions UI, multilingual apps, and self-hosted Emojibase.</p>
+      </a>
+      <a class="docs-summary-card" href="/docs/api-reference">
+        <h3>API Reference</h3>
+        <p>Components, props, hooks, helpers, and exported types in one place.</p>
+      </a>
     </div>
-    <div id="base-api" class="docs-section-anchor">
-      <BaseApiSection components={{ BaseApiDemoIsland }} />
-    </div>
-    <hr class="docs-section-divider" />
-    <div id="extended-api" class="docs-section-anchor">
-      <ExtendedApiSection components={{ ExtendedApiDemoIsland }} />
-    </div>
-    <hr class="docs-section-divider" />
-    <div id="companion-packages" class="docs-section-anchor">
-      <SupplementalPackagesSection
-        components={{
-          NativeSearchDemoIsland,
-          NativeShortcodeDemoIsland,
-          ShortcodeFirstDemoIsland,
-        }}
-      />
-    </div>
-  </main>
-</BaseLayout>
+  </section>
+</DocsLayout>

@@ -1,17 +1,20 @@
 ---
 import ApiReference from "../../content/docs/api-reference.mdx";
-import SiteHeader from "../../components/SiteHeader.astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import DocsLayout from "../../layouts/DocsLayout.astro";
 ---
 
-<BaseLayout
+<DocsLayout
   title="API Reference — @slithy/frimousse"
   description="API reference for @slithy/frimousse, including components, props, hooks, additive helpers, and exported types."
+  heading="API Reference"
+  toc={[
+    { href: "#frimousse-api", label: "@slithy/frimousse" },
+    { href: "#components-overview", label: "Components" },
+    { href: "#emoji-transforms-api", label: "@slithy/emoji-transforms" },
+    { href: "#emoji-compat-api", label: "@slithy/emoji-compat" },
+  ]}
 >
-  <main class="docs-page-shell">
-    <SiteHeader />
-    <section class="docs-markdown-section">
-      <ApiReference />
-    </section>
-  </main>
-</BaseLayout>
+  <section class="docs-markdown-section">
+    <ApiReference />
+  </section>
+</DocsLayout>

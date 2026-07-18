@@ -1,0 +1,141 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Getting Started — @slithy/frimousse
+description: Install @slithy/frimousse, migrate from upstream Frimousse, and compose the first picker.
+heading: Getting Started
+toc:
+  - href: "#installation"
+    label: Installation
+  - href: "#first-picker"
+    label: Base picker
+  - href: "#styling-basics"
+    label: Styling basics
+  - href: "#behavior-notes"
+    label: Behavior notes
+---
+
+import DocsSection from "../../components/docs/DocsSection.astro";
+import SetupSection from "../../content/docs/installation.mdx";
+import BaseApiDemoIsland from "../../components/docs/BaseApiDemoIsland.astro";
+
+<DocsSection id="installation">
+  <SetupSection />
+</DocsSection>
+
+<DocsSection id="first-picker">
+## Base picker
+
+Import the `EmojiPicker` parts and compose the baseline native picker.
+
+The default composition uses the native emoji dataset, grouped search, loading and empty states, and keyboard navigation out of the box.
+
+```tsx
+import { EmojiPicker } from "@slithy/frimousse";
+
+export function MyEmojiPicker() {
+  return (
+    <EmojiPicker.Root>
+      <EmojiPicker.Search placeholder="Search emoji" />
+      <EmojiPicker.Viewport>
+        <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+        <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+        <EmojiPicker.List />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+```
+
+<BaseApiDemoIsland />
+</DocsSection>
+
+<DocsSection id="styling-basics">
+## Styling basics
+
+The parts are intentionally unstyled. Apply layout and visual styling in your own system. A small baseline stylesheet can target the native Frimousse attributes directly.
+
+```css
+[frimousse-root] {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  height: 368px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+[frimousse-search] {
+  appearance: none;
+  background: #f5f5f5;
+  border: 0;
+  border-radius: 10px;
+  font-size: 14px;
+  height: 36px;
+  margin: 8px 8px 0;
+  padding: 0 12px;
+}
+
+[frimousse-viewport] {
+  flex: 1;
+  outline: none;
+  overflow: auto;
+  position: relative;
+}
+
+[frimousse-loading],
+[frimousse-empty] {
+  align-items: center;
+  color: #737373;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: absolute;
+}
+
+[frimousse-list] {
+  padding-bottom: 6px;
+}
+
+[frimousse-category-header] {
+  background: #fff;
+  color: #737373;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 12px 12px 6px;
+}
+
+[frimousse-row] {
+  padding: 0 6px;
+  scroll-margin: 6px;
+}
+
+[frimousse-emoji] {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  display: flex;
+  font-size: 18px;
+  height: 32px;
+  justify-content: center;
+  width: 32px;
+}
+
+[frimousse-emoji][data-active],
+[frimousse-emoji]:hover {
+  background: #f5f5f5;
+}
+```
+</DocsSection>
+
+<DocsSection id="behavior-notes">
+## Behavior notes
+
+`EmojiPicker.Root` manages locale, skin tone, keyboard navigation, active state, and selection callbacks for the picker tree. Use `Root`, `Search`, `Viewport`, `List`, `Loading`, and `Empty` for the baseline composition.
+
+Search filters the native dataset and keeps matching emoji grouped under their category headings. Use `onEmojiSelect` for native emoji selection. `SkinToneSelector`, `SkinTone`, `ActiveEmoji`, `useSkinTone`, and `useActiveEmoji` work with native emoji only.
+
+`List` is virtualized, so custom row and category-header components should keep consistent dimensions for accurate scrolling and sticky headers.
+</DocsSection>

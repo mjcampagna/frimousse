@@ -1,0 +1,382 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Customization — @slithy/frimousse
+description: Customize rendering, compose the picker inside overlays, drive search externally, and work with mixed-item surfaces.
+heading: Customization
+toc:
+  - href: "#frequent-items"
+    label: Frequently used
+  - href: "#custom-emoji"
+    label: Custom emoji
+  - href: "#mixed-item-surfaces"
+    label: Mixed-item surfaces
+  - href: "#external-search"
+    label: External search input
+  - href: "#popover-dialog"
+    label: Popovers and dialogs
+  - href: "#custom-rendering"
+    label: Custom rendering
+  - href: "#active-state-styling"
+    label: Active-state styling
+---
+
+import DocsFullDemo from "../../components/docs/DocsFullDemo.astro";
+import DocsSection from "../../components/docs/DocsSection.astro";
+import PickerDemoWithoutFooterIsland from "../../components/demo/PickerDemoWithoutFooterIsland.astro";
+
+<DocsSection>
+This page covers picker-level customization with the base API and `@slithy/frimousse` extension surfaces.
+
+It focuses on composition and UI behavior: custom emoji sections, widened mixed-item surfaces, frequent items, overlays, external search input, and rendering overrides. Use [Search & Metadata](/docs/search-metadata) when the main question is search policy or metadata shaping.
+</DocsSection>
+
+<DocsFullDemo>
+  <PickerDemoWithoutFooterIsland />
+</DocsFullDemo>
+
+<DocsSection id="frequent-items">
+## Frequently used
+
+Frimousse does not persist recent or frequent selections for you. Instead, keep usage in your own app state, then turn that data into a prepend section when you want a `Frequently used` row at the top of the picker.
+
+The built-in helpers use a frecency model with a default score half-life of `30` days. If you want a strict "Recently used" section instead, pass `mode: "recent"` to the frequency helpers.
+
+This example keeps storage consumer-owned while using Frimousse helpers to rank selections and build the rendered section.
+
+```tsx
+import { useEffect, useMemo, useState } from "react";
+import {
+  buildEmojiPickerFrequentSection,
+  EmojiPicker,
+  type EmojiPickerUsageEntry,
+  recordEmojiPickerUsage,
+  sanitizeEmojiPickerUsageEntries,
+} from "@slithy/frimousse";
+
+const STORAGE_KEY = "emoji-picker-usage";
+
+function useStoredEmojiPickerUsageEntries() {
+  const [usageEntries, setUsageEntries] = useState<EmojiPickerUsageEntry[]>(() => {
+    if (typeof window === "undefined") {
+      return [];
+    }
+
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      return sanitizeEmojiPickerUsageEntries(raw ? JSON.parse(raw) : []);
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(usageEntries));
+    } catch {
+      // Optional persistence only.
+    }
+  }, [usageEntries]);
+
+  return [usageEntries, setUsageEntries] as const;
+}
+
+export function MyEmojiPicker() {
+  const [usageEntries, setUsageEntries] = useStoredEmojiPickerUsageEntries();
+
+  const frequentSection = useMemo(
+    () =>
+      buildEmojiPickerFrequentSection(usageEntries, {
+        label: "Frequently used",
+        limit: 8,
+        searchable: false,
+      }),
+    [usageEntries],
+  );
+
+  return (
+    <EmojiPicker.Root
+      onItemSelect={(selection) => {
+        setUsageEntries((current) => recordEmojiPickerUsage(current, selection));
+      }}
+      supplemental={{
+        sections: frequentSection ? [frequentSection] : [],
+      }}
+    >
+      <EmojiPicker.Search />
+      <EmojiPicker.Viewport>
+        <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+        <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+        <EmojiPicker.List />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+```
+
+Replace the `localStorage` hook with your own persistence code when usage data should live in app state, IndexedDB, server storage, or another consumer-owned store.
+</DocsSection>
+
+<DocsSection id="custom-emoji">
+## Custom emoji
+
+Use supplemental sections when your picker needs image-backed or app-specific emoji alongside the native dataset.
+
+If your app also needs selection handlers, active-item UI, or preview surfaces that work across both native and custom items, read [Mixed item surfaces](#mixed-item-surfaces) alongside this section.
+
+```tsx
+import {
+  EmojiPicker,
+  createCustomSection,
+  createSupplementalSection,
+} from "@slithy/frimousse";
+
+// Image-backed custom emoji only
+const customSection = createCustomSection(
+  [
+    { id: "party-parrot", imageUrl: "/emoji/party-parrot.png", label: "Party parrot" },
+    { id: "ship-it", imageUrl: "/emoji/ship-it.png", label: "Ship it" },
+    { id: "rubber-duck", imageUrl: "/emoji/rubber-duck.png", label: "Rubber duck" },
+    { id: "grinning-bot", imageUrl: "/emoji/grinning-bot.png", label: "Grinning bot" },
+  ],
+  {
+    id: "custom",
+    label: "Custom",
+    position: "append",
+    searchable: true,
+  },
+);
+
+// Mixed native and supplemental items
+const gettingWorkDoneSection = createSupplementalSection(
+  [
+    // Native items
+    { kind: "native", id: "✅", emoji: "✅", label: "Check mark button" },
+    { kind: "native", id: "👀", emoji: "👀", label: "Eyes" },
+    // Image-backed custom items
+    { id: "ship-it", imageUrl: "/emoji/ship-it.png", label: "Ship it" },
+    { id: "grinning-bot", imageUrl: "/emoji/grinning-bot.png", label: "Grinning bot" },
+  ],
+  {
+    id: "getting-work-done",
+    label: "Getting work done",
+    position: "prepend",
+    searchable: true,
+  },
+);
+
+<EmojiPicker.Root
+  supplemental={{
+    sections: [gettingWorkDoneSection, customSection],
+  }}
+>
+  <EmojiPicker.Search />
+  <EmojiPicker.Viewport>
+    <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+    <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+    <EmojiPicker.List />
+  </EmojiPicker.Viewport>
+</EmojiPicker.Root>;
+```
+
+Use `createCustomSection` when you specifically want image-backed custom emoji with required `imageUrl` values. Use `createSupplementalSection` when a section should mix native items, plain supplemental items, and image-backed custom ones.
+</DocsSection>
+
+<DocsSection id="mixed-item-surfaces">
+## Mixed-item surfaces
+
+Some picker surfaces are native-only. They work well when your picker only renders Unicode emoji, but they stop being enough once a section can also contain supplemental items.
+
+Use `onItemSelect`, `useActiveItem`, and `EmojiPicker.ActiveItem` when your UI needs to react to whichever item is currently active or selected, regardless of whether it is native or supplemental.
+
+| Native-only picker surface | Mixed-item replacement | Use when |
+| --- | --- | --- |
+| `onEmojiSelect` | `onItemSelect` | Selection handlers need to support both native and supplemental items |
+| `useActiveEmoji` | `useActiveItem` | Active-state UI can point at either kind of item |
+| `EmojiPicker.ActiveEmoji` | `EmojiPicker.ActiveItem` | Rendered active-item content needs the widened mixed-item shape |
+
+This usually matters when your app shows item-aware UI outside the grid itself, such as:
+
+- a preview panel for the active item
+- a footer that reflects the current selection
+- app logic that needs to branch between native glyphs and image-backed items
+
+```tsx
+import { EmojiPicker, type ItemSelection } from "@slithy/frimousse";
+
+function MyEmojiPicker() {
+  const handleItemSelect = (selection: ItemSelection) => {
+    if (selection.kind === "native") {
+      console.log(selection.item.emoji);
+      return;
+    }
+
+    console.log(selection.item.imageUrl);
+  };
+
+  return (
+    <EmojiPicker.Root onItemSelect={handleItemSelect}>
+      ...
+    </EmojiPicker.Root>
+  );
+}
+```
+
+If you start with native-only picker code and later add supplemental items, switch all three surfaces together so selection handling, active-item UI, and rendering logic stay aligned on the same mixed-item model.
+</DocsSection>
+
+<DocsSection id="external-search">
+## External search input
+
+`EmojiPicker.Search` is optional. If your app already has its own input, autocomplete field, or command bar, control search from `EmojiPicker.Root` instead.
+
+This is useful when the picker needs to live inside a broader command menu, reaction composer, or other app-owned search experience.
+
+```tsx
+import { useState } from "react";
+import { EmojiPicker } from "@slithy/frimousse";
+
+export function MyEmojiPicker() {
+  const [search, setSearch] = useState("");
+
+  return (
+    <>
+      <input
+        onChange={(event) => setSearch(event.target.value)}
+        placeholder="Search emoji"
+        type="text"
+        value={search}
+      />
+
+      <EmojiPicker.Root
+        onSearchValueChange={setSearch}
+        searchValue={search}
+      >
+        <EmojiPicker.Viewport>
+          <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+          <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+          <EmojiPicker.List />
+        </EmojiPicker.Viewport>
+      </EmojiPicker.Root>
+    </>
+  );
+}
+```
+</DocsSection>
+
+<DocsSection id="popover-dialog">
+## Popovers and dialogs
+
+The picker only provides the emoji UI. If you want a menu, dialog, or popover around it, compose it with your existing overlay components.
+
+In practice, treat the picker as the contents of the overlay, not as the overlay primitive itself.
+</DocsSection>
+
+<DocsSection id="custom-rendering">
+## Custom rendering
+
+You can create custom visual treatments by rendering your own emoji button component through `EmojiPicker.List`.
+
+This is the right tool when the picker contract is already correct but the visuals are not. Keep the data flow and selection behavior intact, and override only the markup or styling that your UI needs.
+
+```tsx
+import type { CSSProperties } from "react";
+import { EmojiPicker } from "@slithy/frimousse";
+
+export function MyEmojiPicker() {
+  return (
+    <EmojiPicker.Root>
+      <EmojiPicker.Viewport>
+        <EmojiPicker.List
+          components={{
+            Emoji: ({ emoji, ...props }) => (
+              <button
+                className="emoji-button"
+                style={
+                  {
+                    "--emoji": `"${emoji.emoji}"`,
+                  } as CSSProperties
+                }
+                {...props}
+              >
+                {emoji.emoji}
+              </button>
+            ),
+          }}
+        />
+      </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+  );
+}
+```
+
+```css
+.emoji-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  display: flex;
+  font-size: 18px;
+  height: 32px;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  width: 32px;
+}
+
+.emoji-button::before {
+  align-items: center;
+  content: var(--emoji);
+  display: none;
+  filter: blur(12px) saturate(1.8);
+  font-size: 2.5em;
+  inset: 0;
+  justify-content: center;
+  position: absolute;
+}
+
+.emoji-button[data-active] {
+  background: rgb(245 245 245 / 0.8);
+}
+
+.emoji-button[data-active]::before {
+  display: flex;
+}
+```
+</DocsSection>
+
+<DocsSection id="active-state-styling">
+## Active-state styling
+
+Frimousse exposes stable styling hooks on rows and emoji buttons, so you can create richer active states without changing picker behavior.
+
+### Alternating accent backgrounds
+
+Use row parity plus button position to rotate accent colors across the grid when an item is active.
+
+```css
+[frimousse-row]:nth-child(odd) [frimousse-emoji][data-active]:nth-child(3n + 1) {
+  background: #fee2e2;
+}
+
+[frimousse-row]:nth-child(odd) [frimousse-emoji][data-active]:nth-child(3n + 2) {
+  background: #dcfce7;
+}
+
+[frimousse-row]:nth-child(odd) [frimousse-emoji][data-active]:nth-child(3n + 3) {
+  background: #dbeafe;
+}
+
+[frimousse-row]:nth-child(even) [frimousse-emoji][data-active]:nth-child(3n + 1) {
+  background: #dbeafe;
+}
+
+[frimousse-row]:nth-child(even) [frimousse-emoji][data-active]:nth-child(3n + 2) {
+  background: #fee2e2;
+}
+
+[frimousse-row]:nth-child(even) [frimousse-emoji][data-active]:nth-child(3n + 3) {
+  background: #dcfce7;
+}
+```
+</DocsSection>

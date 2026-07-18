@@ -1,0 +1,42 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Releases — @slithy/frimousse
+description: Release notes, changelog links, and migration checkpoints for the fork and companion packages.
+heading: Releases
+toc:
+  - href: "#current-packages"
+    label: Current packages
+  - href: "#migration"
+    label: Migration
+  - href: "#release-links"
+    label: Release links
+---
+
+import DocsSection from "../../components/docs/DocsSection.astro";
+
+<DocsSection id="current-packages">
+## Current packages
+
+- `@slithy/frimousse`
+- `@slithy/emoji-transforms`
+- `@slithy/emoji-compat`
+</DocsSection>
+
+<DocsSection id="migration">
+## Migration
+
+For baseline usage, migration from upstream Frimousse is usually just an import change. Existing native-only picker composition can usually stay as-is.
+
+```diff
+- import { EmojiPicker } from "frimousse";
++ import { EmojiPicker } from "@slithy/frimousse";
+```
+</DocsSection>
+
+<DocsSection id="release-links">
+## Release links
+
+- [`@slithy/frimousse` changelog](https://github.com/mjcampagna/frimousse/blob/main/CHANGELOG.md)
+- [`@slithy/emoji-transforms` changelog](https://github.com/mjcampagna/frimousse/blob/main/packages/emoji-transforms/CHANGELOG.md)
+- [`@slithy/emoji-compat` changelog](https://github.com/mjcampagna/frimousse/blob/main/packages/emoji-compat/CHANGELOG.md)
+</DocsSection>
