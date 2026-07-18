@@ -1015,6 +1015,57 @@ pre {
   position: relative;
 }
 
+.popover-demo-shell {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+  padding: 18px;
+  width: fit-content;
+}
+
+.popover-demo-trigger {
+  align-items: center;
+  background: var(--button);
+  border: 0;
+  border-radius: 999px;
+  color: var(--button-text);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+}
+
+.popover-demo-trigger:hover {
+  opacity: 0.94;
+}
+
+.popover-demo-popup {
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+}
+
+.popover-demo-selection {
+  align-items: center;
+  background: var(--bg-accent);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  display: inline-flex;
+  font-size: 20px;
+  height: 40px;
+  justify-content: center;
+  min-width: 40px;
+  padding: 0 12px;
+}
+
+.popover-picker {
+  box-shadow: none;
+}
+
 .docs-demo-stack {
   display: flex;
   flex-direction: column;

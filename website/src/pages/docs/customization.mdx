@@ -21,6 +21,7 @@ toc:
 ---
 
 import DocsFullDemo from "../../components/docs/DocsFullDemo.astro";
+import PopoverDemoIsland from "../../components/docs/PopoverDemoIsland.astro";
 import DocsSection from "../../components/docs/DocsSection.astro";
 import PickerDemoWithoutFooterIsland from "../../components/demo/PickerDemoWithoutFooterIsland.astro";
 
@@ -268,7 +269,54 @@ export function MyEmojiPicker() {
 
 The picker only provides the emoji UI. If you want a menu, dialog, or popover around it, compose it with your existing overlay components.
 
-In practice, treat the picker as the contents of the overlay, not as the overlay primitive itself.
+<PopoverDemoIsland />
+
+```tsx
+import { useState } from "react";
+import { Popover } from "@base-ui-components/react/popover";
+import { EmojiPicker, type ItemSelection } from "@slithy/frimousse";
+
+export function EmojiPopover() {
+  const [open, setOpen] = useState(false);
+  const [selection, setSelection] = useState<ItemSelection | null>(null);
+
+  return (
+    <div>
+      <Popover.Root open={open} onOpenChange={setOpen}>
+        <Popover.Trigger>Add reaction</Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Positioner align="start" sideOffset={10}>
+            <Popover.Popup>
+              <EmojiPicker.Root
+                onItemSelect={(nextSelection) => {
+                  setSelection(nextSelection);
+                  setOpen(false);
+                }}
+                sticky
+              >
+                <EmojiPicker.Search placeholder="Search emoji" />
+                <EmojiPicker.Viewport>
+                  <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
+                  <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+                  <EmojiPicker.List />
+                </EmojiPicker.Viewport>
+              </EmojiPicker.Root>
+            </Popover.Popup>
+          </Popover.Positioner>
+        </Popover.Portal>
+      </Popover.Root>
+
+      {selection && (
+        <span>
+          {selection.kind === "native" ? selection.item.emoji : selection.item.label}
+        </span>
+      )}
+    </div>
+  );
+}
+```
+
+Treat the picker as the contents of the overlay, not as the overlay primitive itself. If your app already uses shadcn or another overlay layer, the composition stays the same: keep `EmojiPicker.Root` inside the popover or dialog content, and close the overlay from your selection handler when that matches the interaction you want.
 </DocsSection>
 
 <DocsSection id="custom-rendering">
