@@ -447,6 +447,108 @@ import { nativeSearchTerms } from "./generated/multilingual-search";
 
 This follows the same build-time pattern as [Search & Metadata](/docs/search-metadata): generate
 the final locale-aware maps once, then import plain objects into the picker or surrounding UI.
+
+### User-selected primary language
+
+If your app lets each user choose a preferred language, do not force every user through one global
+multilingual merge. A better fit is to prebuild one artifact per locale, then compose the final
+label or search maps at runtime from the signed-in user's primary language plus your app's fallback
+policy.
+
+```ts
+// scripts/generate-locale-artifacts.ts
+import fs from "node:fs/promises";
+import englishData from "emojibase-data/en/data.json";
+import japaneseData from "emojibase-data/ja/data.json";
+import simplifiedChineseData from "emojibase-data/zh/data.json";
+import traditionalChineseData from "emojibase-data/zh-hant/data.json";
+import {
+  buildFallbackTermsFromEmojibase,
+  buildLabelMapFromEmojibase,
+  buildNativeEmojiSearchTermMapFromEmojibase,
+} from "@slithy/emoji-transforms";
+
+const labelMapsByLocale = {
+  en: buildLabelMapFromEmojibase(englishData),
+  ja: buildLabelMapFromEmojibase(japaneseData),
+  zh: buildLabelMapFromEmojibase(simplifiedChineseData),
+  "zh-Hant": buildLabelMapFromEmojibase(traditionalChineseData),
+};
+
+const searchMapsByLocale = {
+  en: buildFallbackTermsFromEmojibase(englishData),
+  ja: buildFallbackTermsFromEmojibase(japaneseData),
+  zh: buildFallbackTermsFromEmojibase(simplifiedChineseData),
+  "zh-Hant": buildNativeEmojiSearchTermMapFromEmojibase(
+    traditionalChineseData,
+    {
+      includeLabel: true,
+    },
+  ),
+};
+
+await fs.writeFile(
+  "./src/generated/locale-artifacts.ts",
+  [
+    "export const labelMapsByLocale = " +
+      JSON.stringify(labelMapsByLocale, null, 2),
+    "export const searchMapsByLocale = " +
+      JSON.stringify(searchMapsByLocale, null, 2),
+  ].join("\n\n"),
+);
+```
+
+```tsx
+import {
+  mergeNativeEmojiLabelMaps,
+  mergeNativeEmojiSearchTermMaps,
+} from "@slithy/emoji-transforms";
+import {
+  labelMapsByLocale,
+  searchMapsByLocale,
+} from "./generated/locale-artifacts";
+
+function getUserLabelMap(userLocale: string) {
+  if (userLocale === "zh-Hant") {
+    return mergeNativeEmojiLabelMaps(
+      labelMapsByLocale["zh-Hant"],
+      labelMapsByLocale.zh,
+      labelMapsByLocale.en,
+    );
+  }
+
+  if (userLocale === "ja") {
+    return mergeNativeEmojiLabelMaps(
+      labelMapsByLocale.ja,
+      labelMapsByLocale.en,
+    );
+  }
+
+  return labelMapsByLocale.en;
+}
+
+function getUserSearchMap(userLocale: string) {
+  if (userLocale === "zh-Hant") {
+    return mergeNativeEmojiSearchTermMaps(
+      searchMapsByLocale["zh-Hant"],
+      searchMapsByLocale.zh,
+      searchMapsByLocale.en,
+    );
+  }
+
+  if (userLocale === "ja") {
+    return mergeNativeEmojiSearchTermMaps(
+      searchMapsByLocale.ja,
+      searchMapsByLocale.en,
+    );
+  }
+
+  return searchMapsByLocale.en;
+}
+```
+
+This model keeps locale policy in your app instead of baking one fallback order into a single
+artifact for every user. Build once per locale, then compose per user.
 </DocsSection>
 
 <DocsSection id="self-hosted-emojibase">
