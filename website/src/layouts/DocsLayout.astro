@@ -75,6 +75,48 @@ const pathname = Astro.url.pathname;
       </aside>
 
       <div class="docs-main">
+        <details class="docs-mobile-nav" aria-label="Documentation navigation">
+          <summary class="docs-mobile-nav-summary">
+            <span class="docs-mobile-nav-kicker">Docs</span>
+            <span class="docs-mobile-nav-label">Browse documentation</span>
+          </summary>
+
+          <div class="docs-mobile-nav-card">
+            {
+              DOCS_NAV.map((group) => (
+                <section class="docs-sidebar-group">
+                  <h2>{group.label}</h2>
+                  <ul>
+                    {group.items.map((item) => {
+                      const isActive =
+                        pathname === item.href ||
+                        (item.href !== "/docs" && pathname.startsWith(`${item.href}/`));
+
+                      return (
+                        <li>
+                          <a
+                            class:list={[
+                              "docs-sidebar-link",
+                              isActive && "is-active",
+                            ]}
+                            href={item.href}
+                            aria-current={isActive ? "page" : undefined}
+                          >
+                            <span>{item.label}</span>
+                            {item.description && (
+                              <small>{item.description}</small>
+                            )}
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
+              ))
+            }
+          </div>
+        </details>
+
         <section class="docs-page-intro">
           <div class="docs-hero-copy">
             <h1>{heading}</h1>

@@ -162,12 +162,62 @@ pre {
   align-items: start;
   display: grid;
   gap: 28px;
-  grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .docs-sidebar,
 .docs-toc {
   display: none;
+}
+
+.docs-mobile-nav {
+  margin-bottom: 20px;
+}
+
+.docs-mobile-nav[open] {
+  margin-bottom: 28px;
+}
+
+.docs-mobile-nav-summary,
+.docs-mobile-nav-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.docs-mobile-nav-summary {
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  gap: 4px;
+  list-style: none;
+  padding: 16px 18px;
+}
+
+.docs-mobile-nav-summary::-webkit-details-marker {
+  display: none;
+}
+
+.docs-mobile-nav-kicker {
+  color: var(--text-soft);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.docs-mobile-nav-label {
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.docs-mobile-nav-card {
+  display: grid;
+  gap: 18px;
+  margin-top: 10px;
+  padding: 18px;
 }
 
 .docs-sidebar-card,
@@ -241,16 +291,23 @@ pre {
 }
 
 .docs-main {
+  max-width: 100%;
   min-width: 0;
+  width: 100%;
 }
 
 .docs-main-body {
   display: grid;
   gap: 40px;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
 }
 
 .docs-page-intro {
   margin-bottom: 28px;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .docs-page-intro .docs-hero-copy {
@@ -620,6 +677,8 @@ pre {
 
 .docs-markdown-section {
   max-width: 88ch;
+  min-width: 0;
+  width: 100%;
 }
 
 .docs-markdown-section + .docs-markdown-section,
@@ -641,6 +700,7 @@ pre {
   border-top: 1px solid var(--line);
   margin: 16px 0;
   max-width: 88ch;
+  width: 100%;
 }
 
 .docs-markdown-section + .docs-section-divider {
@@ -1236,7 +1296,29 @@ pre {
   }
 }
 
+@media (max-width: 719px) {
+  .docs-markdown-section table {
+    display: block;
+    overflow-x: auto;
+    table-layout: auto;
+    white-space: nowrap;
+  }
+
+  .docs-markdown-section th,
+  .docs-markdown-section td {
+    min-width: 140px;
+  }
+}
+
 @media (min-width: 960px) {
+  .docs-shell-grid {
+    grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+  }
+
+  .docs-mobile-nav {
+    display: none;
+  }
+
   .docs-sidebar {
     display: block;
   }
