@@ -339,17 +339,114 @@ needs a native fallback-image path for unsupported emoji.
 <DocsSection id="multilingual-apps">
 ## Multilingual apps
 
-Build per-locale search-term or label maps, then merge them in the order your app wants to search or display them.
+Multilingual apps usually need to answer two separate questions:
 
-```tsx
-const labels = mergeNativeEmojiLabelMaps(
-  buildLabelMapFromEmojibase(frenchData),
-  buildLabelMapFromEmojibase(englishData),
+- which locale should labels display in when more than one map is available?
+- which languages should search recognize, and in what order?
+
+Keep those as separate generated artifacts. Label maps and search-term maps may use similar merge
+patterns, but they serve different jobs at runtime.
+
+### Multilingual labels
+
+For display labels, build one map per locale and merge them in precedence order. Earlier maps win.
+
+```ts
+// scripts/generate-multilingual-labels.ts
+import fs from "node:fs/promises";
+import englishData from "emojibase-data/en/data.json";
+import japaneseData from "emojibase-data/ja/data.json";
+import simplifiedChineseData from "emojibase-data/zh/data.json";
+import traditionalChineseData from "emojibase-data/zh-hant/data.json";
+import {
+  buildLabelMapFromEmojibase,
+  mergeNativeEmojiLabelMaps,
+} from "@slithy/emoji-transforms";
+
+const nativeLabels = mergeNativeEmojiLabelMaps(
+  buildLabelMapFromEmojibase(traditionalChineseData),
+  buildLabelMapFromEmojibase(simplifiedChineseData),
   buildLabelMapFromEmojibase(japaneseData),
+  buildLabelMapFromEmojibase(englishData),
+);
+
+await fs.writeFile(
+  "./src/generated/multilingual-labels.ts",
+  "export const nativeLabels = " +
+    JSON.stringify(nativeLabels, null, 2),
 );
 ```
 
-For search, combine locale-specific terms with English fallback terms when you want cross-language discoverability.
+```bash
+pnpm exec tsx scripts/generate-multilingual-labels.ts
+```
+
+```tsx
+import { getLabel } from "@slithy/emoji-transforms";
+import { nativeLabels } from "./generated/multilingual-labels";
+
+const label = getLabel(nativeLabels, "❤️");
+```
+
+This is a good fit when your UI should prefer one language, but still fall back through other
+product-supported locales before landing on English.
+
+### Multilingual search
+
+Search usually wants broader recall than labels do. Build the active locale terms first, then merge
+in the fallback languages your product wants to recognize.
+
+```ts
+// scripts/generate-multilingual-search.ts
+import fs from "node:fs/promises";
+import englishData from "emojibase-data/en/data.json";
+import japaneseData from "emojibase-data/ja/data.json";
+import simplifiedChineseData from "emojibase-data/zh/data.json";
+import traditionalChineseData from "emojibase-data/zh-hant/data.json";
+import {
+  buildFallbackTermsFromEmojibase,
+  buildNativeEmojiSearchTermMapFromEmojibase,
+  mergeNativeEmojiSearchTermMaps,
+} from "@slithy/emoji-transforms";
+
+const nativeSearchTerms = mergeNativeEmojiSearchTermMaps(
+  buildNativeEmojiSearchTermMapFromEmojibase(traditionalChineseData, {
+    includeLabel: true,
+  }),
+  buildFallbackTermsFromEmojibase(simplifiedChineseData),
+  buildFallbackTermsFromEmojibase(japaneseData),
+  buildFallbackTermsFromEmojibase(englishData),
+);
+
+await fs.writeFile(
+  "./src/generated/multilingual-search.ts",
+  "export const nativeSearchTerms = " +
+    JSON.stringify(nativeSearchTerms, null, 2),
+);
+```
+
+```bash
+pnpm exec tsx scripts/generate-multilingual-search.ts
+```
+
+```tsx
+import { EmojiPicker } from "@slithy/frimousse";
+import { nativeSearchTerms } from "./generated/multilingual-search";
+
+<EmojiPicker.Root
+  locale="zh-Hant"
+  search={{
+    native: {
+      terms: nativeSearchTerms,
+    },
+  }}
+>
+  ...
+</EmojiPicker.Root>;
+```
+
+This follows the same build-time pattern as [Search & Metadata](/docs/search-metadata): generate
+the final locale-aware maps once, then import plain objects into the picker or surrounding UI.
 </DocsSection>
 
 <DocsSection id="self-hosted-emojibase">
