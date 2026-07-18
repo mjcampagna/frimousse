@@ -710,9 +710,10 @@ pre {
 .docs-markdown-section table {
   border: 1px solid var(--line);
   border-radius: 12px;
-  display: block;
   margin: 20px 0;
   max-width: 100%;
+  table-layout: fixed;
+  width: 100%;
   overflow-x: auto;
 }
 

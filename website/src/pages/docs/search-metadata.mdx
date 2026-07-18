@@ -1,13 +1,13 @@
 ---
 layout: ../../layouts/DocsLayout.astro
 title: Search & Metadata — @slithy/frimousse
-description: Grouped and unified search, native search enrichment, shortcode search, and locale-aware metadata workflows.
+description: Grouped vs. unified search, native search enrichment, shortcode search, and locale-aware metadata workflows.
 heading: Search & Metadata
 toc:
   - href: "#grouped-unified-search"
-    label: Grouped and unified search
-  - href: "#supplemental-sections"
-    label: Supplemental sections
+    label: Grouped vs. Unified search
+  - href: "#runtime-vs-prebuilt-data"
+    label: Runtime vs. Pre-built data
   - href: "#native-search-enrichment"
     label: Native search enrichment
   - href: "#shortcode-search"
@@ -23,7 +23,7 @@ import NativeSearchDemoIsland from "../../components/docs/NativeSearchDemoIsland
 import NativeShortcodeDemoIsland from "../../components/docs/NativeShortcodeDemoIsland.astro";
 
 <DocsSection id="grouped-unified-search">
-## Grouped and unified search
+## Grouped vs. Unified search
 
 Supplemental search defaults to grouped results. Set `mode: "unified"` to merge native and supplemental matches into a single results surface.
 
@@ -50,45 +50,33 @@ Use unified mode when you want search to act like one merged emoji vocabulary:
 ```
 </DocsSection>
 
-<DocsSection id="supplemental-sections">
-## Supplemental sections
+<DocsSection id="runtime-vs-prebuilt-data">
+## Runtime vs. Pre-built data
 
-Pass `supplemental` to `EmojiPicker.Root` to add consumer-provided sections. Sections can contain native items, supplemental items, or both.
+`@slithy/frimousse` already fetches native emoji data at runtime by default. That is a good fit for the picker dataset itself, especially when you want to stay close to the default setup or point the picker at self-hosted Emojibase files with `emojibaseUrl`.
 
-```tsx
-import {
-  EmojiPicker,
-  createSupplementalSection,
-} from "@slithy/frimousse";
+The metadata maps on this page are usually a better fit for pre-built app-owned artifacts than for runtime transformation in the browser.
 
-const supplementalSection = createSupplementalSection(
-  [
-    { id: "party-parrot", imageUrl: "/emoji/party-parrot.png", label: "Party parrot" },
-    { id: "ship-it", label: "Ship it", aliases: ["ship it"] },
-  ],
-  {
-    id: "custom",
-    label: "Custom",
-    position: "append",
-    searchable: true,
-  },
-);
+### Good runtime inputs
 
-<EmojiPicker.Root
-  supplemental={{
-    sections: [supplementalSection],
-  }}
->
-  <EmojiPicker.Search />
-  <EmojiPicker.Viewport>
-    <EmojiPicker.Loading>Loading…</EmojiPicker.Loading>
-    <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
-    <EmojiPicker.List />
-  </EmojiPicker.Viewport>
-</EmojiPicker.Root>;
-```
+- the native emoji dataset the picker loads
+- self-hosted Emojibase JSON served to the picker
+- simple prototypes or internal tools
+- quick experiments with one locale
 
-Use `createCustomSection` when you specifically want image-backed custom emoji with required `imageUrl` values. Use `createSupplementalSection` when your section can mix plain supplemental items and image-backed ones.
+### Better as pre-built artifacts
+
+- native search term maps
+- shortcode maps
+- label maps
+- English fallback maps
+- multilanguage search or label maps
+
+Pre-building keeps search policy, localization policy, and metadata ownership in your app instead of in the picker runtime. It also avoids shipping full source datasets to the browser when the picker only needs the final plain-object maps.
+
+It also improves the performance profile for production apps: pre-built maps reduce client-side parsing and transformation work, keep browser bundles smaller, and avoid recomputing the same metadata on every load. Runtime transforms are usually acceptable when the datasets are small or the app is lightly used, but they become a less attractive default once you care about startup cost, bundle control, or repeated locale-specific processing.
+
+Runtime transforms are still reasonable for prototypes, internal tools, or tightly controlled environments. For production apps, prefer generating the final search, label, shortcode, and fallback maps ahead of time and passing those results into the picker.
 </DocsSection>
 
 <DocsSection id="native-search-enrichment">
